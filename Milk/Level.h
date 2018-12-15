@@ -1,0 +1,47 @@
+#pragma once
+
+#include <string>
+#include <unordered_map>
+#include <vector>
+
+class Game;
+class GameObject;
+
+union SDL_Event;
+
+class Level
+{
+public:
+	Level();
+	~Level();
+
+	void init(Game* game);
+	void load();
+	void handleEvent(SDL_Event& e);
+	void update();
+	void render();
+	void unload();
+
+	template<class T>
+	GameObject* createGameObject(const std::string& name) 
+	{
+		GameObject* gameObject = new T(name);
+		_gameObjectsToAdd.push_back(gameObject);
+		return gameObject;
+	}
+
+	void destroyGameObject(GameObject* gameObject);
+
+	GameObject* findGameObject(std::string& name) const;
+	GameObject* findGameObject(unsigned int id) const;
+
+private:
+	Game* _game;
+
+	std::unordered_map<unsigned int, GameObject*> _gameObjectsById;
+	std::vector<GameObject*> _gameObjectsToAdd;
+	std::vector<GameObject*> _gameObjectsToDestroy;
+
+	void updateInternals();
+
+};

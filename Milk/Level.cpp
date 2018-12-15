@@ -1,0 +1,122 @@
+#include "Level.h"
+
+#include <SDL.h>
+
+#include "Game.h"
+#include "GameObject.h"
+#include "ResourceManager.h"
+#include "Texture.h"
+
+Level::Level()
+{
+}
+
+Level::~Level()
+{
+}
+
+void Level::init(Game* game)
+{
+	_game = game;
+
+	updateInternals();
+}
+
+void Level::load()
+{
+	ResourceManager& resMgr = ResourceManager::getInstance();
+
+	for (auto it = _gameObjectsById.begin(); it != _gameObjectsById.end(); ++it) 	
+		it->second->load(resMgr);	
+}
+
+void Level::handleEvent(SDL_Event& e)
+{
+	for (auto it = _gameObjectsById.begin(); it != _gameObjectsById.end(); ++it)
+		it->second->handleEvent(e);
+}
+
+void Level::update()
+{
+	updateInternals();
+
+	for (auto it = _gameObjectsById.begin(); it != _gameObjectsById.end(); ++it)
+		it->second->update();
+}
+
+void Level::render()
+{
+	SDL_Renderer& renderer = _game->getRenderer();
+
+	SDL_Rect destinationRect;
+
+	for (auto it = _gameObjectsById.begin(); it != _gameObjectsById.end(); ++it)
+	{
+		GameObject* gameObject = it->second;
+		Texture* texture = gameObject->getTexture();
+
+		destinationRect.x = gameObject->getX();
+		destinationRect.y = gameObject->getY();
+		destinationRect.w = texture->getWidth();
+		destinationRect.h = texture->getHeight();
+
+		SDL_RenderCopy(&renderer, texture->get(), nullptr, &destinationRect);
+	}
+}
+
+void Level::unload()
+{
+	for (auto it = _gameObjectsById.begin(); it != _gameObjectsById.end(); ++it)
+	{
+		delete it->second;
+		it->second = nullptr;
+	}
+
+	for (auto it = _gameObjectsToAdd.begin(); it != _gameObjectsToAdd.end(); ++it)
+	{
+		delete *it;
+		*it = nullptr;
+	}
+
+	for (auto it = _gameObjectsToDestroy.begin(); it != _gameObjectsToDestroy.end(); ++it)
+	{
+		delete *it;
+		*it = nullptr;
+	}
+}
+
+void Level::destroyGameObject(GameObject* gameObject)
+{
+
+}
+
+GameObject * Level::findGameObject(std::string & name) const
+{
+	return nullptr;
+}
+
+GameObject * Level::findGameObject(unsigned int id) const
+{
+	return nullptr;
+}
+
+void Level::updateInternals()
+{
+	for (auto it = _gameObjectsToDestroy.begin(); it != _gameObjectsToDestroy.end(); ++it)
+	{
+		(*it)->end();
+		unsigned int id = (*it)->getId();
+		_gameObjectsById.erase(id);
+	}
+
+	_gameObjectsToDestroy.clear();
+
+	for (auto it = _gameObjectsToAdd.begin(); it != _gameObjectsToAdd.end(); ++it)
+	{
+		(*it)->begin();
+		std::pair<unsigned int, GameObject*> newInsert((*it)->getId(), (*it));
+		_gameObjectsById.insert(newInsert);
+	}
+
+	_gameObjectsToAdd.clear();
+}
