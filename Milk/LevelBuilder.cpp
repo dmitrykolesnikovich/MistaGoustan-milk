@@ -6,6 +6,7 @@
 #include <string>
 #include <sstream>
 #include <algorithm>
+#include <memory>
 #include <iterator>
 #include <cstdlib>
 #include <vector>
@@ -15,12 +16,12 @@
 #include "TilemapLayer.h"
 #include "TilemapTile.h"
 
-Level* LevelBuilder::build(const char* file)
+std::unique_ptr<Level> LevelBuilder::build(const char* file)
 {
 	TiXmlDocument doc;
 	doc.LoadFile(file);
 
-	Level* level = new Level();
+	std::unique_ptr<Level> level = std::make_unique<Level>();
 	Tilemap* tilemap = new Tilemap();
 	level->_tilemap = tilemap;
 
@@ -84,6 +85,5 @@ Level* LevelBuilder::build(const char* file)
 
 		tilemap->layers.push_back(layer);
 	}
-
-	return level;
+	return std::move(level);
 }

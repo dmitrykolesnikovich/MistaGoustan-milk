@@ -11,12 +11,14 @@
 #include "Texture.h"
 #include "LevelBuilder.h"
 
-Game::Game()
+Game::~Game()
 {
 }
 
-Game::~Game()
+Game& Game::getInstance() 
 {
+	static Game instance;
+	return instance;
 }
 
 bool Game::init(const char* title, unsigned int width, unsigned int height, int flags)
@@ -27,16 +29,13 @@ bool Game::init(const char* title, unsigned int width, unsigned int height, int 
 		return false;
 	}
 
-	SDL_DisplayMode displayMode;
-	SDL_GetCurrentDisplayMode(0, &displayMode);
+	SDL_DisplayMode currentDisplayMode;
+	SDL_GetCurrentDisplayMode(0, &currentDisplayMode);
+	
+	int windowXPosition = (currentDisplayMode.w / 2) - (width / 2);
+	int windowYPosition = (currentDisplayMode.h / 2) - (height / 2);
 
-	int displayWidth = displayMode.w;
-	int displayHeight = displayMode.h;
-
-	int x = (displayWidth / 2) - (width / 2);
-	int y = (displayHeight / 2) - (height / 2);
-
-	_window = SDL_CreateWindow(title, x, y, width, height, flags);
+	_window = SDL_CreateWindow(title, windowXPosition, windowYPosition, width, height, flags);
 
 	if (_window == nullptr) 
 	{
@@ -82,31 +81,29 @@ void Game::handleEvents()
 				break;
 		}
 
-		if (_currentLevel != nullptr)
+		if (_currentLevel)
 			_currentLevel->handleEvent(e);
 	}
 }
 
 void Game::update()
 {
-	if (_nextLevel != nullptr) 
+	if (_nextLevel) 
 	{
-		if (_currentLevel != nullptr) 
-		{
-			_currentLevel->unload();
+		if (_currentLevel) 		
+			_currentLevel->unload();	
 
-			delete _currentLevel;
-			_currentLevel = nullptr;
-		}
+		_currentLevel.reset();
 			
-		_currentLevel = _nextLevel;
-		_nextLevel = nullptr;
+		_currentLevel = std::move(_nextLevel);
+
+		_nextLevel.reset();
 
 		_currentLevel->init(this);
 		_currentLevel->load();
 	}
 
-	if (_currentLevel != nullptr)
+	if (_currentLevel)
 		_currentLevel->update();
 }
 
@@ -114,7 +111,7 @@ void Game::render()
 {
 	SDL_RenderClear(_renderer);
 
-	if (_currentLevel != nullptr)
+	if (_currentLevel)
 		_currentLevel->render();
 
 	SDL_RenderPresent(_renderer);
@@ -130,34 +127,17 @@ SDL_Renderer& Game::getRenderer()
 	return *_renderer;
 }
 
-void Game::loadLevel(Level* level)
-{
-	_nextLevel = level;
-}
-
 Level* Game::loadLevel(const char* filename)
 {
-	LevelBuilder lvlBuilder;
-	_nextLevel = lvlBuilder.build(filename);
-	return _nextLevel;
+	LevelBuilder levelBuilder;
+	_nextLevel = levelBuilder.build(filename);
+
+	return _nextLevel.get();
 }
 
 void Game::shutDown()
 {
 	std::cout << "Game shutting down" << std::endl;
-
-	if (_currentLevel != nullptr) 
-	{
-		_currentLevel->unload();
-		delete _currentLevel;
-		_currentLevel = nullptr;
-	}
-	
-	if (_nextLevel != nullptr) 
-	{
-		delete _nextLevel;
-		_nextLevel = nullptr;
-	}
 
 	SDL_DestroyRenderer(_renderer);
 	_renderer = nullptr;

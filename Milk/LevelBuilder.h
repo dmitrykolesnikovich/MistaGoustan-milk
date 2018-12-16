@@ -1,10 +1,14 @@
-#pragma once
+#ifndef _LEVEL_BUILDER_
+#define _LEVEL_BUILDER_
+
+#include <memory>
 
 class Level;
 
 class LevelBuilder
 {
 public:
-	Level* build(const char* file);
+	std::unique_ptr<Level> build(const char* file);
 };
 
+#endif

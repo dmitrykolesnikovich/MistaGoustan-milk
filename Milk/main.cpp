@@ -15,11 +15,11 @@ int main(int argc, char* argv[])
 	Uint32 frameStart;
 	Uint32 frameTime;
 
-	Game game;
+	Game& game = Game::getInstance();
 	Level* level = game.loadLevel("res/testmap.xml");
 	level->createGameObject<Player>("steve.png");
 
-	if (!game.init("Butt Dragons", 640, 480, SDL_WINDOW_SHOWN))
+	if (!game.init("Butt Dragons", 640, 480, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP))
 		return -1;
 
 	while (game.isRunning()) 
