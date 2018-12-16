@@ -15,13 +15,11 @@ int main(int argc, char* argv[])
 	Uint32 frameStart;
 	Uint32 frameTime;
 
-	Level* level = new Level();
+	Game game;
+	Level* level = game.loadLevel("res/testmap.xml");
 	level->createGameObject<Player>("steve.png");
 
-	Game game;
-	game.loadLevel(level);
-
-	if (!game.init("Butt Dragons", 640, 360, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP))
+	if (!game.init("Butt Dragons", 640, 480, SDL_WINDOW_SHOWN))
 		return -1;
 
 	while (game.isRunning()) 

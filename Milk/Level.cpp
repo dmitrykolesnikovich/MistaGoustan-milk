@@ -6,6 +6,10 @@
 #include "GameObject.h"
 #include "ResourceManager.h"
 #include "Texture.h"
+#include "Tilemap.h"
+#include "TilemapLayer.h"
+#include "TilemapTile.h"
+#include "TilemapTileInstance.h"
 
 Level::Level()
 {
@@ -28,6 +32,8 @@ void Level::load()
 
 	for (auto it = _gameObjectsById.begin(); it != _gameObjectsById.end(); ++it) 	
 		it->second->load(resMgr);	
+
+	_tilemap->texture = resMgr.loadTexture(_tilemap->source);
 }
 
 void Level::handleEvent(SDL_Event& e)
@@ -47,6 +53,20 @@ void Level::update()
 void Level::render()
 {
 	SDL_Renderer& renderer = _game->getRenderer();
+
+	for (auto& layer : _tilemap->layers) 
+	{
+		for (auto& tile : layer->tiles) 
+		{
+			SDL_Rect dst;
+			dst.x = tile->x;
+			dst.y = tile->y;
+			dst.w = tile->tile.rect.w;
+			dst.h = tile->tile.rect.h;
+
+			SDL_RenderCopyEx(&renderer, _tilemap->texture->get(), &tile->tile.rect, &dst, 0, nullptr, SDL_FLIP_NONE);
+		}
+	}
 
 	SDL_Rect destinationRect;
 

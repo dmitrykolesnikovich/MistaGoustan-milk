@@ -9,6 +9,7 @@
 #include "Level.h"
 #include "ResourceManager.h"
 #include "Texture.h"
+#include "LevelBuilder.h"
 
 Game::Game()
 {
@@ -132,6 +133,13 @@ SDL_Renderer& Game::getRenderer()
 void Game::loadLevel(Level* level)
 {
 	_nextLevel = level;
+}
+
+Level* Game::loadLevel(const char* filename)
+{
+	LevelBuilder lvlBuilder;
+	_nextLevel = lvlBuilder.build(filename);
+	return _nextLevel;
 }
 
 void Game::shutDown()

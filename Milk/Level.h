@@ -6,12 +6,15 @@
 
 class Game;
 class GameObject;
+struct Tilemap;
 
 union SDL_Event;
 
 class Level
 {
 public:
+	friend class LevelBuilder;
+
 	Level();
 	~Level();
 
@@ -41,6 +44,8 @@ private:
 	std::unordered_map<unsigned int, GameObject*> _gameObjectsById;
 	std::vector<GameObject*> _gameObjectsToAdd;
 	std::vector<GameObject*> _gameObjectsToDestroy;
+
+	Tilemap* _tilemap;
 
 	void updateInternals();
 

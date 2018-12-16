@@ -23,6 +23,7 @@ public:
 	SDL_Renderer& getRenderer();
 
 	void loadLevel(Level* level);
+	Level* loadLevel(const char* filename);
 
 	void shutDown();
 
