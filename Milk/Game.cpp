@@ -21,7 +21,7 @@ Game& Game::getInstance()
 	return instance;
 }
 
-bool Game::init(const char* title, unsigned int width, unsigned int height, int flags)
+bool Game::init(const std::string& title, unsigned int width, unsigned int height, int flags)
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) 
 	{
@@ -35,7 +35,7 @@ bool Game::init(const char* title, unsigned int width, unsigned int height, int 
 	int windowXPosition = (currentDisplayMode.w / 2) - (width / 2);
 	int windowYPosition = (currentDisplayMode.h / 2) - (height / 2);
 
-	_window = SDL_CreateWindow(title, windowXPosition, windowYPosition, width, height, flags);
+	_window = SDL_CreateWindow(title.c_str(), windowXPosition, windowYPosition, width, height, flags);
 
 	if (_window == nullptr) 
 	{
@@ -131,7 +131,7 @@ SDL_Renderer& Game::getRenderer()
 	return *_renderer;
 }
 
-void Game::loadLevel(const char* filename)
+void Game::loadLevel(const std::string& filename)
 {
 	LevelLoader levelLoader;
 

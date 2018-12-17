@@ -18,6 +18,7 @@ void GameObject::load(ResourceManager& resourceManager)
 
 void GameObject::begin()
 {
+
 }
 
 void GameObject::handleEvent(SDL_Event& e)

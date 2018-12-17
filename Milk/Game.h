@@ -22,7 +22,7 @@ public:
 	static Game& getInstance();
 
 	// Initializes game systems, window and renderer.
-	bool init(const char* title, unsigned int width, unsigned int height, int flags);
+	bool init(const std::string& title, unsigned int width, unsigned int height, int flags);
 
 	// Handles input events.
 	void handleEvents();
@@ -40,7 +40,7 @@ public:
 	SDL_Renderer& getRenderer();
 
 	// Loads an XML based level from resource file.
-	void loadLevel(const char* filename);
+	void loadLevel(const std::string& filename);
 
 	// Shuts down game systems and frees resources.
 	void shutDown();
@@ -54,7 +54,6 @@ private:
 
 	SDL_Window* _window;
 	SDL_Renderer* _renderer;
-
 	ResourceManager* _resourceManager;
 
 	Level* _currentLevel;

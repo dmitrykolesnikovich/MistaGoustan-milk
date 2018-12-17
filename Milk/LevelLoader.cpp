@@ -17,7 +17,7 @@
 #include "Level.h"
 #include "Tilemap.h"
 
-Level* LevelLoader::load(Game& game, const char* file)
+Level* LevelLoader::load(Game& game, const std::string& file)
 {
 	TiXmlDocument doc;
 	doc.LoadFile(file);

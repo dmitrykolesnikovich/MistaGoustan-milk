@@ -4,10 +4,10 @@
 
 #include "Vector2d.h"
 
+union SDL_Event;
+
 class ResourceManager;
 class Texture;
-
-union SDL_Event;
 
 class GameObject
 {
@@ -36,4 +36,6 @@ private:
 
 	std::string _textureName;
 	Texture* _texture;
+
+
 };
