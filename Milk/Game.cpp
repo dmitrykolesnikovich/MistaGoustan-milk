@@ -57,7 +57,8 @@ bool Game::init(const char* title, unsigned int width, unsigned int height, int 
 
 	_isRunning = true;
 
-	ResourceManager::init(_renderer);
+	_resourceManager = new ResourceManager();
+	_resourceManager->init(_renderer);
 	
 	std::cout << "Game started" << std::endl;
 
@@ -103,7 +104,7 @@ void Game::update()
 		_nextLevel = nullptr;
 
 		_currentLevel->init(this);
-		_currentLevel->load();
+		_currentLevel->load(*_resourceManager);
 	}
 
 	if (_currentLevel != nullptr)

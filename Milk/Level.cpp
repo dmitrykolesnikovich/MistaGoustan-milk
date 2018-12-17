@@ -26,14 +26,12 @@ void Level::init(Game* game)
 	updateInternals();
 }
 
-void Level::load()
+void Level::load(ResourceManager& resourceManager)
 {
-	ResourceManager& resMgr = ResourceManager::getInstance();
-
 	for (auto it = _gameObjectsById.begin(); it != _gameObjectsById.end(); ++it) 	
-		it->second->load(resMgr);	
+		it->second->load(resourceManager);
 
-	_tilemap->texture = resMgr.loadTexture(_tilemap->source);
+	_tilemap->texture = resourceManager.loadTexture(_tilemap->source);
 }
 
 void Level::handleEvent(SDL_Event& e)

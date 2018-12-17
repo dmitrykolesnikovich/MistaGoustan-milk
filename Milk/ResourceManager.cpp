@@ -9,8 +9,9 @@
 
 #include "Texture.h"
 
-bool ResourceManager::_initialized = false;
-SDL_Renderer* ResourceManager::_renderer = nullptr;
+ResourceManager::ResourceManager()
+{
+}
 
 ResourceManager::~ResourceManager()
 {
@@ -19,22 +20,11 @@ ResourceManager::~ResourceManager()
 
 void ResourceManager::init(SDL_Renderer* renderer)
 {
-	_initialized = true;
 	_renderer = renderer;
-}
-
-ResourceManager& ResourceManager::getInstance()
-{
-	SDL_assert(_initialized);
-
-	static ResourceManager instance;
-	return instance;
 }
 
 Texture* ResourceManager::loadTexture(const std::string& name)
 {
-	SDL_assert(_initialized);
-
 	std::unordered_map<std::string, Texture*>::const_iterator found = _textureCache.find(name);
 	
 	if (found != _textureCache.end())

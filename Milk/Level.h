@@ -6,6 +6,8 @@
 
 class Game;
 class GameObject;
+class ResourceManager;
+
 struct Tilemap;
 
 union SDL_Event;
@@ -19,7 +21,7 @@ public:
 	~Level();
 
 	void init(Game* game);
-	void load();
+	void load(ResourceManager& resourceManager);
 	void handleEvent(SDL_Event& e);
 	void update();
 	void render();

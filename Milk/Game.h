@@ -11,6 +11,7 @@ struct SDL_Renderer;
 
 class GameObject;
 class Level;
+class ResourceManager;
 
 class Game
 {
@@ -53,6 +54,8 @@ private:
 
 	SDL_Window* _window;
 	SDL_Renderer* _renderer;
+
+	ResourceManager* _resourceManager;
 
 	Level* _currentLevel;
 	Level* _nextLevel;
