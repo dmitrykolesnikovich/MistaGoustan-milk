@@ -100,6 +100,8 @@ void Level::unload()
 		delete *it;
 		*it = nullptr;
 	}
+
+	delete _tilemap;
 }
 
 void Level::updateInternals()
