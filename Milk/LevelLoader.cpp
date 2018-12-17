@@ -16,8 +16,6 @@
 #include "GameObject.h"
 #include "Level.h"
 #include "Tilemap.h"
-#include "TilemapLayer.h"
-#include "TilemapTile.h"
 
 Level* LevelLoader::load(Game& game, const char* file)
 {

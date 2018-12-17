@@ -7,9 +7,6 @@
 #include "ResourceManager.h"
 #include "Texture.h"
 #include "Tilemap.h"
-#include "TilemapLayer.h"
-#include "TilemapTile.h"
-#include "TilemapTileInstance.h"
 
 Level::Level(Game& game)
 	: _game(game)

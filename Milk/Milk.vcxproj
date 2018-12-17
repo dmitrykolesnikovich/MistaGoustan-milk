@@ -172,9 +172,6 @@
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Tilemap.h" />
-    <ClInclude Include="TilemapLayer.h" />
-    <ClInclude Include="TilemapTile.h" />
-    <ClInclude Include="TilemapTileInstance.h" />
     <ClInclude Include="tinystr.h" />
     <ClInclude Include="tinyxml.h" />
     <ClInclude Include="Vector2d.h" />

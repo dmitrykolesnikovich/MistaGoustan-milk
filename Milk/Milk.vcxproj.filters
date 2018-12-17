@@ -81,15 +81,6 @@
     <ClInclude Include="Tilemap.h">
       <Filter>Tilemap</Filter>
     </ClInclude>
-    <ClInclude Include="TilemapLayer.h">
-      <Filter>Tilemap</Filter>
-    </ClInclude>
-    <ClInclude Include="TilemapTile.h">
-      <Filter>Tilemap</Filter>
-    </ClInclude>
-    <ClInclude Include="TilemapTileInstance.h">
-      <Filter>Tilemap</Filter>
-    </ClInclude>
     <ClInclude Include="Texture.h">
       <Filter>Utilities</Filter>
     </ClInclude>
