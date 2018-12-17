@@ -15,6 +15,8 @@
 #include "Tilemap.h"
 #include "TilemapLayer.h"
 #include "TilemapTile.h"
+#include "Game.h"
+#include "GameObject.h"
 
 std::unique_ptr<Level> LevelBuilder::build(const char* file)
 {
@@ -85,5 +87,25 @@ std::unique_ptr<Level> LevelBuilder::build(const char* file)
 
 		tilemap->layers.push_back(layer);
 	}
+
+	TiXmlElement* objectsElement = layersElement->NextSiblingElement("gameobjects");
+
+	for (TiXmlElement* e = objectsElement->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
+	{
+		const char* id = e->Attribute("id");
+		
+		int x;
+		int y;
+
+		e->Attribute("x", &x);
+		e->Attribute("y", &y);
+
+		GameObject* gameObject = Game::getInstance().createFromFactory(id);
+		gameObject->setX(x);
+		gameObject->setY(y);
+
+		level->_gameObjectsToAdd.push_back(gameObject);
+	}
+
 	return std::move(level);
 }

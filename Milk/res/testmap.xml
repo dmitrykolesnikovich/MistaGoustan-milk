@@ -27,4 +27,7 @@
       </tiles>
     </layer>
   </layers>
+  <gameobjects>
+    <gameobject id="player" x="200" y ="200"></gameobject>
+  </gameobjects>
 </map>

@@ -147,3 +147,13 @@ void Game::shutDown()
 
 	SDL_Quit();
 }
+
+void Game::registerObjectFactory(const std::string& name, std::function<GameObject*(void)> factoryMethod)
+{
+	_gameObjectFactories[name] = factoryMethod;
+}
+
+GameObject* Game::createFromFactory(const std::string& name)
+{
+	return _gameObjectFactories[name]();
+}

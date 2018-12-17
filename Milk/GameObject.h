@@ -26,6 +26,9 @@ public:
 	int getX() const;
 	int getY() const;
 
+	void setX(int x);
+	void setY(int y);
+
 	int getId() const;
 
 protected:

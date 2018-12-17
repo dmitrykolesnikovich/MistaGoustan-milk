@@ -1,7 +1,10 @@
 #ifndef _GAME_
 #define _GAME_
 
+#include <functional>
 #include <memory>
+#include <string>
+#include <unordered_map>
 
 struct SDL_Window;
 struct SDL_Renderer;
@@ -41,6 +44,10 @@ public:
 	// Shuts down game systems and frees resources.
 	void shutDown();
 
+	void registerObjectFactory(const std::string& name, std::function<GameObject*(void)> factoryMethod);
+
+	GameObject* createFromFactory(const std::string& name);
+
 private:
 	Game() {}
 
@@ -49,6 +56,8 @@ private:
 
 	std::unique_ptr<Level> _currentLevel;
 	std::unique_ptr<Level> _nextLevel;
+
+	std::unordered_map<std::string, std::function<GameObject*(void)>> _gameObjectFactories;
 
 	bool _isRunning;
 };

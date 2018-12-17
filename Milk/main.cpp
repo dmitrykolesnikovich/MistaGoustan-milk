@@ -7,6 +7,11 @@
 #include "Level.h"
 #include "Player.h"
 
+GameObject* createPlayer() 
+{
+	return new Player("steve.png");
+}
+
 int main(int argc, char* argv[])
 {
 	const int fps = 60;
@@ -16,10 +21,11 @@ int main(int argc, char* argv[])
 	Uint32 frameTime;
 
 	Game& game = Game::getInstance();
-	Level* level = game.loadLevel("res/testmap.xml");
-	level->createGameObject<Player>("steve.png");
+	game.registerObjectFactory("player", &createPlayer);
 
-	if (!game.init("Butt Dragons", 640, 480, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP))
+	game.loadLevel("res/testmap.xml");
+
+	if (!game.init("Butt Dragons", 640, 480, SDL_WINDOW_SHOWN))
 		return -1;
 
 	while (game.isRunning()) 
