@@ -28,6 +28,6 @@
     </layer>
   </layers>
   <gameobjects>
-    <gameobject id="player" x="200" y ="200"></gameobject>
+    <gameobject id="player" x="400" y ="400"></gameobject>
   </gameobjects>
 </map>

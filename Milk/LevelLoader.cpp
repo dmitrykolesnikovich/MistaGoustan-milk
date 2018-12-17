@@ -1,4 +1,4 @@
-#include "LevelBuilder.h"
+#include "LevelLoader.h"
 
 #include "tinyxml.h"
 #include "tinystr.h"
@@ -18,12 +18,12 @@
 #include "Game.h"
 #include "GameObject.h"
 
-std::unique_ptr<Level> LevelBuilder::build(const char* file)
+Level* LevelLoader::build(const char* file)
 {
 	TiXmlDocument doc;
 	doc.LoadFile(file);
 
-	std::unique_ptr<Level> level = std::make_unique<Level>();
+	Level* level = new Level();
 	Tilemap* tilemap = new Tilemap();
 	level->_tilemap = tilemap;
 
@@ -107,5 +107,5 @@ std::unique_ptr<Level> LevelBuilder::build(const char* file)
 		level->_gameObjectsToAdd.push_back(gameObject);
 	}
 
-	return std::move(level);
+	return level;
 }

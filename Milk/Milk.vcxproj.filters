@@ -31,9 +31,6 @@
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="LevelBuilder.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Game</Filter>
     </ClCompile>
@@ -52,6 +49,9 @@
     <ClCompile Include="Texture.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="LevelLoader.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -64,9 +64,6 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelBuilder.h">
       <Filter>Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
@@ -91,6 +88,9 @@
       <Filter>Tilemap</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelLoader.h">
       <Filter>Utilities</Filter>
     </ClInclude>
   </ItemGroup>

@@ -9,7 +9,7 @@
 #include "Level.h"
 #include "ResourceManager.h"
 #include "Texture.h"
-#include "LevelBuilder.h"
+#include "LevelLoader.h"
 
 Game::~Game()
 {
@@ -81,29 +81,32 @@ void Game::handleEvents()
 				break;
 		}
 
-		if (_currentLevel)
+		if (_currentLevel != nullptr)
 			_currentLevel->handleEvent(e);
 	}
 }
 
 void Game::update()
 {
-	if (_nextLevel) 
+	if (_nextLevel != nullptr) 
 	{
-		if (_currentLevel) 		
-			_currentLevel->unload();	
+		if (_currentLevel != nullptr) 
+		{
+			_currentLevel->unload();
 
-		_currentLevel.reset();
+			delete _currentLevel;
+			_currentLevel = nullptr;
+		}
 			
-		_currentLevel = std::move(_nextLevel);
+		_currentLevel = _nextLevel;
 
-		_nextLevel.reset();
+		_nextLevel = nullptr;
 
 		_currentLevel->init(this);
 		_currentLevel->load();
 	}
 
-	if (_currentLevel)
+	if (_currentLevel != nullptr)
 		_currentLevel->update();
 }
 
@@ -111,7 +114,7 @@ void Game::render()
 {
 	SDL_RenderClear(_renderer);
 
-	if (_currentLevel)
+	if (_currentLevel != nullptr)
 		_currentLevel->render();
 
 	SDL_RenderPresent(_renderer);
@@ -129,10 +132,11 @@ SDL_Renderer& Game::getRenderer()
 
 Level* Game::loadLevel(const char* filename)
 {
-	LevelBuilder levelBuilder;
-	_nextLevel = levelBuilder.build(filename);
+	LevelLoader levelLoader;
 
-	return _nextLevel.get();
+	_nextLevel = levelLoader.build(filename);
+
+	return _nextLevel;
 }
 
 void Game::shutDown()

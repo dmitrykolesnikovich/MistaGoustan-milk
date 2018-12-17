@@ -13,7 +13,7 @@ union SDL_Event;
 class Level
 {
 public:
-	friend class LevelBuilder;
+	friend class LevelLoader;
 
 	Level();
 	~Level();

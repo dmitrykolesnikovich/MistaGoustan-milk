@@ -54,8 +54,8 @@ private:
 	SDL_Window* _window;
 	SDL_Renderer* _renderer;
 
-	std::unique_ptr<Level> _currentLevel;
-	std::unique_ptr<Level> _nextLevel;
+	Level* _currentLevel;
+	Level* _nextLevel;
 
 	std::unordered_map<std::string, std::function<GameObject*(void)>> _gameObjectFactories;
 
