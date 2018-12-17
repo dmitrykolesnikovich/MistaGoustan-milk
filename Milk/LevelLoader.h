@@ -9,7 +9,12 @@ class Level;
 class LevelLoader
 {
 public:
-	Level* load(Game& game, const std::string& file);
+	LevelLoader(Game& game);
+
+	Level* load(const std::string& file);
+
+private:
+	Game& _game;
 };
 
 #endif

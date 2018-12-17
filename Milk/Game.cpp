@@ -57,8 +57,8 @@ bool Game::init(const std::string& title, unsigned int width, unsigned int heigh
 
 	_isRunning = true;
 
-	_resourceManager = new ResourceManager();
-	_resourceManager->init(_renderer);
+	_resourceManager = new ResourceManager(_renderer);
+	_levelLoader = new LevelLoader(*this);
 	
 	std::cout << "Game started" << std::endl;
 
@@ -133,9 +133,7 @@ SDL_Renderer& Game::getRenderer()
 
 void Game::loadLevel(const std::string& filename)
 {
-	LevelLoader levelLoader;
-
-	_nextLevel = levelLoader.load(*this, filename);
+	_nextLevel = _levelLoader->load(filename);
 }
 
 void Game::shutDown()

@@ -23,10 +23,10 @@ int main(int argc, char* argv[])
 	Game& game = Game::getInstance();
 	game.registerObjectFactory("player", &createPlayer);
 
-	game.loadLevel("res/testmap.xml");
-
 	if (!game.init("Butt Dragons", 640, 480, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP))
 		return -1;
+
+	game.loadLevel("res/testmap.xml");
 
 	while (game.isRunning()) 
 	{

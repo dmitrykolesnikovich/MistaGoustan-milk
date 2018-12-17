@@ -11,10 +11,8 @@ class Texture;
 class ResourceManager
 {
 public:
-	ResourceManager();
+	ResourceManager(SDL_Renderer* renderer);
 	~ResourceManager();
-	
-	void init(SDL_Renderer* renderer);
 
 	Texture* loadTexture(const std::string& name);
 

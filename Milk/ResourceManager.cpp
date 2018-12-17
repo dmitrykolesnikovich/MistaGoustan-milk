@@ -9,18 +9,14 @@
 
 #include "Texture.h"
 
-ResourceManager::ResourceManager()
+ResourceManager::ResourceManager(SDL_Renderer* renderer)
 {
+	_renderer = renderer;
 }
 
 ResourceManager::~ResourceManager()
 {
 	unloadTextures();
-}
-
-void ResourceManager::init(SDL_Renderer* renderer)
-{
-	_renderer = renderer;
 }
 
 Texture* ResourceManager::loadTexture(const std::string& name)

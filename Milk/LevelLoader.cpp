@@ -17,12 +17,20 @@
 #include "Level.h"
 #include "Tilemap.h"
 
-Level* LevelLoader::load(Game& game, const std::string& file)
+LevelLoader::LevelLoader(Game& game)
+	: _game(game)
+{
+	int x = 0;
+
+	int y = x;
+}
+
+Level* LevelLoader::load(const std::string& file)
 {
 	TiXmlDocument doc;
 	doc.LoadFile(file);
 
-	Level* level = new Level(game);
+	Level* level = new Level(_game);
 	Tilemap* tilemap = new Tilemap();
 	level->_tilemap = tilemap;
 
