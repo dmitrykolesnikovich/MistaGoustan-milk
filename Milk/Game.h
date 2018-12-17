@@ -40,7 +40,7 @@ public:
 	SDL_Renderer& getRenderer();
 
 	// Loads an XML based level from resource file.
-	Level* loadLevel(const char* filename);
+	void loadLevel(const char* filename);
 
 	// Shuts down game systems and frees resources.
 	void shutDown();

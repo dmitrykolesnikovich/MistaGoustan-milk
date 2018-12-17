@@ -131,13 +131,11 @@ SDL_Renderer& Game::getRenderer()
 	return *_renderer;
 }
 
-Level* Game::loadLevel(const char* filename)
+void Game::loadLevel(const char* filename)
 {
 	LevelLoader levelLoader;
 
 	_nextLevel = levelLoader.load(*this, filename);
-
-	return _nextLevel;
 }
 
 void Game::shutDown()

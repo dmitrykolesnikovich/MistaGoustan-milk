@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
 
 	game.loadLevel("res/testmap.xml");
 
-	if (!game.init("Butt Dragons", 640, 480, SDL_WINDOW_SHOWN))
+	if (!game.init("Butt Dragons", 640, 480, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP))
 		return -1;
 
 	while (game.isRunning()) 
