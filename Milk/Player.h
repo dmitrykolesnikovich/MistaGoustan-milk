@@ -15,6 +15,9 @@ public:
 	void handleEvent(SDL_Event& e) override;
 	void update() override;
 
+protected:
+	Vector2d _input;
+
 private:
 	const int SPEED = 2;
 };

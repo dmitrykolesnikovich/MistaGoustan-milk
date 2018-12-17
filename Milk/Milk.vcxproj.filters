@@ -16,6 +16,9 @@
     <Filter Include="Tilemap">
       <UniqueIdentifier>{113b9a32-be6e-4517-819c-7496aebf6cf5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{1e204fbe-68a2-4df2-b612-3db08c60fb13}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -92,6 +95,9 @@
     </ClInclude>
     <ClInclude Include="LevelLoader.h">
       <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2d.h">
+      <Filter>Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

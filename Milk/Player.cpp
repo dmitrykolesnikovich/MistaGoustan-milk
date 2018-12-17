@@ -17,26 +17,32 @@ void Player::handleEvent(SDL_Event& e)
 	{
 		switch (e.key.keysym.sym)
 		{
-			case SDLK_UP: _yVelocity -= SPEED; break;
-			case SDLK_DOWN: _yVelocity += SPEED; break;
-			case SDLK_LEFT: _xVelocity -= SPEED; break;
-			case SDLK_RIGHT: _xVelocity += SPEED; break;
+			case SDLK_UP: _input.y = -1; break;
+			case SDLK_DOWN: _input.y = 1; break;
+			case SDLK_LEFT: _input.x = -1; break;
+			case SDLK_RIGHT: _input.x = 1; break;
 		}
 	}
-	else if (e.type == SDL_KEYUP && e.key.repeat == 0)
+
+	if (e.type == SDL_KEYUP && e.key.repeat == 0)
 	{
 		switch (e.key.keysym.sym)
 		{
-			case SDLK_UP: _yVelocity += SPEED; break;
-			case SDLK_DOWN: _yVelocity -= SPEED; break;
-			case SDLK_LEFT: _xVelocity += SPEED; break;
-			case SDLK_RIGHT: _xVelocity -= SPEED; break;
+			case SDLK_UP: _input.y = 0; break;
+			case SDLK_DOWN: _input.y = 0; break;
+			case SDLK_LEFT: _input.x = 0; break;
+			case SDLK_RIGHT: _input.x = 0; break;
 		}
 	}
 }
 
 void Player::update()
 {
-	_xPosition += _xVelocity;
-	_yPosition += _yVelocity;
+	if (magnitude(_input) > 1.0f)
+		_input = normalize(_input);
+
+	velocity = _input * SPEED;
+
+	position.x += velocity.x;
+	position.y += velocity.y;
 }

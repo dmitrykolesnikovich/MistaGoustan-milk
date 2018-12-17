@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "Vector2d.h"
+
 class ResourceManager;
 class Texture;
 
@@ -15,6 +17,9 @@ public:
 	GameObject(const std::string& textureName);
 	~GameObject();
 
+	Vector2d position;
+	Vector2d velocity;
+
 	virtual void load(ResourceManager& resourceManager);
 
 	virtual void begin();
@@ -23,20 +28,8 @@ public:
 	virtual void end();
 
 	Texture* getTexture() const;
-	int getX() const;
-	int getY() const;
-
-	void setX(int x);
-	void setY(int y);
 
 	int getId() const;
-
-protected:
-	int _xPosition;
-	int _yPosition;
-
-	float _xVelocity;
-	float _yVelocity;
 
 private:
 	unsigned int _id;

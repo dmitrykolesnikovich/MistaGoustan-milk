@@ -37,26 +37,6 @@ Texture* GameObject::getTexture() const
 	return _texture;
 }
 
-int GameObject::getX() const
-{
-	return _xPosition;
-}
-
-int GameObject::getY() const
-{
-	return _yPosition;
-}
-
-void GameObject::setX(int x)
-{
-	_xPosition = x;
-}
-
-void GameObject::setY(int y)
-{
-	_yPosition = y;
-}
-
 int GameObject::getId() const
 {
 	return _id;

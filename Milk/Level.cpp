@@ -72,8 +72,8 @@ void Level::render()
 		GameObject* gameObject = it->second;
 		Texture* texture = gameObject->getTexture();
 
-		destinationRect.x = gameObject->getX();
-		destinationRect.y = gameObject->getY();
+		destinationRect.x = gameObject->position.x;
+		destinationRect.y = gameObject->position.y;
 		destinationRect.w = texture->getWidth();
 		destinationRect.h = texture->getHeight();
 
