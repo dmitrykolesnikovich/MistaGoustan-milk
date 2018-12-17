@@ -21,7 +21,7 @@ public:
 	~Level();
 
 	void init();
-	void load(ResourceManager& resourceManager);
+	void load();
 	void handleEvent(SDL_Event& e);
 	void update();
 	void render();

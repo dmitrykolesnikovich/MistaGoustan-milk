@@ -38,7 +38,10 @@ public:
 	bool isRunning() const;
 
 	// Returns a reference to the games renderer.
-	SDL_Renderer& getRenderer();
+	SDL_Renderer& getRenderer() const;
+
+	// Returns a reference to the games resource manager.
+	ResourceManager& getResourceManager() const;
 
 	// Loads an XML based level from resource file.
 	void loadLevel(const std::string& filename);

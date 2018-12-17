@@ -22,8 +22,10 @@ void Level::init()
 	updateInternals();
 }
 
-void Level::load(ResourceManager& resourceManager)
+void Level::load()
 {
+	ResourceManager& resourceManager = _game.getResourceManager();
+
 	for (auto it = _gameObjectsById.begin(); it != _gameObjectsById.end(); ++it) 	
 		it->second->load(resourceManager);
 

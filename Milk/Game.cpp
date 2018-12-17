@@ -104,7 +104,7 @@ void Game::update()
 		_nextLevel = nullptr;
 
 		_currentLevel->init();
-		_currentLevel->load(*_resourceManager);
+		_currentLevel->load();
 	}
 
 	if (_currentLevel != nullptr)
@@ -126,9 +126,14 @@ bool Game::isRunning() const
 	return _isRunning;
 }
 
-SDL_Renderer& Game::getRenderer()
+SDL_Renderer& Game::getRenderer() const
 {
 	return *_renderer;
+}
+
+ResourceManager& Game::getResourceManager() const 
+{
+	return *_resourceManager;
 }
 
 void Game::loadLevel(const std::string& filename)
