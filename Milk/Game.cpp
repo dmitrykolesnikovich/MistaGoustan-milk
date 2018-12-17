@@ -103,7 +103,7 @@ void Game::update()
 
 		_nextLevel = nullptr;
 
-		_currentLevel->init(this);
+		_currentLevel->init();
 		_currentLevel->load(*_resourceManager);
 	}
 
@@ -135,7 +135,7 @@ Level* Game::loadLevel(const char* filename)
 {
 	LevelLoader levelLoader;
 
-	_nextLevel = levelLoader.build(filename);
+	_nextLevel = levelLoader.load(*this, filename);
 
 	return _nextLevel;
 }

@@ -1,14 +1,13 @@
 #ifndef _LEVEL_LOADER_
 #define _LEVEL_LOADER_
 
-#include <memory>
-
+class Game;
 class Level;
 
 class LevelLoader
 {
 public:
-	Level* build(const char* file);
+	Level* load(Game& game, const char* file);
 };
 
 #endif

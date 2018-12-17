@@ -1,29 +1,30 @@
 #include "LevelLoader.h"
 
-#include "tinyxml.h"
-#include "tinystr.h"
+#include <algorithm>
+#include <cstdlib>
 #include <iostream>
+#include <iterator>
+#include <memory>
 #include <string>
 #include <sstream>
-#include <algorithm>
-#include <memory>
-#include <iterator>
-#include <cstdlib>
 #include <vector>
 
+#include "tinyxml.h"
+#include "tinystr.h"
+
+#include "Game.h"
+#include "GameObject.h"
 #include "Level.h"
 #include "Tilemap.h"
 #include "TilemapLayer.h"
 #include "TilemapTile.h"
-#include "Game.h"
-#include "GameObject.h"
 
-Level* LevelLoader::build(const char* file)
+Level* LevelLoader::load(Game& game, const char* file)
 {
 	TiXmlDocument doc;
 	doc.LoadFile(file);
 
-	Level* level = new Level();
+	Level* level = new Level(game);
 	Tilemap* tilemap = new Tilemap();
 	level->_tilemap = tilemap;
 

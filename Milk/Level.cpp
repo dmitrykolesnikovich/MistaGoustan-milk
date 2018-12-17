@@ -11,7 +11,8 @@
 #include "TilemapTile.h"
 #include "TilemapTileInstance.h"
 
-Level::Level()
+Level::Level(Game& game)
+	: _game(game)
 {
 }
 
@@ -19,10 +20,8 @@ Level::~Level()
 {
 }
 
-void Level::init(Game* game)
+void Level::init()
 {
-	_game = game;
-
 	updateInternals();
 }
 
@@ -50,7 +49,7 @@ void Level::update()
 
 void Level::render()
 {
-	SDL_Renderer& renderer = _game->getRenderer();
+	SDL_Renderer& renderer = _game.getRenderer();
 
 	for (auto& layer : _tilemap->layers) 
 	{
@@ -101,21 +100,6 @@ void Level::unload()
 		delete *it;
 		*it = nullptr;
 	}
-}
-
-void Level::destroyGameObject(GameObject* gameObject)
-{
-
-}
-
-GameObject * Level::findGameObject(std::string & name) const
-{
-	return nullptr;
-}
-
-GameObject * Level::findGameObject(unsigned int id) const
-{
-	return nullptr;
 }
 
 void Level::updateInternals()
