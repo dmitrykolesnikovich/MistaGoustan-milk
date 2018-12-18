@@ -1,19 +1,20 @@
-#pragma once
+#ifndef _ID_GENERATOR_
+#define _ID_GENERATOR
 
-#include <stack>
+#include <vector>
 
 class IdGenerator
 {
 public:
-	IdGenerator();
-	~IdGenerator();
+	IdGenerator() = default;
 
 	unsigned int popId();
 
 	void pushId(unsigned int id);
 
 private:
-	std::stack<unsigned int> _availableIds;
+	std::vector<unsigned int> _availableIds;
 	unsigned int _count;
-
 };
+
+#endif

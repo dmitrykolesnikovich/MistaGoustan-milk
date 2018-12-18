@@ -5,6 +5,7 @@
 GameObject::GameObject(const std::string& textureName)
 	: _textureName(textureName)
 {
+	_texture = nullptr;
 }
 
 GameObject::~GameObject()
@@ -18,7 +19,6 @@ void GameObject::load(ResourceManager& resourceManager)
 
 void GameObject::begin()
 {
-
 }
 
 void GameObject::handleEvent(SDL_Event& e)

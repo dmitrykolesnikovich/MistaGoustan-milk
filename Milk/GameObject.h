@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _GAME_OBJECT_
+#define _GAME_OBJECT_
 
 #include <string>
 
@@ -36,6 +37,6 @@ private:
 
 	std::string _textureName;
 	Texture* _texture;
-
-
 };
+
+#endif

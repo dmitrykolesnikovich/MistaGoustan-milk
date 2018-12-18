@@ -105,11 +105,9 @@ Level* LevelLoader::load(const std::string& file)
 		e->Attribute("x", &x);
 		e->Attribute("y", &y);
 
-		GameObject* gameObject = Game::getInstance().createFromFactory(id);
-		gameObject->position.x = x;
-		gameObject->position.y = y;
-
-		level->_gameObjectsToAdd.push_back(gameObject);
+		GameObject& gameObject = level->createGameObject(id);
+		gameObject.position.x = x;
+		gameObject.position.y = y;
 	}
 
 	return level;

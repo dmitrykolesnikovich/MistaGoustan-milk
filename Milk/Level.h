@@ -5,13 +5,14 @@
 #include <unordered_map>
 #include <vector>
 
+#include "IdGenerator.h"
+#include "Tilemap.h"
+
 union SDL_Event;
 
 class Game;
 class GameObject;
 class ResourceManager;
-
-#include "Tilemap.h"
 
 class Level
 {
@@ -27,6 +28,8 @@ public:
 	void render();
 	void unload();
 
+	GameObject& createGameObject(const std::string& templateName);
+
 private:
 	Level(Game& game);
 
@@ -38,8 +41,9 @@ private:
 
 	Tilemap _tilemap;
 
-	void updateInternals();
+	IdGenerator _idGenerator;
 
+	void updateInternals();
 };
 
 #endif

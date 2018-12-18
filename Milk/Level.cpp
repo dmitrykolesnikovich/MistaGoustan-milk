@@ -121,3 +121,13 @@ void Level::updateInternals()
 
 	_gameObjectsToAdd.clear();
 }
+
+GameObject& Level::createGameObject(const std::string& templateName) 
+{
+	GameObject* gameObject = _game.createFromFactory(templateName);
+	gameObject->_id = _idGenerator.popId();
+
+	_gameObjectsToAdd.emplace_back(gameObject);
+
+	return *gameObject;
+}

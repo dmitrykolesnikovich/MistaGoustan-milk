@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<map source="res/testmap.png" width="640" height="480" tilesize="32">
+<level source="res/testmap.png" width="640" height="480" tilesize="32">
   <tileset>
     <tile id="01" x="0" y="0"></tile>
     <tile id="02" x="32" y="0"></tile>
@@ -9,8 +9,8 @@
   <layers>
     <layer>
       <tiles>
-        01 01 01 00 00 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01
-        01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01
+        00 00 00 00 00 00 01 01 01 01 01 01 01 01 01 01 01 01 01 01
+        00 00 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01
         01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01
         01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01
         01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01
@@ -26,8 +26,14 @@
         01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01
       </tiles>
     </layer>
+    <layer>
+      <tiles>
+        01 01 01 01 01
+      </tiles>
+    </layer>
   </layers>
   <gameobjects>
     <gameobject id="player" x="400" y ="400"></gameobject>
+    <gameobject id="player" x="200" y ="200"></gameobject>
   </gameobjects>
-</map>
+</level>
