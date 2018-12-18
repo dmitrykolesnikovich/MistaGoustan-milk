@@ -45,7 +45,6 @@
     <ClCompile Include="src\game\Player.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\externals\tinyxmlparser.cpp">
       <Filter>Externals</Filter>
     </ClCompile>
@@ -97,5 +96,6 @@
     <ClInclude Include="src\externals\tinyxml.h">
       <Filter>Externals</Filter>
     </ClInclude>
+    <ClInclude Include="src\methods\Delete.h" />
   </ItemGroup>
 </Project>

@@ -20,6 +20,9 @@ struct TileType
 	}
 
 	SDL_Rect rect;
+
+	// Additional information about the type will go here.
+	// i.e. collidable, triggerable, opacity, animations.
 };
 
 struct TileInstance
@@ -48,6 +51,11 @@ struct TileLayer
 	}
 
 	std::vector<TileInstance*> tiles;
+
+	void addTile(TileType& type, int x, int y) 
+	{
+		tiles.emplace_back(new TileInstance(type, x, y));
+	}
 };
 
 struct Tilemap
@@ -76,6 +84,22 @@ struct Tilemap
 
 	std::unordered_map<int, TileType*> tileTypes;
 	std::vector<TileLayer*> layers;
+
+	TileType& addTileType(int id, int x, int y) 
+	{
+		TileType* type = new TileType(x, y, tileSize);
+		tileTypes.insert(std::pair<int, TileType*>(id, type));
+
+		return *type;
+	}
+
+	TileLayer& addLayer() 
+	{
+		TileLayer* layer = new TileLayer();
+		layers.emplace_back(layer);
+
+		return *layer;
+	}
 };
 
 #endif

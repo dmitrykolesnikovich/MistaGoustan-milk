@@ -48,7 +48,7 @@ Level* LevelLoader::load(const std::string& file)
 		e->Attribute("x", &x);
 		e->Attribute("y", &y);
 
-		tilemap.tileTypes.insert(std::pair<int, TileType*>(id, new TileType(x, y, tilemap.tileSize)));
+		tilemap.addTileType(id, x, y);
 	}
 
 	TiXmlElement* layersElement = tilesetElement->NextSiblingElement();
@@ -64,7 +64,7 @@ Level* LevelLoader::load(const std::string& file)
 		std::istringstream iss(tilesText);
 		std::vector<std::string> results((std::istream_iterator<std::string>(iss)), std::istream_iterator<std::string>());
 
-		TileLayer* layer = new TileLayer();
+		TileLayer& layer = tilemap.addLayer();
 
 		int currentRow = 0;
 		int currentColumn = 0;
@@ -79,7 +79,7 @@ Level* LevelLoader::load(const std::string& file)
 				int x = currentColumn * tilemap.tileSize;
 				int y = currentRow * tilemap.tileSize;
 
-				layer->tiles.push_back(new TileInstance(*tile, x, y));
+				layer.addTile(*tile, x, y);
 			}
 
 			currentColumn++;
@@ -89,8 +89,6 @@ Level* LevelLoader::load(const std::string& file)
 				currentRow++;
 			}
 		}
-
-		tilemap.layers.push_back(layer);
 	}
 
 	TiXmlElement* objectsElement = layersElement->NextSiblingElement("gameobjects");

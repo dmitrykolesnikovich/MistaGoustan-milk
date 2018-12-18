@@ -62,6 +62,7 @@ bool Game::init(const std::string& title, unsigned int width, unsigned int heigh
 	_levelLoader = new LevelLoader(*this);
 	
 	std::cout << "Game started" << std::endl;
+	std::cout << "//////////////////" << std::endl;
 
 	return true;
 }
@@ -143,7 +144,23 @@ void Game::loadLevel(const std::string& filename)
 
 void Game::shutDown()
 {
-	std::cout << "Game shutting down" << std::endl;
+	std::cout << "Freeing Resources" << std::endl;
+	std::cout << "//////////////////" << std::endl;
+
+	if (_currentLevel != nullptr)
+		_currentLevel->unload();
+
+	delete _currentLevel;
+	_currentLevel = nullptr;
+
+	delete _nextLevel;
+	_nextLevel = nullptr;
+
+	delete _resourceManager;
+	_resourceManager = nullptr;
+
+	delete _levelLoader;
+	_levelLoader = nullptr;
 
 	SDL_DestroyRenderer(_renderer);
 	_renderer = nullptr;
@@ -152,6 +169,9 @@ void Game::shutDown()
 	_window = nullptr;
 
 	SDL_Quit();
+
+	std::cout << "Game shutting down" << std::endl;
+	std::cout << "//////////////////" << std::endl;
 }
 
 void Game::registerObjectFactory(const std::string& name, std::function<GameObject*(void)> factoryMethod)
