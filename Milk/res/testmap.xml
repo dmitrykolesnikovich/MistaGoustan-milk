@@ -3,8 +3,8 @@
   <tileset>
     <tile id="01" x="0" y="0"></tile>
     <tile id="02" x="32" y="0"></tile>
-    <tile id="03" x="64" y="0"></tile>
-    <tile id="04" x="96" y="0"></tile>
+    <tile id="03" x="0" y="32"></tile>
+    <tile id="04" x="32" y="32"></tile>
   </tileset>
   <layers>
     <layer>
