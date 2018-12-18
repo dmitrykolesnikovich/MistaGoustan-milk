@@ -17,13 +17,10 @@ Level::~Level()
 {
 }
 
-void Level::init()
-{
-	updateInternals();
-}
-
 void Level::load()
 {
+	updateInternals();
+
 	ResourceManager& resourceManager = _game.getResourceManager();
 
 	for (auto it = _gameObjectsById.begin(); it != _gameObjectsById.end(); ++it) 	

@@ -21,13 +21,22 @@ public:
 
 	~Level();
 
-	void init();
+	// Load the levels resources.
 	void load();
+
+	// Pass events to level so it can handle them.
 	void handleEvent(SDL_Event& e);
+
+	// Update game objects, tile maps, etc...
 	void update();
+
+	// Render game objects, tile maps, etc...
 	void render();
+
+	// Free all of levels resources.
 	void unload();
 
+	// Creates a game object and returns it.
 	GameObject& createGameObject(const std::string& templateName);
 
 private:

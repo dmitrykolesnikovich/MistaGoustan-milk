@@ -49,8 +49,10 @@ public:
 	// Shuts down game systems and frees resources.
 	void shutDown();
 
+	// Register a game object factory method.
 	void registerObjectFactory(const std::string& name, std::function<GameObject*(void)> factoryMethod);
 
+	// Create a game object from registered factory method.
 	GameObject* createFromFactory(const std::string& name);
 
 private:

@@ -103,7 +103,6 @@ void Game::update()
 
 		_nextLevel = nullptr;
 
-		_currentLevel->init();
 		_currentLevel->load();
 	}
 
