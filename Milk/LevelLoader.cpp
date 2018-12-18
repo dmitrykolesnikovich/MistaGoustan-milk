@@ -72,12 +72,15 @@ Level* LevelLoader::load(const std::string& file)
 		for (auto& t : results) 
 		{
 			int tileid = std::atoi(t.c_str());
-			TileType* tile = tilemap.tileTypes[tileid];
+			if (tileid > 0) 
+			{
+				TileType* tile = tilemap.tileTypes[tileid];
 
-			int x = currentColumn * tilemap.tileSize;
-			int y = currentRow * tilemap.tileSize;
-			
-			layer->tiles.push_back(new TileInstance(*tile, x, y));
+				int x = currentColumn * tilemap.tileSize;
+				int y = currentRow * tilemap.tileSize;
+
+				layer->tiles.push_back(new TileInstance(*tile, x, y));
+			}
 
 			currentColumn++;
 			if (currentColumn > columns - 1)
