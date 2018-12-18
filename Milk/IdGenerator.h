@@ -8,8 +8,10 @@ class IdGenerator
 public:
 	IdGenerator() = default;
 
+	// Get unique id.
 	unsigned int popId();
 
+	// Push id back onto stack for re use.
 	void pushId(unsigned int id);
 
 private:

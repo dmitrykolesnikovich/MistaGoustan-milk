@@ -14,8 +14,10 @@ public:
 	ResourceManager(SDL_Renderer* renderer);
 	~ResourceManager();
 
+	// Load texture. Textures are cached.
 	Texture* loadTexture(const std::string& name);
 
+	// Unload all loaded textures.
 	void unloadTextures();
 
 private:

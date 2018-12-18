@@ -78,4 +78,4 @@ struct Tilemap
 	std::vector<TileLayer*> layers;
 };
 
-#endif // !_TILEMAP_
+#endif

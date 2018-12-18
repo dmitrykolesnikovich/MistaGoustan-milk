@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _TEXTURE_
+#define _TEXTURE_
 
 struct SDL_Texture;
 
@@ -8,8 +9,13 @@ public:
 	Texture(SDL_Texture* sdlTexture, int width, int height);
 	~Texture();
 
+	// Get the raw SDL_Texture.
 	SDL_Texture* get() const;
+
+	// Get texture width.
 	int getWidth() const;
+
+	// Get texture height.
 	int getHeight() const;
 
 private:
@@ -18,3 +24,5 @@ private:
 	int _width;
 	int _height;
 };
+
+#endif

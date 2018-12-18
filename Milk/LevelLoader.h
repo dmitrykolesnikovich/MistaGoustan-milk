@@ -11,6 +11,7 @@ class LevelLoader
 public:
 	LevelLoader(Game& game);
 
+	// Load level from XML level file.
 	Level* load(const std::string& file);
 
 private:
