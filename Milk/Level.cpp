@@ -49,6 +49,7 @@ void Level::update()
 void Level::render()
 {
 	SDL_Renderer& renderer = _game.getRenderer();
+	SDL_Texture* tilemapTexture = _tilemap.texture->get();
 
 	for (auto& layer : _tilemap.layers) 
 	{
@@ -60,7 +61,7 @@ void Level::render()
 			dst.w = tile->type.rect.w;
 			dst.h = tile->type.rect.h;
 
-			SDL_RenderCopyEx(&renderer, _tilemap.texture->get(), &tile->type.rect, &dst, 0, nullptr, SDL_FLIP_NONE);
+			SDL_RenderCopyEx(&renderer, tilemapTexture, &tile->type.rect, &dst, 0, nullptr, SDL_FLIP_NONE);
 		}
 	}
 
