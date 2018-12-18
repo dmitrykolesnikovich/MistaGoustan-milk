@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "Vector2d.h"
+#include "../math/Vector2d.h"
 
 union SDL_Event;
 

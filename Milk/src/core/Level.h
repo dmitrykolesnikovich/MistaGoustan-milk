@@ -5,8 +5,8 @@
 #include <unordered_map>
 #include <vector>
 
-#include "IdGenerator.h"
-#include "Tilemap.h"
+#include "../utilities/IdGenerator.h"
+#include "../tilemap/Tilemap.h"
 
 union SDL_Event;
 

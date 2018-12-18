@@ -21,80 +21,81 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Game.cpp">
+    <ClCompile Include="src\core\Game.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Level.cpp">
+    <ClCompile Include="src\core\Level.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp">
+    <ClCompile Include="src\core\GameObject.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="ResourceManager.cpp">
+    <ClCompile Include="src\utilities\IdGenerator.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
+    <ClCompile Include="src\utilities\LevelLoader.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utilities\ResourceManager.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utilities\Texture.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Player.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="tinystr.cpp">
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\externals\tinyxmlparser.cpp">
       <Filter>Externals</Filter>
     </ClCompile>
-    <ClCompile Include="tinyxml.cpp">
+    <ClCompile Include="src\externals\tinystr.cpp">
       <Filter>Externals</Filter>
     </ClCompile>
-    <ClCompile Include="tinyxmlerror.cpp">
+    <ClCompile Include="src\externals\tinyxml.cpp">
       <Filter>Externals</Filter>
     </ClCompile>
-    <ClCompile Include="tinyxmlparser.cpp">
+    <ClCompile Include="src\externals\tinyxmlerror.cpp">
       <Filter>Externals</Filter>
     </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelLoader.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="IdGenerator.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game.h">
+    <ClInclude Include="src\core\Game.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
+    <ClInclude Include="src\core\Level.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Level.h">
+    <ClInclude Include="src\core\GameObject.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceManager.h">
+    <ClInclude Include="src\utilities\LevelLoader.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Game</Filter>
+    <ClInclude Include="src\utilities\IdGenerator.h">
+      <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="tinyxml.h">
-      <Filter>Externals</Filter>
+    <ClInclude Include="src\utilities\ResourceManager.h">
+      <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="tinystr.h">
-      <Filter>Externals</Filter>
-    </ClInclude>
-    <ClInclude Include="Tilemap.h">
+    <ClInclude Include="src\tilemap\Tilemap.h">
       <Filter>Tilemap</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.h">
+    <ClInclude Include="src\utilities\Texture.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="LevelLoader.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector2d.h">
+    <ClInclude Include="src\math\Vector2d.h">
       <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="IdGenerator.h">
-      <Filter>Utilities</Filter>
+    <ClInclude Include="src\game\Player.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\externals\tinystr.h">
+      <Filter>Externals</Filter>
+    </ClInclude>
+    <ClInclude Include="src\externals\tinyxml.h">
+      <Filter>Externals</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

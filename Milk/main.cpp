@@ -2,14 +2,14 @@
 
 #include <SDL.h>
 
-#include "Game.h"
-#include "GameObject.h"
-#include "Level.h"
-#include "Player.h"
+#include "src/core/Game.h"
+#include "src/core/GameObject.h"
+#include "src/core/Level.h"
+#include "src/game/Player.h"
 
 GameObject* createPlayer() 
 {
-	return new Player("steve.png");
+	return new Player("res/steve.png");
 }
 
 int main(int argc, char* argv[])

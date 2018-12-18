@@ -7,9 +7,10 @@
 
 #include "GameObject.h"
 #include "Level.h"
-#include "ResourceManager.h"
-#include "Texture.h"
-#include "LevelLoader.h"
+
+#include "../utilities/ResourceManager.h"
+#include "../utilities/Texture.h"
+#include "../utilities/LevelLoader.h"
 
 Game::~Game()
 {

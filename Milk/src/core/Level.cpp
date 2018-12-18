@@ -4,9 +4,10 @@
 
 #include "Game.h"
 #include "GameObject.h"
-#include "ResourceManager.h"
-#include "Texture.h"
-#include "Tilemap.h"
+
+#include "../utilities/ResourceManager.h"
+#include "../utilities/Texture.h"
+#include "../tilemap/Tilemap.h"
 
 Level::Level(Game& game)
 	: _game(game)

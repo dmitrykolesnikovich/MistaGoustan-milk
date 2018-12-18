@@ -9,12 +9,12 @@
 #include <sstream>
 #include <vector>
 
-#include "tinyxml.h"
-#include "tinystr.h"
+#include "../externals/tinyxml.h"
+#include "../externals/tinystr.h"
 
-#include "Game.h"
-#include "GameObject.h"
-#include "Level.h"
+#include "../core/Game.h"
+#include "../core/GameObject.h"
+#include "../core/Level.h"
 
 LevelLoader::LevelLoader(Game& game)
 	: _game(game)

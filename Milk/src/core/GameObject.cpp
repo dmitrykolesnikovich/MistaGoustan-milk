@@ -1,6 +1,6 @@
 #include "GameObject.h"
 
-#include "ResourceManager.h"
+#include "../utilities/ResourceManager.h"
 
 GameObject::GameObject(const std::string& textureName)
 	: _textureName(textureName)

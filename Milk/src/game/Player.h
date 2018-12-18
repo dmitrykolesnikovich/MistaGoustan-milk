@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "GameObject.h"
+#include "../core/GameObject.h"
 
 union SDL_Event;
 
