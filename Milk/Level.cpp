@@ -29,7 +29,7 @@ void Level::load()
 	for (auto it = _gameObjectsById.begin(); it != _gameObjectsById.end(); ++it) 	
 		it->second->load(resourceManager);
 
-	_tilemap->texture = resourceManager.loadTexture(_tilemap->source);
+	_tilemap.texture = resourceManager.loadTexture(_tilemap.sourceImageFile);
 }
 
 void Level::handleEvent(SDL_Event& e)
@@ -50,17 +50,17 @@ void Level::render()
 {
 	SDL_Renderer& renderer = _game.getRenderer();
 
-	for (auto& layer : _tilemap->layers) 
+	for (auto& layer : _tilemap.layers) 
 	{
 		for (auto& tile : layer->tiles) 
 		{
 			SDL_Rect dst;
 			dst.x = tile->x;
 			dst.y = tile->y;
-			dst.w = tile->tile.rect.w;
-			dst.h = tile->tile.rect.h;
+			dst.w = tile->type.rect.w;
+			dst.h = tile->type.rect.h;
 
-			SDL_RenderCopyEx(&renderer, _tilemap->texture->get(), &tile->tile.rect, &dst, 0, nullptr, SDL_FLIP_NONE);
+			SDL_RenderCopyEx(&renderer, _tilemap.texture->get(), &tile->type.rect, &dst, 0, nullptr, SDL_FLIP_NONE);
 		}
 	}
 
@@ -99,8 +99,6 @@ void Level::unload()
 		delete *it;
 		*it = nullptr;
 	}
-
-	delete _tilemap;
 }
 
 void Level::updateInternals()

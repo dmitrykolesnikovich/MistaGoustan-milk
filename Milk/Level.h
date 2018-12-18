@@ -11,7 +11,7 @@ class Game;
 class GameObject;
 class ResourceManager;
 
-struct Tilemap;
+#include "Tilemap.h"
 
 class Level
 {
@@ -36,7 +36,7 @@ private:
 	std::vector<GameObject*> _gameObjectsToAdd;
 	std::vector<GameObject*> _gameObjectsToDestroy;
 
-	Tilemap* _tilemap;
+	Tilemap _tilemap;
 
 	void updateInternals();
 

@@ -15,14 +15,10 @@
 #include "Game.h"
 #include "GameObject.h"
 #include "Level.h"
-#include "Tilemap.h"
 
 LevelLoader::LevelLoader(Game& game)
 	: _game(game)
 {
-	int x = 0;
-
-	int y = x;
 }
 
 Level* LevelLoader::load(const std::string& file)
@@ -31,15 +27,14 @@ Level* LevelLoader::load(const std::string& file)
 	doc.LoadFile(file);
 
 	Level* level = new Level(_game);
-	Tilemap* tilemap = new Tilemap();
-	level->_tilemap = tilemap;
+	Tilemap& tilemap = level->_tilemap;
 
 	TiXmlElement* root = doc.RootElement();
 
-	tilemap->source = root->Attribute("source");
-	root->Attribute("width", &tilemap->width);
-	root->Attribute("height", &tilemap->height);
-	root->Attribute("tilesize", &tilemap->tilesize);
+	tilemap.sourceImageFile = root->Attribute("source");
+	root->Attribute("width", &tilemap.width);
+	root->Attribute("height", &tilemap.height);
+	root->Attribute("tilesize", &tilemap.tileSize);
 
 	TiXmlElement* tilesetElement = root->FirstChildElement("tileset");
 
@@ -53,13 +48,13 @@ Level* LevelLoader::load(const std::string& file)
 		e->Attribute("x", &x);
 		e->Attribute("y", &y);
 
-		tilemap->tileTypes.insert(std::pair<int, TilemapTile*>(id, new TilemapTile(x, y, tilemap->tilesize)));
+		tilemap.tileTypes.insert(std::pair<int, TileType*>(id, new TileType(x, y, tilemap.tileSize)));
 	}
 
 	TiXmlElement* layersElement = tilesetElement->NextSiblingElement();
 
-	int rows = tilemap->height / tilemap->tilesize;
-	int columns = tilemap->width / tilemap->tilesize;
+	int rows = tilemap.height / tilemap.tileSize;
+	int columns = tilemap.width / tilemap.tileSize;
 
 	for (TiXmlElement* e = layersElement->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
 	{
@@ -69,7 +64,7 @@ Level* LevelLoader::load(const std::string& file)
 		std::istringstream iss(tilesText);
 		std::vector<std::string> results((std::istream_iterator<std::string>(iss)), std::istream_iterator<std::string>());
 
-		TilemapLayer* layer = new TilemapLayer();
+		TileLayer* layer = new TileLayer();
 
 		int currentRow = 0;
 		int currentColumn = 0;
@@ -77,12 +72,12 @@ Level* LevelLoader::load(const std::string& file)
 		for (auto& t : results) 
 		{
 			int tileid = std::atoi(t.c_str());
-			TilemapTile* tile = tilemap->tileTypes[tileid];
+			TileType* tile = tilemap.tileTypes[tileid];
 
-			int x = currentColumn * tilemap->tilesize;
-			int y = currentRow * tilemap->tilesize;
+			int x = currentColumn * tilemap.tileSize;
+			int y = currentRow * tilemap.tileSize;
 			
-			layer->tiles.push_back(new TilemapTileInstance(*tile, x, y));
+			layer->tiles.push_back(new TileInstance(*tile, x, y));
 
 			currentColumn++;
 			if (currentColumn > columns - 1)
@@ -92,7 +87,7 @@ Level* LevelLoader::load(const std::string& file)
 			}
 		}
 
-		tilemap->layers.push_back(layer);
+		tilemap.layers.push_back(layer);
 	}
 
 	TiXmlElement* objectsElement = layersElement->NextSiblingElement("gameobjects");

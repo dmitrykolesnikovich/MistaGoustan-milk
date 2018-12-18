@@ -9,9 +9,9 @@
 
 class Texture;
 
-struct TilemapTile
+struct TileType
 {
-	TilemapTile(int x, int y, int size)
+	TileType(int x, int y, int size)
 	{
 		rect.x = x;
 		rect.y = y;
@@ -22,57 +22,60 @@ struct TilemapTile
 	SDL_Rect rect;
 };
 
-struct TilemapTileInstance
+struct TileInstance
 {
-	TilemapTileInstance(TilemapTile& tile, int x, int y)
-		: tile(tile), x(x), y(y)
+	TileInstance(TileType& tile, int x, int y)
+		: type(tile), x(x), y(y)
 	{
 	}
 
 	int x;
 	int y;
-	TilemapTile& tile;
+
+	TileType& type;
 };
 
 
-struct TilemapLayer
+struct TileLayer
 {
-	TilemapLayer()
+	~TileLayer() 
 	{
-		for (auto& it : tiles)
+		for (auto& it : tiles) 
 		{
 			delete it;
 			it = nullptr;
 		}
 	}
 
-	std::vector<TilemapTileInstance*> tiles;
+	std::vector<TileInstance*> tiles;
 };
 
 struct Tilemap
 {
-	Tilemap()
+	~Tilemap() 
 	{
-		for (auto& it : tileTypes)
+		for (auto& it : tileTypes) 
 		{
 			delete it.second;
 			it.second = nullptr;
 		}
 
-		for (auto& it : layers)
+		for (auto& it : layers) 
 		{
 			delete it;
 			it = nullptr;
 		}
 	}
 
-	std::string source;
+	std::string sourceImageFile;
 	int width;
 	int height;
-	int tilesize;
+	int tileSize;
+
 	Texture* texture;
-	std::unordered_map<int, TilemapTile*> tileTypes;
-	std::vector<TilemapLayer*> layers;
+
+	std::unordered_map<int, TileType*> tileTypes;
+	std::vector<TileLayer*> layers;
 };
 
 #endif // !_TILEMAP_
