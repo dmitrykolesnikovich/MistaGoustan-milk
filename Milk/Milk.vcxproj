@@ -160,6 +160,7 @@
     <ClCompile Include="src\game\Player.cpp" />
     <ClCompile Include="src\utilities\ResourceManager.cpp" />
     <ClCompile Include="src\utilities\Texture.cpp" />
+    <ClCompile Include="src\utilities\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.h" />
@@ -173,6 +174,7 @@
     <ClInclude Include="src\utilities\Texture.h" />
     <ClInclude Include="src\tilemap\Tilemap.h" />
     <ClInclude Include="src\math\Vector2d.h" />
+    <ClInclude Include="src\utilities\Timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

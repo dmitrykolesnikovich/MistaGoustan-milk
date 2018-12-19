@@ -6,6 +6,7 @@
 #include "src/core/GameObject.h"
 #include "src/core/Level.h"
 #include "src/game/Player.h"
+#include "src/utilities/Timer.h"
 
 GameObject* createPlayer() 
 {
@@ -14,32 +15,41 @@ GameObject* createPlayer()
 
 int main(int argc, char* argv[])
 {
-	const int fps = 60;
-	const int delay = 1000.0f / fps;
+	const int SCREEN_FPS = 60;
+	const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
 
-	Uint32 frameStart;
-	Uint32 frameTime;
+	Timer fpsTimer;
+	Timer frameCapTimer;
+
+	int countedFrames = 0;
 
 	Game& game = Game::getInstance();
 	game.registerObjectFactory("player", &createPlayer);
 
-	if (!game.init("Butt Dragons", 640, 480, SDL_WINDOW_SHOWN))
+	if (!game.init("Butt Dragons", 640, 480, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP))
 		return -1;
 
 	game.loadLevel("res/testmap.xml");
 
+	fpsTimer.start();
+
 	while (game.isRunning()) 
 	{
-		frameStart = SDL_GetTicks();
+		frameCapTimer.start();
+
+		float averageFps = countedFrames / (fpsTimer.getTicks() / 1000.f);
+		if (averageFps > 2000000)
+			averageFps = 0;		
 
 		game.handleEvents();
 		game.update();
 		game.render();
 
-		frameTime = SDL_GetTicks() - frameStart;
+		countedFrames++;
 
-		if (frameTime < delay)
-			SDL_Delay((int)delay - frameTime);
+		int frameTicks = frameCapTimer.getTicks();
+		if (frameTicks < SCREEN_TICKS_PER_FRAME)		
+			SDL_Delay(SCREEN_TICKS_PER_FRAME - frameTicks);		
 	}
 
 	game.shutDown();

@@ -47,6 +47,7 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\externals\tinyxml2.cpp" />
+    <ClCompile Include="src\utilities\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.h">
@@ -80,5 +81,6 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="src\externals\tinyxml2.h" />
+    <ClInclude Include="src\utilities\Timer.h" />
   </ItemGroup>
 </Project>
