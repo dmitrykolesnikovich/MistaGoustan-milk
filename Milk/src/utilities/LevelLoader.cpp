@@ -9,8 +9,7 @@
 #include <sstream>
 #include <vector>
 
-#include "../externals/tinyxml.h"
-#include "../externals/tinystr.h"
+#include "../externals/tinyxml2.h"
 
 #include "../core/Game.h"
 #include "../core/GameObject.h"
@@ -23,42 +22,38 @@ LevelLoader::LevelLoader(Game& game)
 
 Level* LevelLoader::load(const std::string& file)
 {
-	TiXmlDocument doc;
-	doc.LoadFile(file);
+	tinyxml2::XMLDocument doc;
+	doc.LoadFile(file.c_str());
 
 	Level* level = new Level(_game);
 	Tilemap& tilemap = level->_tilemap;
 
-	TiXmlElement* root = doc.RootElement();
+	tinyxml2::XMLElement* root = doc.RootElement();
 
 	tilemap.sourceImageFile = root->Attribute("source");
-	root->Attribute("width", &tilemap.width);
-	root->Attribute("height", &tilemap.height);
-	root->Attribute("tilesize", &tilemap.tileSize);
+	tilemap.width = root->IntAttribute("width");
+	tilemap.height = root->IntAttribute("height");
+	tilemap.tileSize = root->IntAttribute("tilesize");
 
-	TiXmlElement* tilesetElement = root->FirstChildElement("tileset");
+	tinyxml2::XMLElement* tilesetElement = root->FirstChildElement("tileset");
 
-	for (TiXmlElement* e = tilesetElement->FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) 
+	for (tinyxml2::XMLElement* e = tilesetElement->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
 	{
-		int id;
-		int x;
-		int y;
-
-		e->Attribute("id", &id);
-		e->Attribute("x", &x);
-		e->Attribute("y", &y);
+		int id = e->IntAttribute("id");
+		int x = e->IntAttribute("x");
+		int y = e->IntAttribute("y");
 
 		tilemap.addTileType(id, x, y);
 	}
 
-	TiXmlElement* layersElement = tilesetElement->NextSiblingElement();
+	tinyxml2::XMLElement* layersElement = tilesetElement->NextSiblingElement();
 
 	int rows = tilemap.height / tilemap.tileSize;
 	int columns = tilemap.width / tilemap.tileSize;
 
-	for (TiXmlElement* e = layersElement->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
+	for (tinyxml2::XMLElement* e = layersElement->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
 	{
-		TiXmlElement* tiles = e->FirstChildElement("tiles");
+		tinyxml2::XMLElement* tiles = e->FirstChildElement("tiles");
 		const char* tilesText = tiles->GetText();
 
 		std::istringstream iss(tilesText);
@@ -91,17 +86,14 @@ Level* LevelLoader::load(const std::string& file)
 		}
 	}
 
-	TiXmlElement* objectsElement = layersElement->NextSiblingElement("gameobjects");
+	tinyxml2::XMLElement* objectsElement = layersElement->NextSiblingElement("gameobjects");
 
-	for (TiXmlElement* e = objectsElement->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
+	for (tinyxml2::XMLElement* e = objectsElement->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
 	{
 		const char* id = e->Attribute("id");
 		
-		int x;
-		int y;
-
-		e->Attribute("x", &x);
-		e->Attribute("y", &y);
+		int x = e->IntAttribute("x");
+		int y = e->IntAttribute("y");
 
 		GameObject& gameObject = level->createGameObject(id);
 		gameObject.position.x = x;

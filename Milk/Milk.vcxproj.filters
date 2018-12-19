@@ -45,19 +45,8 @@
     <ClCompile Include="src\game\Player.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="src\externals\tinyxmlparser.cpp">
-      <Filter>Externals</Filter>
-    </ClCompile>
-    <ClCompile Include="src\externals\tinystr.cpp">
-      <Filter>Externals</Filter>
-    </ClCompile>
-    <ClCompile Include="src\externals\tinyxml.cpp">
-      <Filter>Externals</Filter>
-    </ClCompile>
-    <ClCompile Include="src\externals\tinyxmlerror.cpp">
-      <Filter>Externals</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\externals\tinyxml2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.h">
@@ -90,12 +79,6 @@
     <ClInclude Include="src\game\Player.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="src\externals\tinystr.h">
-      <Filter>Externals</Filter>
-    </ClInclude>
-    <ClInclude Include="src\externals\tinyxml.h">
-      <Filter>Externals</Filter>
-    </ClInclude>
-    <ClInclude Include="src\methods\Delete.h" />
+    <ClInclude Include="src\externals\tinyxml2.h" />
   </ItemGroup>
 </Project>
