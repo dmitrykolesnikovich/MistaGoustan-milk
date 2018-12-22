@@ -8,6 +8,9 @@
 #include "src/game/Player.h"
 #include "src/utilities/Timer.h"
 
+#include "src\core\Actor.h"
+#include "src\components\Sprite.h"
+
 GameObject* createPlayer() 
 {
 	return new Player("res/steve.png");
@@ -15,6 +18,7 @@ GameObject* createPlayer()
 
 int main(int argc, char* argv[])
 {
+
 	const int SCREEN_FPS = 60;
 	const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
 
@@ -26,8 +30,16 @@ int main(int argc, char* argv[])
 	Game& game = Game::getInstance();
 	game.registerObjectFactory("player", &createPlayer);
 
-	if (!game.init("Butt Dragons", 640, 480, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP))
+	if (!game.init("Butt Dragons", 640, 480, SDL_WINDOW_SHOWN))
 		return -1;
+
+
+	auto actor = new Actor(game);
+	bool added = actor->addComponent<Sprite>(SPRITE);
+
+	auto sprite = actor->getComponent<Sprite>(SPRITE);
+
+	bool removed = actor->removeComponent(SPRITE);
 
 	game.loadLevel("res/testmap.xml");
 

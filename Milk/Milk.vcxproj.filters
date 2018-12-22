@@ -48,6 +48,9 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\externals\tinyxml2.cpp" />
     <ClCompile Include="src\utilities\Timer.cpp" />
+    <ClCompile Include="src\core\Actor.cpp" />
+    <ClCompile Include="src\core\ActorComponent.cpp" />
+    <ClCompile Include="src\components\Sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.h">
@@ -82,5 +85,8 @@
     </ClInclude>
     <ClInclude Include="src\externals\tinyxml2.h" />
     <ClInclude Include="src\utilities\Timer.h" />
+    <ClInclude Include="src\core\Actor.h" />
+    <ClInclude Include="src\core\ActorComponent.h" />
+    <ClInclude Include="src\components\Sprite.h" />
   </ItemGroup>
 </Project>
