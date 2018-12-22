@@ -9,19 +9,37 @@ Actor::~Actor()
 {
 }
 
+int Actor::getId() const
+{
+	return _id;
+}
+
 std::string Actor::getName() const
 {
 	return _name;
 }
 
-bool Actor::removeComponent(ComponentType type)
+Vector2d Actor::getPosition() const
 {
-	if ((_componentBitmask & type) != type)
-		return false;
+	return _position;
+}
 
-	_componentBitmask &= ~type;
+void Actor::setPosition(float x, float y)
+{
+	_position.x = x;
+	_position.y = y;
+}
 
-	_componentsByType.erase(type);
+void Actor::setPosition(Vector2d position)
+{
+	_position.x = position.x;
+	_position.y = position.y;
+}
 
-	return true;
+void Actor::load(ResourceManager& resourceManager)
+{
+	for (auto& it : _componentsByType) 
+	{
+		it.second->load(resourceManager);
+	}
 }

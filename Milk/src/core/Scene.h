@@ -23,12 +23,16 @@ public:
 
 	Actor* findActor(const std::string& name);
 
+	void update();
+
+	const std::unordered_map<int, std::unique_ptr<Actor>>& getAllActors();
+
 private:
 	Game& _game;
 
 	std::unordered_map<int, std::unique_ptr<Actor>> _actorsById;
-	std::vector<std::unique_ptr<Actor>> _actorsToAdd;
-	std::vector<int> _actorsToRemove;
+	std::vector<std::unique_ptr<Actor>> _actorsToSpawn;
+	std::vector<int> _actorsToDestroy;
 
 	IdGenerator _idGenerator;
 };

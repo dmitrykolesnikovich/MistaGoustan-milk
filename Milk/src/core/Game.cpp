@@ -11,6 +11,8 @@
 #include "../utilities/ResourceManager.h"
 #include "../utilities/Texture.h"
 #include "../utilities/LevelLoader.h"
+#include "Scene.h"
+#include "../components/Sprite.h"
 
 Game::~Game()
 {
@@ -60,6 +62,16 @@ bool Game::init(const std::string& title, unsigned int width, unsigned int heigh
 
 	_resourceManager = new ResourceManager(_renderer);
 	_levelLoader = new LevelLoader(*this);
+
+	// test
+	_scene = new Scene(*this);
+	auto actor = _scene->spawnActor("steve");
+	actor->addComponent<Sprite>();
+	auto sprite = actor->getComponent<Sprite>();
+	sprite->setTextureName("res/steve.png");
+	sprite->setSourceRect(0, 0, 64, 64);
+
+	_renderSystem = std::unique_ptr<Renderer>(new Renderer(*_renderer));
 	
 	std::cout << "Game started" << std::endl;
 	std::cout << "//////////////////" << std::endl;
@@ -83,41 +95,19 @@ void Game::handleEvents()
 			default:
 				break;
 		}
-
-		if (_currentLevel != nullptr)
-			_currentLevel->handleEvent(e);
 	}
 }
 
 void Game::update()
 {
-	if (_nextLevel != nullptr) 
-	{
-		if (_currentLevel != nullptr) 
-		{
-			_currentLevel->unload();
-
-			delete _currentLevel;
-			_currentLevel = nullptr;
-		}
-			
-		_currentLevel = _nextLevel;
-
-		_nextLevel = nullptr;
-
-		_currentLevel->load();
-	}
-
-	if (_currentLevel != nullptr)
-		_currentLevel->update();
+	_scene->update();
 }
 
 void Game::render()
 {
 	SDL_RenderClear(_renderer);
 
-	if (_currentLevel != nullptr)
-		_currentLevel->render();
+	_renderSystem->update(*_scene);
 
 	SDL_RenderPresent(_renderer);
 }

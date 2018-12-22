@@ -8,3 +8,7 @@ ActorComponent::ActorComponent(Actor& actor)
 ActorComponent::~ActorComponent()
 {
 }
+
+void ActorComponent::load(ResourceManager& resourceManager)
+{
+}

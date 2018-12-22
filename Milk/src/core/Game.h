@@ -5,6 +5,7 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <memory>
 
 struct SDL_Window;
 struct SDL_Renderer;
@@ -13,6 +14,9 @@ class GameObject;
 class Level;
 class LevelLoader;
 class ResourceManager;
+class Scene;
+
+#include "../systems/Renderer.h"
 
 class Game
 {
@@ -65,6 +69,10 @@ private:
 
 	Level* _currentLevel;
 	Level* _nextLevel;
+
+	std::unique_ptr<Renderer> _renderSystem;
+
+	Scene* _scene;
 
 	std::unordered_map<std::string, std::function<GameObject*(void)>> _gameObjectFactories;
 

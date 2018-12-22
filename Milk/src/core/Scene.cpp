@@ -1,5 +1,7 @@
 #include "Scene.h"
 
+#include "Game.h"
+
 Scene::Scene(Game& game)
 	: _game(game)
 {
@@ -17,9 +19,11 @@ Actor* Scene::spawnActor(const std::string& name)
 	actor->_id = id;
 	actor->_name = name;
 
-	_actorsById.insert(std::make_pair(id, std::move(actor)));
+	auto ptr = actor.get();
 
-	return _actorsById.at(id).get();
+	_actorsToSpawn.emplace_back(std::move(actor));
+
+	return ptr;
 }
 
 bool Scene::destroyActor(int id)
@@ -27,7 +31,7 @@ bool Scene::destroyActor(int id)
 	if (_actorsById.find(id) == _actorsById.end())
 		return false;
 
-	_actorsToRemove.emplace_back(id);
+	_actorsToDestroy.emplace_back(id);
 
 	return true;
 }
@@ -41,4 +45,29 @@ Actor* Scene::findActor(const std::string& name)
 	}
 
 	return nullptr;
+}
+
+void Scene::update()
+{
+	for (auto& it : _actorsToDestroy) 
+	{
+		_actorsById.erase(it);
+	}
+
+	_actorsToDestroy.clear();
+
+	auto& resourceManager = _game.getResourceManager();
+
+	for (auto& it : _actorsToSpawn)
+	{
+		it->load(resourceManager);
+		_actorsById.insert(std::make_pair(it->getId(), std::move(it)));
+	}
+
+	_actorsToSpawn.clear();
+}
+
+const std::unordered_map<int, std::unique_ptr<Actor>>& Scene::getAllActors()
+{
+	return _actorsById;
 }

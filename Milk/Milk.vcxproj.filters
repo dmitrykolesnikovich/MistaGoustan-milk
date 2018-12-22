@@ -52,6 +52,8 @@
     <ClCompile Include="src\core\ActorComponent.cpp" />
     <ClCompile Include="src\components\Sprite.cpp" />
     <ClCompile Include="src\core\Scene.cpp" />
+    <ClCompile Include="src\core\System.cpp" />
+    <ClCompile Include="src\systems\Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.h">
@@ -89,7 +91,8 @@
     <ClInclude Include="src\core\Actor.h" />
     <ClInclude Include="src\core\ActorComponent.h" />
     <ClInclude Include="src\components\Sprite.h" />
-    <ClInclude Include="src\systems\System.h" />
     <ClInclude Include="src\core\Scene.h" />
+    <ClInclude Include="src\core\System.h" />
+    <ClInclude Include="src\systems\Renderer.h" />
   </ItemGroup>
 </Project>

@@ -7,6 +7,9 @@
 
 #include "ActorComponent.h"
 
+#include "../math/Vector2d.h"
+
+class ResourceManager;
 class Scene;
 
 class Actor
@@ -17,11 +20,23 @@ public:
 	Actor(Scene& scene);
 	~Actor();
 
+	int getId() const;
+
 	std::string getName() const;
 
+	Vector2d getPosition() const;
+
+	void setPosition(float x, float y);
+
+	void setPosition(Vector2d position);
+
+	void load(ResourceManager& resourceManager);
+
 	template <class TComponent>
-	bool addComponent(ComponentType type) 
+	bool addComponent() 
 	{
+		ComponentType type = TComponent::type;
+
 		if ((_componentBitmask & type) == type)
 			return false;
 
@@ -33,8 +48,10 @@ public:
 	}
 	
 	template <class TComponent>
-	TComponent* getComponent(ComponentType type) 
+	TComponent* getComponent() 
 	{
+		ComponentType type = TComponent::type;
+
 		if ((_componentBitmask & type) != type)
 			return nullptr;
 
@@ -43,11 +60,25 @@ public:
 		return dynamic_cast<TComponent*>(component.get());
 	}
 
-	bool removeComponent(ComponentType type);
+	template <class TComponent>
+	bool removeComponent() 
+	{
+		ComponentType type = TComponent::type;
+
+		if ((_componentBitmask & type) != type)
+			return false;
+
+		_componentBitmask &= ~type;
+
+		_componentsByType.erase(type);
+
+		return true;
+	}
 
 private:
 	int _id;
 	std::string _name;
+	Vector2d _position;
 	uint32_t _componentBitmask;
 
 	Scene& _scene;

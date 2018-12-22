@@ -11,12 +11,15 @@ enum ComponentType
 };
 
 class Actor;
+class ResourceManager;
 
 class ActorComponent 
 {
 public:
 	ActorComponent(Actor& actor);
 	virtual ~ActorComponent();
+
+	virtual void load(ResourceManager& resourceManager);
 
 protected:
 	Actor& _actor;

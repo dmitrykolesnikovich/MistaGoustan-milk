@@ -34,17 +34,6 @@ int main(int argc, char* argv[])
 	if (!game.init("Butt Dragons", 640, 480, SDL_WINDOW_SHOWN))
 		return -1;
 
-	auto scene = new Scene(game);
-	auto actor = scene->spawnActor("steve");
-
-	bool added = actor->addComponent<Sprite>(SPRITE);
-
-	auto sprite = actor->getComponent<Sprite>(SPRITE);
-
-	auto ac = scene->findActor("steve");
-
-	game.loadLevel("res/testmap.xml");
-
 	fpsTimer.start();
 
 	while (game.isRunning()) 
