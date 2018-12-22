@@ -156,6 +156,7 @@
     <ClCompile Include="src\core\ActorComponent.cpp" />
     <ClCompile Include="src\core\Game.cpp" />
     <ClCompile Include="src\core\GameObject.cpp" />
+    <ClCompile Include="src\core\Scene.cpp" />
     <ClCompile Include="src\externals\tinyxml2.cpp" />
     <ClCompile Include="src\utilities\IdGenerator.cpp" />
     <ClCompile Include="src\core\Level.cpp" />
@@ -171,7 +172,9 @@
     <ClInclude Include="src\core\ActorComponent.h" />
     <ClInclude Include="src\core\Game.h" />
     <ClInclude Include="src\core\GameObject.h" />
+    <ClInclude Include="src\core\Scene.h" />
     <ClInclude Include="src\externals\tinyxml2.h" />
+    <ClInclude Include="src\systems\System.h" />
     <ClInclude Include="src\utilities\IdGenerator.h" />
     <ClInclude Include="src\core\Level.h" />
     <ClInclude Include="src\utilities\LevelLoader.h" />

@@ -1,5 +1,9 @@
 #include "IdGenerator.h"
 
+IdGenerator::IdGenerator()
+{
+}
+
 unsigned int IdGenerator::popId()
 {
 	if (_availableIds.empty())

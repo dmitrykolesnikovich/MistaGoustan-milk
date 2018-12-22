@@ -1,12 +1,12 @@
 #ifndef _ID_GENERATOR_
-#define _ID_GENERATOR
+#define _ID_GENERATOR_
 
 #include <vector>
 
 class IdGenerator
 {
 public:
-	IdGenerator() = default;
+	IdGenerator();
 
 	// Get unique id.
 	unsigned int popId();

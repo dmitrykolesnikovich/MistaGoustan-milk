@@ -9,6 +9,7 @@
 #include "src/utilities/Timer.h"
 
 #include "src\core\Actor.h"
+#include "src\core\Scene.h"
 #include "src\components\Sprite.h"
 
 GameObject* createPlayer() 
@@ -33,13 +34,14 @@ int main(int argc, char* argv[])
 	if (!game.init("Butt Dragons", 640, 480, SDL_WINDOW_SHOWN))
 		return -1;
 
+	auto scene = new Scene(game);
+	auto actor = scene->spawnActor("steve");
 
-	auto actor = new Actor(game);
 	bool added = actor->addComponent<Sprite>(SPRITE);
 
 	auto sprite = actor->getComponent<Sprite>(SPRITE);
 
-	bool removed = actor->removeComponent(SPRITE);
+	auto ac = scene->findActor("steve");
 
 	game.loadLevel("res/testmap.xml");
 

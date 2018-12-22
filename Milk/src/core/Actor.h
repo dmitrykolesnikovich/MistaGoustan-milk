@@ -7,13 +7,17 @@
 
 #include "ActorComponent.h"
 
-class Game;
+class Scene;
 
 class Actor
 {
 public:
-	Actor(Game& game);
+	friend class Scene;
+
+	Actor(Scene& scene);
 	~Actor();
+
+	std::string getName() const;
 
 	template <class TComponent>
 	bool addComponent(ComponentType type) 
@@ -46,7 +50,7 @@ private:
 	std::string _name;
 	uint32_t _componentBitmask;
 
-	Game& _game;
+	Scene& _scene;
 
 	std::unordered_map<ComponentType, std::unique_ptr<ActorComponent>> _componentsByType;
 };
