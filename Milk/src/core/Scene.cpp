@@ -13,7 +13,7 @@ Scene::~Scene()
 
 Actor* Scene::spawnActor(const std::string& name)
 {
-	int id = _idGenerator.popId();
+	int id = idGenerator_.popId();
 
 	auto actor = std::unique_ptr<Actor>(new Actor(*this));
 	actor->_id = id;
@@ -21,24 +21,24 @@ Actor* Scene::spawnActor(const std::string& name)
 
 	auto ptr = actor.get();
 
-	_actorsToSpawn.emplace_back(std::move(actor));
+	actorsToSpawn_.emplace_back(std::move(actor));
 
 	return ptr;
 }
 
 bool Scene::destroyActor(int id)
 {
-	if (_actorsById.find(id) == _actorsById.end())
+	if (actorsById_.find(id) == actorsById_.end())
 		return false;
 
-	_actorsToDestroy.emplace_back(id);
+	actorsToDestroy_.emplace_back(id);
 
 	return true;
 }
 
 Actor* Scene::findActor(const std::string& name)
 {
-	for (auto& it : _actorsById) 
+	for (auto& it : actorsById_) 
 	{
 		if (it.second->getName() == name)
 			return it.second.get();
@@ -49,25 +49,27 @@ Actor* Scene::findActor(const std::string& name)
 
 void Scene::update()
 {
-	for (auto& it : _actorsToDestroy) 
+	for (auto& it : actorsToDestroy_) 
 	{
-		_actorsById.erase(it);
+		actorsById_.erase(it);
 	}
 
-	_actorsToDestroy.clear();
+	actorsToDestroy_.clear();
 
 	auto& resourceManager = _game.getResourceManager();
 
-	for (auto& it : _actorsToSpawn)
+	for (auto& it : actorsToSpawn_)
 	{
-		it->load(resourceManager);
-		_actorsById.insert(std::make_pair(it->getId(), std::move(it)));
+		Actor* rawPtr = it.get();
+		actorsById_.insert(std::make_pair(it->getId(), std::move(it)));
+
+		_game.onActorAdded(*rawPtr);
 	}
 
-	_actorsToSpawn.clear();
+	actorsToSpawn_.clear();
 }
 
 const std::unordered_map<int, std::unique_ptr<Actor>>& Scene::getAllActors()
 {
-	return _actorsById;
+	return actorsById_;
 }

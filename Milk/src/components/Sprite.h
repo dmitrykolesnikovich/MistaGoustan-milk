@@ -16,7 +16,7 @@ public:
 	Sprite(Actor& actor);
 	~Sprite();
 
-	void load(ResourceManager& resourceManager) override;
+	void load(ResourceManager& resourceManager);
 
 	void setTextureName(const std::string& name);
 

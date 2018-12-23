@@ -24,16 +24,7 @@
     <ClCompile Include="src\core\Game.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\Level.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\GameObject.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="src\utilities\IdGenerator.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utilities\LevelLoader.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
     <ClCompile Include="src\utilities\ResourceManager.cpp">
@@ -42,9 +33,6 @@
     <ClCompile Include="src\utilities\Texture.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\Player.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\externals\tinyxml2.cpp" />
     <ClCompile Include="src\utilities\Timer.cpp" />
@@ -52,21 +40,11 @@
     <ClCompile Include="src\core\ActorComponent.cpp" />
     <ClCompile Include="src\components\Sprite.cpp" />
     <ClCompile Include="src\core\Scene.cpp" />
-    <ClCompile Include="src\core\System.cpp" />
     <ClCompile Include="src\systems\Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\Level.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\GameObject.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utilities\LevelLoader.h">
-      <Filter>Utilities</Filter>
     </ClInclude>
     <ClInclude Include="src\utilities\IdGenerator.h">
       <Filter>Utilities</Filter>
@@ -82,9 +60,6 @@
     </ClInclude>
     <ClInclude Include="src\math\Vector2d.h">
       <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Player.h">
-      <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="src\externals\tinyxml2.h" />
     <ClInclude Include="src\utilities\Timer.h" />

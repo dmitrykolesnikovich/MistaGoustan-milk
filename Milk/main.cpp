@@ -3,23 +3,14 @@
 #include <SDL.h>
 
 #include "src/core/Game.h"
-#include "src/core/GameObject.h"
-#include "src/core/Level.h"
-#include "src/game/Player.h"
 #include "src/utilities/Timer.h"
 
 #include "src\core\Actor.h"
 #include "src\core\Scene.h"
 #include "src\components\Sprite.h"
 
-GameObject* createPlayer() 
-{
-	return new Player("res/steve.png");
-}
-
 int main(int argc, char* argv[])
 {
-
 	const int SCREEN_FPS = 60;
 	const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
 
@@ -29,7 +20,6 @@ int main(int argc, char* argv[])
 	int countedFrames = 0;
 
 	Game& game = Game::getInstance();
-	game.registerObjectFactory("player", &createPlayer);
 
 	if (!game.init("Butt Dragons", 640, 480, SDL_WINDOW_SHOWN))
 		return -1;

@@ -1,7 +1,7 @@
 #include "ActorComponent.h"
 
 ActorComponent::ActorComponent(Actor& actor)
-	: _actor(actor)
+	: actor_(actor)
 {
 }
 
@@ -9,6 +9,7 @@ ActorComponent::~ActorComponent()
 {
 }
 
-void ActorComponent::load(ResourceManager& resourceManager)
+Actor& ActorComponent::getActor()
 {
+	return actor_;
 }

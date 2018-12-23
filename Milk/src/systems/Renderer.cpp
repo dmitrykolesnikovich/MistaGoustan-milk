@@ -6,26 +6,36 @@
 #include "../core/Scene.h"
 #include "../utilities/Texture.h"
 
-Renderer::Renderer(SDL_Renderer& renderer)
-	: _renderer(renderer)
+Renderer::Renderer(SDL_Renderer& renderer, ResourceManager& resourceManager)
+	: sdlRenderer_(renderer), resourceManager_(resourceManager)
+{
+}
+
+void Renderer::onActorAdded(Actor& actor)
+{
+	Sprite* sprite = actor.getComponent<Sprite>();
+	if (sprite != nullptr) 
+	{
+		sprite->load(resourceManager_);
+		spritesByActorId_.insert(std::make_pair(actor.getId(), sprite));
+	}
+}
+
+void Renderer::onActorDestroyed(Actor & actor)
+{
+}
+
+void Renderer::onActorModified(Actor & actor)
 {
 }
 
 void Renderer::update(Scene& scene)
 {
-	auto& actorsById = scene.getAllActors();
-
-	for (auto& it : actorsById) 
+	for (auto it : spritesByActorId_) 
 	{
-		auto actor = it.second.get();
-		auto sprite = actor->getComponent<Sprite>();
-
-		if (sprite == nullptr)
-			continue;
-
-		auto actorPosition = actor->getPosition();
-		auto texture = sprite->getTexture();
-		auto sourceRect = sprite->getSourceRect();
+		auto actorPosition = it.second->getActor().getPosition();
+		auto texture = it.second->getTexture();
+		auto sourceRect = it.second->getSourceRect();
 
 		SDL_Rect destination;
 		destination.x = actorPosition.x;
@@ -33,6 +43,6 @@ void Renderer::update(Scene& scene)
 		destination.w = sourceRect.w;
 		destination.h = sourceRect.h;
 
-		SDL_RenderCopyEx(&_renderer, texture->get(), &sourceRect, &destination, 0, nullptr, SDL_FLIP_NONE);
+		SDL_RenderCopyEx(&sdlRenderer_, texture->get(), &sourceRect, &destination, 0, nullptr, SDL_FLIP_NONE);
 	}
 }

@@ -30,9 +30,9 @@ public:
 private:
 	Game& _game;
 
-	std::unordered_map<int, std::unique_ptr<Actor>> _actorsById;
-	std::vector<std::unique_ptr<Actor>> _actorsToSpawn;
-	std::vector<int> _actorsToDestroy;
+	std::unordered_map<int, std::unique_ptr<Actor>> actorsById_;
+	std::vector<std::unique_ptr<Actor>> actorsToSpawn_;
+	std::vector<int> actorsToDestroy_;
 
-	IdGenerator _idGenerator;
+	IdGenerator idGenerator_;
 };

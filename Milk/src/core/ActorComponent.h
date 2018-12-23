@@ -1,6 +1,7 @@
-#pragma once
+#ifndef _COMPONENT_TYPE_
+#define _COMPONENT_TYPE_
 
-enum ComponentType 
+enum ComponentType
 {
 	BEHAVIOR = 1 << 0,
 	SPRITE = 1 << 1,
@@ -13,14 +14,16 @@ enum ComponentType
 class Actor;
 class ResourceManager;
 
-class ActorComponent 
+class ActorComponent
 {
 public:
 	ActorComponent(Actor& actor);
 	virtual ~ActorComponent();
 
-	virtual void load(ResourceManager& resourceManager);
+	Actor& getActor();
 
 protected:
-	Actor& _actor;
+	Actor& actor_;
 };
+
+#endif

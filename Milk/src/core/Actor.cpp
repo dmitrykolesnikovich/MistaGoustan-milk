@@ -35,11 +35,3 @@ void Actor::setPosition(Vector2d position)
 	_position.x = position.x;
 	_position.y = position.y;
 }
-
-void Actor::load(ResourceManager& resourceManager)
-{
-	for (auto& it : _componentsByType) 
-	{
-		it.second->load(resourceManager);
-	}
-}

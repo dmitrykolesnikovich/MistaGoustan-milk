@@ -5,12 +5,8 @@
 #include <SDL.h>
 #include <SDL_events.h>
 
-#include "GameObject.h"
-#include "Level.h"
-
 #include "../utilities/ResourceManager.h"
 #include "../utilities/Texture.h"
-#include "../utilities/LevelLoader.h"
 #include "Scene.h"
 #include "../components/Sprite.h"
 
@@ -60,18 +56,17 @@ bool Game::init(const std::string& title, unsigned int width, unsigned int heigh
 
 	_isRunning = true;
 
-	_resourceManager = new ResourceManager(_renderer);
-	_levelLoader = new LevelLoader(*this);
+	_resourceManager = std::unique_ptr<ResourceManager>(new ResourceManager(_renderer));
 
 	// test
-	_scene = new Scene(*this);
-	auto actor = _scene->spawnActor("steve");
+	_currentScene = std::unique_ptr<Scene>(new Scene(*this));
+	auto actor = _currentScene->spawnActor("steve");
 	actor->addComponent<Sprite>();
 	auto sprite = actor->getComponent<Sprite>();
 	sprite->setTextureName("res/steve.png");
 	sprite->setSourceRect(0, 0, 64, 64);
 
-	_renderSystem = std::unique_ptr<Renderer>(new Renderer(*_renderer));
+	_renderSystem = std::unique_ptr<Renderer>(new Renderer(*_renderer, *_resourceManager));
 	
 	std::cout << "Game started" << std::endl;
 	std::cout << "//////////////////" << std::endl;
@@ -100,14 +95,14 @@ void Game::handleEvents()
 
 void Game::update()
 {
-	_scene->update();
+	_currentScene->update();
 }
 
 void Game::render()
 {
 	SDL_RenderClear(_renderer);
 
-	_renderSystem->update(*_scene);
+	_renderSystem->update(*_currentScene);
 
 	SDL_RenderPresent(_renderer);
 }
@@ -119,39 +114,21 @@ bool Game::isRunning() const
 
 SDL_Renderer& Game::getRenderer() const
 {
+	SDL_assert(_renderer != nullptr);
 	return *_renderer;
 }
 
 ResourceManager& Game::getResourceManager() const 
 {
-	return *_resourceManager;
-}
-
-void Game::loadLevel(const std::string& filename)
-{
-	_nextLevel = _levelLoader->load(filename);
+	SDL_assert(_resourceManager);
+	return *(_resourceManager.get());
 }
 
 void Game::shutDown()
 {
 	std::cout << "Freeing Resources" << std::endl;
 	std::cout << "//////////////////" << std::endl;
-
-	if (_currentLevel != nullptr)
-		_currentLevel->unload();
-
-	delete _currentLevel;
-	_currentLevel = nullptr;
-
-	delete _nextLevel;
-	_nextLevel = nullptr;
-
-	delete _resourceManager;
-	_resourceManager = nullptr;
-
-	delete _levelLoader;
-	_levelLoader = nullptr;
-
+	
 	SDL_DestroyRenderer(_renderer);
 	_renderer = nullptr;
 
@@ -164,12 +141,7 @@ void Game::shutDown()
 	std::cout << "//////////////////" << std::endl;
 }
 
-void Game::registerObjectFactory(const std::string& name, std::function<GameObject*(void)> factoryMethod)
+void Game::onActorAdded(Actor& actor)
 {
-	_gameObjectFactories[name] = factoryMethod;
-}
-
-GameObject* Game::createFromFactory(const std::string& name)
-{
-	return _gameObjectFactories[name]();
+	_renderSystem->onActorAdded(actor);
 }

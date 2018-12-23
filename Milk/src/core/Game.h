@@ -7,16 +7,15 @@
 #include <unordered_map>
 #include <memory>
 
-struct SDL_Window;
-struct SDL_Renderer;
-
-class GameObject;
-class Level;
-class LevelLoader;
-class ResourceManager;
-class Scene;
+#include "Scene.h"
 
 #include "../systems/Renderer.h"
+#include "../utilities/ResourceManager.h"
+
+class Actor;
+
+struct SDL_Window;
+struct SDL_Renderer;
 
 class Game
 {
@@ -24,18 +23,19 @@ public:
 	~Game();
 
 	// Returns a reference to the single instance of Game.
+	// Should only be used at a high level (main.cpp), and passed as an argument to all dependents.
 	static Game& getInstance();
 
 	// Initializes game systems, window and renderer.
 	bool init(const std::string& title, unsigned int width, unsigned int height, int flags);
 
-	// Handles input events.
+	// Handles user input events.
 	void handleEvents();
 
-	// Updates the current level.
+	// Updates the games systems.
 	void update();
 
-	// Renders the current level.
+	// Renders the games current scene.
 	void render();
 
 	// Returns true if game is running.
@@ -47,34 +47,21 @@ public:
 	// Returns a reference to the games resource manager.
 	ResourceManager& getResourceManager() const;
 
-	// Loads an XML based level from resource file.
-	void loadLevel(const std::string& filename);
-
 	// Shuts down game systems and frees resources.
 	void shutDown();
 
-	// Register a game object factory method.
-	void registerObjectFactory(const std::string& name, std::function<GameObject*(void)> factoryMethod);
-
-	// Create a game object from registered factory method.
-	GameObject* createFromFactory(const std::string& name);
+	void onActorAdded(Actor& actor);
 
 private:
 	Game() {}
 
 	SDL_Window* _window;
 	SDL_Renderer* _renderer;
-	ResourceManager* _resourceManager;
-	LevelLoader* _levelLoader;
 
-	Level* _currentLevel;
-	Level* _nextLevel;
-
+	std::unique_ptr<ResourceManager> _resourceManager;
 	std::unique_ptr<Renderer> _renderSystem;
 
-	Scene* _scene;
-
-	std::unordered_map<std::string, std::function<GameObject*(void)>> _gameObjectFactories;
+	std::unique_ptr<Scene> _currentScene;
 
 	bool _isRunning;
 };

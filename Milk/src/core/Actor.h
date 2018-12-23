@@ -30,8 +30,6 @@ public:
 
 	void setPosition(Vector2d position);
 
-	void load(ResourceManager& resourceManager);
-
 	template <class TComponent>
 	bool addComponent() 
 	{
