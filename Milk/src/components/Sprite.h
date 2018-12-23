@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _SPRITE_
+#define _SPRITE_
 
 #include <string>
 
@@ -8,7 +9,7 @@
 
 class Texture;
 
-class Sprite : public ActorComponent 
+class Sprite : public ActorComponent
 {
 public:
 	static const ComponentType type;
@@ -29,7 +30,9 @@ public:
 	SDL_Rect getSourceRect() const;
 
 private:
-	std::string _textureName;
-	Texture* _texture;
-	SDL_Rect _sourceRect;
+	std::string textureName_;
+	Texture* texture_;
+	SDL_Rect sourceRect_;
 };
+
+#endif
