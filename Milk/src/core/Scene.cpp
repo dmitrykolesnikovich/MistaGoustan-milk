@@ -36,7 +36,7 @@ bool Scene::destroyActor(int id)
 	return true;
 }
 
-Actor* Scene::findActor(const std::string& name)
+Actor* Scene::findActor(const std::string& name) const
 {
 	for (auto& it : actorsById_) 
 	{

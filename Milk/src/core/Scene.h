@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _SCENE_
+#define _SCENE_
 
 #include <memory>
 #include <string>
@@ -11,7 +12,7 @@
 
 class Game;
 
-class Scene 
+class Scene
 {
 public:
 	Scene(Game& game);
@@ -26,7 +27,7 @@ public:
 
 	// Attempts to find an actor with the given name.
 	// Returns nullptr if not actor is found.
-	Actor* findActor(const std::string& name);
+	Actor* findActor(const std::string& name) const;
 
 	// Updates the scenes internal lists and notifies game when actors have been spawned, destroyed, or modified.
 	void update();
@@ -40,3 +41,5 @@ private:
 
 	IdGenerator idGenerator_;
 };
+
+#endif

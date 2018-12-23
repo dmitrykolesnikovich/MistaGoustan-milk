@@ -1,5 +1,5 @@
-#ifndef _COMPONENT_TYPE_
-#define _COMPONENT_TYPE_
+#ifndef _ACTOR_COMPONENT_
+#define _ACTOR_COMPONENT_
 
 enum ComponentType
 {
@@ -21,7 +21,7 @@ public:
 	virtual ~ActorComponent();
 
 	// Returns the components actor.
-	Actor& getActor();
+	Actor& getActor() const;
 
 protected:
 	Actor& actor_;

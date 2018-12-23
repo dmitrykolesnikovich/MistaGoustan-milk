@@ -55,7 +55,7 @@ public:
 	// Attempts to get a component of the given type.
 	// Returns nullptr if no component is found.
 	template <class TComponent>
-	TComponent* getComponent() 
+	TComponent* getComponent() const
 	{
 		ComponentType type = TComponent::type;
 
