@@ -10,6 +10,7 @@
 #include "Scene.h"
 
 #include "../systems/Renderer.h"
+#include "../systems/Physics.h"
 #include "../utilities/ResourceManager.h"
 
 class Actor;
@@ -63,6 +64,7 @@ private:
 	SDL_Renderer* sdlRenderer_;
 
 	std::unique_ptr<ResourceManager> resourceManager_;
+	std::unique_ptr<Physics> physicsSystem_;
 	std::unique_ptr<Renderer> renderSystem_;
 
 	std::unique_ptr<Scene> currentScene_;

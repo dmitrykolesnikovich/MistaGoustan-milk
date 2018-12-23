@@ -31,6 +31,14 @@ struct Vector2d
 
 		return (*this);
 	}
+
+	Vector2d& operator+=(Vector2d v)
+	{
+		x += v.x;
+		y += v.y;
+
+		return (*this);
+	}
 };
 
 inline Vector2d operator *(const Vector2d& v, float s) 

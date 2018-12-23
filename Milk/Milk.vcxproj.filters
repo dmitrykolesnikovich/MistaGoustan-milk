@@ -41,6 +41,8 @@
     <ClCompile Include="src\components\Sprite.cpp" />
     <ClCompile Include="src\core\Scene.cpp" />
     <ClCompile Include="src\systems\Renderer.cpp" />
+    <ClCompile Include="src\components\Velocity.cpp" />
+    <ClCompile Include="src\systems\Physics.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.h">
@@ -68,5 +70,7 @@
     <ClInclude Include="src\components\Sprite.h" />
     <ClInclude Include="src\core\Scene.h" />
     <ClInclude Include="src\systems\Renderer.h" />
+    <ClInclude Include="src\components\Velocity.h" />
+    <ClInclude Include="src\systems\Physics.h" />
   </ItemGroup>
 </Project>
