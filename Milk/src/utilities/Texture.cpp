@@ -3,26 +3,26 @@
 #include <SDL.h>
 
 Texture::Texture(SDL_Texture* sdlTexture, int width, int height)
-	: _sdlTexture(sdlTexture), _width(width), _height(height)
+	: sdlTexture_(sdlTexture), width_(width), height_(height)
 {
 }
 
 Texture::~Texture()
 {
-	SDL_DestroyTexture(_sdlTexture);
+	SDL_DestroyTexture(sdlTexture_);
 }
 
 SDL_Texture* Texture::get() const
 {
-	return _sdlTexture;
+	return sdlTexture_;
 }
 
 int Texture::getWidth() const
 {
-	return _width;
+	return width_;
 }
 
 int Texture::getHeight() const
 {
-	return _height;
+	return height_;
 }

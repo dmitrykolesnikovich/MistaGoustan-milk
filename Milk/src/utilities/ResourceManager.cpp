@@ -11,7 +11,7 @@
 
 ResourceManager::ResourceManager(SDL_Renderer* renderer)
 {
-	_renderer = renderer;
+	sdlRenderer_ = renderer;
 }
 
 ResourceManager::~ResourceManager()
@@ -21,9 +21,9 @@ ResourceManager::~ResourceManager()
 
 Texture* ResourceManager::loadTexture(const std::string& name)
 {
-	std::unordered_map<std::string, Texture*>::const_iterator found = _textureCache.find(name);
+	std::unordered_map<std::string, Texture*>::const_iterator found = textureCache_.find(name);
 	
-	if (found != _textureCache.end())
+	if (found != textureCache_.end())
 		return found->second;
 
 	SDL_Surface* surf = IMG_Load(name.c_str());
@@ -34,7 +34,7 @@ Texture* ResourceManager::loadTexture(const std::string& name)
 		return nullptr;
 	}
 
-	SDL_Texture* sdlTex = SDL_CreateTextureFromSurface(_renderer, surf);
+	SDL_Texture* sdlTex = SDL_CreateTextureFromSurface(sdlRenderer_, surf);
 
 	SDL_FreeSurface(surf);
 
@@ -47,14 +47,14 @@ Texture* ResourceManager::loadTexture(const std::string& name)
 
 	std::pair<std::string, Texture*> loadedTexture(name, texture);
 
-	_textureCache.insert(loadedTexture);
+	textureCache_.insert(loadedTexture);
 
 	return texture;
 }
 
 void ResourceManager::unloadTextures()
 {
-	for (auto it = _textureCache.begin(); it != _textureCache.end(); ++it) 
+	for (auto it = textureCache_.begin(); it != textureCache_.end(); ++it) 
 	{
 		delete it->second;
 		it->second = nullptr;

@@ -21,9 +21,9 @@ public:
 	void unloadTextures();
 
 private:
-	SDL_Renderer* _renderer;
+	SDL_Renderer* sdlRenderer_;
 
-	std::unordered_map<std::string, Texture*> _textureCache;
+	std::unordered_map<std::string, Texture*> textureCache_;
 };
 
 #endif

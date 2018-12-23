@@ -19,10 +19,10 @@ public:
 	int getHeight() const;
 
 private:
-	SDL_Texture* _sdlTexture;
+	SDL_Texture* sdlTexture_;
 
-	int _width;
-	int _height;
+	int width_;
+	int height_;
 };
 
 #endif

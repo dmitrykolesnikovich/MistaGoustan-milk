@@ -15,8 +15,8 @@ public:
 	void pushId(unsigned int id);
 
 private:
-	std::vector<unsigned int> _availableIds;
-	unsigned int _count;
+	std::vector<unsigned int> availableIds_;
+	unsigned int count_;
 };
 
 #endif

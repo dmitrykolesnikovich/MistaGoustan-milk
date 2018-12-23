@@ -17,16 +17,22 @@ public:
 	Sprite(Actor& actor);
 	~Sprite();
 
+	// Load the sprites texture.
 	void load(ResourceManager& resourceManager);
 
+	// Set the sprites texture asset name.
 	void setTextureName(const std::string& name);
 
+	// Get the sprites texture.
 	Texture* getTexture() const;
 
+	// Set the sprites source rectangle.
 	void setSourceRect(int x, int y, int width, int height);
 
+	// Set the sprites source rectangle.
 	void setSourceRect(SDL_Rect rect);
 
+	// Get the sprites source rectangle.
 	SDL_Rect getSourceRect() const;
 
 private:

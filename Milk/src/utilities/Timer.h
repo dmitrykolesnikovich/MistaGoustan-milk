@@ -20,11 +20,11 @@ public:
 	bool isPaused();
 
 private:
-	Uint32 _startTicks;
-	Uint32 _pausedTicks;
+	Uint32 startTicks_;
+	Uint32 pausedTicks_;
 
-	bool _paused;
-	bool _started;
+	bool paused_;
+	bool started_;
 };
 
 #endif

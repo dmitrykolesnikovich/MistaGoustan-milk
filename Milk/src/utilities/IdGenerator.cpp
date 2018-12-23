@@ -6,22 +6,22 @@ IdGenerator::IdGenerator()
 
 unsigned int IdGenerator::popId()
 {
-	if (_availableIds.empty())
-		return _count++;
+	if (availableIds_.empty())
+		return count_++;
 
-	unsigned int id = _availableIds.back();
-	_availableIds.pop_back();
+	unsigned int id = availableIds_.back();
+	availableIds_.pop_back();
 
 	return id;
 }
 
 void IdGenerator::pushId(unsigned int id)
 {
-	for (auto& it : _availableIds)
+	for (auto& it : availableIds_)
 	{
 		if (it == id)
 			return;
 	}
 
-	_availableIds.emplace_back(id);
+	availableIds_.emplace_back(id);
 }

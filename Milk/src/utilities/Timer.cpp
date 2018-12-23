@@ -2,11 +2,11 @@
 
 Timer::Timer()
 {
-	_startTicks = 0;
-	_pausedTicks = 0;
+	startTicks_ = 0;
+	pausedTicks_ = 0;
 
-	_paused = false;
-	_started = false;
+	paused_ = false;
+	started_ = false;
 }
 
 Timer::~Timer()
@@ -15,44 +15,44 @@ Timer::~Timer()
 
 void Timer::start()
 {
-	_started = true;
+	started_ = true;
 
-	_paused = false;
+	paused_ = false;
 
-	_startTicks = SDL_GetTicks();
-	_pausedTicks = 0;
+	startTicks_ = SDL_GetTicks();
+	pausedTicks_ = 0;
 }
 
 void Timer::stop()
 {
-	_started = false;
+	started_ = false;
 
-	_paused = false;
+	paused_ = false;
 
-	_startTicks = 0;
-	_pausedTicks = 0;
+	startTicks_ = 0;
+	pausedTicks_ = 0;
 }
 
 void Timer::pause()
 {
-	if (_started && !_paused)
+	if (started_ && !paused_)
 	{
-		_paused = true;
+		paused_ = true;
 
-		_pausedTicks = SDL_GetTicks() - _startTicks;
-		_startTicks = 0;
+		pausedTicks_ = SDL_GetTicks() - startTicks_;
+		startTicks_ = 0;
 	}
 }
 
 void Timer::unpause()
 {
-	if (_started && _paused)
+	if (started_ && paused_)
 	{
-		_paused = false;
+		paused_ = false;
 
-		_startTicks = SDL_GetTicks() - _pausedTicks;
+		startTicks_ = SDL_GetTicks() - pausedTicks_;
 
-		_pausedTicks = 0;
+		pausedTicks_ = 0;
 	}
 }
 
@@ -61,15 +61,15 @@ Uint32 Timer::getTicks()
 	//The actual timer time
 	Uint32 time = 0;
 
-	if (_started)
+	if (started_)
 	{
-		if (_paused)
+		if (paused_)
 		{
-			time = _pausedTicks;
+			time = pausedTicks_;
 		}
 		else
 		{
-			time = SDL_GetTicks() - _startTicks;
+			time = SDL_GetTicks() - startTicks_;
 		}
 	}
 
@@ -78,10 +78,10 @@ Uint32 Timer::getTicks()
 
 bool Timer::isStarted()
 {
-	return _started;
+	return started_;
 }
 
 bool Timer::isPaused()
 {
-	return _paused && _started;
+	return paused_ && started_;
 }
