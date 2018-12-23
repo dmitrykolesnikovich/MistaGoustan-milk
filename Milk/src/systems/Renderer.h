@@ -3,23 +3,22 @@
 
 #include <unordered_map>
 
-#include "../core/System.h"
-
+class Actor;
 class ResourceManager;
 class Sprite;
 
 struct SDL_Renderer;
 
-class Renderer : public System
+class Renderer
 {
 public:
 	Renderer(SDL_Renderer& renderer, ResourceManager& resourceManager);
 
-	virtual void onActorAdded(Actor& actor) override;
-	virtual void onActorDestroyed(Actor& actor) override;
-	virtual void onActorModified(Actor& actor) override;
+	void onActorAdded(Actor& actor);
+	void onActorDestroyed(Actor& actor);
+	void onActorModified(Actor& actor);
 
-	virtual void update(Scene& scene) override;
+	void render();
 
 private:
 	SDL_Renderer& sdlRenderer_;

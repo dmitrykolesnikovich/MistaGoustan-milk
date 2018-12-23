@@ -107,7 +107,7 @@ void Game::render()
 {
 	SDL_RenderClear(sdlRenderer_);
 
-	renderSystem_->update(*currentScene_);
+	renderSystem_->render();
 
 	SDL_RenderPresent(sdlRenderer_);
 }

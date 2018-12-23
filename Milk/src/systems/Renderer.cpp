@@ -33,7 +33,7 @@ void Renderer::onActorModified(Actor & actor)
 {
 }
 
-void Renderer::update(Scene& scene)
+void Renderer::render()
 {
 	for (auto it : spritesByActorId_) 
 	{
