@@ -20,68 +20,79 @@ public:
 	Actor(Scene& scene);
 	~Actor();
 
+	// Returns the actors unique id.
 	int getId() const;
 
+	// Returns the actors name.
 	std::string getName() const;
 
+	// Returns the actors position.
 	Vector2d getPosition() const;
 
+	// Sets the actors position.
 	void setPosition(float x, float y);
 
+	// Sets the actors position.
 	void setPosition(Vector2d position);
 
+	// Attempts to add a component of the given type.
+	// Returns true if successful.
 	template <class TComponent>
 	bool addComponent() 
 	{
 		ComponentType type = TComponent::type;
 
-		if ((_componentBitmask & type) == type)
+		if ((componentBitmask_ & type) == type)
 			return false;
 
-		_componentBitmask |= type;
+		componentBitmask_ |= type;
 
-		_componentsByType.insert(std::make_pair(type, std::unique_ptr<ActorComponent>(new TComponent(*this))));
+		componentsByType_.insert(std::make_pair(type, std::unique_ptr<ActorComponent>(new TComponent(*this))));
 
 		return true;
 	}
 	
+	// Attempts to get a component of the given type.
+	// Returns nullptr if no component is found.
 	template <class TComponent>
 	TComponent* getComponent() 
 	{
 		ComponentType type = TComponent::type;
 
-		if ((_componentBitmask & type) != type)
+		if ((componentBitmask_ & type) != type)
 			return nullptr;
 
-		auto& component = _componentsByType.at(type);
+		auto& component = componentsByType_.at(type);
 
 		return dynamic_cast<TComponent*>(component.get());
 	}
 
+	// Attempts to remove a component of the given type.
+	// Returns true if successful.
 	template <class TComponent>
 	bool removeComponent() 
 	{
 		ComponentType type = TComponent::type;
 
-		if ((_componentBitmask & type) != type)
+		if ((componentBitmask_ & type) != type)
 			return false;
 
-		_componentBitmask &= ~type;
+		componentBitmask_ &= ~type;
 
-		_componentsByType.erase(type);
+		componentsByType_.erase(type);
 
 		return true;
 	}
 
 private:
-	int _id;
-	std::string _name;
-	Vector2d _position;
-	uint32_t _componentBitmask;
+	int id_;
+	std::string name_;
+	Vector2d position_;
+	uint32_t componentBitmask_;
 
-	Scene& _scene;
+	Scene& scene_;
 
-	std::unordered_map<ComponentType, std::unique_ptr<ActorComponent>> _componentsByType;
+	std::unordered_map<ComponentType, std::unique_ptr<ActorComponent>> componentsByType_;
 };
 
 #endif

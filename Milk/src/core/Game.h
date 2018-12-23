@@ -50,20 +50,24 @@ public:
 	// Shuts down game systems and frees resources.
 	void shutDown();
 
-	void onActorAdded(Actor& actor);
+	// Called when an actor has been spawned into the current scene.
+	void onActorSpawned(Actor& actor);
+
+	// Called when an actor has been destroyed in the current scene.
+	void onActorDestroyed(Actor& actor);
 
 private:
 	Game() {}
 
-	SDL_Window* _window;
-	SDL_Renderer* _renderer;
+	SDL_Window* window_;
+	SDL_Renderer* sdlRenderer_;
 
-	std::unique_ptr<ResourceManager> _resourceManager;
-	std::unique_ptr<Renderer> _renderSystem;
+	std::unique_ptr<ResourceManager> resourceManager_;
+	std::unique_ptr<Renderer> renderSystem_;
 
-	std::unique_ptr<Scene> _currentScene;
+	std::unique_ptr<Scene> currentScene_;
 
-	bool _isRunning;
+	bool isRunning_;
 };
 
 #endif

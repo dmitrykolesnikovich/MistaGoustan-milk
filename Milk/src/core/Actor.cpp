@@ -1,7 +1,7 @@
 #include "Actor.h"
 
 Actor::Actor(Scene& scene)
-	: _scene(scene)
+	: scene_(scene)
 {
 }
 
@@ -11,27 +11,27 @@ Actor::~Actor()
 
 int Actor::getId() const
 {
-	return _id;
+	return id_;
 }
 
 std::string Actor::getName() const
 {
-	return _name;
+	return name_;
 }
 
 Vector2d Actor::getPosition() const
 {
-	return _position;
+	return position_;
 }
 
 void Actor::setPosition(float x, float y)
 {
-	_position.x = x;
-	_position.y = y;
+	position_.x = x;
+	position_.y = y;
 }
 
 void Actor::setPosition(Vector2d position)
 {
-	_position.x = position.x;
-	_position.y = position.y;
+	position_.x = position.x;
+	position_.y = position.y;
 }

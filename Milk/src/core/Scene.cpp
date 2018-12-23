@@ -3,7 +3,7 @@
 #include "Game.h"
 
 Scene::Scene(Game& game)
-	: _game(game)
+	: game_(game)
 {
 }
 
@@ -16,8 +16,8 @@ Actor* Scene::spawnActor(const std::string& name)
 	int id = idGenerator_.popId();
 
 	auto actor = std::unique_ptr<Actor>(new Actor(*this));
-	actor->_id = id;
-	actor->_name = name;
+	actor->id_ = id;
+	actor->name_ = name;
 
 	auto ptr = actor.get();
 
@@ -51,25 +51,24 @@ void Scene::update()
 {
 	for (auto& it : actorsToDestroy_) 
 	{
+		auto& actor = *actorsById_.at(it);
+
+		game_.onActorDestroyed(actor);
+
+		idGenerator_.pushId(it);
+
 		actorsById_.erase(it);
 	}
 
 	actorsToDestroy_.clear();
-
-	auto& resourceManager = _game.getResourceManager();
 
 	for (auto& it : actorsToSpawn_)
 	{
 		Actor* rawPtr = it.get();
 		actorsById_.insert(std::make_pair(it->getId(), std::move(it)));
 
-		_game.onActorAdded(*rawPtr);
+		game_.onActorSpawned(*rawPtr);
 	}
 
 	actorsToSpawn_.clear();
-}
-
-const std::unordered_map<int, std::unique_ptr<Actor>>& Scene::getAllActors()
-{
-	return actorsById_;
 }

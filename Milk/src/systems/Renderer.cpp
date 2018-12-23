@@ -21,8 +21,12 @@ void Renderer::onActorAdded(Actor& actor)
 	}
 }
 
-void Renderer::onActorDestroyed(Actor & actor)
+void Renderer::onActorDestroyed(Actor& actor)
 {
+	if (spritesByActorId_.find(actor.getId()) != spritesByActorId_.end()) 
+	{
+		spritesByActorId_.erase(actor.getId());
+	}
 }
 
 void Renderer::onActorModified(Actor & actor)

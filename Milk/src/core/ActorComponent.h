@@ -20,6 +20,7 @@ public:
 	ActorComponent(Actor& actor);
 	virtual ~ActorComponent();
 
+	// Returns the components actor.
 	Actor& getActor();
 
 protected:

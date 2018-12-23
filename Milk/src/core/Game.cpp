@@ -34,39 +34,39 @@ bool Game::init(const std::string& title, unsigned int width, unsigned int heigh
 	int windowXPosition = (currentDisplayMode.w / 2) - (width / 2);
 	int windowYPosition = (currentDisplayMode.h / 2) - (height / 2);
 
-	_window = SDL_CreateWindow(title.c_str(), windowXPosition, windowYPosition, width, height, flags);
+	window_ = SDL_CreateWindow(title.c_str(), windowXPosition, windowYPosition, width, height, flags);
 
-	if (_window == nullptr) 
+	if (window_ == nullptr) 
 	{
 		std::cout << "Error creating window: " << SDL_GetError() << std::endl;
 		return false;
 	}
 
-	_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	sdlRenderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-	if (_renderer == nullptr) 
+	if (sdlRenderer_ == nullptr) 
 	{
 		std::cout << "Error creating renderer: " << SDL_GetError() << std::endl;
 		return false;
 	}
 
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, 0);
-	SDL_RenderSetLogicalSize(_renderer, width, height);
-	SDL_SetRenderDrawColor(_renderer, 0x00, 0x00, 0x00, 0xff);
+	SDL_RenderSetLogicalSize(sdlRenderer_, width, height);
+	SDL_SetRenderDrawColor(sdlRenderer_, 0x00, 0x00, 0x00, 0xff);
 
-	_isRunning = true;
+	isRunning_ = true;
 
-	_resourceManager = std::unique_ptr<ResourceManager>(new ResourceManager(_renderer));
+	resourceManager_ = std::unique_ptr<ResourceManager>(new ResourceManager(sdlRenderer_));
 
 	// test
-	_currentScene = std::unique_ptr<Scene>(new Scene(*this));
-	auto actor = _currentScene->spawnActor("steve");
+	currentScene_ = std::unique_ptr<Scene>(new Scene(*this));
+	auto actor = currentScene_->spawnActor("steve");
 	actor->addComponent<Sprite>();
 	auto sprite = actor->getComponent<Sprite>();
 	sprite->setTextureName("res/steve.png");
 	sprite->setSourceRect(0, 0, 64, 64);
 
-	_renderSystem = std::unique_ptr<Renderer>(new Renderer(*_renderer, *_resourceManager));
+	renderSystem_ = std::unique_ptr<Renderer>(new Renderer(*sdlRenderer_, *resourceManager_));
 	
 	std::cout << "Game started" << std::endl;
 	std::cout << "//////////////////" << std::endl;
@@ -82,11 +82,16 @@ void Game::handleEvents()
 		switch (e.type) 
 		{
 			case SDL_QUIT:
-				_isRunning = false;
+				isRunning_ = false;
 				break;
 			case SDL_KEYUP:
 				if (e.key.keysym.sym == SDLK_ESCAPE)
-					_isRunning = false;
+					isRunning_ = false;
+				break;
+			case SDL_KEYDOWN:
+				if (e.key.keysym.sym == SDLK_SPACE)
+					currentScene_->destroyActor(currentScene_->findActor("steve")->getId());
+				break;
 			default:
 				break;
 		}
@@ -95,33 +100,33 @@ void Game::handleEvents()
 
 void Game::update()
 {
-	_currentScene->update();
+	currentScene_->update();
 }
 
 void Game::render()
 {
-	SDL_RenderClear(_renderer);
+	SDL_RenderClear(sdlRenderer_);
 
-	_renderSystem->update(*_currentScene);
+	renderSystem_->update(*currentScene_);
 
-	SDL_RenderPresent(_renderer);
+	SDL_RenderPresent(sdlRenderer_);
 }
 
 bool Game::isRunning() const
 {
-	return _isRunning;
+	return isRunning_;
 }
 
 SDL_Renderer& Game::getRenderer() const
 {
-	SDL_assert(_renderer != nullptr);
-	return *_renderer;
+	SDL_assert(sdlRenderer_ != nullptr);
+	return *sdlRenderer_;
 }
 
 ResourceManager& Game::getResourceManager() const 
 {
-	SDL_assert(_resourceManager);
-	return *(_resourceManager.get());
+	SDL_assert(resourceManager_);
+	return *(resourceManager_.get());
 }
 
 void Game::shutDown()
@@ -129,11 +134,11 @@ void Game::shutDown()
 	std::cout << "Freeing Resources" << std::endl;
 	std::cout << "//////////////////" << std::endl;
 	
-	SDL_DestroyRenderer(_renderer);
-	_renderer = nullptr;
+	SDL_DestroyRenderer(sdlRenderer_);
+	sdlRenderer_ = nullptr;
 
-	SDL_DestroyWindow(_window);
-	_window = nullptr;
+	SDL_DestroyWindow(window_);
+	window_ = nullptr;
 
 	SDL_Quit();
 
@@ -141,7 +146,12 @@ void Game::shutDown()
 	std::cout << "//////////////////" << std::endl;
 }
 
-void Game::onActorAdded(Actor& actor)
+void Game::onActorSpawned(Actor& actor)
 {
-	_renderSystem->onActorAdded(actor);
+	renderSystem_->onActorAdded(actor);
+}
+
+void Game::onActorDestroyed(Actor& actor)
+{
+	renderSystem_->onActorDestroyed(actor);
 }
