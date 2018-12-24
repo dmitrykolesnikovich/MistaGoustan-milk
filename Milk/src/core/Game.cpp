@@ -11,6 +11,7 @@
 #include "../components/Sprite.h"
 #include "../components/Velocity.h"
 #include "../game/PlayerBehavior.h"
+#include "../utilities/Input.h"
 
 Game::~Game()
 {
@@ -57,6 +58,8 @@ bool Game::init(const std::string& title, unsigned int width, unsigned int heigh
 	SDL_SetRenderDrawColor(sdlRenderer_, 0x00, 0x00, 0x00, 0xff);
 
 	isRunning_ = true;
+
+	Input::initialize();
 
 	resourceManager_ = std::unique_ptr<ResourceManager>(new ResourceManager(sdlRenderer_));
 
@@ -105,6 +108,7 @@ void Game::handleEvents()
 				break;
 		}
 	}
+	Input::updateKeyboardState();
 }
 
 void Game::update()

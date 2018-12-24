@@ -46,6 +46,7 @@
     <ClCompile Include="src\components\Behavior.cpp" />
     <ClCompile Include="src\systems\Logic.cpp" />
     <ClCompile Include="src\game\PlayerBehavior.cpp" />
+    <ClCompile Include="src\utilities\Input.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.h">
@@ -78,5 +79,6 @@
     <ClInclude Include="src\components\Behavior.h" />
     <ClInclude Include="src\systems\Logic.h" />
     <ClInclude Include="src\game\PlayerBehavior.h" />
+    <ClInclude Include="src\utilities\Input.h" />
   </ItemGroup>
 </Project>

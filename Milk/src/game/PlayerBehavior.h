@@ -13,6 +13,7 @@ public:
 	~PlayerBehavior() = default;
 
 	void begin() override;
+	void update() override;
 
 private:
 	Velocity* vel_;

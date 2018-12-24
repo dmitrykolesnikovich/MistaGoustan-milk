@@ -164,6 +164,7 @@
     <ClCompile Include="src\systems\Physics.cpp" />
     <ClCompile Include="src\systems\Renderer.cpp" />
     <ClCompile Include="src\utilities\IdGenerator.cpp" />
+    <ClCompile Include="src\utilities\Input.cpp" />
     <ClCompile Include="src\utilities\ResourceManager.cpp" />
     <ClCompile Include="src\utilities\Texture.cpp" />
     <ClCompile Include="src\utilities\Timer.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="src\systems\Physics.h" />
     <ClInclude Include="src\systems\Renderer.h" />
     <ClInclude Include="src\utilities\IdGenerator.h" />
+    <ClInclude Include="src\utilities\Input.h" />
     <ClInclude Include="src\utilities\ResourceManager.h" />
     <ClInclude Include="src\utilities\Texture.h" />
     <ClInclude Include="src\tilemap\Tilemap.h" />
