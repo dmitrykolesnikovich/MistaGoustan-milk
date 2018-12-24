@@ -9,6 +9,7 @@
 
 #include "Scene.h"
 
+#include "../systems/Logic.h"
 #include "../systems/Renderer.h"
 #include "../systems/Physics.h"
 #include "../utilities/ResourceManager.h"
@@ -64,6 +65,7 @@ private:
 	SDL_Renderer* sdlRenderer_;
 
 	std::unique_ptr<ResourceManager> resourceManager_;
+	std::unique_ptr<Logic> logicSystem_;
 	std::unique_ptr<Physics> physicsSystem_;
 	std::unique_ptr<Renderer> renderSystem_;
 

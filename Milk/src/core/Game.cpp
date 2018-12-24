@@ -10,6 +10,7 @@
 #include "Scene.h"
 #include "../components/Sprite.h"
 #include "../components/Velocity.h"
+#include "../game/PlayerBehavior.h"
 
 Game::~Game()
 {
@@ -69,7 +70,10 @@ bool Game::init(const std::string& title, unsigned int width, unsigned int heigh
 	actor->addComponent<Velocity>();
 	auto velocity = actor->getComponent<Velocity>();
 	velocity->setVelocity(1, 0);
+	actor->addComponent<PlayerBehavior>();
+	auto behavior = actor->addComponent<PlayerBehavior>();
 
+	logicSystem_ = std::unique_ptr<Logic>(new Logic());
 	physicsSystem_ = std::unique_ptr<Physics>(new Physics());
 	renderSystem_ = std::unique_ptr<Renderer>(new Renderer(*sdlRenderer_, *resourceManager_));
 	
@@ -106,6 +110,7 @@ void Game::handleEvents()
 void Game::update()
 {
 	currentScene_->update();
+	logicSystem_->update();
 	physicsSystem_->update();
 }
 
@@ -154,12 +159,14 @@ void Game::shutDown()
 
 void Game::onActorSpawned(Actor& actor)
 {
+	logicSystem_->onActorAdded(actor);
 	physicsSystem_->onActorAdded(actor);
 	renderSystem_->onActorAdded(actor);
 }
 
 void Game::onActorDestroyed(Actor& actor)
 {
+	logicSystem_->onActorDestroyed(actor);
 	physicsSystem_->onActorDestroyed(actor);
 	renderSystem_->onActorDestroyed(actor);
 }

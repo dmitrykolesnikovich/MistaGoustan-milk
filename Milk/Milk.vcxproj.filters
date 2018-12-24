@@ -43,6 +43,9 @@
     <ClCompile Include="src\systems\Renderer.cpp" />
     <ClCompile Include="src\components\Velocity.cpp" />
     <ClCompile Include="src\systems\Physics.cpp" />
+    <ClCompile Include="src\components\Behavior.cpp" />
+    <ClCompile Include="src\systems\Logic.cpp" />
+    <ClCompile Include="src\game\PlayerBehavior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.h">
@@ -72,5 +75,8 @@
     <ClInclude Include="src\systems\Renderer.h" />
     <ClInclude Include="src\components\Velocity.h" />
     <ClInclude Include="src\systems\Physics.h" />
+    <ClInclude Include="src\components\Behavior.h" />
+    <ClInclude Include="src\systems\Logic.h" />
+    <ClInclude Include="src\game\PlayerBehavior.h" />
   </ItemGroup>
 </Project>
