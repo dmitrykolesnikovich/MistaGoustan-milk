@@ -9,6 +9,7 @@
 
 class Texture;
 
+// All objects that are drawn to the screen do so via the Sprite component.
 class Sprite : public ActorComponent
 {
 public:
