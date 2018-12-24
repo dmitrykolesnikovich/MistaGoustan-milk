@@ -10,8 +10,10 @@
 #include "Scene.h"
 #include "../components/Sprite.h"
 #include "../components/Velocity.h"
-#include "../game/PlayerBehavior.h"
+#include "../components/Behavior.h"
 #include "../utilities/Input.h"
+
+#include "../externals/sol.hpp"
 
 Game::~Game()
 {
@@ -63,7 +65,7 @@ bool Game::init(const std::string& title, unsigned int width, unsigned int heigh
 
 	resourceManager_ = std::unique_ptr<ResourceManager>(new ResourceManager(sdlRenderer_));
 
-	// test
+	//////////////////////////////////////////////////
 	currentScene_ = std::unique_ptr<Scene>(new Scene(*this));
 	auto actor = currentScene_->spawnActor("steve");
 	actor->addComponent<Sprite>();
@@ -73,10 +75,14 @@ bool Game::init(const std::string& title, unsigned int width, unsigned int heigh
 	actor->addComponent<Velocity>();
 	auto velocity = actor->getComponent<Velocity>();
 	velocity->setVelocity(1, 0);
-	actor->addComponent<PlayerBehavior>();
-	auto behavior = actor->addComponent<PlayerBehavior>();
+	actor->addComponent<Behavior>();
+	auto behavior = actor->getComponent<Behavior>();
+	behavior->setScript("res/player.lua");	
+	//////////////////////////////////////////////////
 
-	logicSystem_ = std::unique_ptr<Logic>(new Logic());
+	luaState_.open_libraries(sol::lib::base, sol::lib::package);
+
+	logicSystem_ = std::unique_ptr<Logic>(new Logic(luaState_));
 	physicsSystem_ = std::unique_ptr<Physics>(new Physics());
 	renderSystem_ = std::unique_ptr<Renderer>(new Renderer(*sdlRenderer_, *resourceManager_));
 	

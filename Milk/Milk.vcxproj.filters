@@ -81,4 +81,7 @@
     <ClInclude Include="src\game\PlayerBehavior.h" />
     <ClInclude Include="src\utilities\Input.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\player.lua" />
+  </ItemGroup>
 </Project>

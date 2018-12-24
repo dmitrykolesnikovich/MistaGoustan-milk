@@ -3,13 +3,15 @@
 
 #include <unordered_map>
 
+#include "../externals/sol.hpp"
+
 class Actor;
 class Behavior;
 
 class Logic
 {
 public:
-	Logic() = default;
+	Logic(sol::state& luaState);
 	~Logic() = default;
 
 	void onActorAdded(Actor& actor);
@@ -18,6 +20,8 @@ public:
 	void update();
 
 private:
+	sol::state& luaState_;
+
 	std::unordered_map<int, Behavior*> behaviorByActorId_;
 };
 

@@ -3,6 +3,11 @@
 #include "../core/Actor.h"
 #include "../components/Behavior.h"
 
+Logic::Logic(sol::state& luaState)
+	: luaState_(luaState)
+{
+}
+
 void Logic::onActorAdded(Actor& actor)
 {
 	Behavior* behavior = actor.getComponent<Behavior>();
@@ -11,6 +16,8 @@ void Logic::onActorAdded(Actor& actor)
 		return;
 
 	behaviorByActorId_.insert(std::make_pair(actor.getId(), behavior));
+
+	behavior->load(luaState_);
 
 	behavior->begin();
 }
