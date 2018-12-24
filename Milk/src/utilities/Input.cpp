@@ -2,35 +2,38 @@
 #include <iostream>
 
 const Uint8* Input::currentKeyboardState_ = nullptr;
-const Uint8* Input::previousKeyboardState_ = nullptr;
 
 Input::Input()
 {
 }
 
-bool Input::getKey(SDL_Scancode scancode)
+bool Input::getKey(SDL_Keycode keycode)
 {
-	return currentKeyboardState_[scancode];
+	return currentKeyboardState_[SDL_GetScancodeFromKey(keycode)];
 }
 
-bool Input::getkeyDown(SDL_Scancode scancode)
+bool Input::getKeyPressed(SDL_Keycode keycode, bool* lastState)
 {
-	return currentKeyboardState_[scancode] && !previousKeyboardState_[scancode];
+	bool justPressed = getKey(keycode) && !*lastState;
+	*lastState = getKey(keycode);
+
+	return justPressed;
 }
 
-bool Input::getKeyUp(SDL_Scancode scancode)
+bool Input::getKeyReleased(SDL_Keycode keycode, bool* lastState)
 {
-	return !currentKeyboardState_[scancode] && previousKeyboardState_[scancode];
+	bool justReleased = !getKey(keycode) && *lastState;
+	*lastState = getKey(keycode);
+
+	return justReleased;
 }
 
 void Input::initialize()
 {
 	currentKeyboardState_ = SDL_GetKeyboardState(0);
-	previousKeyboardState_ = currentKeyboardState_;
 }
 
 void Input::updateKeyboardState()
 {
-	previousKeyboardState_ = currentKeyboardState_;
 	currentKeyboardState_ = SDL_GetKeyboardState(NULL);
 }

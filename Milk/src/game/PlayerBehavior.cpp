@@ -5,6 +5,8 @@
 #include "../utilities//Input.h"
 #include "../math/Vector2d.h"
 
+#include <iostream>
+
 const ComponentType PlayerBehavior::type = BEHAVIOR;
 
 PlayerBehavior::PlayerBehavior(Actor& actor)
@@ -22,13 +24,16 @@ void PlayerBehavior::update()
 	const float speed = 3.f;
 	Vector2d input = Vector2d(0, 0);
 
-	if (Input::getKey(SDL_SCANCODE_UP))
+	if (Input::getKeyPressed(SDLK_SPACE, &prevSpace_))
+		std::cout << "pressed" << std::endl;
+
+	if (Input::getKey(SDLK_w))
 		input.y = -1;
-	if (Input::getKey(SDL_SCANCODE_DOWN))
+	if (Input::getKey(SDLK_s))
 		input.y = 1;
-	if (Input::getKey(SDL_SCANCODE_LEFT))
+	if (Input::getKey(SDLK_a))
 		input.x = -1;
-	if (Input::getKey(SDL_SCANCODE_RIGHT))
+	if (Input::getKey(SDLK_d))
 		input.x = 1;
 
 	if (magnitude(input) > 1.f)

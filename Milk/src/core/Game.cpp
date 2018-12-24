@@ -100,14 +100,11 @@ void Game::handleEvents()
 				if (e.key.keysym.sym == SDLK_ESCAPE)
 					isRunning_ = false;
 				break;
-			case SDL_KEYDOWN:
-				if (e.key.keysym.sym == SDLK_SPACE)
-					currentScene_->destroyActor(currentScene_->findActor("steve")->getId());
-				break;
 			default:
 				break;
 		}
 	}
+
 	Input::updateKeyboardState();
 }
 

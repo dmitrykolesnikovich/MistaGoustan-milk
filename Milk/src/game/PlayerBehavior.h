@@ -17,4 +17,5 @@ public:
 
 private:
 	Velocity* vel_;
+	bool prevSpace_;
 };
