@@ -5,6 +5,7 @@ const ComponentType Velocity::type = VELOCITY;
 Velocity::Velocity(Actor& actor)
 	: ActorComponent::ActorComponent(actor)
 {
+	value_ = Vector2d(0, 0);
 }
 
 Velocity::~Velocity()

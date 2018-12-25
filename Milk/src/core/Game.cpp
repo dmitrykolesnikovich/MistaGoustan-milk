@@ -7,6 +7,7 @@
 
 #include "../utilities/ResourceManager.h"
 #include "../utilities/Texture.h"
+#include "../math/Vector2d.h"
 #include "Scene.h"
 #include "../components/Sprite.h"
 #include "../components/Velocity.h"
@@ -14,6 +15,8 @@
 #include "../utilities/Input.h"
 
 #include "../externals/sol.hpp"
+
+#include "../luahandles/LuaHandle_Actor.h"
 
 Game::~Game()
 {
@@ -74,13 +77,23 @@ bool Game::init(const std::string& title, unsigned int width, unsigned int heigh
 	sprite->setSourceRect(0, 0, 64, 64);
 	actor->addComponent<Velocity>();
 	auto velocity = actor->getComponent<Velocity>();
-	velocity->setVelocity(1, 0);
 	actor->addComponent<Behavior>();
 	auto behavior = actor->getComponent<Behavior>();
 	behavior->setScript("res/player.lua");	
 	//////////////////////////////////////////////////
 
 	luaState_.open_libraries(sol::lib::base, sol::lib::package);
+
+	luaState_.new_usertype<Input>("Input",
+		"getKey", &Input::getKey);
+
+	luaState_.new_usertype<LuaHandle_Actor>("actor",
+		"move", &LuaHandle_Actor::move);
+
+	luaState_.new_usertype<Vector2d>("Vector2D",
+		sol::constructors<Vector2d(), Vector2d(int, int)>(),
+		"x", &Vector2d::x,
+		"y", &Vector2d::y);
 
 	logicSystem_ = std::unique_ptr<Logic>(new Logic(luaState_));
 	physicsSystem_ = std::unique_ptr<Physics>(new Physics());
