@@ -4,6 +4,7 @@
 
 #include <SDL.h>
 #include <SDL_events.h>
+#include <SDL_image.h>
 
 #include "../utilities/ResourceManager.h"
 #include "../utilities/Texture.h"
@@ -33,6 +34,13 @@ bool Game::init(const std::string& title, unsigned int width, unsigned int heigh
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) 
 	{
 		std::cout << "Error initializing SDL: " << SDL_GetError() << std::endl;
+		return false;
+	}
+
+	int imgFlags = IMG_INIT_JPG | IMG_INIT_PNG;
+	int initted = IMG_Init(imgFlags);
+	if ((initted & imgFlags) != imgFlags) {
+		std::cout << "Error initializing SDL_image: " << IMG_GetError() << std::endl;
 		return false;
 	}
 
