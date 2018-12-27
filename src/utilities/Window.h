@@ -13,6 +13,8 @@ public:
 	unsigned int getWidth() const;
 	unsigned int getHeight() const;
 
+
+
 	bool isFullscreen() const;
 	void toggleFullscreen();
 

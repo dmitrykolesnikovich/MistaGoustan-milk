@@ -5,9 +5,13 @@ project(Milk)
 # third party dlls are included via environment vars
 # example of install path (windows) C:\thirdparty\SDL2-2.0.9
 # should the project files just contain the dependencies and then we can use explicit paths?
-set(SDL2_PATH $ENV{SDL_DIR})
-set(SDL_image_PATH $ENV{SDL_image_DIR})
-set(LUA_PATH $ENV{LUA_DIR})
+set(SDL2_DIR thirdparty/SDL2-2.0.9)
+set(SDL_IMAGE_DIR thirdparty/SDL2_image-2.0.4)
+set(LUA_DIR thirdparty/Lua-5.3.4)
+
+get_filename_component(SDL2_PATH ${SDL2_DIR} ABSOLUTE)
+get_filename_component(SDL_image_PATH ${SDL_IMAGE_DIR} ABSOLUTE)
+get_filename_component(LUA_PATH ${LUA_DIR} ABSOLUTE)
 
 include_directories(${SDL2_PATH}/include)
 include_directories(${SDL_image_PATH}/include)
@@ -46,7 +50,16 @@ source_group(systems REGULAR_EXPRESSION "src/systems/*")
 source_group(tilemap REGULAR_EXPRESSION "src/tilemap/*")
 source_group(utilities REGULAR_EXPRESSION "src/utilities/*")
 
-#copy res file and libs to output binary
+#copy res file to output binary
 file(COPY res DESTINATION ${CMAKE_BINARY_DIR})
-file(GLOB LIBS "libs/*.dll")
-file(COPY ${LIBS} DESTINATION ${CMAKE_BINARY_DIR})
+
+# copy dlls to output binary
+file(GLOB SDL_LIBS "${SDL2_PATH}/lib/x86/*.dll")
+file(GLOB SDL_IMAGE_LIBS "${SDL_image_PATH}/lib/x86/*.dll")
+file(GLOB LUA_LIBS "${LUA_PATH}/*.dll")
+
+file(COPY ${SDL_LIBS} DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${SDL_IMAGE_LIBS} DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${LUA_LIBS} DESTINATION ${CMAKE_BINARY_DIR})
+
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Milk)
