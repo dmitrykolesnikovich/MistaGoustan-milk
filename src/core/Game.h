@@ -78,6 +78,8 @@ private:
 	bool isRunning_;
 
 	bool initSDL(const std::string& title, unsigned int width, unsigned int height, int flags);
+	bool initLua();
+	bool initSystems();
 };
 
 #endif

@@ -37,10 +37,10 @@ bool Game::init(const std::string& title, unsigned int width, unsigned int heigh
 		return false;
 	}
 
-	Input::initialize();
+	initLua();
+	initSystems();
 
-	resourceManager_ = std::unique_ptr<ResourceManager>(new ResourceManager(sdlRenderer_));
-
+	// Test CODEz
 	//////////////////////////////////////////////////
 	currentScene_ = std::unique_ptr<Scene>(new Scene(*this));
 	auto actor = currentScene_->spawnActor("steve");
@@ -55,23 +55,6 @@ bool Game::init(const std::string& title, unsigned int width, unsigned int heigh
 	auto behavior = actor->getComponent<Behavior>();
 	behavior->setScript("res/player.lua");	
 	//////////////////////////////////////////////////
-
-	luaState_.open_libraries(sol::lib::base, sol::lib::package);
-
-	luaState_.new_usertype<Input>("Input",
-		"getKey", &Input::getKey);
-
-	luaState_.new_usertype<LuaHandle_Actor>("actor",
-		"move", &LuaHandle_Actor::move);
-
-	luaState_.new_usertype<Vector2d>("Vector2D",
-		sol::constructors<Vector2d(), Vector2d(int, int)>(),
-		"x", &Vector2d::x,
-		"y", &Vector2d::y);
-
-	logicSystem_ = std::unique_ptr<Logic>(new Logic(luaState_));
-	physicsSystem_ = std::unique_ptr<Physics>(new Physics());
-	renderSystem_ = std::unique_ptr<Renderer>(new Renderer(*sdlRenderer_, *resourceManager_));
 
 	isRunning_ = true;
 	
@@ -208,6 +191,36 @@ bool Game::initSDL(const std::string& title, unsigned int width, unsigned int he
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, 0);
 	SDL_RenderSetLogicalSize(sdlRenderer_, width, height);
 	SDL_SetRenderDrawColor(sdlRenderer_, 0x00, 0x00, 0x00, 0xff);
+
+	return true;
+}
+
+bool Game::initLua()
+{
+	luaState_.open_libraries(sol::lib::base, sol::lib::package);
+
+	luaState_.new_usertype<Input>("Input",
+		"getKey", &Input::getKey);
+
+	luaState_.new_usertype<LuaHandle_Actor>("actor",
+		"move", &LuaHandle_Actor::move);
+
+	luaState_.new_usertype<Vector2d>("Vector2D",
+		sol::constructors<Vector2d(), Vector2d(int, int)>(),
+		"x", &Vector2d::x,
+		"y", &Vector2d::y);
+
+	return true; // try catch for errors?
+}
+
+bool Game::initSystems()
+{
+	Input::initialize();
+
+	resourceManager_ = std::unique_ptr<ResourceManager>(new ResourceManager(sdlRenderer_));
+	logicSystem_ = std::unique_ptr<Logic>(new Logic(luaState_));
+	physicsSystem_ = std::unique_ptr<Physics>(new Physics());
+	renderSystem_ = std::unique_ptr<Renderer>(new Renderer(*sdlRenderer_, *resourceManager_));
 
 	return true;
 }
