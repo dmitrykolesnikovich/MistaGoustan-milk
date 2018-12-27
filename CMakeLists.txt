@@ -38,6 +38,8 @@ add_subdirectory(src/tilemap)
 add_subdirectory(src/utilities)
 
 # create filters for IDE
+# put main.cpp at the root level
+source_group("" FILES "src/main.cpp")
 source_group(components REGULAR_EXPRESSION "src/components/*")
 source_group(core REGULAR_EXPRESSION "src/core/*")
 source_group(externals REGULAR_EXPRESSION "src/externals/*")
