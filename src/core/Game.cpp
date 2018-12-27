@@ -39,7 +39,8 @@ bool Game::init(const std::string& title, unsigned int width, unsigned int heigh
 
 	int imgFlags = IMG_INIT_JPG | IMG_INIT_PNG;
 	int initted = IMG_Init(imgFlags);
-	if ((initted & imgFlags) != imgFlags) {
+	if ((initted & imgFlags) != imgFlags) 
+	{
 		std::cout << "Error initializing SDL_image: " << IMG_GetError() << std::endl;
 		return false;
 	}
