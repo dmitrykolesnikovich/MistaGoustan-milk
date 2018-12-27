@@ -9,4 +9,5 @@ target_sources(Milk
 	Texture.h
 	Texture.cpp
 	Timer.h
-	Timer.cpp)
+	Timer.cpp
+	Window.h)

@@ -152,15 +152,14 @@ void Game::onActorDestroyed(Actor& actor)
 
 bool Game::initSDL(const std::string& title, unsigned int width, unsigned int height, int flags)
 {
-	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
 	{
 		std::cout << "Error initializing SDL: " << SDL_GetError() << std::endl;
 		return false;
 	}
 
 	int imgFlags = IMG_INIT_JPG | IMG_INIT_PNG;
-	int initted = IMG_Init(imgFlags);
-	if ((initted & imgFlags) != imgFlags)
+	if ((IMG_Init(imgFlags) & imgFlags) != imgFlags)
 	{
 		std::cout << "Error initializing SDL_image: " << IMG_GetError() << std::endl;
 		return false;
