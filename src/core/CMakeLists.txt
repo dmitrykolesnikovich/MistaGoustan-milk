@@ -1,0 +1,10 @@
+target_sources(Milk
+    PRIVATE
+        Actor.h
+        Actor.cpp
+        ActorComponent.h
+        ActorComponent.cpp
+        Game.h
+        Game.cpp
+        Scene.h
+        Scene.cpp)

@@ -79,6 +79,7 @@ bool Game::init(const std::string& title, unsigned int width, unsigned int heigh
 	//////////////////////////////////////////////////
 	currentScene_ = std::unique_ptr<Scene>(new Scene(*this));
 	auto actor = currentScene_->spawnActor("steve");
+	actor->setPosition(50, 50);
 	actor->addComponent<Sprite>();
 	auto sprite = actor->getComponent<Sprite>();
 	sprite->setTextureName("res/steve.png");

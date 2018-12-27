@@ -3,6 +3,7 @@
 Actor::Actor(Scene& scene)
 	: scene_(scene)
 {
+	componentBitmask_ = 0;
 }
 
 Actor::~Actor()

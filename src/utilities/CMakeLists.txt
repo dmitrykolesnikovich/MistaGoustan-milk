@@ -1,0 +1,12 @@
+target_sources(Milk
+    PRIVATE
+        IdGenerator.h
+	IdGenerator.cpp
+	Input.h
+	Input.cpp
+	ResourceManager.h
+	ResourceManager.cpp
+	Texture.h
+	Texture.cpp
+	Timer.h
+	Timer.cpp)

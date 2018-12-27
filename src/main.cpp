@@ -2,12 +2,12 @@
 
 #include <SDL.h>
 
-#include "src/core/Game.h"
-#include "src/utilities/Timer.h"
+#include "core/Game.h"
+#include "utilities/Timer.h"
 
-#include "src\core\Actor.h"
-#include "src\core\Scene.h"
-#include "src\components\Sprite.h"
+#include "core\Actor.h"
+#include "core\Scene.h"
+#include "components\Sprite.h"
 
 int main(int argc, char* argv[])
 {
