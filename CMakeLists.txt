@@ -2,21 +2,18 @@ cmake_minimum_required(VERSION 3.13)
 
 project(Milk)
 
-# third party dlls are included via environment vars
-# example of install path (windows) C:\thirdparty\SDL2-2.0.9
-# should the project files just contain the dependencies and then we can use explicit paths?
-set(SDL2_DIR thirdparty/SDL2-2.0.9)
-set(SDL_IMAGE_DIR thirdparty/SDL2_image-2.0.4)
-set(LUA_DIR thirdparty/Lua-5.3.4)
+# get absolute paths of third party paths
+# we do this so when we provide the .lib/.a files for linking, we don't get any wierd behavior
+get_filename_component(SDL2_PATH thirdparty/SDL2-2.0.9 ABSOLUTE)
+get_filename_component(SDL_image_PATH thirdparty/SDL2_image-2.0.4 ABSOLUTE)
+get_filename_component(LUA_PATH thirdparty/Lua-5.3.4 ABSOLUTE)
 
-get_filename_component(SDL2_PATH ${SDL2_DIR} ABSOLUTE)
-get_filename_component(SDL_image_PATH ${SDL_IMAGE_DIR} ABSOLUTE)
-get_filename_component(LUA_PATH ${LUA_DIR} ABSOLUTE)
-
+# provide header files for third party libraries
 include_directories(${SDL2_PATH}/include)
 include_directories(${SDL_image_PATH}/include)
 include_directories(${LUA_PATH}/include)
 
+# provide lib files for third party libraries
 link_directories(${SDL2_PATH}/lib/x86)
 link_directories(${SDL_image_PATH}/lib/x86)
 link_directories(${LUA_PATH})
@@ -24,7 +21,7 @@ link_directories(${LUA_PATH})
 #create the project that compiles to an exe
 add_executable(Milk src/main.cpp)
 
-# add lib files to link
+# link lib files
 target_link_libraries(Milk ${SDL2_PATH}/lib/x86/SDL2.lib)
 target_link_libraries(Milk ${SDL2_PATH}/lib/x86/SDL2main.lib)
 target_link_libraries(Milk ${SDL_image_PATH}/lib/x86/SDL2_image.lib)
@@ -62,4 +59,5 @@ file(COPY ${SDL_LIBS} DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${SDL_IMAGE_LIBS} DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${LUA_LIBS} DESTINATION ${CMAKE_BINARY_DIR})
 
+#set start up project for visual studio
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Milk)
