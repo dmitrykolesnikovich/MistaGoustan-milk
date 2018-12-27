@@ -41,7 +41,7 @@ bool Game::init(const std::string& title, unsigned int width, unsigned int heigh
 
 	// Test CODEz
 	//////////////////////////////////////////////////
-	currentScene_ = std::unique_ptr<Scene>(new Scene(*this));
+	currentScene_ = sceneLoader_->load("res/testmap.xml");
 	auto actor = currentScene_->spawnActor("steve");
 	actor->setPosition(50, 50);
 	actor->addComponent<Sprite>();
@@ -94,11 +94,11 @@ void Game::update()
 
 void Game::render()
 {
-	SDL_RenderClear(&(window_->getSdlRenderer()));
+	SDL_RenderClear(window_->getSdlRenderer());
 
-	renderSystem_->render();
+	renderSystem_->render(currentScene_->getTilemap());
 
-	SDL_RenderPresent(&(window_->getSdlRenderer()));
+	SDL_RenderPresent(window_->getSdlRenderer());
 }
 
 bool Game::isRunning() const
@@ -128,6 +128,11 @@ Window& Game::getWindow() const
 {
 	SDL_assert(window_ != nullptr);
 	return *window_;
+}
+
+ResourceManager& Game::getResourceManager() const
+{
+	return *resourceManager_;
 }
 
 void Game::onActorSpawned(Actor& actor)
@@ -201,7 +206,8 @@ bool Game::initSystems()
 {
 	Input::initialize();
 
-	resourceManager_ = std::unique_ptr<ResourceManager>(new ResourceManager(&(window_->getSdlRenderer())));
+	sceneLoader_ = std::unique_ptr<SceneLoader>(new SceneLoader(*this));
+	resourceManager_ = std::unique_ptr<ResourceManager>(new ResourceManager(window_->getSdlRenderer()));
 	logicSystem_ = std::unique_ptr<Logic>(new Logic(luaState_));
 	physicsSystem_ = std::unique_ptr<Physics>(new Physics());
 	renderSystem_ = std::unique_ptr<Renderer>(new Renderer(window_->getSdlRenderer(), *resourceManager_));

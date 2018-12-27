@@ -5,6 +5,7 @@
 Scene::Scene(Game& game)
 	: game_(game)
 {
+	tilemap_ = Tilemap();
 }
 
 Scene::~Scene()
@@ -45,6 +46,11 @@ Actor* Scene::findActor(const std::string& name) const
 	}
 
 	return nullptr;
+}
+
+Tilemap& Scene::getTilemap()
+{
+	return tilemap_;
 }
 
 void Scene::update()

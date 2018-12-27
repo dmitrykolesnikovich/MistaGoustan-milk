@@ -97,8 +97,8 @@ SDL_Window& Window::getSdlWindow() const
 	return *sdlWindow_;
 }
 
-SDL_Renderer& Window::getSdlRenderer() const
+SDL_Renderer* Window::getSdlRenderer() const
 {
 	SDL_assert(sdlRenderer_ != nullptr);
-	return *sdlRenderer_;
+	return sdlRenderer_;
 }

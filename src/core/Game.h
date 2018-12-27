@@ -14,6 +14,7 @@
 #include "../systems/Renderer.h"
 #include "../systems/Physics.h"
 #include "../utilities/ResourceManager.h"
+#include "../utilities/SceneLoader.h"
 #include "../utilities/Window.h"
 
 class Actor;
@@ -48,7 +49,11 @@ public:
 	// Shuts down game systems and frees resources.
 	void shutDown();
 
+	// Returns the game window.
 	Window& getWindow() const;
+
+	// Returns the games resource manager.
+	ResourceManager& getResourceManager() const;
 
 	// Called when an actor has been spawned into the current scene.
 	void onActorSpawned(Actor& actor);
@@ -60,6 +65,8 @@ private:
 	Game() {}
 
 	std::unique_ptr<Window> window_;
+
+	std::unique_ptr<SceneLoader> sceneLoader_;
 
 	std::unique_ptr<ResourceManager> resourceManager_;
 

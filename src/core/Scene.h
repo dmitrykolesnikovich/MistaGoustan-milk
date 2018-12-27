@@ -8,6 +8,7 @@
 
 #include "Actor.h"
 
+#include "../tilemap/Tilemap.h"
 #include "../utilities/IdGenerator.h"
 
 class Game;
@@ -29,11 +30,15 @@ public:
 	// Returns nullptr if not actor is found.
 	Actor* findActor(const std::string& name) const;
 
+	Tilemap& getTilemap();
+
 	// Updates the scenes internal lists and notifies game when actors have been spawned, destroyed, or modified.
 	void update();
 
 private:
 	Game& game_;
+
+	Tilemap tilemap_;
 
 	std::unordered_map<int, std::unique_ptr<Actor>> actorsById_;
 	std::vector<std::unique_ptr<Actor>> actorsToSpawn_;

@@ -24,7 +24,7 @@ public:
 	void toggleFullscreen();
 
 	SDL_Window& getSdlWindow() const;
-	SDL_Renderer& getSdlRenderer() const;
+	SDL_Renderer* getSdlRenderer() const;
 
 private:
 	std::string title_;

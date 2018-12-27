@@ -6,6 +6,8 @@ target_sources(Milk
 	Input.cpp
 	ResourceManager.h
 	ResourceManager.cpp
+	SceneLoader.h
+	SceneLoader.cpp
 	Texture.h
 	Texture.cpp
 	Timer.h

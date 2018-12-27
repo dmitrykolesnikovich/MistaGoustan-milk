@@ -6,22 +6,23 @@
 class Actor;
 class ResourceManager;
 class Sprite;
+class Tilemap;
 
 struct SDL_Renderer;
 
 class Renderer
 {
 public:
-	Renderer(SDL_Renderer& renderer, ResourceManager& resourceManager);
+	Renderer(SDL_Renderer* renderer, ResourceManager& resourceManager);
 
 	void onActorAdded(Actor& actor);
 	void onActorDestroyed(Actor& actor);
 	void onActorModified(Actor& actor);
 
-	void render();
+	void render(Tilemap& tilemap);
 
 private:
-	SDL_Renderer& sdlRenderer_;
+	SDL_Renderer* sdlRenderer_;
 	ResourceManager& resourceManager_;
 
 	std::unordered_map<int, Sprite*> spritesByActorId_;
