@@ -29,13 +29,12 @@ Game& Game::getInstance()
 	return instance;
 }
 
-bool Game::init(const std::string& title, unsigned int width, unsigned int height, int flags)
+bool Game::init(const std::string& title, unsigned int width, unsigned int height, bool fullscreen)
 {
-	if (!initSDL(title, width, height, flags)) 
-	{
-		std::cout << "Shutting down early." << std::endl;
+	// Init SDL and initWindow both initialize SDL library stuff.
+	// If these two fail, then startup fails.
+	if (!initSDL() || !initWindow(title, width, height, fullscreen))
 		return false;
-	}
 
 	initLua();
 	initSystems();
@@ -95,11 +94,11 @@ void Game::update()
 
 void Game::render()
 {
-	SDL_RenderClear(sdlRenderer_);
+	SDL_RenderClear(&(window_->getSdlRenderer()));
 
 	renderSystem_->render();
 
-	SDL_RenderPresent(sdlRenderer_);
+	SDL_RenderPresent(&(window_->getSdlRenderer()));
 }
 
 bool Game::isRunning() const
@@ -107,33 +106,28 @@ bool Game::isRunning() const
 	return isRunning_;
 }
 
-SDL_Renderer& Game::getRenderer() const
-{
-	SDL_assert(sdlRenderer_ != nullptr);
-	return *sdlRenderer_;
-}
-
-ResourceManager& Game::getResourceManager() const 
-{
-	SDL_assert(resourceManager_);
-	return *(resourceManager_.get());
-}
-
 void Game::shutDown()
 {
 	std::cout << "Freeing Resources" << std::endl;
 	std::cout << "//////////////////" << std::endl;
-	
-	SDL_DestroyRenderer(sdlRenderer_);
-	sdlRenderer_ = nullptr;
 
-	SDL_DestroyWindow(window_);
-	window_ = nullptr;
+	window_.release();
+	resourceManager_.release();
+	logicSystem_.release();
+	physicsSystem_.release();
+	renderSystem_.release();
 
+	IMG_Quit();
 	SDL_Quit();
 
 	std::cout << "Game shutting down" << std::endl;
 	std::cout << "//////////////////" << std::endl;
+}
+
+Window& Game::getWindow() const
+{
+	SDL_assert(window_ != nullptr);
+	return *window_;
 }
 
 void Game::onActorSpawned(Actor& actor)
@@ -150,7 +144,7 @@ void Game::onActorDestroyed(Actor& actor)
 	renderSystem_->onActorDestroyed(actor);
 }
 
-bool Game::initSDL(const std::string& title, unsigned int width, unsigned int height, int flags)
+bool Game::initSDL()
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
 	{
@@ -161,35 +155,26 @@ bool Game::initSDL(const std::string& title, unsigned int width, unsigned int he
 	int imgFlags = IMG_INIT_JPG | IMG_INIT_PNG;
 	if ((IMG_Init(imgFlags) & imgFlags) != imgFlags)
 	{
+		SDL_Quit();
+
 		std::cout << "Error initializing SDL_image: " << IMG_GetError() << std::endl;
 		return false;
 	}
 
-	SDL_DisplayMode currentDisplayMode;
-	SDL_GetCurrentDisplayMode(0, &currentDisplayMode);
+	return true;
+}
 
-	int windowXPosition = (currentDisplayMode.w / 2) - (width / 2);
-	int windowYPosition = (currentDisplayMode.h / 2) - (height / 2);
+bool Game::initWindow(const std::string& title, unsigned int width, unsigned int height, bool fullscreen)
+{
+	window_ = std::unique_ptr<Window>(new Window(title, width, height, fullscreen));
 
-	window_ = SDL_CreateWindow(title.c_str(), windowXPosition, windowYPosition, width, height, flags);
-
-	if (window_ == nullptr)
+	if (!window_->init()) 
 	{
-		std::cout << "Error creating window: " << SDL_GetError() << std::endl;
+		IMG_Quit();
+		SDL_Quit();
+
 		return false;
 	}
-
-	sdlRenderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-
-	if (sdlRenderer_ == nullptr)
-	{
-		std::cout << "Error creating renderer: " << SDL_GetError() << std::endl;
-		return false;
-	}
-
-	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, 0);
-	SDL_RenderSetLogicalSize(sdlRenderer_, width, height);
-	SDL_SetRenderDrawColor(sdlRenderer_, 0x00, 0x00, 0x00, 0xff);
 
 	return true;
 }
@@ -216,10 +201,10 @@ bool Game::initSystems()
 {
 	Input::initialize();
 
-	resourceManager_ = std::unique_ptr<ResourceManager>(new ResourceManager(sdlRenderer_));
+	resourceManager_ = std::unique_ptr<ResourceManager>(new ResourceManager(&(window_->getSdlRenderer())));
 	logicSystem_ = std::unique_ptr<Logic>(new Logic(luaState_));
 	physicsSystem_ = std::unique_ptr<Physics>(new Physics());
-	renderSystem_ = std::unique_ptr<Renderer>(new Renderer(*sdlRenderer_, *resourceManager_));
+	renderSystem_ = std::unique_ptr<Renderer>(new Renderer(window_->getSdlRenderer(), *resourceManager_));
 
 	return true;
 }

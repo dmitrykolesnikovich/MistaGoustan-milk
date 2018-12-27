@@ -14,6 +14,7 @@
 #include "../systems/Renderer.h"
 #include "../systems/Physics.h"
 #include "../utilities/ResourceManager.h"
+#include "../utilities/Window.h"
 
 class Actor;
 
@@ -30,7 +31,7 @@ public:
 	static Game& getInstance();
 
 	// Initializes game systems, window and renderer.
-	bool init(const std::string& title, unsigned int width, unsigned int height, int flags);
+	bool init(const std::string& title, unsigned int width, unsigned int height, bool fullscreen);
 
 	// Handles user input events.
 	void handleEvents();
@@ -44,14 +45,10 @@ public:
 	// Returns true if game is running.
 	bool isRunning() const;
 
-	// Returns a reference to the games renderer.
-	SDL_Renderer& getRenderer() const;
-
-	// Returns a reference to the games resource manager.
-	ResourceManager& getResourceManager() const;
-
 	// Shuts down game systems and frees resources.
 	void shutDown();
+
+	Window& getWindow() const;
 
 	// Called when an actor has been spawned into the current scene.
 	void onActorSpawned(Actor& actor);
@@ -62,8 +59,7 @@ public:
 private:
 	Game() {}
 
-	SDL_Window* window_;
-	SDL_Renderer* sdlRenderer_;
+	std::unique_ptr<Window> window_;
 
 	std::unique_ptr<ResourceManager> resourceManager_;
 
@@ -77,7 +73,8 @@ private:
 
 	bool isRunning_;
 
-	bool initSDL(const std::string& title, unsigned int width, unsigned int height, int flags);
+	bool initSDL();
+	bool initWindow(const std::string& title, unsigned int width, unsigned int height, bool fullscreen);
 	bool initLua();
 	bool initSystems();
 };
