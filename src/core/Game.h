@@ -76,6 +76,8 @@ private:
 	std::unique_ptr<Scene> currentScene_;
 
 	bool isRunning_;
+
+	bool initSDL(const std::string& title, unsigned int width, unsigned int height, int flags);
 };
 
 #endif

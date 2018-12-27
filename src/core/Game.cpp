@@ -31,47 +31,11 @@ Game& Game::getInstance()
 
 bool Game::init(const std::string& title, unsigned int width, unsigned int height, int flags)
 {
-	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) 
+	if (!initSDL(title, width, height, flags)) 
 	{
-		std::cout << "Error initializing SDL: " << SDL_GetError() << std::endl;
+		std::cout << "Shutting down early." << std::endl;
 		return false;
 	}
-
-	int imgFlags = IMG_INIT_JPG | IMG_INIT_PNG;
-	int initted = IMG_Init(imgFlags);
-	if ((initted & imgFlags) != imgFlags) 
-	{
-		std::cout << "Error initializing SDL_image: " << IMG_GetError() << std::endl;
-		return false;
-	}
-
-	SDL_DisplayMode currentDisplayMode;
-	SDL_GetCurrentDisplayMode(0, &currentDisplayMode);
-	
-	int windowXPosition = (currentDisplayMode.w / 2) - (width / 2);
-	int windowYPosition = (currentDisplayMode.h / 2) - (height / 2);
-
-	window_ = SDL_CreateWindow(title.c_str(), windowXPosition, windowYPosition, width, height, flags);
-
-	if (window_ == nullptr) 
-	{
-		std::cout << "Error creating window: " << SDL_GetError() << std::endl;
-		return false;
-	}
-
-	sdlRenderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-
-	if (sdlRenderer_ == nullptr) 
-	{
-		std::cout << "Error creating renderer: " << SDL_GetError() << std::endl;
-		return false;
-	}
-
-	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, 0);
-	SDL_RenderSetLogicalSize(sdlRenderer_, width, height);
-	SDL_SetRenderDrawColor(sdlRenderer_, 0x00, 0x00, 0x00, 0xff);
-
-	isRunning_ = true;
 
 	Input::initialize();
 
@@ -108,6 +72,8 @@ bool Game::init(const std::string& title, unsigned int width, unsigned int heigh
 	logicSystem_ = std::unique_ptr<Logic>(new Logic(luaState_));
 	physicsSystem_ = std::unique_ptr<Physics>(new Physics());
 	renderSystem_ = std::unique_ptr<Renderer>(new Renderer(*sdlRenderer_, *resourceManager_));
+
+	isRunning_ = true;
 	
 	std::cout << "Game started" << std::endl;
 	std::cout << "//////////////////" << std::endl;
@@ -199,4 +165,49 @@ void Game::onActorDestroyed(Actor& actor)
 	logicSystem_->onActorDestroyed(actor);
 	physicsSystem_->onActorDestroyed(actor);
 	renderSystem_->onActorDestroyed(actor);
+}
+
+bool Game::initSDL(const std::string& title, unsigned int width, unsigned int height, int flags)
+{
+	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+	{
+		std::cout << "Error initializing SDL: " << SDL_GetError() << std::endl;
+		return false;
+	}
+
+	int imgFlags = IMG_INIT_JPG | IMG_INIT_PNG;
+	int initted = IMG_Init(imgFlags);
+	if ((initted & imgFlags) != imgFlags)
+	{
+		std::cout << "Error initializing SDL_image: " << IMG_GetError() << std::endl;
+		return false;
+	}
+
+	SDL_DisplayMode currentDisplayMode;
+	SDL_GetCurrentDisplayMode(0, &currentDisplayMode);
+
+	int windowXPosition = (currentDisplayMode.w / 2) - (width / 2);
+	int windowYPosition = (currentDisplayMode.h / 2) - (height / 2);
+
+	window_ = SDL_CreateWindow(title.c_str(), windowXPosition, windowYPosition, width, height, flags);
+
+	if (window_ == nullptr)
+	{
+		std::cout << "Error creating window: " << SDL_GetError() << std::endl;
+		return false;
+	}
+
+	sdlRenderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+	if (sdlRenderer_ == nullptr)
+	{
+		std::cout << "Error creating renderer: " << SDL_GetError() << std::endl;
+		return false;
+	}
+
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, 0);
+	SDL_RenderSetLogicalSize(sdlRenderer_, width, height);
+	SDL_SetRenderDrawColor(sdlRenderer_, 0x00, 0x00, 0x00, 0xff);
+
+	return true;
 }
