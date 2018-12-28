@@ -32,8 +32,27 @@
       </tiles>
     </layer>
   </layers>
-  <gameobjects>
-    <gameobject id="player" x="400" y ="400"></gameobject>
-    <gameobject id="player" x="200" y ="200"></gameobject>
-  </gameobjects>
+  <actors>
+    <actor>
+      <name>steve</name>
+      <position x="50" y="50"></position>
+      <components>
+        <component type="Sprite">
+          <textureName>res/player.png</textureName>
+          <sourceRect x="0" y="0" w="128" h="128"></sourceRect>
+        </component>
+        <component type="Velocity" x="0" y="0">
+        </component>
+        <component type="Script" name="res/player.lua">
+        </component>
+        <component type="Collider" w="128" h="128">
+        </component>
+        <component type="Animator" rows="4" columns="8">
+          <animations>
+            <animation name="main" frames="13, 14, 15, 16, 17, 18, 19, 20"></animation>
+          </animations>
+        </component>
+      </components>
+    </actor>
+  </actors>
 </level>
