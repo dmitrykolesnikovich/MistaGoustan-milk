@@ -9,19 +9,20 @@
 
 #include "Texture.h"
 
-ResourceManager::ResourceManager()
+ResourceManager::ResourceManager(const std::string& rootDir)
+	: root(rootDir)
+	, sdlRenderer_(nullptr)
 {
-	sdlRenderer_ = nullptr;
-}
-
-ResourceManager::ResourceManager(SDL_Renderer* renderer)
-{
-	sdlRenderer_ = renderer;
 }
 
 ResourceManager::~ResourceManager()
 {
 	freeResources();
+}
+
+void ResourceManager::init(SDL_Renderer* sdlRenderer)
+{
+	sdlRenderer_ = sdlRenderer;
 }
 
 Texture* ResourceManager::loadTexture(const std::string& name)
@@ -31,7 +32,9 @@ Texture* ResourceManager::loadTexture(const std::string& name)
 	if (found != textureCache_.end())
 		return found->second;
 
-	SDL_Surface* surf = IMG_Load(name.c_str());
+	std::string resourcePath = root + "/" + name;
+
+	SDL_Surface* surf = IMG_Load(resourcePath.c_str());
 
 	if (surf == nullptr) 
 	{

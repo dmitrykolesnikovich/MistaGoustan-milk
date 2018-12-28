@@ -7,34 +7,75 @@
 #include "SDL_image.h"
 
 #include "../utilities/Input.h"
+#include "../utilities/Timer.h"
 
 #include "../luahandles/LuaHandle_Actor.h"
 
-Game::~Game()
+Game::Game(const GameRunParameters& runParams)
+	: window_(runParams.title, runParams.width, runParams.height, runParams.fullscreen)
+	, sceneLoader_(*this)
+	, resourceManager_(runParams.resourceRootDir)
+	, sceneToLoad_(runParams.entryScene)
 {
 }
 
-Game& Game::getInstance() 
-{
-	static Game instance;
-	return instance;
-}
-
-bool Game::init(const std::string& title, unsigned int width, unsigned int height, bool fullscreen)
+int Game::run()
 {
 	// InitSDLSubsystems and initGameWindow both initialize SDL related items.
-	if (!initSDLSubsystems() || !initGameWindow(title, width, height, fullscreen))
-		return false;
+	if (!initSDLSubsystems() || !initGameWindow())
+		return MILK_FAIL;
 
 	initLua();
 	initGameSubsystems();
 
 	isRunning_ = true;
-	
+
 	std::cout << "Game started" << std::endl;
 	std::cout << "//////////////////" << std::endl;
 
-	return true;
+	const int SCREEN_FPS = 60;
+	const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
+
+	Timer fpsTimer;
+	Timer frameCapTimer;
+
+	int countedFrames = 0;
+
+	fpsTimer.start();
+
+	try 
+	{
+		while (isRunning_)
+		{
+			frameCapTimer.start();
+
+			float averageFps = countedFrames / (fpsTimer.getTicks() / 1000.f);
+			if (averageFps > 2000000)
+				averageFps = 0;
+
+			handleEvents();
+			update();
+			render();
+
+			countedFrames++;
+
+			int frameTicks = frameCapTimer.getTicks();
+			if (frameTicks < SCREEN_TICKS_PER_FRAME)
+				SDL_Delay(SCREEN_TICKS_PER_FRAME - frameTicks);
+		}
+	}
+	catch(const std::exception& e)
+	{
+		std::cout << "Fatal error occured: " << e.what() << std::endl;
+
+		shutDown();
+
+		return MILK_FAIL;
+	}
+
+	shutDown();
+
+	return MILK_SUCCESS;
 }
 
 void Game::handleEvents()
@@ -95,11 +136,6 @@ void Game::render()
 	}
 
 	SDL_RenderPresent(window_.sdlRenderer());
-}
-
-bool Game::isRunning() const
-{
-	return isRunning_;
 }
 
 void Game::shutDown()
@@ -171,10 +207,8 @@ bool Game::initSDLSubsystems()
 	return true;
 }
 
-bool Game::initGameWindow(const std::string& title, unsigned int width, unsigned int height, bool fullscreen)
+bool Game::initGameWindow()
 {
-	window_ = Window(title, width, height, fullscreen);
-
 	if (!window_.init()) 
 	{
 		IMG_Quit();
@@ -186,7 +220,7 @@ bool Game::initGameWindow(const std::string& title, unsigned int width, unsigned
 	return true;
 }
 
-bool Game::initLua()
+void Game::initLua()
 {
 	luaState_.open_libraries(sol::lib::base, sol::lib::package);
 
@@ -200,19 +234,15 @@ bool Game::initLua()
 		sol::constructors<Vector2d(), Vector2d(int, int)>(),
 		"x", &Vector2d::x,
 		"y", &Vector2d::y);
-
-	return true; // try catch for errors?
 }
 
-bool Game::initGameSubsystems()
+void Game::initGameSubsystems()
 {
 	Input::initialize();
 
-	resourceManager_ = ResourceManager(window_.sdlRenderer());
+	resourceManager_.init(window_.sdlRenderer());
 
 	logicSystem_ = std::unique_ptr<Logic>(new Logic(luaState_));
 	physicsSystem_ = std::unique_ptr<Physics>(new Physics());
 	renderSystem_ = std::unique_ptr<Renderer>(new Renderer(window_.sdlRenderer(), resourceManager_));
-
-	return true;
 }

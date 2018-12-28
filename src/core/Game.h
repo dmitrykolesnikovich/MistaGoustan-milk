@@ -1,11 +1,12 @@
 #ifndef _GAME_
 #define _GAME_
 
-#include <functional>
+#define MILK_SUCCESS 0
+#define MILK_FAIL 1
+
 #include <memory>
 #include <string>
 #include <unordered_map>
-#include <memory>
 
 #include "Scene.h"
 
@@ -24,32 +25,26 @@ class Actor;
 struct SDL_Window;
 struct SDL_Renderer;
 
+struct GameRunParameters 
+{
+	std::string title;
+	unsigned int width;
+	unsigned int height;
+	bool fullscreen;
+	std::string entryScene;
+	std::string resourceRootDir;
+};
+
 class Game
 {
 public:
-	~Game();
+	Game(const GameRunParameters& runParams);
+	~Game() = default;
 
-	// Returns a reference to the single instance of Game.
-	// Should only be used at a high level (main.cpp), and passed as an argument to all dependents.
-	static Game& getInstance();
-
-	// Initializes game systems, window and renderer.
-	bool init(const std::string& title, unsigned int width, unsigned int height, bool fullscreen);
-
-	// Handles user input events.
-	void handleEvents();
-
-	// Updates the games systems.
-	void update();
-
-	// Renders the games current scene.
-	void render();
-
-	// Returns true if game is running.
-	bool isRunning() const;
-
-	// Shuts down game systems and frees resources.
-	void shutDown();
+	// Initializes and runs the game
+	// Returns MILK_SUCCESS on successful run
+	// Returns MILK_FAIL on unsuccessful run
+	int run();
 
 	// Returns the game window.
 	Window& getWindow();
@@ -60,18 +55,13 @@ public:
 	// Loads an XML based scene.
 	void loadScene(const std::string& name);
 
-	// Called when an actor has been spawned into the current scene.
+	// Called when an actor has been spawned in the current scene.
 	void onActorSpawned(Actor& actor);
 
 	// Called when an actor has been destroyed in the current scene.
 	void onActorDestroyed(Actor& actor);
 
 private:
-	Game() 
-		: sceneLoader_(*this)
-	{
-	}
-
 	Window window_;
 
 	SceneLoader sceneLoader_;
@@ -89,9 +79,13 @@ private:
 	bool isRunning_;
 
 	bool initSDLSubsystems();
-	bool initGameWindow(const std::string& title, unsigned int width, unsigned int height, bool fullscreen);
-	bool initLua();
-	bool initGameSubsystems();
+	bool initGameWindow();
+	void initLua();
+	void initGameSubsystems();
+	void handleEvents();
+	void update();
+	void render();
+	void shutDown();
 };
 
 #endif
