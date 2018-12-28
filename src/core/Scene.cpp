@@ -78,3 +78,11 @@ void Scene::update()
 
 	actorsToSpawn_.clear();
 }
+
+void Scene::unload() const
+{
+	for (auto& it : actorsById_)
+	{
+		game_.onActorDestroyed(*it.second);
+	}
+}

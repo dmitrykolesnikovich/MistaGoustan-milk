@@ -41,7 +41,7 @@ void Animator::rows(int rows)
 	rows_ = rows;
 }
 
-void Animator::column(int columns)
+void Animator::columns(int columns)
 {
 	columns_ = columns;
 }
@@ -52,6 +52,11 @@ void Animator::togglePaused()
 }
 
 void Animator::addAnimation(const std::string& name, std::initializer_list<int> f)
+{
+	animations_.insert(std::make_pair(name, std::unique_ptr<Animation>(new Animation(name, f))));
+}
+
+void Animator::addAnimation(const std::string& name, std::vector<int> f)
 {
 	animations_.insert(std::make_pair(name, std::unique_ptr<Animation>(new Animation(name, f))));
 }
@@ -69,7 +74,7 @@ void Animator::setAnimation(const std::string& name)
 	int row = (int)((float)currentAnimation_->frames[currentFrame_] / columns_);
 	int column = currentAnimation_->frames[currentFrame_] % columns_;
 
-	sprite_->setSourceRect(column * frameWidth_, row * frameHeight_, frameWidth_, frameHeight_);
+	sprite_->sourceRect(column * frameWidth_, row * frameHeight_, frameWidth_, frameHeight_);
 }
 
 void Animator::update()
@@ -92,7 +97,7 @@ void Animator::update()
 			int row = (int)((float)currentAnimation_->frames[currentFrame_] / columns_);
 			int column = currentAnimation_->frames[currentFrame_] % columns_;
 
-			sprite_->setSourceRect(column * frameWidth_, row * frameHeight_, frameWidth_, frameHeight_);
+			sprite_->sourceRect(column * frameWidth_, row * frameHeight_, frameWidth_, frameHeight_);
 		}
 	}
 }

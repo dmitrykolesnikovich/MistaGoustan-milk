@@ -55,6 +55,8 @@ public:
 	// Returns the games resource manager.
 	ResourceManager& getResourceManager() const;
 
+	void loadScene(const std::string& name);
+
 	// Called when an actor has been spawned into the current scene.
 	void onActorSpawned(Actor& actor);
 
@@ -77,6 +79,7 @@ private:
 	std::unique_ptr<Renderer> renderSystem_;
 
 	std::unique_ptr<Scene> currentScene_;
+	std::string sceneToLoad_;
 
 	bool isRunning_;
 

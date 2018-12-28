@@ -18,7 +18,7 @@ void Sprite::load(ResourceManager& resourceManager)
 	texture_ = resourceManager.loadTexture(textureName_);
 }
 
-void Sprite::setTextureName(const std::string& name)
+void Sprite::textureName(const std::string& name)
 {
 	textureName_ = name;
 }
@@ -28,7 +28,7 @@ Texture* Sprite::texture() const
 	return texture_;
 }
 
-void Sprite::setSourceRect(int x, int y, int width, int height)
+void Sprite::sourceRect(int x, int y, int width, int height)
 {
 	sourceRect_.x = x;
 	sourceRect_.y = y;
@@ -36,7 +36,7 @@ void Sprite::setSourceRect(int x, int y, int width, int height)
 	sourceRect_.h = height;
 }
 
-void Sprite::setSourceRect(SDL_Rect rect)
+void Sprite::sourceRect(SDL_Rect rect)
 {
 	sourceRect_.x = rect.x;
 	sourceRect_.y = rect.y;

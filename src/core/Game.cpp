@@ -41,49 +41,6 @@ bool Game::init(const std::string& title, unsigned int width, unsigned int heigh
 	initLua();
 	initSystems();
 
-	// Test CODEz
-	//////////////////////////////////////////////////
-	currentScene_ = sceneLoader_->load("res/testmap.xml");
-
-	auto actor = currentScene_->spawnActor("steve");
-	actor->position(50, 50);
-	actor->addComponent<Sprite>();
-	auto sprite = actor->getComponent<Sprite>();
-	sprite->setTextureName("res/player.png");
-	sprite->setSourceRect(0, 0, 64, 64);
-
-	actor->addComponent<Velocity>();
-	auto velocity = actor->getComponent<Velocity>();
-	actor->addComponent<Behavior>();
-
-	auto behavior = actor->getComponent<Behavior>();
-	behavior->setScript("res/player.lua");	
-
-	actor->addComponent<BoxCollider>();
-	auto collider = actor->getComponent<BoxCollider>();
-	collider->width(100);
-	collider->height(100);
-
-	actor->addComponent<Animator>();
-	auto anim = actor->getComponent<Animator>();
-	anim->rows(4);
-	anim->column(8);
-	anim->addAnimation("main", { 13, 14, 15, 16, 17, 18, 19, 20 });
-
-	auto collidable = currentScene_->spawnActor("collidable");
-	collidable->position(200, 200);
-
-	collidable->addComponent<Sprite>();
-	auto spr = collidable->getComponent<Sprite>();
-	spr->setTextureName("res/steve.png");
-	spr->setSourceRect(0, 0, 64, 64);
-
-	collidable->addComponent<BoxCollider>();
-	auto coll = collidable->getComponent<BoxCollider>();
-	coll->width(64);
-	coll->height(64);
-	//////////////////////////////////////////////////
-
 	isRunning_ = true;
 	
 	std::cout << "Game started" << std::endl;
@@ -116,16 +73,37 @@ void Game::handleEvents()
 
 void Game::update()
 {
-	currentScene_->update();
-	logicSystem_->update();
-	physicsSystem_->update();
+	if (!sceneToLoad_.empty()) 
+	{
+		if (currentScene_ != nullptr) 
+		{
+			currentScene_->unload();
+			currentScene_.release();
+
+			resourceManager_->unloadTextures();
+		}
+
+		currentScene_ = sceneLoader_->load(sceneToLoad_);
+
+		sceneToLoad_.clear();
+	}
+
+	if (currentScene_ != nullptr) 
+	{
+		currentScene_->update();
+		logicSystem_->update();
+		physicsSystem_->update();
+	}
 }
 
 void Game::render()
 {
 	SDL_RenderClear(window_->getSdlRenderer());
 
-	renderSystem_->render(currentScene_->getTilemap());
+	if (currentScene_ != nullptr) 
+	{
+		renderSystem_->render(currentScene_->getTilemap());
+	}
 
 	SDL_RenderPresent(window_->getSdlRenderer());
 }
@@ -162,6 +140,11 @@ Window& Game::getWindow() const
 ResourceManager& Game::getResourceManager() const
 {
 	return *resourceManager_;
+}
+
+void Game::loadScene(const std::string& name)
+{
+	sceneToLoad_ = name;
 }
 
 void Game::onActorSpawned(Actor& actor)

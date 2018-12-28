@@ -35,6 +35,8 @@ public:
 	// Updates the scenes internal lists and notifies game when actors have been spawned, destroyed, or modified.
 	void update();
 
+	void unload() const;
+
 private:
 	Game& game_;
 

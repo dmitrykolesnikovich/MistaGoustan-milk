@@ -13,7 +13,7 @@ Behavior::~Behavior()
 {
 }
 
-void Behavior::setScript(const std::string& scriptName) 
+void Behavior::script(const std::string& scriptName) 
 {
 	scriptName_ = scriptName;
 }

@@ -14,7 +14,7 @@ public:
 	Behavior(Actor& actor);
 	~Behavior();
 
-	void setScript(const std::string& scriptName);
+	void script(const std::string& scriptName);
 	void load(sol::state& luaState);
 
 	virtual void begin();

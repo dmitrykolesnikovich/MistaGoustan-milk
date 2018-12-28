@@ -24,6 +24,8 @@ int main(int argc, char* argv[])
 	if (!game.init("Butt Dragons", 640, 480, false))
 		return -1;
 
+	game.loadScene("res/testmap.xml");
+
 	fpsTimer.start();
 
 	while (game.isRunning()) 

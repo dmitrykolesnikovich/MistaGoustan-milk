@@ -10,7 +10,11 @@
 
 #include "../externals/tinyxml2.h"
 
+#include "../components/Animator.h"
+#include "../components/Behavior.h"
 #include "../components/BoxCollider.h"
+#include "../components/Sprite.h"
+#include "../components/Velocity.h"
 #include "../core/Game.h"
 #include "../core/Actor.h"
 
@@ -97,11 +101,100 @@ std::unique_ptr<Scene> SceneLoader::load(const std::string& file) const
 		}
 	}
 
-	tinyxml2::XMLElement* objectsElement = layersElement->NextSiblingElement("gameobjects");
+	tinyxml2::XMLElement* objectsElement = layersElement->NextSiblingElement("actors");
 
 	for (tinyxml2::XMLElement* e = objectsElement->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
 	{
-		
+		const char* name = e->FirstChildElement("name")->GetText();
+		tinyxml2::XMLElement* posElement = e->FirstChildElement("position");
+		int x = posElement->IntAttribute("x");
+		int y = posElement->IntAttribute("y");
+
+		Actor* actor = scene->spawnActor(name);
+		actor->position(x, y);
+
+		tinyxml2::XMLElement* componentsElement = e->FirstChildElement("components");
+
+		for (tinyxml2::XMLElement* e = componentsElement->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
+		{
+			const char* type = e->Attribute("type");
+
+			if (strcmp(type, "Sprite") == 0) 
+			{
+				const char* textureName = e->FirstChildElement("textureName")->GetText();
+				tinyxml2::XMLElement* srcRctElement = e->FirstChildElement("sourceRect");
+				int sx = srcRctElement->IntAttribute("x");
+				int sy = srcRctElement->IntAttribute("y");
+				int sw = srcRctElement->IntAttribute("w");
+				int sh = srcRctElement->IntAttribute("h");
+
+				actor->addComponent<Sprite>();
+				auto sprite = actor->getComponent<Sprite>();
+				sprite->textureName(textureName);
+				sprite->sourceRect(sx,sy, sw, sh);
+			}
+
+			if (strcmp(type, "Velocity") == 0)
+			{
+				int vx = e->IntAttribute("x");
+				int vy = e->IntAttribute("y");
+
+				actor->addComponent<Velocity>();
+				auto vel = actor->getComponent<Velocity>();
+				vel->value(vx, vy);
+			}
+
+			if (strcmp(type, "Script") == 0)
+			{
+				const char* name = e->Attribute("name");
+				actor->addComponent<Behavior>();
+				auto beh = actor->getComponent<Behavior>();
+				beh->script(name);
+			}
+
+			if (strcmp(type, "Collider") == 0)
+			{
+				int w = e->IntAttribute("w");
+				int h = e->IntAttribute("h");
+
+				actor->addComponent<BoxCollider>();
+				auto coll = actor->getComponent<BoxCollider>();
+				coll->width(w);
+				coll->height(h);
+			}
+
+			if (strcmp(type, "Animator") == 0)
+			{
+				int rows = e->IntAttribute("rows");
+				int columns = e->IntAttribute("columns");
+
+				actor->addComponent<Animator>();
+				auto animator = actor->getComponent<Animator>();
+				animator->rows(rows);
+				animator->columns(columns);
+
+				tinyxml2::XMLElement* animationElements = e->FirstChildElement("animations");
+
+				for (tinyxml2::XMLElement* e = animationElements->FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) 
+				{
+					const char* name = e->Attribute("name");
+
+					const char* tilesText = e->Attribute("frames");
+
+					std::istringstream iss(tilesText);
+					std::vector<std::string> res((std::istream_iterator<std::string>(iss)), std::istream_iterator<std::string>());
+
+					std::vector<int> f(0);
+
+					for (auto& it : res) 
+					{
+						f.emplace_back(std::atoi(it.c_str()));
+					}
+
+					animator->addAnimation(name, f);
+				}
+			}
+		}
 	}
 
 	auto& resourceManager = game_.getResourceManager();
