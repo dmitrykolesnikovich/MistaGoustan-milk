@@ -92,6 +92,8 @@ void Game::handleEvents()
 			case SDL_KEYUP:
 				if (e.key.keysym.sym == SDLK_ESCAPE)
 					isRunning_ = false;
+				if (e.key.keysym.sym == SDLK_f)
+					window_.toggleFullscreen();
 				break;
 			default:
 				break;

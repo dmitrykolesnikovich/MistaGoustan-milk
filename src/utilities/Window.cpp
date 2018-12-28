@@ -94,7 +94,23 @@ void Window::toggleFullscreen()
 {
 	isFullscreen_ = !isFullscreen_;
 
-	// TODO: More stuff
+	if (!isFullscreen_) 
+	{
+		const int windowed = 0;
+		SDL_SetWindowFullscreen(sdlWindow_, windowed);
+	}
+	else
+	{
+		int displayIndex = SDL_GetWindowDisplayIndex(sdlWindow_);
+
+		SDL_Rect displayBounds;
+		SDL_GetDisplayBounds(displayIndex, &displayBounds);
+
+		nativeWidth_ = displayBounds.w;
+		nativeHeight_ = displayBounds.h;
+
+		SDL_SetWindowFullscreen(sdlWindow_, SDL_WINDOW_FULLSCREEN_DESKTOP);
+	}
 }
 
 SDL_Window* Window::sdlWindow() const

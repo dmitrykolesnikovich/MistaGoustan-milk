@@ -48,6 +48,10 @@ private:
 
 	unsigned int width_;
 	unsigned int height_;
+
+	unsigned int nativeWidth_;
+	unsigned int nativeHeight_;
+
 	unsigned int virtualWidth_;
 	unsigned int virtualHeight_;
 
