@@ -1,9 +1,12 @@
-local playerBehavior = { }
+-- player script
 
-function playerBehavior:begin()	
+local playerScript = {
+ }
+
+function playerScript:begin()	
 end
 
-function playerBehavior:update()
+function playerScript:update()
 	local inputvec = Vector2D.new(0, 0)
 	local speed = 2
 
@@ -23,10 +26,10 @@ function playerBehavior:update()
 	inputvec.x = inputvec.x * speed
 	inputvec.y = inputvec.y * speed
 
-	actor.move(self.actor, inputvec.x, inputvec.y)
+	self.actor:move(inputvec.x, inputvec.y)
 end
 
-function playerBehavior:destroyed()
+function playerScript:destroyed()
 end
 
-return playerBehavior
+return playerScript

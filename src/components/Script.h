@@ -6,6 +6,8 @@
 #include "../core/ActorComponent.h"
 #include "../externals/sol.hpp"
 
+class LuaHandle_Actor;
+
 class Script : public ActorComponent
 {
 public:

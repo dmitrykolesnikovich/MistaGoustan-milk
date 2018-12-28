@@ -1,9 +1,19 @@
-#pragma once
+#ifndef _LUA_HANDLE_ACTOR_
+#define _LUA_HANDLE_ACTOR_
 
 class Actor;
 
-class LuaHandle_Actor 
+class LuaHandle_Actor
 {
 public:
-	static void move(Actor& actor, float x, float y);
+	LuaHandle_Actor(Actor& actor);
+	LuaHandle_Actor() = default;
+
+	// Move the actor.
+	void move(float x, float y);
+
+private:
+	Actor& actor_;
 };
+
+#endif

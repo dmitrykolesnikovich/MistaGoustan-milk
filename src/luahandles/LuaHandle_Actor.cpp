@@ -1,15 +1,18 @@
 #include "LuaHandle_Actor.h"
 
-#include "../core/Actor.h"
 #include "../components/Velocity.h"
+#include "../core/Actor.h"
 
-#include <iostream>
-
-void LuaHandle_Actor::move(Actor& actor, float x, float y)
+LuaHandle_Actor::LuaHandle_Actor(Actor& actor)
+	: actor_(actor)
 {
-	auto velCmp = actor.getComponent<Velocity>();
-	if (velCmp == nullptr)
+}
+
+void LuaHandle_Actor::move(float x, float y)
+{
+	auto velocity = actor_.getComponent<Velocity>();
+	if (velocity == nullptr)
 		return;
 
-	velCmp->value(x, y);
+	velocity->value(x, y);
 }

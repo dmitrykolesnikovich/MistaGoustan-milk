@@ -1,7 +1,7 @@
 #include "Logic.h"
 
-#include "../core/Actor.h"
 #include "../components/Script.h"
+#include "../core/Actor.h"
 
 Logic::Logic(sol::state& luaState)
 	: luaState_(luaState)
