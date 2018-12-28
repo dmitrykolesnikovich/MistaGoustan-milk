@@ -30,8 +30,8 @@ void Animator::init()
 {
 	sprite_ = actor_.getComponent<Sprite>();
 
-	frameWidth_ = sprite_->texture()->getWidth() / columns_;
-	frameHeight_ = sprite_->texture()->getHeight() / rows_;
+	frameWidth_ = sprite_->texture()->width() / columns_;
+	frameHeight_ = sprite_->texture()->height() / rows_;
 
 	setAnimation("main");
 }

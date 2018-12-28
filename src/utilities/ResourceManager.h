@@ -14,6 +14,7 @@ public:
 	ResourceManager(const std::string& rootDir = "");
 	~ResourceManager();
 
+	// Initialize the resource manager.
 	void init(SDL_Renderer* sdlRenderer);
 
 	// Load texture. Textures are cached.
@@ -26,7 +27,7 @@ public:
 	void freeResources();
 
 private:
-	std::string root;
+	std::string rootDir_;
 
 	SDL_Renderer* sdlRenderer_;
 

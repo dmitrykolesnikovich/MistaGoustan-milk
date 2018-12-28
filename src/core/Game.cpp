@@ -209,7 +209,7 @@ bool Game::initSDLSubsystems()
 
 bool Game::initGameWindow()
 {
-	if (!window_.init()) 
+	if (!window_.initSDLRenderWindow()) 
 	{
 		IMG_Quit();
 		SDL_Quit();

@@ -3,7 +3,9 @@
 #include"SDL.h"
 
 Texture::Texture(SDL_Texture* sdlTexture, int width, int height)
-	: sdlTexture_(sdlTexture), width_(width), height_(height)
+	: sdlTexture_(sdlTexture)
+	, width_(width)
+	, height_(height)
 {
 }
 
@@ -17,12 +19,12 @@ SDL_Texture* Texture::get() const
 	return sdlTexture_;
 }
 
-int Texture::getWidth() const
+int Texture::width() const
 {
 	return width_;
 }
 
-int Texture::getHeight() const
+int Texture::height() const
 {
 	return height_;
 }

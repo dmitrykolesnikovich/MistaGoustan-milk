@@ -5,21 +5,20 @@
 #include "SDL.h"
 
 Window::Window()
-{
-	Window("Game", 800, 800, false);
+	: Window::Window("Milk", 800, 600, false)
+{	
 }
 
 Window::Window(const std::string& title, unsigned int width, unsigned int height, bool fullscreen)
+	: title_(title)
+	, width_(width)
+	, height_(height)
+	, virtualWidth_(width)
+	, virtualHeight_(height)
+	, isFullscreen_(fullscreen)
+	, sdlWindow_(nullptr)
+	, sdlRenderer_(nullptr)
 {
-	title_ = title;
-	width_ = width;
-	height_ = height;
-	virtualWidth_ = width;
-	virtualHeight_ = height;
-	isFullscreen_ = fullscreen;
-
-	sdlWindow_ = nullptr;
-	sdlRenderer_ = nullptr;
 }
 
 Window::~Window()
@@ -27,7 +26,7 @@ Window::~Window()
 	freeSDLResources();
 }
 
-bool Window::init()
+bool Window::initSDLRenderWindow()
 {
 	SDL_DisplayMode currentDisplayMode;
 	SDL_GetCurrentDisplayMode(0, &currentDisplayMode);
@@ -64,12 +63,12 @@ bool Window::init()
 	return true;
 }
 
-unsigned int Window::getWidth() const
+unsigned int Window::width() const
 {
 	return width_;
 }
 
-unsigned int Window::getHeight() const
+unsigned int Window::height() const
 {
 	return height_;
 }
@@ -86,7 +85,7 @@ void Window::virtualSize(unsigned int virtualWidth, unsigned int virtualHeight)
 	virtualHeight_ = virtualHeight;
 }
 
-bool Window::isFullscreen() const
+bool Window::fullscreen() const
 {
 	return isFullscreen_;
 }

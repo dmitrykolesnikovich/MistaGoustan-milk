@@ -1,6 +1,7 @@
 #include "IdGenerator.h"
 
 IdGenerator::IdGenerator()
+	: count_(0)
 {
 }
 
@@ -19,6 +20,7 @@ void IdGenerator::pushId(unsigned int id)
 {
 	for (auto& it : availableIds_)
 	{
+		// No duplicate ids allowed.
 		if (it == id)
 			return;
 	}

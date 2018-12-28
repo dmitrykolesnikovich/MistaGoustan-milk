@@ -13,10 +13,10 @@ public:
 	SDL_Texture* get() const;
 
 	// Get texture width.
-	int getWidth() const;
+	int width() const;
 
 	// Get texture height.
-	int getHeight() const;
+	int height() const;
 
 private:
 	SDL_Texture* sdlTexture_;

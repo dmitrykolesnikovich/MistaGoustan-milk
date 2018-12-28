@@ -13,20 +13,34 @@ public:
 	Window(const std::string& title, unsigned int width, unsigned int height, bool fullscreen);
 	~Window();
 
-	bool init();
+	// Initialize the SDL_Window and SDL_Renderer.
+	bool initSDLRenderWindow();
 
-	unsigned int getWidth() const;
-	unsigned int getHeight() const;
+	// Get width of window.
+	unsigned int width() const;
 
+	// Get height of window.
+	unsigned int height() const;
+
+	// Set size of window.
 	void size(unsigned int width, unsigned int height);
+
+	// Set the virtual size of window.
 	void virtualSize(unsigned int virtualWidth, unsigned int virtualHeight);
 
-	bool isFullscreen() const;
+	// Returns true if window is in fullscreen mode.
+	bool fullscreen() const;
+
+	// Toggles fullscreen mode.
 	void toggleFullscreen();
 
+	// Get SDL_Window.
 	SDL_Window* sdlWindow() const;
+
+	// Get SDL_Renderer.
 	SDL_Renderer* sdlRenderer() const;
 
+	// Free all resources.
 	void freeSDLResources();
 
 private:

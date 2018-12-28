@@ -10,7 +10,7 @@
 #include "Texture.h"
 
 ResourceManager::ResourceManager(const std::string& rootDir)
-	: root(rootDir)
+	: rootDir_(rootDir)
 	, sdlRenderer_(nullptr)
 {
 }
@@ -27,12 +27,12 @@ void ResourceManager::init(SDL_Renderer* sdlRenderer)
 
 Texture* ResourceManager::loadTexture(const std::string& name)
 {
-	std::unordered_map<std::string, Texture*>::const_iterator found = textureCache_.find(name);
+	auto& found = textureCache_.find(name);
 	
 	if (found != textureCache_.end())
 		return found->second;
 
-	std::string resourcePath = root + "/" + name;
+	std::string resourcePath = rootDir_ + "/" + name;
 
 	SDL_Surface* surf = IMG_Load(resourcePath.c_str());
 
@@ -53,9 +53,7 @@ Texture* ResourceManager::loadTexture(const std::string& name)
 
 	Texture* texture = new Texture(sdlTex, width, height);
 
-	std::pair<std::string, Texture*> loadedTexture(name, texture);
-
-	textureCache_.insert(loadedTexture);
+	textureCache_.insert(std::make_pair(name, texture));
 
 	return texture;
 }
@@ -67,6 +65,8 @@ void ResourceManager::unloadTextures()
 		delete it->second;
 		it->second = nullptr;
 	}
+
+	textureCache_.clear();
 }
 
 void ResourceManager::freeResources()
