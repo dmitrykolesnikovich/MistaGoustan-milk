@@ -1,8 +1,8 @@
 set(COMP_SOURCES
 		Animator.h
 		Animator.cpp
-		Behavior.h
-		Behavior.cpp
+		Script.h
+		Script.cpp
 		BoxCollider.h
 		BoxCollider.cpp
 		Sprite.h
