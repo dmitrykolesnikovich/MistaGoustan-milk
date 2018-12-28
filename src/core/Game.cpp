@@ -9,7 +9,12 @@
 #include "../utilities/Input.h"
 #include "../utilities/Timer.h"
 
-#include "../luahandles/LuaHandle_Actor.h"
+#include "../luahandles/LuaHandleRegistry.h"
+
+Game::Game()
+	: sceneLoader_(*this)
+{
+}
 
 Game::Game(const GameRunParameters& runParams)
 	: window_(runParams.title, runParams.width, runParams.height, runParams.fullscreen)
@@ -92,8 +97,6 @@ void Game::handleEvents()
 			case SDL_KEYUP:
 				if (e.key.keysym.sym == SDLK_ESCAPE)
 					isRunning_ = false;
-				if (e.key.keysym.sym == SDLK_f)
-					window_.toggleFullscreen();
 				break;
 			default:
 				break;
@@ -226,16 +229,11 @@ void Game::initLua()
 {
 	luaState_.open_libraries(sol::lib::base, sol::lib::package);
 
-	luaState_.new_usertype<Input>("Input",
-		"getKey", &Input::getKey);
+	
 
-	luaState_.new_usertype<LuaHandle_Actor>("actor",
-		"move", &LuaHandle_Actor::move);
+	LuaHandleRegistry::RegisterHandles(luaState_);
 
-	luaState_.new_usertype<Vector2d>("Vector2D",
-		sol::constructors<Vector2d(), Vector2d(int, int)>(),
-		"x", &Vector2d::x,
-		"y", &Vector2d::y);
+	luaState_["game"] = this;
 }
 
 void Game::initGameSubsystems()

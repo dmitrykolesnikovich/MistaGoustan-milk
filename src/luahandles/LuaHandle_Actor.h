@@ -1,6 +1,8 @@
 #ifndef _LUA_HANDLE_ACTOR_
 #define _LUA_HANDLE_ACTOR_
 
+#include "../externals/sol.hpp"
+
 class Actor;
 
 class LuaHandle_Actor

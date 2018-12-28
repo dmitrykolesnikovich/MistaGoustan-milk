@@ -35,6 +35,7 @@ struct GameRunParameters
 class Game
 {
 public:
+	Game();
 	Game(const GameRunParameters& runParams);
 	~Game() = default;
 
