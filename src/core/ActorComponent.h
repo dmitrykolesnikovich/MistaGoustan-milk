@@ -8,7 +8,7 @@ enum ComponentType
 	ANIMATOR = 1 << 2,
 	BOX_COLLIDER = 1 << 3,
 	VELOCITY = 1 << 4,
-	MAX_COMPONENTS = 1 << 32
+	MAX_COMPONENTS = 1 << 31
 };
 
 class Actor;

@@ -158,12 +158,12 @@ void Game::shutDown()
 	std::cout << "//////////////////" << std::endl;
 }
 
-Window& Game::getWindow()
+Window& Game::window()
 {
 	return window_;
 }
 
-ResourceManager& Game::getResourceManager()
+ResourceManager& Game::resourceManager()
 {
 	return resourceManager_;
 }

@@ -2,6 +2,8 @@
 
 #include "SDL.h"
 
+#include <cmath>
+
 #include "../components/Animator.h"
 #include "../components/Sprite.h"
 #include "../core/Scene.h"
@@ -66,8 +68,8 @@ void Renderer::render(Tilemap& tilemap)
 		auto sourceRect = it.second->getSourceRect();
 
 		SDL_Rect destination;
-		destination.x = actorPosition.x;
-		destination.y = actorPosition.y;
+		destination.x = std::floor(actorPosition.x);
+		destination.y = std::floor(actorPosition.y);
 		destination.w = sourceRect.w;
 		destination.h = sourceRect.h;
 

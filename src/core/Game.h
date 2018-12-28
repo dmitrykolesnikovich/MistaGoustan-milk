@@ -44,10 +44,10 @@ public:
 	int run();
 
 	// Returns the game window.
-	Window& getWindow();
+	Window& window();
 
 	// Returns the games resource manager.
-	ResourceManager& getResourceManager();
+	ResourceManager& resourceManager();
 
 	// Loads an XML based scene.
 	void loadScene(const std::string& name);

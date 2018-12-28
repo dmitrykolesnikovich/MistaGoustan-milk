@@ -83,7 +83,7 @@ std::unique_ptr<Scene> SceneLoader::load(const std::string& file) const
 				if (tile->collidable)
 				{
 					Actor* actor = scene->spawnActor("tile");
-					actor->position(x, y);
+					actor->position((float)x, (float)y);
 					actor->addComponent<BoxCollider>();
 
 					auto coll = actor->getComponent<BoxCollider>();
@@ -136,8 +136,8 @@ std::unique_ptr<Scene> SceneLoader::load(const std::string& file) const
 
 			if (strcmp(type, "Velocity") == 0)
 			{
-				int vx = e->IntAttribute("x");
-				int vy = e->IntAttribute("y");
+				float vx = e->FloatAttribute("x");
+				float vy = e->FloatAttribute("y");
 
 				actor->addComponent<Velocity>();
 				auto vel = actor->getComponent<Velocity>();
@@ -197,7 +197,7 @@ std::unique_ptr<Scene> SceneLoader::load(const std::string& file) const
 		}
 	}
 
-	auto& resourceManager = game_.getResourceManager();
+	auto& resourceManager = game_.resourceManager();
 
 	tilemap.texture = resourceManager.loadTexture(tilemap.sourceImageFile);
 
