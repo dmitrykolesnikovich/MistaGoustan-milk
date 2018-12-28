@@ -22,9 +22,6 @@
 
 class Actor;
 
-struct SDL_Window;
-struct SDL_Renderer;
-
 struct GameRunParameters 
 {
 	std::string title;
