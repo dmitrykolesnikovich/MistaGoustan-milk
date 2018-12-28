@@ -10,6 +10,7 @@
 
 #include "../externals/tinyxml2.h"
 
+#include "../components/BoxCollider.h"
 #include "../core/Game.h"
 #include "../core/Actor.h"
 
@@ -40,8 +41,9 @@ std::unique_ptr<Scene> SceneLoader::load(const std::string& file) const
 		int id = e->IntAttribute("id");
 		int x = e->IntAttribute("x");
 		int y = e->IntAttribute("y");
+		bool collidable = e->BoolAttribute("collidable");
 
-		tilemap.addTileType(id, x, y);
+		tilemap.addTileType(id, x, y, collidable);
 	}
 
 	tinyxml2::XMLElement* layersElement = tilesetElement->NextSiblingElement();
@@ -73,6 +75,17 @@ std::unique_ptr<Scene> SceneLoader::load(const std::string& file) const
 				int y = currentRow * tilemap.tileSize;
 
 				layer.addTile(*tile, x, y);
+
+				if (tile->collidable)
+				{
+					Actor* actor = scene->spawnActor("tile");
+					actor->position(x, y);
+					actor->addComponent<BoxCollider>();
+
+					auto coll = actor->getComponent<BoxCollider>();
+					coll->width(tilemap.tileSize);
+					coll->height(tilemap.tileSize);
+				}
 			}
 
 			currentColumn++;

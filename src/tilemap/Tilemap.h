@@ -11,15 +11,17 @@ class Texture;
 
 struct TileType
 {
-	TileType(int x, int y, int size)
+	TileType(int x, int y, int size, bool coll)
 	{
 		rect.x = x;
 		rect.y = y;
 		rect.w = size;
 		rect.h = size;
+		collidable = coll;
 	}
 
 	SDL_Rect rect;
+	bool collidable;
 
 	// Additional information about the type will go here.
 	// i.e. collidable, triggerable, opacity, animations.
@@ -85,9 +87,9 @@ struct Tilemap
 	std::unordered_map<int, TileType*> tileTypes;
 	std::vector<TileLayer*> layers;
 
-	TileType& addTileType(int id, int x, int y) 
+	TileType& addTileType(int id, int x, int y, bool collidable) 
 	{
-		TileType* type = new TileType(x, y, tileSize);
+		TileType* type = new TileType(x, y, tileSize, collidable);
 		tileTypes.insert(std::pair<int, TileType*>(id, type));
 
 		return *type;
