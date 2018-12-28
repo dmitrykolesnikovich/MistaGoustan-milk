@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 
+#include "../components/Animator.h"
 #include "../components/Sprite.h"
 #include "../core/Scene.h"
 
@@ -19,6 +20,10 @@ void Renderer::onActorAdded(Actor& actor)
 	{
 		sprite->load(resourceManager_);
 		spritesByActorId_.insert(std::make_pair(actor.id(), sprite));
+
+		auto anim = actor.getComponent<Animator>();
+		if (anim != nullptr)
+			anim->init();
 	}
 }
 
@@ -52,8 +57,12 @@ void Renderer::render(Tilemap& tilemap)
 
 	for (auto it : spritesByActorId_) 
 	{
+		Animator* animator = it.second->actor().getComponent<Animator>();
+		if (animator != nullptr)
+			animator->update();
+
 		auto actorPosition = it.second->actor().position();
-		auto texture = it.second->getTexture();
+		auto texture = it.second->texture();
 		auto sourceRect = it.second->getSourceRect();
 
 		SDL_Rect destination;

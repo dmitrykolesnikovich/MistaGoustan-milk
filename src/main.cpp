@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
 
 	Game& game = Game::getInstance();
 
-	if (!game.init("Butt Dragons", 640, 480, true))
+	if (!game.init("Butt Dragons", 640, 480, false))
 		return -1;
 
 	fpsTimer.start();

@@ -10,6 +10,7 @@
 #include "../utilities/Texture.h"
 #include "../math/Vector2d.h"
 #include "Scene.h"
+#include "../components/Animator.h"
 #include "../components/Sprite.h"
 #include "../components/Velocity.h"
 #include "../components/BoxCollider.h"
@@ -48,7 +49,7 @@ bool Game::init(const std::string& title, unsigned int width, unsigned int heigh
 	actor->position(50, 50);
 	actor->addComponent<Sprite>();
 	auto sprite = actor->getComponent<Sprite>();
-	sprite->setTextureName("res/steve.png");
+	sprite->setTextureName("res/player.png");
 	sprite->setSourceRect(0, 0, 64, 64);
 
 	actor->addComponent<Velocity>();
@@ -60,8 +61,14 @@ bool Game::init(const std::string& title, unsigned int width, unsigned int heigh
 
 	actor->addComponent<BoxCollider>();
 	auto collider = actor->getComponent<BoxCollider>();
-	collider->width(64);
-	collider->height(64);
+	collider->width(100);
+	collider->height(100);
+
+	actor->addComponent<Animator>();
+	auto anim = actor->getComponent<Animator>();
+	anim->rows(4);
+	anim->column(8);
+	anim->addAnimation("main", { 13, 14, 15, 16, 17, 18, 19, 20 });
 
 	auto collidable = currentScene_->spawnActor("collidable");
 	collidable->position(200, 200);
@@ -173,7 +180,7 @@ void Game::onActorDestroyed(Actor& actor)
 
 bool Game::initSDL()
 {
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) < 0)
 	{
 		std::cout << "Error initializing SDL: " << SDL_GetError() << std::endl;
 		return false;

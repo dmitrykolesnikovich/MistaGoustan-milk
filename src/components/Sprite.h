@@ -25,7 +25,7 @@ public:
 	void setTextureName(const std::string& name);
 
 	// Get the sprites texture.
-	Texture* getTexture() const;
+	Texture* texture() const;
 
 	// Set the sprites source rectangle.
 	void setSourceRect(int x, int y, int width, int height);

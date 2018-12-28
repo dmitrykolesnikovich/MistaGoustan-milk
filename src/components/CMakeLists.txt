@@ -1,4 +1,6 @@
 set(COMP_SOURCES
+		Animator.h
+		Animator.cpp
 		Behavior.h
 		Behavior.cpp
 		BoxCollider.h

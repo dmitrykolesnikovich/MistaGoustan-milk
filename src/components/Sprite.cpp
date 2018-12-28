@@ -23,7 +23,7 @@ void Sprite::setTextureName(const std::string& name)
 	textureName_ = name;
 }
 
-Texture* Sprite::getTexture() const
+Texture* Sprite::texture() const
 {
 	return texture_;
 }
