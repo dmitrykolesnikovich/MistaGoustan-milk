@@ -110,7 +110,7 @@ void Game::update()
 			currentScene_->unload();
 			currentScene_.release();
 
-			resourceManager_.unloadTextures();
+			resourceManager_.freeResources();
 		}
 
 		currentScene_ = sceneLoader_.load(sceneToLoad_);
