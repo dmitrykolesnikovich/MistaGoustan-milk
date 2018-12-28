@@ -55,6 +55,7 @@ public:
 	// Returns the games resource manager.
 	ResourceManager& getResourceManager() const;
 
+	// Loads an XML based scene.
 	void loadScene(const std::string& name);
 
 	// Called when an actor has been spawned into the current scene.
@@ -69,7 +70,6 @@ private:
 	std::unique_ptr<Window> window_;
 
 	std::unique_ptr<SceneLoader> sceneLoader_;
-
 	std::unique_ptr<ResourceManager> resourceManager_;
 
 	sol::state luaState_;
@@ -83,10 +83,10 @@ private:
 
 	bool isRunning_;
 
-	bool initSDL();
-	bool initWindow(const std::string& title, unsigned int width, unsigned int height, bool fullscreen);
+	bool initSDLSubsystems();
+	bool initGameWindow(const std::string& title, unsigned int width, unsigned int height, bool fullscreen);
 	bool initLua();
-	bool initSystems();
+	bool initGameSubsystems();
 };
 
 #endif

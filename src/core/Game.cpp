@@ -6,18 +6,7 @@
 #include "SDL_events.h"
 #include "SDL_image.h"
 
-#include "../utilities/ResourceManager.h"
-#include "../utilities/Texture.h"
-#include "../math/Vector2d.h"
-#include "Scene.h"
-#include "../components/Animator.h"
-#include "../components/Sprite.h"
-#include "../components/Velocity.h"
-#include "../components/BoxCollider.h"
-#include "../components/Behavior.h"
 #include "../utilities/Input.h"
-
-#include "../externals/sol.hpp"
 
 #include "../luahandles/LuaHandle_Actor.h"
 
@@ -33,13 +22,12 @@ Game& Game::getInstance()
 
 bool Game::init(const std::string& title, unsigned int width, unsigned int height, bool fullscreen)
 {
-	// Init SDL and initWindow both initialize SDL library stuff.
-	// If these two fail, then startup fails.
-	if (!initSDL() || !initWindow(title, width, height, fullscreen))
+	// InitSDLSubsystems and initGameWindow both initialize SDL related items.
+	if (!initSDLSubsystems() || !initGameWindow(title, width, height, fullscreen))
 		return false;
 
 	initLua();
-	initSystems();
+	initGameSubsystems();
 
 	isRunning_ = true;
 	
@@ -52,6 +40,7 @@ bool Game::init(const std::string& title, unsigned int width, unsigned int heigh
 void Game::handleEvents()
 {
 	SDL_Event e;
+
 	while (SDL_PollEvent(&e)) 
 	{
 		switch (e.type) 
@@ -161,7 +150,7 @@ void Game::onActorDestroyed(Actor& actor)
 	renderSystem_->onActorDestroyed(actor);
 }
 
-bool Game::initSDL()
+bool Game::initSDLSubsystems()
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) < 0)
 	{
@@ -181,7 +170,7 @@ bool Game::initSDL()
 	return true;
 }
 
-bool Game::initWindow(const std::string& title, unsigned int width, unsigned int height, bool fullscreen)
+bool Game::initGameWindow(const std::string& title, unsigned int width, unsigned int height, bool fullscreen)
 {
 	window_ = std::unique_ptr<Window>(new Window(title, width, height, fullscreen));
 
@@ -214,7 +203,7 @@ bool Game::initLua()
 	return true; // try catch for errors?
 }
 
-bool Game::initSystems()
+bool Game::initGameSubsystems()
 {
 	Input::initialize();
 
