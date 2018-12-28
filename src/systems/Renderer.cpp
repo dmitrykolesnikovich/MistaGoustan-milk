@@ -1,6 +1,6 @@
 #include "Renderer.h"
 
-#include <SDL.h>
+#include "SDL.h"
 
 #include "../components/Animator.h"
 #include "../components/Sprite.h"

@@ -1,7 +1,7 @@
 #ifndef _BOX_COLLIDER_
 #define _BOX_COLLIDER_
 
-#include <SDL.h>
+#include "SDL.h"
 
 #include "../core/ActorComponent.h"
 

@@ -1,6 +1,6 @@
 #include "Texture.h"
 
-#include <SDL.h>
+#include"SDL.h"
 
 Texture::Texture(SDL_Texture* sdlTexture, int width, int height)
 	: sdlTexture_(sdlTexture), width_(width), height_(height)

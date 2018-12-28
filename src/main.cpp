@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <SDL.h>
+#include "SDL.h"
 
 #include "core/Game.h"
 #include "utilities/Timer.h"

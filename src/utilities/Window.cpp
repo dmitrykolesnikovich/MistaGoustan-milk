@@ -1,7 +1,7 @@
 #include "Window.h"
 
 #include <iostream>
-#include <SDL.h>
+#include "SDL.h"
 
 Window::Window(const std::string& title, unsigned int width, unsigned int height, bool fullscreen)
 {

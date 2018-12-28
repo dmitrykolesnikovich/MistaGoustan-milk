@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include <SDL.h>
+#include "SDL.h"
 
 #include "../core/ActorComponent.h"
 
