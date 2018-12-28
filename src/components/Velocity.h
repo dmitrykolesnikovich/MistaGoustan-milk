@@ -16,13 +16,13 @@ public:
 	~Velocity();
 
 	// Set the velocity.
-	void setVelocity(float x, float y);
+	void value(float x, float y);
 
 	// Set the velocity.
-	void setVelocity(Vector2d velocity);
+	void value(Vector2d velocity);
 
 	// Get the velocity.
-	Vector2d getVelocity() const;
+	Vector2d value() const;
 
 private:
 	Vector2d value_;

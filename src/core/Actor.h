@@ -21,19 +21,19 @@ public:
 	~Actor();
 
 	// Returns the actors unique id.
-	int getId() const;
+	int id() const;
 
 	// Returns the actors name.
 	std::string getName() const;
 
 	// Returns the actors position.
-	Vector2d getPosition() const;
+	Vector2d position() const;
 
 	// Sets the actors position.
-	void setPosition(float x, float y);
+	void position(float x, float y);
 
 	// Sets the actors position.
-	void setPosition(Vector2d position);
+	void position(Vector2d position);
 
 	// Attempts to add a component of the given type.
 	// Returns true if successful.

@@ -3,11 +3,13 @@
 #include "../core/Actor.h"
 #include "../components/Velocity.h"
 
+#include <iostream>
+
 void LuaHandle_Actor::move(Actor& actor, float x, float y)
 {
 	auto velCmp = actor.getComponent<Velocity>();
 	if (velCmp == nullptr)
 		return;
 
-	velCmp->setVelocity(x, y);
+	velCmp->value(x, y);
 }

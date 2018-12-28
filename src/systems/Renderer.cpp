@@ -18,15 +18,15 @@ void Renderer::onActorAdded(Actor& actor)
 	if (sprite != nullptr) 
 	{
 		sprite->load(resourceManager_);
-		spritesByActorId_.insert(std::make_pair(actor.getId(), sprite));
+		spritesByActorId_.insert(std::make_pair(actor.id(), sprite));
 	}
 }
 
 void Renderer::onActorDestroyed(Actor& actor)
 {
-	if (spritesByActorId_.find(actor.getId()) != spritesByActorId_.end()) 
+	if (spritesByActorId_.find(actor.id()) != spritesByActorId_.end()) 
 	{
-		spritesByActorId_.erase(actor.getId());
+		spritesByActorId_.erase(actor.id());
 	}
 }
 
@@ -52,7 +52,7 @@ void Renderer::render(Tilemap& tilemap)
 
 	for (auto it : spritesByActorId_) 
 	{
-		auto actorPosition = it.second->getActor().getPosition();
+		auto actorPosition = it.second->actor().position();
 		auto texture = it.second->getTexture();
 		auto sourceRect = it.second->getSourceRect();
 

@@ -6,7 +6,7 @@
 class Actor;
 class ResourceManager;
 class Sprite;
-class Tilemap;
+struct Tilemap;
 
 struct SDL_Renderer;
 

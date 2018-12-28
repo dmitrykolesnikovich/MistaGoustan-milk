@@ -9,7 +9,7 @@ ActorComponent::~ActorComponent()
 {
 }
 
-Actor& ActorComponent::getActor() const
+Actor& ActorComponent::actor() const
 {
 	return actor_;
 }

@@ -71,7 +71,7 @@ void Scene::update()
 	for (auto& it : actorsToSpawn_)
 	{
 		Actor* rawPtr = it.get();
-		actorsById_.insert(std::make_pair(it->getId(), std::move(it)));
+		actorsById_.insert(std::make_pair(it->id(), std::move(it)));
 
 		game_.onActorSpawned(*rawPtr);
 	}

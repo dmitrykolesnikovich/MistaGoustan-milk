@@ -5,7 +5,7 @@ end
 
 function playerBehavior:update()
 	local inputvec = Vector2D.new(0, 0)
-	local speed = 3
+	local speed = 0
 
 	if Input.getKey(119) then
 		inputvec.y = -1

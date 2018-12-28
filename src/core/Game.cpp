@@ -12,6 +12,7 @@
 #include "Scene.h"
 #include "../components/Sprite.h"
 #include "../components/Velocity.h"
+#include "../components/BoxCollider.h"
 #include "../components/Behavior.h"
 #include "../utilities/Input.h"
 
@@ -42,17 +43,38 @@ bool Game::init(const std::string& title, unsigned int width, unsigned int heigh
 	// Test CODEz
 	//////////////////////////////////////////////////
 	currentScene_ = sceneLoader_->load("res/testmap.xml");
+
 	auto actor = currentScene_->spawnActor("steve");
-	actor->setPosition(50, 50);
+	actor->position(50, 50);
 	actor->addComponent<Sprite>();
 	auto sprite = actor->getComponent<Sprite>();
 	sprite->setTextureName("res/steve.png");
 	sprite->setSourceRect(0, 0, 64, 64);
+
 	actor->addComponent<Velocity>();
 	auto velocity = actor->getComponent<Velocity>();
 	actor->addComponent<Behavior>();
+
 	auto behavior = actor->getComponent<Behavior>();
 	behavior->setScript("res/player.lua");	
+
+	actor->addComponent<BoxCollider>();
+	auto collider = actor->getComponent<BoxCollider>();
+	collider->width(64);
+	collider->height(64);
+
+	auto collidable = currentScene_->spawnActor("collidable");
+	collidable->position(200, 200);
+
+	collidable->addComponent<Sprite>();
+	auto spr = collidable->getComponent<Sprite>();
+	spr->setTextureName("res/steve.png");
+	spr->setSourceRect(0, 0, 64, 64);
+
+	collidable->addComponent<BoxCollider>();
+	auto coll = collidable->getComponent<BoxCollider>();
+	coll->width(64);
+	coll->height(64);
 	//////////////////////////////////////////////////
 
 	isRunning_ = true;

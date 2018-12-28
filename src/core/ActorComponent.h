@@ -21,7 +21,7 @@ public:
 	virtual ~ActorComponent();
 
 	// Returns the components actor.
-	Actor& getActor() const;
+	Actor& actor() const;
 
 protected:
 	Actor& actor_;

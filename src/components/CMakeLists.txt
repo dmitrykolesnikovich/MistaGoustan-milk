@@ -1,6 +1,8 @@
 set(COMP_SOURCES
 		Behavior.h
 		Behavior.cpp
+		BoxCollider.h
+		BoxCollider.cpp
 		Sprite.h
 		Sprite.cpp
 		Velocity.h

@@ -12,19 +12,19 @@ Velocity::~Velocity()
 {
 }
 
-void Velocity::setVelocity(float x, float y)
+void Velocity::value(float x, float y)
 {
 	value_.x = x;
 	value_.y = y;
 }
 
-void Velocity::setVelocity(Vector2d velocity)
+void Velocity::value(Vector2d velocity)
 {
 	value_.x = velocity.x;
 	value_.y = velocity.y;
 }
 
-Vector2d Velocity::getVelocity() const
+Vector2d Velocity::value() const
 {
 	return value_;
 }

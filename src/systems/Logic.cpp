@@ -15,7 +15,7 @@ void Logic::onActorAdded(Actor& actor)
 	if (behavior == nullptr)
 		return;
 
-	behaviorByActorId_.insert(std::make_pair(actor.getId(), behavior));
+	behaviorByActorId_.insert(std::make_pair(actor.id(), behavior));
 
 	behavior->load(luaState_);
 
@@ -24,7 +24,7 @@ void Logic::onActorAdded(Actor& actor)
 
 void Logic::onActorDestroyed(Actor& actor)
 {
-	auto found = behaviorByActorId_.find(actor.getId());
+	auto found = behaviorByActorId_.find(actor.id());
 
 	if (found == behaviorByActorId_.end())
 		return;
@@ -36,7 +36,7 @@ void Logic::onActorDestroyed(Actor& actor)
 
 	behavior->end();
 
-	behaviorByActorId_.erase(actor.getId());
+	behaviorByActorId_.erase(actor.id());
 }
 
 void Logic::update()
