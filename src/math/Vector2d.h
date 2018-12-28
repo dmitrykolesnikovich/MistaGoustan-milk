@@ -8,7 +8,11 @@ struct Vector2d
 	float x;
 	float y;
 
-	Vector2d() = default;
+	Vector2d() 
+		: x(0)
+		, y(0)
+	{
+	}
 
 	Vector2d(float a, float b) 
 	{

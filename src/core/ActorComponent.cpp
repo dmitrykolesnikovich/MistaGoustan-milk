@@ -5,10 +5,6 @@ ActorComponent::ActorComponent(Actor& actor)
 {
 }
 
-ActorComponent::~ActorComponent()
-{
-}
-
 Actor& ActorComponent::actor() const
 {
 	return actor_;

@@ -3,7 +3,7 @@
 
 enum ComponentType
 {
-	BEHAVIOR = 1 << 0,
+	SCRIPT = 1 << 0,
 	SPRITE = 1 << 1,
 	ANIMATOR = 1 << 2,
 	BOX_COLLIDER = 1 << 3,
@@ -18,7 +18,7 @@ class ActorComponent
 {
 public:
 	ActorComponent(Actor& actor);
-	virtual ~ActorComponent();
+	virtual ~ActorComponent() = default;
 
 	// Returns the components actor.
 	Actor& actor() const;

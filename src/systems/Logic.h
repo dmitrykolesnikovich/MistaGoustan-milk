@@ -6,7 +6,7 @@
 #include "../externals/sol.hpp"
 
 class Actor;
-class Behavior;
+class Script;
 
 class Logic
 {
@@ -22,7 +22,7 @@ public:
 private:
 	sol::state& luaState_;
 
-	std::unordered_map<int, Behavior*> behaviorByActorId_;
+	std::unordered_map<int, Script*> scriptByActorId_;
 };
 
 #endif

@@ -11,7 +11,7 @@
 #include "../externals/tinyxml2.h"
 
 #include "../components/Animator.h"
-#include "../components/Behavior.h"
+#include "../components/Script.h"
 #include "../components/BoxCollider.h"
 #include "../components/Sprite.h"
 #include "../components/Velocity.h"
@@ -29,7 +29,7 @@ std::unique_ptr<Scene> SceneLoader::load(const std::string& file) const
 	doc.LoadFile(file.c_str());
 
 	std::unique_ptr<Scene> scene(new Scene(game_));
-	Tilemap& tilemap = scene->getTilemap();
+	Tilemap& tilemap = scene->tilemap();
 
 	tinyxml2::XMLElement* root = doc.RootElement();
 
@@ -147,8 +147,8 @@ std::unique_ptr<Scene> SceneLoader::load(const std::string& file) const
 			if (strcmp(type, "Script") == 0)
 			{
 				const char* name = e->Attribute("name");
-				actor->addComponent<Behavior>();
-				auto beh = actor->getComponent<Behavior>();
+				actor->addComponent<Script>();
+				auto beh = actor->getComponent<Script>();
 				beh->script(name);
 			}
 

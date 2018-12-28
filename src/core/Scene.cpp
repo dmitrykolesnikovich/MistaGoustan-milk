@@ -5,7 +5,6 @@
 Scene::Scene(Game& game)
 	: game_(game)
 {
-	tilemap_ = Tilemap();
 }
 
 Scene::~Scene()
@@ -16,9 +15,7 @@ Actor* Scene::spawnActor(const std::string& name)
 {
 	int id = idGenerator_.popId();
 
-	auto actor = std::unique_ptr<Actor>(new Actor(*this));
-	actor->id_ = id;
-	actor->name_ = name;
+	auto actor = std::unique_ptr<Actor>(new Actor(*this, id, name, Vector2d(0, 0)));
 
 	auto ptr = actor.get();
 
@@ -41,14 +38,14 @@ Actor* Scene::findActor(const std::string& name) const
 {
 	for (auto& it : actorsById_) 
 	{
-		if (it.second->getName() == name)
+		if (it.second->name() == name)
 			return it.second.get();
 	}
 
 	return nullptr;
 }
 
-Tilemap& Scene::getTilemap()
+Tilemap& Scene::tilemap()
 {
 	return tilemap_;
 }

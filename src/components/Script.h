@@ -1,18 +1,18 @@
-#ifndef _BEHAVIOR_
-#define _BEHAVIOR_
+#ifndef _Script_
+#define _Script_
 
 #include <string>
 
 #include "../core/ActorComponent.h"
 #include "../externals/sol.hpp"
 
-class Behavior : public ActorComponent
+class Script : public ActorComponent
 {
 public:
 	static const ComponentType type;
 
-	Behavior(Actor& actor);
-	~Behavior();
+	Script(Actor& actor);
+	~Script() = default;
 
 	void script(const std::string& scriptName);
 	void load(sol::state& luaState);
@@ -23,7 +23,7 @@ public:
 
 private:
 	std::string scriptName_;
-	sol::table luaBehavior_;
+	sol::table luaScript_;
 };
 
 #endif

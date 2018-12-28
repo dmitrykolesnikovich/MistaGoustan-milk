@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<level source="res/testmap.png" width="640" height="480" tilesize="32">
+<level source="testmap.png" width="640" height="480" tilesize="32">
   <tileset>
     <tile id="01" x="0" y="0"></tile>
     <tile id="02" x="32" y="0" collidable="true"></tile>
@@ -38,7 +38,7 @@
       <position x="50" y="50"></position>
       <components>
         <component type="Sprite">
-          <textureName>res/player.png</textureName>
+          <textureName>player.png</textureName>
           <sourceRect x="0" y="0" w="128" h="128"></sourceRect>
         </component>
         <component type="Velocity" x="0" y="0">

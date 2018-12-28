@@ -24,13 +24,15 @@ struct TileType
 	bool collidable;
 
 	// Additional information about the type will go here.
-	// i.e. collidable, triggerable, opacity, animations.
+	// i.e. triggerable, opacity, animations.
 };
 
 struct TileInstance
 {
 	TileInstance(TileType& tile, int x, int y)
-		: type(tile), x(x), y(y)
+		: type(tile)
+		, x(x)
+		, y(y)
 	{
 	}
 
@@ -62,6 +64,15 @@ struct TileLayer
 
 struct Tilemap
 {
+	Tilemap() 
+		: sourceImageFile("")
+		, width(0)
+		, height(0)
+		, tileSize(0)
+		, texture(nullptr)
+	{
+	}
+
 	~Tilemap() 
 	{
 		for (auto& it : tileTypes) 

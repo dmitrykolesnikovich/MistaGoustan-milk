@@ -1,7 +1,7 @@
 #include "Logic.h"
 
 #include "../core/Actor.h"
-#include "../components/Behavior.h"
+#include "../components/Script.h"
 
 Logic::Logic(sol::state& luaState)
 	: luaState_(luaState)
@@ -10,38 +10,38 @@ Logic::Logic(sol::state& luaState)
 
 void Logic::onActorAdded(Actor& actor)
 {
-	Behavior* behavior = actor.getComponent<Behavior>();
+	Script* script = actor.getComponent<Script>();
 
-	if (behavior == nullptr)
+	if (script == nullptr)
 		return;
 
-	behaviorByActorId_.insert(std::make_pair(actor.id(), behavior));
+	scriptByActorId_.insert(std::make_pair(actor.id(), script));
 
-	behavior->load(luaState_);
+	script->load(luaState_);
 
-	behavior->begin();
+	script->begin();
 }
 
 void Logic::onActorDestroyed(Actor& actor)
 {
-	auto found = behaviorByActorId_.find(actor.id());
+	auto found = scriptByActorId_.find(actor.id());
 
-	if (found == behaviorByActorId_.end())
+	if (found == scriptByActorId_.end())
 		return;
 
-	Behavior* behavior = found->second;
+	Script* Script = found->second;
 
-	if (behavior == nullptr)
+	if (Script == nullptr)
 		return;
 
-	behavior->end();
+	Script->end();
 
-	behaviorByActorId_.erase(actor.id());
+	scriptByActorId_.erase(actor.id());
 }
 
 void Logic::update()
 {
-	for (auto& it : behaviorByActorId_) 
+	for (auto& it : scriptByActorId_) 
 	{
 		it.second->update();
 	}

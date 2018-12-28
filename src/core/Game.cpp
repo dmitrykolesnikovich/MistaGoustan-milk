@@ -21,7 +21,7 @@ Game::Game(const GameRunParameters& runParams)
 
 int Game::run()
 {
-	// InitSDLSubsystems and initGameWindow both initialize SDL related items.
+	// Shit.. if SDL fails, then you can consider the game to be MILK_FAIL'd, beitch.
 	if (!initSDLSubsystems() || !initGameWindow())
 		return MILK_FAIL;
 
@@ -132,7 +132,7 @@ void Game::render()
 
 	if (currentScene_ != nullptr) 
 	{
-		renderSystem_->render(currentScene_->getTilemap());
+		renderSystem_->render(currentScene_->tilemap());
 	}
 
 	SDL_RenderPresent(window_.sdlRenderer());

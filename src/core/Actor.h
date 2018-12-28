@@ -15,16 +15,14 @@ class Scene;
 class Actor
 {
 public:
-	friend class Scene;
-
-	Actor(Scene& scene);
-	~Actor();
+	Actor(Scene& scene, int id, const std::string& name, const Vector2d& position);
+	~Actor() = default;
 
 	// Returns the actors unique id.
 	int id() const;
 
 	// Returns the actors name.
-	std::string getName() const;
+	std::string name() const;
 
 	// Returns the actors position.
 	Vector2d position() const;
@@ -35,25 +33,25 @@ public:
 	// Sets the actors position.
 	void position(Vector2d position);
 
-	// Attempts to add a component of the given type.
-	// Returns true if successful.
+	// Returns the added component and nullptr if addition failed.
 	template <class TComponent>
-	bool addComponent() 
+	TComponent* addComponent() 
 	{
 		ComponentType type = TComponent::type;
 
 		if ((componentBitmask_ & type) == type)
-			return false;
+			return nullptr;
 
 		componentBitmask_ |= type;
 
-		componentsByType_.insert(std::make_pair(type, std::unique_ptr<ActorComponent>(new TComponent(*this))));
+		TComponent* rawPtr = new TComponent(*this);
 
-		return true;
+		componentsByType_.insert(std::make_pair(type, std::unique_ptr<ActorComponent>(rawPtr)));
+
+		return rawPtr;
 	}
 	
-	// Attempts to get a component of the given type.
-	// Returns nullptr if no component is found.
+	// Returns component of the given type and nullptr if not found.
 	template <class TComponent>
 	TComponent* getComponent() const
 	{
@@ -65,23 +63,6 @@ public:
 		auto& component = componentsByType_.at(type);
 
 		return dynamic_cast<TComponent*>(component.get());
-	}
-
-	// Attempts to remove a component of the given type.
-	// Returns true if successful.
-	template <class TComponent>
-	bool removeComponent() 
-	{
-		ComponentType type = TComponent::type;
-
-		if ((componentBitmask_ & type) != type)
-			return false;
-
-		componentBitmask_ &= ~type;
-
-		componentsByType_.erase(type);
-
-		return true;
 	}
 
 private:

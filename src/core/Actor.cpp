@@ -1,12 +1,11 @@
 #include "Actor.h"
 
-Actor::Actor(Scene& scene)
+Actor::Actor(Scene& scene, int id, const std::string& name, const Vector2d& position)
 	: scene_(scene)
-{
-	componentBitmask_ = 0;
-}
-
-Actor::~Actor()
+	, id_(id)
+	, name_(name)
+	, position_(position)
+	, componentBitmask_(0)
 {
 }
 
@@ -15,7 +14,7 @@ int Actor::id() const
 	return id_;
 }
 
-std::string Actor::getName() const
+std::string Actor::name() const
 {
 	return name_;
 }
