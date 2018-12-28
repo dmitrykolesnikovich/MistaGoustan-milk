@@ -9,6 +9,11 @@
 
 #include "Texture.h"
 
+ResourceManager::ResourceManager()
+{
+	sdlRenderer_ = nullptr;
+}
+
 ResourceManager::ResourceManager(SDL_Renderer* renderer)
 {
 	sdlRenderer_ = renderer;
@@ -16,7 +21,7 @@ ResourceManager::ResourceManager(SDL_Renderer* renderer)
 
 ResourceManager::~ResourceManager()
 {
-	unloadTextures();
+	freeResources();
 }
 
 Texture* ResourceManager::loadTexture(const std::string& name)
@@ -59,4 +64,9 @@ void ResourceManager::unloadTextures()
 		delete it->second;
 		it->second = nullptr;
 	}
+}
+
+void ResourceManager::freeResources()
+{
+	unloadTextures();
 }

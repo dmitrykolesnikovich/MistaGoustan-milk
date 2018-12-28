@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
 
 	Game& game = Game::getInstance();
 
-	if (!game.init("Butt Dragons", 640, 360, true))
+	if (!game.init("Butt Dragons", 640, 360, false))
 		return -1;
 
 	game.loadScene("res/testmap.xml");

@@ -10,9 +10,11 @@
 #include "Scene.h"
 
 #include "../externals/sol.hpp"
+
 #include "../systems/Logic.h"
 #include "../systems/Renderer.h"
 #include "../systems/Physics.h"
+
 #include "../utilities/ResourceManager.h"
 #include "../utilities/SceneLoader.h"
 #include "../utilities/Window.h"
@@ -50,10 +52,10 @@ public:
 	void shutDown();
 
 	// Returns the game window.
-	Window& getWindow() const;
+	Window& getWindow();
 
 	// Returns the games resource manager.
-	ResourceManager& getResourceManager() const;
+	ResourceManager& getResourceManager();
 
 	// Loads an XML based scene.
 	void loadScene(const std::string& name);
@@ -65,12 +67,15 @@ public:
 	void onActorDestroyed(Actor& actor);
 
 private:
-	Game() {}
+	Game() 
+		: sceneLoader_(*this)
+	{
+	}
 
-	std::unique_ptr<Window> window_;
+	Window window_;
 
-	std::unique_ptr<SceneLoader> sceneLoader_;
-	std::unique_ptr<ResourceManager> resourceManager_;
+	SceneLoader sceneLoader_;
+	ResourceManager resourceManager_;
 
 	sol::state luaState_;
 

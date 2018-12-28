@@ -11,6 +11,7 @@ class Texture;
 class ResourceManager
 {
 public:
+	ResourceManager();
 	ResourceManager(SDL_Renderer* renderer);
 	~ResourceManager();
 
@@ -19,6 +20,9 @@ public:
 
 	// Unload all loaded textures.
 	void unloadTextures();
+
+	// Frees all loaded resources.
+	void freeResources();
 
 private:
 	SDL_Renderer* sdlRenderer_;

@@ -9,6 +9,7 @@ struct SDL_Renderer;
 class Window
 {
 public:
+	Window();
 	Window(const std::string& title, unsigned int width, unsigned int height, bool fullscreen);
 	~Window();
 
@@ -17,17 +18,20 @@ public:
 	unsigned int getWidth() const;
 	unsigned int getHeight() const;
 
-	void setSize(unsigned int width, unsigned int height);
-	void setVirtualSize(unsigned int virtualWidth, unsigned int virtualHeight);
+	void size(unsigned int width, unsigned int height);
+	void virtualSize(unsigned int virtualWidth, unsigned int virtualHeight);
 
 	bool isFullscreen() const;
 	void toggleFullscreen();
 
-	SDL_Window& getSdlWindow() const;
-	SDL_Renderer* getSdlRenderer() const;
+	SDL_Window* sdlWindow() const;
+	SDL_Renderer* sdlRenderer() const;
+
+	void freeSDLResources();
 
 private:
 	std::string title_;
+
 	unsigned int width_;
 	unsigned int height_;
 	unsigned int virtualWidth_;

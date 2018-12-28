@@ -1,7 +1,13 @@
 #include "Window.h"
 
 #include <iostream>
+
 #include "SDL.h"
+
+Window::Window()
+{
+	Window("Game", 800, 800, false);
+}
 
 Window::Window(const std::string& title, unsigned int width, unsigned int height, bool fullscreen)
 {
@@ -18,8 +24,7 @@ Window::Window(const std::string& title, unsigned int width, unsigned int height
 
 Window::~Window()
 {
-	SDL_DestroyRenderer(sdlRenderer_);
-	SDL_DestroyWindow(sdlWindow_);
+	freeSDLResources();
 }
 
 bool Window::init()
@@ -69,13 +74,13 @@ unsigned int Window::getHeight() const
 	return height_;
 }
 
-void Window::setSize(unsigned int width, unsigned int height)
+void Window::size(unsigned int width, unsigned int height)
 {
 	width_ = width;
 	height_ = height;
 }
 
-void Window::setVirtualSize(unsigned int virtualWidth, unsigned int virtualHeight)
+void Window::virtualSize(unsigned int virtualWidth, unsigned int virtualHeight)
 {
 	virtualWidth_ = virtualWidth;
 	virtualHeight_ = virtualHeight;
@@ -89,16 +94,24 @@ bool Window::isFullscreen() const
 void Window::toggleFullscreen()
 {
 	isFullscreen_ = !isFullscreen_;
+
+	// TODO: More stuff
 }
 
-SDL_Window& Window::getSdlWindow() const
+SDL_Window* Window::sdlWindow() const
 {
-	SDL_assert(sdlWindow_ != nullptr);
-	return *sdlWindow_;
+	SDL_assert(sdlRenderer_ != nullptr);
+	return sdlWindow_;
 }
 
-SDL_Renderer* Window::getSdlRenderer() const
+SDL_Renderer* Window::sdlRenderer() const
 {
 	SDL_assert(sdlRenderer_ != nullptr);
 	return sdlRenderer_;
+}
+
+void Window::freeSDLResources()
+{
+	SDL_DestroyRenderer(sdlRenderer_);
+	SDL_DestroyWindow(sdlWindow_);
 }

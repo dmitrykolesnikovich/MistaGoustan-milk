@@ -69,10 +69,10 @@ void Game::update()
 			currentScene_->unload();
 			currentScene_.release();
 
-			resourceManager_->unloadTextures();
+			resourceManager_.unloadTextures();
 		}
 
-		currentScene_ = sceneLoader_->load(sceneToLoad_);
+		currentScene_ = sceneLoader_.load(sceneToLoad_);
 
 		sceneToLoad_.clear();
 	}
@@ -87,14 +87,14 @@ void Game::update()
 
 void Game::render()
 {
-	SDL_RenderClear(window_->getSdlRenderer());
+	SDL_RenderClear(window_.sdlRenderer());
 
 	if (currentScene_ != nullptr) 
 	{
 		renderSystem_->render(currentScene_->getTilemap());
 	}
 
-	SDL_RenderPresent(window_->getSdlRenderer());
+	SDL_RenderPresent(window_.sdlRenderer());
 }
 
 bool Game::isRunning() const
@@ -107,11 +107,13 @@ void Game::shutDown()
 	std::cout << "Freeing Resources" << std::endl;
 	std::cout << "//////////////////" << std::endl;
 
-	window_.release();
-	resourceManager_.release();
+	resourceManager_.freeResources();
+
 	logicSystem_.release();
 	physicsSystem_.release();
 	renderSystem_.release();
+
+	window_.freeSDLResources();
 
 	IMG_Quit();
 	SDL_Quit();
@@ -120,15 +122,14 @@ void Game::shutDown()
 	std::cout << "//////////////////" << std::endl;
 }
 
-Window& Game::getWindow() const
+Window& Game::getWindow()
 {
-	SDL_assert(window_ != nullptr);
-	return *window_;
+	return window_;
 }
 
-ResourceManager& Game::getResourceManager() const
+ResourceManager& Game::getResourceManager()
 {
-	return *resourceManager_;
+	return resourceManager_;
 }
 
 void Game::loadScene(const std::string& name)
@@ -172,9 +173,9 @@ bool Game::initSDLSubsystems()
 
 bool Game::initGameWindow(const std::string& title, unsigned int width, unsigned int height, bool fullscreen)
 {
-	window_ = std::unique_ptr<Window>(new Window(title, width, height, fullscreen));
+	window_ = Window(title, width, height, fullscreen);
 
-	if (!window_->init()) 
+	if (!window_.init()) 
 	{
 		IMG_Quit();
 		SDL_Quit();
@@ -207,11 +208,11 @@ bool Game::initGameSubsystems()
 {
 	Input::initialize();
 
-	sceneLoader_ = std::unique_ptr<SceneLoader>(new SceneLoader(*this));
-	resourceManager_ = std::unique_ptr<ResourceManager>(new ResourceManager(window_->getSdlRenderer()));
+	resourceManager_ = ResourceManager(window_.sdlRenderer());
+
 	logicSystem_ = std::unique_ptr<Logic>(new Logic(luaState_));
 	physicsSystem_ = std::unique_ptr<Physics>(new Physics());
-	renderSystem_ = std::unique_ptr<Renderer>(new Renderer(window_->getSdlRenderer(), *resourceManager_));
+	renderSystem_ = std::unique_ptr<Renderer>(new Renderer(window_.sdlRenderer(), resourceManager_));
 
 	return true;
 }
