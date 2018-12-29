@@ -54,10 +54,10 @@ void Physics::onActorDestroyed(Actor& actor)
 		auto physicsObject = dynamicFound->second.get();
 
 		if (physicsObject->previous != nullptr)
-			physicsObject->previous = physicsObject->next;
+			physicsObject->previous->next = physicsObject->next;
 
 		if (physicsObject->next != nullptr)
-			physicsObject->next = physicsObject->previous;
+			physicsObject->next->previous = physicsObject->previous;
 
 		if (physicsObject == first_)
 			first_ = physicsObject->next;
