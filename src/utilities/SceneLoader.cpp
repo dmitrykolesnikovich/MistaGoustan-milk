@@ -132,6 +132,7 @@ std::unique_ptr<Scene> SceneLoader::load(const std::string& file) const
 				auto sprite = actor->getComponent<Sprite>();
 				sprite->textureName(textureName);
 				sprite->sourceRect(sx,sy, sw, sh);
+				sprite->center();
 			}
 
 			if (strcmp(type, "Velocity") == 0)
@@ -159,6 +160,7 @@ std::unique_ptr<Scene> SceneLoader::load(const std::string& file) const
 
 				actor->addComponent<BoxCollider>();
 				auto coll = actor->getComponent<BoxCollider>();
+				coll->center();
 				coll->width(w);
 				coll->height(h);
 			}

@@ -1,5 +1,6 @@
 target_sources(Milk
     PRIVATE
+	Alignment.h
         IdGenerator.h
 	IdGenerator.cpp
 	Input.h

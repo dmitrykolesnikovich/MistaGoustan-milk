@@ -4,6 +4,7 @@
 #include "SDL.h"
 
 #include "../core/ActorComponent.h"
+#include "../utilities/Alignment.h"
 
 class BoxCollider : public ActorComponent
 {
@@ -12,6 +13,8 @@ public:
 
 	BoxCollider(Actor& actor);
 	~BoxCollider();
+
+	void center();
 
 	void updateBBox();
 
@@ -27,6 +30,7 @@ public:
 	bool overlaps(SDL_Rect otherRect, SDL_Rect* result) const;
 
 private:
+	Alignment alignment_;
 	SDL_Rect rect_;
 };
 

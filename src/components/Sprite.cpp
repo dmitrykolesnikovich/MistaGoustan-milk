@@ -1,11 +1,14 @@
 #include "Sprite.h"
 
+#include "../core/Actor.h"
+#include "../math/Vector2d.h"
 #include "../utilities/ResourceManager.h"
 
 const ComponentType Sprite::type = SPRITE;
 
 Sprite::Sprite(Actor& actor)
 	: ActorComponent::ActorComponent(actor)
+	, alignment_(Alignment::TOP_LEFT)
 {
 }
 
@@ -28,6 +31,11 @@ Texture* Sprite::texture() const
 	return texture_;
 }
 
+void Sprite::center()
+{
+	alignment_ = Alignment::CENTER_ORIGIN;
+}
+
 void Sprite::sourceRect(int x, int y, int width, int height)
 {
 	sourceRect_.x = x;
@@ -47,4 +55,27 @@ void Sprite::sourceRect(SDL_Rect rect)
 SDL_Rect Sprite::sourceRect() const
 {
 	return sourceRect_;
+}
+
+SDL_Rect Sprite::destinationRect() const
+{
+	Vector2d actorPosition = actor_.position();
+
+	SDL_Rect destinationRect;
+	destinationRect.w = sourceRect_.w;
+	destinationRect.h = sourceRect_.h;
+
+	switch (alignment_)
+	{
+	case Alignment::TOP_LEFT:
+		destinationRect.x = std::floor(actorPosition.x);
+		destinationRect.y = std::floor(actorPosition.y);
+		break;
+	case Alignment::CENTER_ORIGIN:
+		destinationRect.x = std::floor(actorPosition.x) - (sourceRect_.w / 2);
+		destinationRect.y = std::floor(actorPosition.y) - (sourceRect_.h / 2);
+		break;
+	}
+
+	return destinationRect;
 }

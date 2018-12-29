@@ -24,6 +24,7 @@ void Renderer::onActorAdded(Actor& actor)
 		return;
 
 	sprite->load(resourceManager_);
+
 	spritesByActorId_.insert(std::make_pair(actor.id(), sprite));
 
 	auto anim = actor.getComponent<Animator>();
@@ -70,15 +71,9 @@ void Renderer::renderActors()
 		if (animator != nullptr)
 			animator->update();
 
-		auto actorPosition = it.second->actor().position();
 		auto texture = it.second->texture();
 		auto sourceRect = it.second->sourceRect();
-
-		SDL_Rect destinationRect;
-		destinationRect.x = std::floor(actorPosition.x) - (sourceRect.w / 2);
-		destinationRect.y = std::floor(actorPosition.y) - (sourceRect.h / 2);
-		destinationRect.w = sourceRect.w;
-		destinationRect.h = sourceRect.h;
+		auto destinationRect = it.second->destinationRect();
 
 		SDL_RenderCopyEx(sdlRenderer_, texture->get(), &sourceRect, &destinationRect, 0, nullptr, SDL_FLIP_NONE);
 	}

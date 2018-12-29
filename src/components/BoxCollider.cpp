@@ -6,19 +6,37 @@ const ComponentType BoxCollider::type = BOX_COLLIDER;
 
 BoxCollider::BoxCollider(Actor& actor)
 	: ActorComponent::ActorComponent(actor)
+	, alignment_(Alignment::TOP_LEFT)
 {
-	rect_.x = actor_.position().x;
-	rect_.y = actor_.position().y;
+	updateBBox();
 }
 
 BoxCollider::~BoxCollider()
 {
 }
 
+void BoxCollider::center()
+{
+	alignment_ = Alignment::CENTER_ORIGIN;
+
+	updateBBox();
+}
+
 void BoxCollider::updateBBox()
 {
-	rect_.x = actor_.position().x - (rect_.w / 2);
-	rect_.y = actor_.position().y - (rect_.h / 2);
+	Vector2d actorPosition = actor_.position();
+
+	switch (alignment_) 
+	{
+	case Alignment::TOP_LEFT:
+		rect_.x = actorPosition.x;
+		rect_.y = actorPosition.y;
+		break;
+	case Alignment::CENTER_ORIGIN:
+		rect_.x = actorPosition.x - (rect_.w / 2);;
+		rect_.y = actorPosition.y - (rect_.h / 2);
+		break;
+	}
 }
 
 SDL_Rect BoxCollider::rect() const

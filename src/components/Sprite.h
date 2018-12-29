@@ -6,6 +6,7 @@
 #include "SDL.h"
 
 #include "../core/ActorComponent.h"
+#include "../utilities/Alignment.h"
 
 class Texture;
 
@@ -27,6 +28,9 @@ public:
 	// Get the sprites texture.
 	Texture* texture() const;
 
+	// Center the sprites origin.
+	void center();
+
 	// Set the sprites source rectangle.
 	void sourceRect(int x, int y, int width, int height);
 
@@ -36,10 +40,14 @@ public:
 	// Get the sprites source rectangle.
 	SDL_Rect sourceRect() const;
 
+	// Get the sprites destination rectangle.
+	SDL_Rect destinationRect() const;
+
 private:
 	std::string textureName_;
 	Texture* texture_;
 	SDL_Rect sourceRect_;
+	Alignment alignment_;
 };
 
 #endif
