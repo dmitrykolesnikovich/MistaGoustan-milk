@@ -17,8 +17,8 @@ BoxCollider::~BoxCollider()
 
 void BoxCollider::updateBBox()
 {
-	rect_.x = actor_.position().x;
-	rect_.y = actor_.position().y;
+	rect_.x = actor_.position().x - (rect_.w / 2);
+	rect_.y = actor_.position().y - (rect_.h / 2);
 }
 
 SDL_Rect BoxCollider::rect() const

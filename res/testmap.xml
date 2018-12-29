@@ -45,7 +45,7 @@
         </component>
         <component type="Script" name="res/player.lua">
         </component>
-        <component type="Collider" w="128" h="128">
+        <component type="Collider" w="70" h="80">
         </component>
         <component type="Animator" rows="4" columns="8">
           <animations>

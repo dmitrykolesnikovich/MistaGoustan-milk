@@ -34,7 +34,7 @@ public:
 	void sourceRect(SDL_Rect rect);
 
 	// Get the sprites source rectangle.
-	SDL_Rect getSourceRect() const;
+	SDL_Rect sourceRect() const;
 
 private:
 	std::string textureName_;

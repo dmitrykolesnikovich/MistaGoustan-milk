@@ -13,14 +13,14 @@ struct TileType
 {
 	TileType(int x, int y, int size, bool coll)
 	{
-		rect.x = x;
-		rect.y = y;
-		rect.w = size;
-		rect.h = size;
+		sourceRect.x = x;
+		sourceRect.y = y;
+		sourceRect.w = size;
+		sourceRect.h = size;
 		collidable = coll;
 	}
 
-	SDL_Rect rect;
+	SDL_Rect sourceRect;
 	bool collidable;
 
 	// Additional information about the type will go here.

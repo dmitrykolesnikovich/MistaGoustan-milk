@@ -44,7 +44,7 @@ void Sprite::sourceRect(SDL_Rect rect)
 	sourceRect_.h = rect.h;
 }
 
-SDL_Rect Sprite::getSourceRect() const
+SDL_Rect Sprite::sourceRect() const
 {
 	return sourceRect_;
 }

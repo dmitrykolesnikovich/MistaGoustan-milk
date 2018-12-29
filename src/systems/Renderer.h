@@ -17,7 +17,6 @@ public:
 
 	void onActorAdded(Actor& actor);
 	void onActorDestroyed(Actor& actor);
-	void onActorModified(Actor& actor);
 
 	void render(Tilemap& tilemap);
 
@@ -26,6 +25,9 @@ private:
 	ResourceManager& resourceManager_;
 
 	std::unordered_map<int, Sprite*> spritesByActorId_;
+
+	void renderTilemap(const Tilemap& tilemap);
+	void renderActors();
 };
 
 #endif
