@@ -4,8 +4,10 @@ int main(int argc, char* argv[])
 {
 	GameRunParameters runParams;
 	runParams.title = "Butt Dragons";
-	runParams.width = 640;
-	runParams.height = 360;
+	runParams.width = 1280;
+	runParams.height = 720;
+	runParams.virtualWidth = 640;
+	runParams.virtualHeight = 360;
 	runParams.fullscreen = false;
 	runParams.resourceRootDir = "res";
 	runParams.entryScene = "res/testmap.xml";

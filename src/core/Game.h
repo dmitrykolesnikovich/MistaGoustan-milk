@@ -27,6 +27,8 @@ struct GameRunParameters
 	std::string title;
 	unsigned int width;
 	unsigned int height;
+	unsigned int virtualWidth;
+	unsigned int virtualHeight;
 	bool fullscreen;
 	std::string entryScene;
 	std::string resourceRootDir;

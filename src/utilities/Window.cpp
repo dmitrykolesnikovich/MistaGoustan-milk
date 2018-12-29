@@ -10,11 +10,16 @@ Window::Window()
 }
 
 Window::Window(const std::string& title, unsigned int width, unsigned int height, bool fullscreen)
+	: Window::Window("Milk", width, height, width, height, false)
+{
+}
+
+Window::Window(const std::string& title, unsigned int width, unsigned int height, unsigned int virtualWidth, unsigned int virtualHeight, bool fullscreen)
 	: title_(title)
 	, width_(width)
 	, height_(height)
-	, virtualWidth_(width)
-	, virtualHeight_(height)
+	, virtualWidth_(virtualWidth)
+	, virtualHeight_(virtualHeight)
 	, isFullscreen_(fullscreen)
 	, sdlWindow_(nullptr)
 	, sdlRenderer_(nullptr)
@@ -37,7 +42,7 @@ bool Window::initSDLRenderWindow()
 	int flags = SDL_WINDOW_SHOWN;
 
 	if (isFullscreen_)
-		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+		flags |= SDL_WINDOW_FULLSCREEN;
 ;
 	sdlWindow_ = SDL_CreateWindow(title_.c_str(), windowXPosition, windowYPosition, width_, height_, flags);
 
@@ -56,7 +61,7 @@ bool Window::initSDLRenderWindow()
 		return false;
 	}
 
-	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, 0);
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
 	SDL_RenderSetLogicalSize(sdlRenderer_, virtualWidth_, virtualHeight_);
 	SDL_SetRenderDrawColor(sdlRenderer_, 0x00, 0x00, 0x00, 0xff);
 
@@ -96,8 +101,9 @@ void Window::toggleFullscreen()
 
 	if (!isFullscreen_) 
 	{
-		const int windowed = 0;
-		SDL_SetWindowFullscreen(sdlWindow_, windowed);
+		const int WINDOWED = 0;
+		SDL_SetWindowFullscreen(sdlWindow_, WINDOWED);
+		SDL_SetWindowSize(sdlWindow_, width_, height_);
 	}
 	else
 	{
@@ -109,7 +115,8 @@ void Window::toggleFullscreen()
 		nativeWidth_ = displayBounds.w;
 		nativeHeight_ = displayBounds.h;
 
-		SDL_SetWindowFullscreen(sdlWindow_, SDL_WINDOW_FULLSCREEN_DESKTOP);
+		SDL_SetWindowSize(sdlWindow_, nativeWidth_, nativeHeight_);
+		SDL_SetWindowFullscreen(sdlWindow_, SDL_WINDOW_FULLSCREEN);
 	}
 }
 

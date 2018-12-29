@@ -11,6 +11,7 @@ class Window
 public:
 	Window();
 	Window(const std::string& title, unsigned int width, unsigned int height, bool fullscreen);
+	Window(const std::string& title, unsigned int width, unsigned int height, unsigned int virtualWidth, unsigned int virtualHeight, bool fullscreen);
 	~Window();
 
 	// Initialize the SDL_Window and SDL_Renderer.

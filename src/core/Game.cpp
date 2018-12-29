@@ -17,7 +17,7 @@ Game::Game()
 }
 
 Game::Game(const GameRunParameters& runParams)
-	: window_(runParams.title, runParams.width, runParams.height, runParams.fullscreen)
+	: window_(runParams.title, runParams.width, runParams.height, runParams.virtualWidth, runParams.virtualHeight, runParams.fullscreen)
 	, sceneLoader_(*this)
 	, resourceManager_(runParams.resourceRootDir)
 	, sceneToLoad_(runParams.entryScene)
@@ -228,8 +228,6 @@ bool Game::initGameWindow()
 void Game::initLua()
 {
 	luaState_.open_libraries(sol::lib::base, sol::lib::package);
-
-	
 
 	LuaHandleRegistry::RegisterHandles(luaState_);
 
