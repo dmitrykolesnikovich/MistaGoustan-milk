@@ -12,7 +12,8 @@ function playerScript:update()
 	-- hackish. will be hacking until Input class doesn't suck
 	if Input.getKey(102) and not self.f_down_last_frame then
 		self.f_down_last_frame = true
-		game.window:toggle_fullscreen()
+		--game.window:toggle_fullscreen()
+		game:loadScene('res/balls.xml')
 	end
 	if not Input.getKey(102) and self.f_down_last_frame then
 		self.f_down_last_frame = false

@@ -59,6 +59,12 @@ void Physics::onActorDestroyed(Actor& actor)
 		if (physicsObject->next != nullptr)
 			physicsObject->next = physicsObject->previous;
 
+		if (physicsObject == first_)
+			first_ = physicsObject->next;
+
+		if (physicsObject == last_)
+			last_ = physicsObject->previous;
+
 		dynamicActors_.erase(actor.id());
 
 		return;

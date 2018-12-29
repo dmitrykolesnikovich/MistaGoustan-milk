@@ -32,7 +32,8 @@ public:
 
 		luaState.new_usertype<Game>("Game",
 			sol::constructors<Game()>(),
-				"window", sol::readonly_property(&Game::window));
+				"window", sol::readonly_property(&Game::window),
+				"loadScene", &Game::loadScene);
 	}
 };
 
