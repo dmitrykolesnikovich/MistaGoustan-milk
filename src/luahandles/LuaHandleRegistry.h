@@ -30,7 +30,11 @@ public:
 		luaState.new_usertype<Vector2d>("Vector2D",
 			sol::constructors<Vector2d(), Vector2d(int, int)>(),
 				"x", &Vector2d::x,
-				"y", &Vector2d::y);
+				"y", &Vector2d::y,
+				"magnitude", &Vector2d::magnitude,
+				"normalize", &Vector2d::normalize,
+				sol::meta_function::equal_to, &Vector2d::operator==,
+				sol::meta_function::multiplication, &Vector2d::operator*);
 
 		luaState.new_usertype<Window>("Window",
 			sol::constructors<Window()>(),

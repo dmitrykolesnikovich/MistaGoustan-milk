@@ -6,12 +6,16 @@ local playerScript = {
  }
 
 function playerScript:begin()
-	self.actor:set_animation('main')
+	self.actor:set_animation('idle')
 end
 
 function playerScript:update()
 	if Input.get_key_pressed(102) then
 		game.window:toggle_fullscreen()
+	end
+
+	if Input.get_key_pressed(114) then
+		game:loadScene('res/testmap.xml');
 	end
 
 	local inputvec = Vector2D.new(0, 0)
@@ -39,8 +43,17 @@ function playerScript:update()
 		end
 	end
 
-	inputvec.x = inputvec.x * self.speed
-	inputvec.y = inputvec.y * self.speed
+	if (inputvec == Vector2D.new(0, 0)) then
+		self.actor:set_animation('idle')
+	else
+		self.actor:set_animation('run')
+	end
+	
+	if (inputvec:magnitude() > 1) then
+		inputvec = inputvec:normalize()
+	end
+
+	inputvec = inputvec * self.speed
 
 	self.actor:move(inputvec.x, inputvec.y)
 end

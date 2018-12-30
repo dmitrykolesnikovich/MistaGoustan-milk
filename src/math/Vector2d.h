@@ -43,36 +43,36 @@ struct Vector2d
 
 		return (*this);
 	}
+
+	bool operator ==(const Vector2d& v2)
+	{
+		return x == v2.x && y == v2.y;
+	}
+
+	Vector2d operator +(const Vector2d& v2)
+	{
+		return Vector2d(x + v2.x, y + v2.y);
+	}
+
+	Vector2d operator *(float s)
+	{
+		return Vector2d(x * s, y * s);
+	}
+
+	Vector2d operator /(float s)
+	{
+		return Vector2d(x / s, y / s);
+	}
+
+	float magnitude()
+	{
+		return sqrt(x * x + y * y);
+	}
+
+	Vector2d normalize()
+	{
+		return *this / magnitude();
+	}
 };
-
-inline bool operator ==(const Vector2d& v, const Vector2d& v2)
-{
-	return v.x == v2.x && v.y == v2.y;
-}
-
-inline Vector2d operator +(const Vector2d& v, const Vector2d& v2)
-{
-	return Vector2d(v.x + v2.x, v.y + v2.y);
-}
-
-inline Vector2d operator *(const Vector2d& v, float s) 
-{
-	return Vector2d(v.x * s, v.y * s);
-}
-
-inline Vector2d operator /(const Vector2d& v, float s)
-{
-	return Vector2d(v.x / s, v.y / s);
-}
-
-inline float magnitude(const Vector2d& v) 
-{
-	return sqrt(v.x * v.x + v.y * v.y);
-}\
-
-inline Vector2d normalize(const Vector2d& v) 
-{
-	return v / magnitude(v);
-}
 
 #endif
