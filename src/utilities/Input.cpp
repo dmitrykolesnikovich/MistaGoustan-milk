@@ -1,39 +1,34 @@
 #include "Input.h"
+
 #include <iostream>
+#include <cstring>
 
-const Uint8* Input::currentKeyboardState_ = nullptr;
-
-Input::Input()
-{
-}
+Uint8 Input::previousState_[SDL_NUM_SCANCODES];
+Uint8 Input::currentState_[SDL_NUM_SCANCODES];
 
 bool Input::getKey(SDL_Keycode keycode)
 {
-	return currentKeyboardState_[SDL_GetScancodeFromKey(keycode)];
+	return currentState_[SDL_GetScancodeFromKey(keycode)];
 }
 
-bool Input::getKeyPressed(SDL_Keycode keycode, bool* lastState)
+bool Input::getKeyPressed(SDL_Keycode keycode)
 {
-	bool justPressed = getKey(keycode) && !*lastState;
-	*lastState = getKey(keycode);
-
-	return justPressed;
+	return currentState_[SDL_GetScancodeFromKey(keycode)] && !previousState_[SDL_GetScancodeFromKey(keycode)];
 }
 
-bool Input::getKeyReleased(SDL_Keycode keycode, bool* lastState)
+bool Input::getKeyReleased(SDL_Keycode keycode)
 {
-	bool justReleased = !getKey(keycode) && *lastState;
-	*lastState = getKey(keycode);
-
-	return justReleased;
+	return !currentState_[SDL_GetScancodeFromKey(keycode)] && previousState_[SDL_GetScancodeFromKey(keycode)];
 }
 
 void Input::initialize()
 {
-	currentKeyboardState_ = SDL_GetKeyboardState(0);
+	std::memset(previousState_, 0, sizeof(Uint8)*SDL_NUM_SCANCODES);
+	std::memcpy(currentState_, SDL_GetKeyboardState(NULL), sizeof(Uint8)*SDL_NUM_SCANCODES);
 }
 
 void Input::updateKeyboardState()
 {
-	currentKeyboardState_ = SDL_GetKeyboardState(NULL);
+	memcpy(previousState_, currentState_, sizeof(Uint8)*SDL_NUM_SCANCODES);
+	memcpy(currentState_, SDL_GetKeyboardState(NULL), sizeof(Uint8)*SDL_NUM_SCANCODES);
 }

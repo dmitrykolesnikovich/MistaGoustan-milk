@@ -22,7 +22,9 @@ public:
 			"flip_y", &LuaHandle_Actor::flipY);
 
 		luaState.new_usertype<Input>("Input",
-			"getKey", &Input::getKey);
+			"get_key", &Input::getKey,
+			"get_key_pressed", &Input::getKeyPressed,
+			"get_key_released", &Input::getKeyReleased);
 
 		luaState.new_usertype<Vector2d>("Vector2D",
 			sol::constructors<Vector2d(), Vector2d(int, int)>(),
