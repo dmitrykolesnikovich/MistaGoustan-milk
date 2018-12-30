@@ -19,8 +19,10 @@ public:
 	// Set the actors animation.
 	void setAnimation(const std::string& name);
 
+	// Flips the actor horizontally.
 	void flipX();
 
+	// Flips the actor vertically.
 	void flipY();
 
 private:

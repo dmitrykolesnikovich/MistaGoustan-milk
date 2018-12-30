@@ -44,16 +44,6 @@ SDL_Rect BoxCollider::rect() const
 	return rect_;
 }
 
-int BoxCollider::width() const
-{
-	return rect_.w;
-}
-
-int BoxCollider::height() const
-{
-	return rect_.h;
-}
-
 void BoxCollider::width(int width)
 {
 	rect_.w = width;

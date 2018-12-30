@@ -61,18 +61,28 @@ public:
 	Animator(Actor& actor);
 	~Animator() = default;
 
+	// Initialize the animator.
 	void init();
 
+	// Sets the amount of rows in the source sprite sheet.
 	void rows(int rows);
+
+	// Sets the amount of columns in the source sprite sheet.
 	void columns(int columns);
 
+	// Toggle animation paused.
 	void togglePaused();
 
+	// Add an animation.
 	void addAnimation(const std::string& name, std::initializer_list<int> frames);
+
+	// Add an animation.
 	void addAnimation(const std::string& name, std::vector<int> frames);
 
+	// Sets the current animation.
 	void setAnimation(const std::string& name);
 
+	// Updates the animators state.
 	void update();
 
 private:

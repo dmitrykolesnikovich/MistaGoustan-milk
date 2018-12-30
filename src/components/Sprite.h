@@ -43,14 +43,19 @@ public:
 	// Get the sprites destination rectangle.
 	SDL_Rect destinationRect() const;
 
+	// Flip the sprite horizontally.
 	void flipX();
 
+	// Returns true if the sprite is flipped horizontally.
 	bool flippedX();
 
+	// Flip the sprite vertically.
 	void flipY();
 
+	// Returns true if the sprite is flipped vertically.
 	bool flippedY();
 
+	// Returns the renderer flip states.
 	SDL_RendererFlip rendererFlip() const;
 
 private:

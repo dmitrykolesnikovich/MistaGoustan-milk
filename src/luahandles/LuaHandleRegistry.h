@@ -10,6 +10,7 @@
 #include "../utilities/Input.h"
 #include "../utilities/Window.h"
 
+// Registry for the Lua API.
 static class LuaHandleRegistry
 {
 public:
