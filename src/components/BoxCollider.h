@@ -21,6 +21,7 @@ public:
 	BoxCollider(Actor& actor);
 	~BoxCollider();
 
+	// Initialize the collider so it can become one with the collision grid.
 	void init(SpatialPartitionGrid* grid);
 
 	// Center the colliders origin.
@@ -47,16 +48,20 @@ public:
 	// Returns true if collider if overlapping another rect and outputs the depth rect.
 	bool overlaps(SDL_Rect otherRect, SDL_Rect* result) const;
 
+	// Top of collider.
 	int top();
 
+	// Bottom of collider.
 	int bottom();
 
+	// Left of collider.
 	int left();
 
+	// Right of collider;
 	int right();
 
 private:
-	Alignment alignment_;
+	Alignment origin_;
 
 	SDL_Rect rect_;
 	SDL_Rect oldRect_;

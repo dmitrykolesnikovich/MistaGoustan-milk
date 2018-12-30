@@ -7,10 +7,8 @@
 
 #include "../core/Actor.h"
 
-#include <iostream>
-
 Physics::Physics()
-	: collisionWorld_(new SpatialPartitionGrid())
+	: partitionGrid_(new SpatialPartitionGrid())
 {
 }
 
@@ -25,13 +23,20 @@ void Physics::onActorAdded(Actor& actor)
 
 	if (collider != nullptr) 
 	{
-		collider->init(collisionWorld_.get());
-		collisionWorld_->add(collider);
+		collider->init(partitionGrid_.get());
+		partitionGrid_->add(collider);
 	}
 }
 
 void Physics::onActorDestroyed(Actor& actor)
 {
+	if (velocityByActorId_.find(actor.id()) != velocityByActorId_.end())
+		velocityByActorId_.erase(actor.id());
+
+	BoxCollider* collider = actor.getComponent<BoxCollider>();
+	
+	if (collider != nullptr)
+		partitionGrid_->remove(collider);
 }
 
 void Physics::update()
@@ -44,37 +49,35 @@ void Physics::update()
 			continue;
 
 		Actor& actor = it.second->actor();
-
-		Vector2d actorOldPos = actor.position();
+		Vector2d oldActorPosition = actor.position();
 
 		actor.position(actor.position() + velocity);
 
 		BoxCollider* collider = it.second->actor().getComponent<BoxCollider>();
 		collider->updateBBox();
 
-		std::vector<Collision> collisions = collisionWorld_->getCollisions(collider);
+		// Get collision events from collision world.
+		std::vector<CollisionEvent> collisions = partitionGrid_->getCollisions(collider);
 
-		// Resolve collisions 
-		// TODO notify scripts of collision event
+		// Resolve the collisions: 
+		// Collision events contain a collision side and intersection depth rectangle.
+		// In the future, these two values can be used to create a more accurate collision.
+		// For now, simply reverting back to the actors previous axis position is fine.
 		for (auto it : collisions) 
 		{
 			switch (it.direction) 
 			{
-			case (CollisionDirection::TOP):
-				actor.position(actor.position().x, actorOldPos.y);
+			case CollisionSide::TOP:
+			case CollisionSide::BOTTOM:
+				actor.position(actor.position().x, oldActorPosition.y);
+				collider->updateBBox();
 				break;
-			case (CollisionDirection::BOTTOM):
-				actor.position(actor.position().x, actorOldPos.y);
-				break;
-			case (CollisionDirection::RIGHT):
-				actor.position(actorOldPos.x, actor.position().y);
-				break;
-			case (CollisionDirection::LEFT):
-				actor.position(actorOldPos.x, actor.position().y);
+			case CollisionSide::RIGHT:
+			case CollisionSide::LEFT:
+				actor.position(oldActorPosition.x, actor.position().y);
+				collider->updateBBox();
 				break;
 			}
 		}
-
-		collider->updateBBox();
 	}
 }

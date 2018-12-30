@@ -23,7 +23,7 @@ public:
 
 private:
 	std::unordered_map<int, Velocity*> velocityByActorId_;
-	std::unique_ptr<SpatialPartitionGrid> collisionWorld_;
+	std::unique_ptr<SpatialPartitionGrid> partitionGrid_;
 };
 
 #endif

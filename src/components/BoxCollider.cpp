@@ -8,7 +8,7 @@ const ComponentType BoxCollider::type = BOX_COLLIDER;
 
 BoxCollider::BoxCollider(Actor& actor)
 	: ActorComponent::ActorComponent(actor)
-	, alignment_(Alignment::TOP_LEFT)
+	, origin_(Alignment::TOP_LEFT)
 	, offset_(0, 0)
 	, grid_(nullptr)
 	, next_(nullptr)
@@ -30,7 +30,7 @@ void BoxCollider::init(SpatialPartitionGrid* grid)
 
 void BoxCollider::center()
 {
-	alignment_ = Alignment::CENTER_ORIGIN;
+	origin_ = Alignment::CENTER_ORIGIN;
 
 	updateBBox();
 }
@@ -41,7 +41,7 @@ void BoxCollider::updateBBox()
 
 	oldRect_ = rect_;
 
-	switch (alignment_) 
+	switch (origin_) 
 	{
 	case Alignment::TOP_LEFT:
 		rect_.x = actorPosition.x + offset_.x;

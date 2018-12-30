@@ -9,7 +9,7 @@
 
 class BoxCollider;
 
-enum class CollisionDirection 
+enum class CollisionSide 
 {
 	TOP,
 	BOTTOM,
@@ -17,35 +17,53 @@ enum class CollisionDirection
 	RIGHT
 };
 
-struct Collision
+struct CollisionEvent
 {
-	Collision(BoxCollider* o, CollisionDirection dir, SDL_Rect depth) 
+	CollisionEvent(BoxCollider* o, CollisionSide dir, SDL_Rect depth) 
 	{
 		other = o;
 		direction = dir;
 		depthRect = depth;
 	}
 
+	// The other collider.
 	BoxCollider* other;
-	CollisionDirection direction;
+
+	// The direction of collision from subject to other.
+	CollisionSide direction;
+
+	// The intersection depth between the two colliders.
 	SDL_Rect depthRect;
 };
 
+// The spatial partition grid divides the scene into cells.
+// Each cell contains collidable actors.
+// When checking for collisions with a given collider, it only queries the current and neighboring cells.
 class SpatialPartitionGrid
 {
 public:
 	SpatialPartitionGrid();
 
+	// Adds a collider to the collision grid.
 	void add(BoxCollider* collider);
-	void move(BoxCollider* collider);
-	std::vector<Collision> getCollisions(BoxCollider* collider);
 
+	// Removes a collider from the collision grid.
+	void remove(BoxCollider* collider);
+
+	// Removes a collider from the collision grid.
+	void move(BoxCollider* collider);
+
+	// Get all colliders than intersect with a given collider.
+	std::vector<CollisionEvent> getCollisions(BoxCollider* collider);
+
+	// TODO make these data driven
+	// TODO NUM_HORIZONTAL_CELLS & NUM_VERTICAL_CELLS
 	static const int NUM_CELLS = 2;
 	static const int CELL_SIZE = 320;
 private:
 	BoxCollider* cells_[NUM_CELLS][NUM_CELLS];
 
-	void getCollisionForCell(BoxCollider* collider, BoxCollider* cell, std::vector<Collision>* collisions);
+	void getCollisionForCell(BoxCollider* collider, BoxCollider* cell, std::vector<CollisionEvent>* collisions);
 };
 
 #endif
