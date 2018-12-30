@@ -7,6 +7,7 @@
 
 SpatialPartitionGrid::SpatialPartitionGrid()
 {
+	// Initialize the grid.
 	for (int x = 0; x < NUM_CELLS; x++)
 	{
 		for (int y = 0; y < NUM_CELLS; y++)
@@ -25,25 +26,21 @@ void SpatialPartitionGrid::add(BoxCollider* collider)
 	// Add to the front of list for the cell it's in.
 	collider->prev_ = nullptr;
 	collider->next_ = cells_[cellX][cellY];
+
 	cells_[cellX][cellY] = collider;
 
-	if (collider->next_ != nullptr)
-	{
-		collider->next_->prev_ = collider;
-	}
+	if (collider->next_ != nullptr)	
+		collider->next_->prev_ = collider;	
 }
 
 void SpatialPartitionGrid::move(BoxCollider* collider)
 {
-	// See which cell it was in.
 	int oldCellX = (int)(collider->oldRect_.x / SpatialPartitionGrid::CELL_SIZE);
 	int oldCellY = (int)(collider->oldRect_.y / SpatialPartitionGrid::CELL_SIZE);
 
-	// See which cell it's moving to.
 	int cellX = (int)(collider->rect_.x / SpatialPartitionGrid::CELL_SIZE);
 	int cellY = (int)(collider->rect_.y / SpatialPartitionGrid::CELL_SIZE);
 
-	// If it didn't change cells, we're done.
 	if (oldCellX == cellX && oldCellY == cellY)
 		return;
 
@@ -116,14 +113,32 @@ std::vector<Collision> SpatialPartitionGrid::getCollisions(BoxCollider* collider
 
 void SpatialPartitionGrid::getCollisionForCell(BoxCollider* collider, BoxCollider* cell, std::vector<Collision>* collisions)
 {
+	// TODO dont keep recalculating
+	int oldTop = collider->oldRect_.y;
+	int oldBottom = collider->oldRect_.y + collider->oldRect_.h;
+	int oldLeft = collider->oldRect_.x;
+	int oldRight = collider->oldRect_.x + collider->oldRect_.w;
+
 	while (cell != nullptr)
 	{
 		if (collider != cell)
 		{
-			if (collider->overlaps(cell->rect()))
+			SDL_Rect depth;
+
+			if (collider->overlaps(cell->rect(), &depth))
 			{
-				// TODO get direction of collision
-				collisions->emplace_back(cell, CollisionDirection::DOWN);
+				CollisionDirection dir = CollisionDirection::BOTTOM;
+
+				if (oldRight <= cell->left() && collider->right() >= cell->left())
+					dir = CollisionDirection::RIGHT;
+				else if (oldLeft >= cell->right() && collider->left() < cell->right())
+					dir = CollisionDirection::LEFT;
+				else if (oldBottom < cell->top() && collider->bottom() >= cell->top())
+					dir = CollisionDirection::BOTTOM;
+				else if (oldTop >= cell->bottom() && collider->top() < cell->bottom())
+					dir = CollisionDirection::TOP;
+
+				collisions->emplace_back(cell, dir, depth);
 			}
 		}
 

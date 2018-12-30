@@ -1,27 +1,34 @@
+// http://gameprogrammingpatterns.com/spatial-partition.html
+
 #ifndef _SPATIAL_PARTITION_GRID_
 #define _SPATIAL_PARTITION_GRID_
 
 #include <vector>
 
-#include "CollisionWorld.h"
+#include "SDL.h"
+
+class BoxCollider;
 
 enum class CollisionDirection 
 {
-	UP,
-	DOWN,
+	TOP,
+	BOTTOM,
 	LEFT,
 	RIGHT
 };
 
 struct Collision
 {
-	Collision(BoxCollider* o, CollisionDirection dir) 
+	Collision(BoxCollider* o, CollisionDirection dir, SDL_Rect depth) 
 	{
 		other = o;
+		direction = dir;
+		depthRect = depth;
 	}
 
 	BoxCollider* other;
 	CollisionDirection direction;
+	SDL_Rect depthRect;
 };
 
 class SpatialPartitionGrid

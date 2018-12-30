@@ -47,6 +47,14 @@ public:
 	// Returns true if collider if overlapping another rect and outputs the depth rect.
 	bool overlaps(SDL_Rect otherRect, SDL_Rect* result) const;
 
+	int top();
+
+	int bottom();
+
+	int left();
+
+	int right();
+
 private:
 	Alignment alignment_;
 

@@ -87,3 +87,23 @@ bool BoxCollider::overlaps(SDL_Rect otherRect, SDL_Rect* result) const
 {
 	return SDL_IntersectRect(&rect_, &otherRect, result);
 }
+
+int BoxCollider::top()
+{
+	return rect_.y;
+}
+
+int BoxCollider::bottom()
+{
+	return rect_.y + rect_.h;
+}
+
+int BoxCollider::left()
+{
+	return rect_.x;
+}
+
+int BoxCollider::right()
+{
+	return rect_.x + rect_.w;
+}

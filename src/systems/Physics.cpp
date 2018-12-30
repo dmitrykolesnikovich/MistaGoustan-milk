@@ -39,7 +39,13 @@ void Physics::update()
 	for (auto& it : velocityByActorId_) 
 	{
 		Vector2d velocity = it.second->value();
+
+		if (velocity == Vector2d(0, 0))
+			continue;
+
 		Actor& actor = it.second->actor();
+
+		Vector2d actorOldPos = actor.position();
 
 		actor.position(actor.position() + velocity);
 
@@ -48,6 +54,27 @@ void Physics::update()
 
 		std::vector<Collision> collisions = collisionWorld_->getCollisions(collider);
 
-		std::cout << collisions.size() << std::endl;
+		// Resolve collisions 
+		// TODO notify scripts of collision event
+		for (auto it : collisions) 
+		{
+			switch (it.direction) 
+			{
+			case (CollisionDirection::TOP):
+				actor.position(actor.position().x, actorOldPos.y);
+				break;
+			case (CollisionDirection::BOTTOM):
+				actor.position(actor.position().x, actorOldPos.y);
+				break;
+			case (CollisionDirection::RIGHT):
+				actor.position(actorOldPos.x, actor.position().y);
+				break;
+			case (CollisionDirection::LEFT):
+				actor.position(actorOldPos.x, actor.position().y);
+				break;
+			}
+		}
+
+		collider->updateBBox();
 	}
 }
