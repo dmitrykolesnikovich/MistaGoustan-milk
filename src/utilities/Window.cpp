@@ -63,7 +63,8 @@ bool Window::initSDLRenderWindow()
 
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
 	SDL_RenderSetLogicalSize(sdlRenderer_, virtualWidth_, virtualHeight_);
-	SDL_SetRenderDrawColor(sdlRenderer_, 0x00, 0x00, 0x00, 0xff);
+	SDL_SetRenderDrawColor(sdlRenderer_, 0x00, 0x00, 0x00, 0xff); 
+	SDL_SetRenderDrawBlendMode(sdlRenderer_, SDL_BLENDMODE_BLEND);
 
 	return true;
 }

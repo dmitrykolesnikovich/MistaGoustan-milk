@@ -12,6 +12,10 @@
 
 #include "../externals/sol.hpp"
 
+#ifdef _DEBUG
+#include "../systems/DebugRenderer.h"
+#endif
+
 #include "../systems/Logic.h"
 #include "../systems/Renderer.h"
 #include "../systems/Physics.h"
@@ -69,6 +73,10 @@ private:
 
 	sol::state luaState_;
 
+#ifdef _DEBUG
+	std::unique_ptr<DebugRenderer> debugRenderer_;
+#endif
+	
 	std::unique_ptr<Logic> logicSystem_;
 	std::unique_ptr<Physics> physicsSystem_;
 	std::unique_ptr<Renderer> renderSystem_;

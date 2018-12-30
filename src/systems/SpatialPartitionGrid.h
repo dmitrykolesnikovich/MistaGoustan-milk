@@ -58,8 +58,8 @@ public:
 
 	// TODO make these data driven
 	// TODO NUM_HORIZONTAL_CELLS & NUM_VERTICAL_CELLS
-	static const int NUM_CELLS = 2;
-	static const int CELL_SIZE = 320;
+	static const int NUM_CELLS = 4;
+	static const int CELL_SIZE = 160;
 private:
 	BoxCollider* cells_[NUM_CELLS][NUM_CELLS];
 

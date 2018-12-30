@@ -138,6 +138,9 @@ void Game::render()
 	if (currentScene_ != nullptr) 
 	{
 		renderSystem_->render(*currentScene_);
+#ifdef _DEBUG
+		debugRenderer_->render(*currentScene_);
+#endif
 	}
 
 	SDL_RenderPresent(window_.sdlRenderer());
@@ -180,6 +183,10 @@ void Game::loadScene(const std::string& name)
 
 void Game::onActorSpawned(Actor& actor)
 {
+#ifdef _DEBUG
+	debugRenderer_->onActorAdded(actor);
+#endif
+
 	physicsSystem_->onActorAdded(actor);
 	renderSystem_->onActorAdded(actor);
 
@@ -190,6 +197,10 @@ void Game::onActorSpawned(Actor& actor)
 
 void Game::onActorDestroyed(Actor& actor)
 {
+#ifdef _DEBUG
+	debugRenderer_->onActorDestroyed(actor);
+#endif
+
 	logicSystem_->onActorDestroyed(actor);
 	physicsSystem_->onActorDestroyed(actor);
 	renderSystem_->onActorDestroyed(actor);
@@ -242,6 +253,10 @@ void Game::initGameSubsystems()
 	Input::initialize();
 
 	resourceManager_.init(window_.sdlRenderer());
+
+#ifdef _DEBUG
+	debugRenderer_ = std::unique_ptr<DebugRenderer>(new DebugRenderer(window_.sdlRenderer()));
+#endif
 
 	logicSystem_ = std::unique_ptr<Logic>(new Logic(luaState_));
 	physicsSystem_ = std::unique_ptr<Physics>(new Physics());

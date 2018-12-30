@@ -65,18 +65,15 @@ void Physics::update()
 		// For now, simply reverting back to the actors previous axis position is fine.
 		for (auto it : collisions) 
 		{
-			switch (it.direction) 
+			auto pos = actor.position();
+
+			actor.position(actor.position().x, oldActorPosition.y);
+			collider->updateBBox();
+
+			if (collider->overlaps(it.other->rect())) 
 			{
-			case CollisionSide::TOP:
-			case CollisionSide::BOTTOM:
-				actor.position(actor.position().x, oldActorPosition.y);
+				actor.position(oldActorPosition.x, pos.y);
 				collider->updateBBox();
-				break;
-			case CollisionSide::RIGHT:
-			case CollisionSide::LEFT:
-				actor.position(oldActorPosition.x, actor.position().y);
-				collider->updateBBox();
-				break;
 			}
 		}
 	}

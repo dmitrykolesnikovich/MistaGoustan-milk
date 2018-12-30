@@ -68,7 +68,6 @@ std::unique_ptr<Scene> SceneLoader::load(const std::string& file) const
 		int currentRow = 0;
 		int currentColumn = 0;
 
-		Actor* actor = nullptr;
 
 		for (auto& t : results)
 		{
@@ -84,26 +83,13 @@ std::unique_ptr<Scene> SceneLoader::load(const std::string& file) const
 
 				if (tile->collidable)
 				{
-					if (actor != nullptr) 
-					{
-						auto coll = actor->getComponent<BoxCollider>();
-						coll->width(coll->rect().w + tilemap.tileSize);
-						coll->height(tilemap.tileSize);
-					}
-					else 
-					{
-						actor = scene->spawnActor("tile");
-						actor->position((float)x, (float)y);
-						actor->addComponent<BoxCollider>();
+					Actor* actor = scene->spawnActor("tile");
+					actor->position((float)x, (float)y);
+					actor->addComponent<BoxCollider>();
 
-						auto coll = actor->getComponent<BoxCollider>();
-						coll->width(tilemap.tileSize);
-						coll->height(tilemap.tileSize);
-					}
-				}
-				else 
-				{
-					actor = nullptr;
+					auto coll = actor->getComponent<BoxCollider>();
+					coll->width(tilemap.tileSize);
+					coll->height(tilemap.tileSize);
 				}
 			}
 

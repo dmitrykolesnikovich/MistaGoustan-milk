@@ -10,6 +10,8 @@
 
 #include "../utilities/Texture.h"
 
+#include "../components/BoxCollider.h"
+
 Renderer::Renderer(SDL_Renderer* renderer, ResourceManager& resourceManager)
 	: sdlRenderer_(renderer)
 	, resourceManager_(resourceManager)
