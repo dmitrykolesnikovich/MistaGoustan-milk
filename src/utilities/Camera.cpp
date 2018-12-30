@@ -1,25 +1,27 @@
 #include "Camera.h"
 
 #include "../core/Actor.h"
+#include "../core/Scene.h"
 
-Camera::Camera(unsigned int width, unsigned int height)
-	: target_(nullptr)
+Camera::Camera(Scene& scene, unsigned int width, unsigned int height)
+	: scene_(scene)
+	, target_(nullptr)
 {
-	rect_.x = 0;
-	rect_.y = 0;
-	rect_.w = width;
-	rect_.h = height;
+	camRect_.x = 0;
+	camRect_.y = 0;
+	camRect_.w = width;
+	camRect_.h = height;
 }
 
 void Camera::position(float x, float y)
 {
-	rect_.x = std::floor(x);
-	rect_.y = std::floor(y);
+	camRect_.x = std::floor(x);
+	camRect_.y = std::floor(y);
 }
 
 Vector2d Camera::position() const
 {
-	return Vector2d(rect_.x, rect_.y);
+	return Vector2d(camRect_.x, camRect_.y);
 }
 
 void Camera::setTarget(Actor* actor)
@@ -28,10 +30,29 @@ void Camera::setTarget(Actor* actor)
 }
 
 void Camera::update()
+{	
+	followTarget();
+	clampCameraToSceneBounds();
+}
+
+void Camera::followTarget()
 {
 	if (target_ != nullptr)
 	{
-		rect_.x = std::floor(target_->position().x - rect_.w  * 0.5f);
-		rect_.y = std::floor(target_->position().y - rect_.h * 0.5f);
+		camRect_.x = std::floor(target_->position().x - camRect_.w  * 0.5f);
+		camRect_.y = std::floor(target_->position().y - camRect_.h * 0.5f);
 	}
+}
+
+void Camera::clampCameraToSceneBounds()
+{
+	if (camRect_.x < scene_.bounds().x)
+		camRect_.x = scene_.bounds().x;
+	else if ((camRect_.x + camRect_.w) > scene_.bounds().w)
+		camRect_.x = scene_.bounds().w - camRect_.w;
+
+	if (camRect_.y < scene_.bounds().y)
+		camRect_.y = scene_.bounds().y;
+	else if ((camRect_.y + camRect_.h) > scene_.bounds().h)
+		camRect_.y = scene_.bounds().h - camRect_.h;
 }

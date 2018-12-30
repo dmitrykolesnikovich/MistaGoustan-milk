@@ -45,6 +45,9 @@ public:
 	// Notified the game of each actor that is destroyed by the game unload.
 	void unload() const;
 
+	// Return the scene boundaries.
+	SDL_Rect bounds() const;
+
 private:
 	Game& game_;
 	

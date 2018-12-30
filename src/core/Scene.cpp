@@ -4,7 +4,7 @@
 
 Scene::Scene(Game& game)
 	: game_(game)
-	, camera_(game.window().virtualWidth(), game.window().virtualHeight())
+	, camera_(*this, game.window().virtualWidth(), game.window().virtualHeight())
 {
 }
 
@@ -88,4 +88,15 @@ void Scene::unload() const
 	{
 		game_.onActorDestroyed(*it.second);
 	}
+}
+
+SDL_Rect Scene::bounds() const
+{
+	SDL_Rect bounds;
+	bounds.x = 0;
+	bounds.y = 0;
+	bounds.w = tilemap_.width;
+	bounds.h = tilemap_.height;
+
+	return bounds;
 }

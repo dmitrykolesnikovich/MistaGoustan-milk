@@ -6,11 +6,12 @@
 #include "../math/Vector2d.h"
 
 class Actor;
+class Scene;
 
 class Camera
 {
 public:
-	Camera(unsigned int width, unsigned int height);
+	Camera(Scene& scene, unsigned int width, unsigned int height);
 	~Camera() = default;
 
 	// Set the cameras position.
@@ -26,8 +27,14 @@ public:
 	void update();
 
 private:
+	Scene& scene_;
+
 	Actor* target_;
-	SDL_Rect rect_;
+
+	SDL_Rect camRect_;
+
+	void followTarget();
+	void clampCameraToSceneBounds();
 };
 
 #endif
