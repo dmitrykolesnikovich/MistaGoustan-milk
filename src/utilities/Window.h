@@ -23,6 +23,12 @@ public:
 	// Get height of window.
 	unsigned int height() const;
 
+	// Get vritual width of window.
+	unsigned int virtualWidth() const;
+
+	// Get virtual height of window.
+	unsigned int virtualHeight() const;
+
 	// Set size of window.
 	void size(unsigned int width, unsigned int height);
 

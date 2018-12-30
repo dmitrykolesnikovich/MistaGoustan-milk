@@ -9,6 +9,11 @@ Actor::Actor(Scene& scene, int id, const std::string& name, const Vector2d& posi
 {
 }
 
+Scene& Actor::scene() const
+{
+	return scene_;
+}
+
 int Actor::id() const
 {
 	return id_;

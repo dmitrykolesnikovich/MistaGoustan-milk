@@ -4,6 +4,7 @@
 
 Scene::Scene(Game& game)
 	: game_(game)
+	, camera_(game.window().virtualWidth(), game.window().virtualHeight())
 {
 }
 
@@ -43,6 +44,11 @@ Actor* Scene::findActor(const std::string& name) const
 	}
 
 	return nullptr;
+}
+
+Camera& Scene::camera()
+{
+	return camera_;
 }
 
 Tilemap& Scene::tilemap()

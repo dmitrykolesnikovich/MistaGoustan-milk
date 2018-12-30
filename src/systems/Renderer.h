@@ -4,9 +4,11 @@
 #include <unordered_map>
 
 class Actor;
+class Camera;
 class ResourceManager;
+class Scene;
 class Sprite;
-struct Tilemap;
+class Tilemap;
 
 struct SDL_Renderer;
 
@@ -18,7 +20,7 @@ public:
 	void onActorAdded(Actor& actor);
 	void onActorDestroyed(Actor& actor);
 
-	void render(Tilemap& tilemap);
+	void render(Scene& scene);
 
 private:
 	SDL_Renderer* sdlRenderer_;
@@ -26,8 +28,8 @@ private:
 
 	std::unordered_map<int, Sprite*> spritesByActorId_;
 
-	void renderTilemap(const Tilemap& tilemap);
-	void renderActors();
+	void renderTilemap(const Tilemap& tilemap, const Camera& camera);
+	void renderActors(const Camera& camera);
 };
 
 #endif

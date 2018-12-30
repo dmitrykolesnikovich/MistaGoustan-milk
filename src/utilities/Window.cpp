@@ -78,6 +78,16 @@ unsigned int Window::height() const
 	return height_;
 }
 
+unsigned int Window::virtualWidth() const
+{
+	return virtualWidth_;
+}
+
+unsigned int Window::virtualHeight() const
+{
+	return virtualHeight_;
+}
+
 void Window::size(unsigned int width, unsigned int height)
 {
 	width_ = width;

@@ -39,21 +39,22 @@ void Renderer::onActorDestroyed(Actor& actor)
 		spritesByActorId_.erase(actor.id());	
 }
 
-void Renderer::render(Tilemap& tilemap)
+void Renderer::render(Scene& scene)
 {
-	renderTilemap(tilemap);
-	renderActors();
+	scene.camera().update();
+	renderTilemap(scene.tilemap(), scene.camera());
+	renderActors(scene.camera());
 }
 
-void Renderer::renderTilemap(const Tilemap& tilemap)
+void Renderer::renderTilemap(const Tilemap& tilemap, const Camera& camera)
 {
 	for (auto& layer : tilemap.layers)
 	{
 		for (auto& tile : layer->tiles)
 		{
 			SDL_Rect destinationRect;
-			destinationRect.x = tile->x;
-			destinationRect.y = tile->y;
+			destinationRect.x = tile->x - camera.position().x;
+			destinationRect.y = tile->y - camera.position().y;
 			destinationRect.w = tile->type.sourceRect.w;
 			destinationRect.h = tile->type.sourceRect.h;
 
@@ -62,7 +63,7 @@ void Renderer::renderTilemap(const Tilemap& tilemap)
 	}
 }
 
-void Renderer::renderActors()
+void Renderer::renderActors(const Camera& camera)
 {
 	for (auto it : spritesByActorId_)
 	{
@@ -74,6 +75,8 @@ void Renderer::renderActors()
 		auto texture = it.second->texture();
 		auto sourceRect = it.second->sourceRect();
 		auto destinationRect = it.second->destinationRect();
+		destinationRect.x -= camera.position().x;
+		destinationRect.y -= camera.position().y;
 
 		SDL_RenderCopyEx(sdlRenderer_, texture->get(), &sourceRect, &destinationRect, 0, nullptr, it.second->rendererFlip());
 	}

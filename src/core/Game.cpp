@@ -137,7 +137,7 @@ void Game::render()
 
 	if (currentScene_ != nullptr) 
 	{
-		renderSystem_->render(currentScene_->tilemap());
+		renderSystem_->render(*currentScene_);
 	}
 
 	SDL_RenderPresent(window_.sdlRenderer());

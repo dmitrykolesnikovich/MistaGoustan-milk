@@ -7,6 +7,7 @@ local playerScript = {
 
 function playerScript:begin()
 	self.actor:set_animation('idle')
+	--self.actor:make_cam_target()
 end
 
 function playerScript:update()
@@ -47,10 +48,6 @@ function playerScript:update()
 		self.actor:set_animation('idle')
 	else
 		self.actor:set_animation('run')
-	end
-	
-	if (inputvec:magnitude() > 1) then
-		inputvec = inputvec:normalize()
 	end
 
 	inputvec = inputvec * self.speed

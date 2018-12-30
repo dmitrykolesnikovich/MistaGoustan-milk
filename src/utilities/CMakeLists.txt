@@ -1,6 +1,8 @@
 target_sources(Milk
     PRIVATE
 	Alignment.h
+	Camera.h
+	Camera.cpp
         IdGenerator.h
 	IdGenerator.cpp
 	Input.h

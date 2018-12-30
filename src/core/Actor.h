@@ -18,6 +18,9 @@ public:
 	Actor(Scene& scene, int id, const std::string& name, const Vector2d& position);
 	~Actor() = default;
 
+	// Returns the actors scene.
+	Scene& scene() const;
+
 	// Returns the actors unique id.
 	int id() const;
 

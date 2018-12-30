@@ -20,7 +20,8 @@ public:
 			"move", &LuaHandle_Actor::move,
 			"set_animation", &LuaHandle_Actor::setAnimation,
 			"flip_x", &LuaHandle_Actor::flipX,
-			"flip_y", &LuaHandle_Actor::flipY);
+			"flip_y", &LuaHandle_Actor::flipY,
+			"make_cam_target", &LuaHandle_Actor::setAsCameraTarget);
 
 		luaState.new_usertype<Input>("Input",
 			"get_key", &Input::getKey,

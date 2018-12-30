@@ -1,0 +1,33 @@
+#ifndef _CAMERA_
+#define _CAMERA_
+
+#include "SDL.h"
+
+#include "../math/Vector2d.h"
+
+class Actor;
+
+class Camera
+{
+public:
+	Camera(unsigned int width, unsigned int height);
+	~Camera() = default;
+
+	// Set the cameras position.
+	void position(float x, float y);
+
+	// Get the cameras position.
+	Vector2d position() const;
+
+	// Set the cameras target to follow.
+	void setTarget(Actor* actor);
+
+	// Update the camera.
+	void update();
+
+private:
+	Actor* target_;
+	SDL_Rect rect_;
+};
+
+#endif

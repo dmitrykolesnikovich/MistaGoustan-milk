@@ -9,6 +9,8 @@
 #include "Actor.h"
 
 #include "../tilemap/Tilemap.h"
+
+#include "../utilities/Camera.h"
 #include "../utilities/IdGenerator.h"
 
 class Game;
@@ -31,6 +33,9 @@ public:
 	// Returns nullptr if not actor is found.
 	Actor* findActor(const std::string& name) const;
 
+	// Returns the scenes camera.
+	Camera& camera();
+
 	// Returns the scenes tilemap.
 	Tilemap& tilemap();
 
@@ -44,6 +49,7 @@ private:
 	Game& game_;
 	
 	IdGenerator idGenerator_;
+	Camera camera_;
 	Tilemap tilemap_;
 
 	std::unordered_map<int, std::unique_ptr<Actor>> actorsById_;

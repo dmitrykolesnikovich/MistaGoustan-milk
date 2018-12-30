@@ -3,11 +3,19 @@
 #include "../components/Animator.h"
 #include "../components/Sprite.h"
 #include "../components/Velocity.h"
+
 #include "../core/Actor.h"
+#include "../core/Scene.h"
 
 LuaHandle_Actor::LuaHandle_Actor(Actor& actor)
 	: actor_(actor)
 {
+}
+
+void LuaHandle_Actor::setAsCameraTarget()
+{
+	auto& scene = actor_.scene();
+	scene.camera().setTarget(&actor_);
 }
 
 void LuaHandle_Actor::move(float x, float y)

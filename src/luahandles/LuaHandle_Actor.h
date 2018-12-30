@@ -13,6 +13,8 @@ public:
 	LuaHandle_Actor(Actor& actor);
 	LuaHandle_Actor() = default;
 
+	void setAsCameraTarget();
+
 	// Move the actor.
 	void move(float x, float y);
 
