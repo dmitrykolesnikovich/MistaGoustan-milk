@@ -1,8 +1,11 @@
 target_sources(Milk
     PRIVATE
+	CollisionWorld.h
         Logic.h
 	Logic.cpp
 	Physics.h
 	Physics.cpp
 	Renderer.h
-	Renderer.cpp)
+	Renderer.cpp
+	SpatialPartitionGrid.h
+	SpatialPartitionGrid.cpp)

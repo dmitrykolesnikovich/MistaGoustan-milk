@@ -4,35 +4,16 @@
 #include <memory>
 #include <unordered_map>
 
+#include "SpatialPartitionGrid.h"
+
 class Actor;
 class BoxCollider;
 class Velocity;
 
-struct DynamicNode 
-{
-	DynamicNode(Actor& actor)
-		: actor(actor)
-	{
-		previous = nullptr;
-		next = nullptr;
-	}
-
-	Actor& actor;
-
-	DynamicNode* previous;
-	DynamicNode* next;
-};
-
-struct CollisionPair 
-{
-	BoxCollider* coll1;
-	BoxCollider* coll2;
-};
-
 class Physics 
 {
 public:
-	Physics() = default;
+	Physics();
 	~Physics() = default;
 
 	void onActorAdded(Actor& actor);
@@ -41,12 +22,8 @@ public:
 	void update();
 
 private:
-	DynamicNode* first_;
-	DynamicNode* last_;
-
-	std::unordered_map<int, Velocity*> movableActors_;
-	std::unordered_map<int, BoxCollider*> collidableActors_;
-	std::unordered_map<int, std::unique_ptr<DynamicNode>> dynamicActors_;
+	std::unordered_map<int, Velocity*> velocityByActorId_;
+	std::unique_ptr<SpatialPartitionGrid> collisionWorld_;
 };
 
 #endif

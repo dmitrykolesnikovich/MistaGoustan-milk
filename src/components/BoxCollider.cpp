@@ -2,18 +2,30 @@
 
 #include "../core/Actor.h"
 
+#include "../systems/SpatialPartitionGrid.h"
+
 const ComponentType BoxCollider::type = BOX_COLLIDER;
 
 BoxCollider::BoxCollider(Actor& actor)
 	: ActorComponent::ActorComponent(actor)
 	, alignment_(Alignment::TOP_LEFT)
 	, offset_(0, 0)
+	, grid_(nullptr)
+	, next_(nullptr)
+	, prev_(nullptr)
 {
 	updateBBox();
 }
 
 BoxCollider::~BoxCollider()
 {
+}
+
+void BoxCollider::init(SpatialPartitionGrid* grid)
+{
+	grid_ = grid;
+
+	updateBBox();
 }
 
 void BoxCollider::center()
@@ -27,6 +39,8 @@ void BoxCollider::updateBBox()
 {
 	Vector2d actorPosition = actor_.position();
 
+	oldRect_ = rect_;
+
 	switch (alignment_) 
 	{
 	case Alignment::TOP_LEFT:
@@ -38,6 +52,9 @@ void BoxCollider::updateBBox()
 		rect_.y = actorPosition.y - (rect_.h / 2) + offset_.y;
 		break;
 	}
+
+	if (grid_ != nullptr)
+		grid_->move(this);
 }
 
 SDL_Rect BoxCollider::rect() const

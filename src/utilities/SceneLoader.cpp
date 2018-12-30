@@ -166,6 +166,7 @@ std::unique_ptr<Scene> SceneLoader::load(const std::string& file) const
 				coll->width(w);
 				coll->height(h);
 				coll->offset(xOff, yOff);
+				coll->updateBBox();
 			}
 
 			if (strcmp(type, "Animator") == 0)

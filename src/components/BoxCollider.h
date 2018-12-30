@@ -9,13 +9,19 @@
 
 #include "../utilities/Alignment.h"
 
+class SpatialPartitionGrid;
+
 class BoxCollider : public ActorComponent
 {
 public:
 	static const ComponentType type;
 
+	friend class SpatialPartitionGrid;
+
 	BoxCollider(Actor& actor);
 	~BoxCollider();
+
+	void init(SpatialPartitionGrid* grid);
 
 	// Center the colliders origin.
 	void center();
@@ -43,8 +49,16 @@ public:
 
 private:
 	Alignment alignment_;
+
 	SDL_Rect rect_;
+	SDL_Rect oldRect_;
+
 	Vector2d offset_;
+
+	SpatialPartitionGrid* grid_;
+
+	BoxCollider* prev_;
+	BoxCollider* next_;
 };
 
 #endif
