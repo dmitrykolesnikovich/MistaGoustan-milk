@@ -10,7 +10,7 @@ Window::Window()
 }
 
 Window::Window(const std::string& title, unsigned int width, unsigned int height, bool fullscreen)
-	: Window::Window("Milk", width, height, width, height, false)
+	: Window::Window(title, width, height, width, height, false)
 {
 }
 
