@@ -7,6 +7,7 @@ const ComponentType BoxCollider::type = BOX_COLLIDER;
 BoxCollider::BoxCollider(Actor& actor)
 	: ActorComponent::ActorComponent(actor)
 	, alignment_(Alignment::TOP_LEFT)
+	, offset_(0, 0)
 {
 	updateBBox();
 }
@@ -29,12 +30,12 @@ void BoxCollider::updateBBox()
 	switch (alignment_) 
 	{
 	case Alignment::TOP_LEFT:
-		rect_.x = actorPosition.x;
-		rect_.y = actorPosition.y;
+		rect_.x = actorPosition.x + offset_.x;
+		rect_.y = actorPosition.y + offset_.y;
 		break;
 	case Alignment::CENTER_ORIGIN:
-		rect_.x = actorPosition.x - (rect_.w / 2);;
-		rect_.y = actorPosition.y - (rect_.h / 2);
+		rect_.x = actorPosition.x - (rect_.w / 2) + offset_.x;
+		rect_.y = actorPosition.y - (rect_.h / 2) + offset_.y;
 		break;
 	}
 }
@@ -52,6 +53,12 @@ void BoxCollider::width(int width)
 void BoxCollider::height(int height)
 {
 	rect_.h = height;
+}
+
+void BoxCollider::offset(int x, int y)
+{
+	offset_.x = x;
+	offset_.y = y;
 }
 
 bool BoxCollider::overlaps(SDL_Rect otherRect) const

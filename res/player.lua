@@ -1,16 +1,14 @@
--- player script
-
-local playerScript = {
+local player = {
 	speed = 2,
 	flipped_x = false
  }
 
-function playerScript:begin()
+function player:begin()
 	self.actor:set_animation('idle')
-	--self.actor:make_cam_target()
+	self.actor:make_cam_target()
 end
 
-function playerScript:update()
+function player:update()
 	if Input.get_key_pressed(102) then
 		game.window:toggle_fullscreen()
 	end
@@ -55,7 +53,7 @@ function playerScript:update()
 	self.actor:move(inputvec.x, inputvec.y)
 end
 
-function playerScript:destroyed()
+function player:destroyed()
 end
 
-return playerScript
+return player

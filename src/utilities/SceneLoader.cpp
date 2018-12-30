@@ -157,12 +157,15 @@ std::unique_ptr<Scene> SceneLoader::load(const std::string& file) const
 			{
 				int w = e->IntAttribute("w");
 				int h = e->IntAttribute("h");
+				int xOff = e->IntAttribute("xOffset");
+				int yOff = e->IntAttribute("yOffset");
 
 				actor->addComponent<BoxCollider>();
 				auto coll = actor->getComponent<BoxCollider>();
 				coll->center();
 				coll->width(w);
 				coll->height(h);
+				coll->offset(xOff, yOff);
 			}
 
 			if (strcmp(type, "Animator") == 0)

@@ -230,7 +230,7 @@ bool Game::initGameWindow()
 
 void Game::initLua()
 {
-	luaState_.open_libraries(sol::lib::base, sol::lib::package);
+	luaState_.open_libraries(sol::lib::base, sol::lib::math, sol::lib::package);
 
 	LuaHandleRegistry::RegisterHandles(luaState_);
 

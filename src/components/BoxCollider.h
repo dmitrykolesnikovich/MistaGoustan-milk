@@ -4,6 +4,9 @@
 #include "SDL.h"
 
 #include "../core/ActorComponent.h"
+
+#include "../math/Vector2d.h"
+
 #include "../utilities/Alignment.h"
 
 class BoxCollider : public ActorComponent
@@ -29,6 +32,9 @@ public:
 	// Sets the height of the collider.
 	void height(int height);
 
+	// Offset the collider.
+	void offset(int x, int y);
+
 	// Returns true if collider is overlapping another rect.
 	bool overlaps(SDL_Rect otherRect) const;
 
@@ -38,6 +44,7 @@ public:
 private:
 	Alignment alignment_;
 	SDL_Rect rect_;
+	Vector2d offset_;
 };
 
 #endif
