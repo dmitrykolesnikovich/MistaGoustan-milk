@@ -29,6 +29,6 @@ void Input::initialize()
 
 void Input::updateKeyboardState()
 {
-	memcpy(previousState_, currentState_, sizeof(Uint8)*SDL_NUM_SCANCODES);
-	memcpy(currentState_, SDL_GetKeyboardState(NULL), sizeof(Uint8)*SDL_NUM_SCANCODES);
+	std::memcpy(previousState_, currentState_, sizeof(Uint8)*SDL_NUM_SCANCODES);
+	std::memcpy(currentState_, SDL_GetKeyboardState(NULL), sizeof(Uint8)*SDL_NUM_SCANCODES);
 }
