@@ -2,18 +2,19 @@
 
 local playerScript = {
 	speed = 2,
-	f_down_last_frame = false
+	f_down_last_frame = false,
+	flipped_x = false
  }
 
-function playerScript:begin()	
+function playerScript:begin()
+	self.actor:set_animation('main')
 end
 
 function playerScript:update()
 	-- hackish. will be hacking until Input class doesn't suck
 	if Input.getKey(102) and not self.f_down_last_frame then
 		self.f_down_last_frame = true
-		--game.window:toggle_fullscreen()
-		game:loadScene('res/balls.xml')
+		game.window:toggle_fullscreen()
 	end
 	if not Input.getKey(102) and self.f_down_last_frame then
 		self.f_down_last_frame = false
@@ -29,9 +30,19 @@ function playerScript:update()
 	end
 	if Input.getKey(97) then
 		inputvec.x = -1
+
+		if (not self.flipped_x) then
+			self.flipped_x = true
+			self.actor:flip_x()
+		end
 	end
 	if Input.getKey(100) then
 		inputvec.x = 1
+
+		if (self.flipped_x) then
+			self.flipped_x = false
+			self.actor:flip_x()
+		end
 	end
 
 	inputvec.x = inputvec.x * self.speed

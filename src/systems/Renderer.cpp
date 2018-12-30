@@ -75,6 +75,6 @@ void Renderer::renderActors()
 		auto sourceRect = it.second->sourceRect();
 		auto destinationRect = it.second->destinationRect();
 
-		SDL_RenderCopyEx(sdlRenderer_, texture->get(), &sourceRect, &destinationRect, 0, nullptr, SDL_FLIP_NONE);
+		SDL_RenderCopyEx(sdlRenderer_, texture->get(), &sourceRect, &destinationRect, 0, nullptr, it.second->rendererFlip());
 	}
 }

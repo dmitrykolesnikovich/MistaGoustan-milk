@@ -16,7 +16,10 @@ public:
 	static void RegisterHandles(sol::state& luaState)
 	{
 		luaState.new_usertype<LuaHandle_Actor>("actor",
-			"move", &LuaHandle_Actor::move);
+			"move", &LuaHandle_Actor::move,
+			"set_animation", &LuaHandle_Actor::setAnimation,
+			"flip_x", &LuaHandle_Actor::flipX,
+			"flip_y", &LuaHandle_Actor::flipY);
 
 		luaState.new_usertype<Input>("Input",
 			"getKey", &Input::getKey);

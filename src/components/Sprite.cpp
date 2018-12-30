@@ -9,6 +9,7 @@ const ComponentType Sprite::type = SPRITE;
 Sprite::Sprite(Actor& actor)
 	: ActorComponent::ActorComponent(actor)
 	, alignment_(Alignment::TOP_LEFT)
+	, flip_(SDL_FLIP_NONE)
 {
 }
 
@@ -78,4 +79,35 @@ SDL_Rect Sprite::destinationRect() const
 	}
 
 	return destinationRect;
+}
+
+void Sprite::flipX()
+{
+	if (flippedX())
+		flip_ &= ~SDL_FLIP_HORIZONTAL;
+	else
+		flip_ |= SDL_FLIP_HORIZONTAL;
+}
+
+bool Sprite::flippedX()
+{
+	return (flip_ & SDL_FLIP_HORIZONTAL) == SDL_FLIP_HORIZONTAL;
+}
+
+void Sprite::flipY()
+{
+	if (flippedY())
+		flip_ &= ~SDL_FLIP_VERTICAL;
+	else
+		flip_ |= SDL_FLIP_VERTICAL;
+}
+
+bool Sprite::flippedY()
+{
+	return (flip_ & SDL_FLIP_VERTICAL) == SDL_FLIP_VERTICAL;
+}
+
+SDL_RendererFlip Sprite::rendererFlip() const
+{
+	return (SDL_RendererFlip)flip_;
 }

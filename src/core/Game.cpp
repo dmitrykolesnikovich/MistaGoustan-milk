@@ -180,9 +180,12 @@ void Game::loadScene(const std::string& name)
 
 void Game::onActorSpawned(Actor& actor)
 {
-	logicSystem_->onActorAdded(actor);
 	physicsSystem_->onActorAdded(actor);
 	renderSystem_->onActorAdded(actor);
+
+	// Since each individual system is responsible for calling .load() on the actors required resources,
+	// we run them before the logic system, in case a lua script call depends on a resource being loaded.
+	logicSystem_->onActorAdded(actor);
 }
 
 void Game::onActorDestroyed(Actor& actor)

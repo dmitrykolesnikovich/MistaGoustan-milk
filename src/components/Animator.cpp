@@ -1,28 +1,23 @@
 #include "Animator.h"
 
+#include "SDL.h"
+
 #include "../components/Sprite.h"
 #include "../core/Actor.h"
+
 #include "../utilities/Texture.h"
 
 const ComponentType Animator::type = ANIMATOR;
 
 Animator::Animator(Actor& actor)
 	: ActorComponent::ActorComponent(actor)
-{
-	currentAnimation_ = 0;
-	timeBetweenFrames_ = 0.1f;
-	rows_ = 0;
-	columns_ = 0;
-	frameWidth_ = 0;
-	frameWidth_ = 0;
-	paused_ = false;
-
-	currentAnimation_ = nullptr;
-
-	timer_ = Timer();
-}
-
-Animator::~Animator()
+	, timeBetweenFrames_(0.1f)
+	, rows_(0)
+	, columns_(0)
+	, frameWidth_(0)
+	, frameHeight_(0)
+	, paused_(false)
+	, currentAnimation_(nullptr)
 {
 }
 
@@ -32,8 +27,6 @@ void Animator::init()
 
 	frameWidth_ = sprite_->texture()->width() / columns_;
 	frameHeight_ = sprite_->texture()->height() / rows_;
-
-	setAnimation("main");
 }
 
 void Animator::rows(int rows)

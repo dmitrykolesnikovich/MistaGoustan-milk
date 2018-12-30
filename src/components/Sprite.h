@@ -43,11 +43,24 @@ public:
 	// Get the sprites destination rectangle.
 	SDL_Rect destinationRect() const;
 
+	void flipX();
+
+	bool flippedX();
+
+	void flipY();
+
+	bool flippedY();
+
+	SDL_RendererFlip rendererFlip() const;
+
 private:
 	std::string textureName_;
 	Texture* texture_;
 	SDL_Rect sourceRect_;
+
 	Alignment alignment_;
+
+	Uint8 flip_;
 };
 
 #endif

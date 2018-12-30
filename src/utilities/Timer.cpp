@@ -1,12 +1,11 @@
 #include "Timer.h"
 
 Timer::Timer()
+	: startTicks_(0)
+	, pausedTicks_(0)
+	, paused_(false)
+	, started_(false)
 {
-	startTicks_ = 0;
-	pausedTicks_ = 0;
-
-	paused_ = false;
-	started_ = false;
 }
 
 Timer::~Timer()

@@ -59,7 +59,7 @@ public:
 	static const ComponentType type;
 
 	Animator(Actor& actor);
-	~Animator();
+	~Animator() = default;
 
 	void init();
 
@@ -68,8 +68,9 @@ public:
 
 	void togglePaused();
 
-	void addAnimation(const std::string& name, std::initializer_list<int> f);
-	void addAnimation(const std::string& name, std::vector<int> f);
+	void addAnimation(const std::string& name, std::initializer_list<int> frames);
+	void addAnimation(const std::string& name, std::vector<int> frames);
+
 	void setAnimation(const std::string& name);
 
 	void update();
