@@ -108,6 +108,12 @@ void Game::handleEvents()
 	}
 
 	Input::updateKeyboardState();
+
+	while (!eventQueue_.empty())
+	{
+		auto e = eventQueue_.popEvent();
+		logicSystem_->handleEvent(e);
+	}
 }
 
 void Game::update()
@@ -125,13 +131,6 @@ void Game::update()
 		currentScene_ = sceneLoader_.load(sceneToLoad_);
 
 		sceneToLoad_.clear();
-	}
-
-	while (!eventQueue_.empty()) 
-	{
-		auto e = eventQueue_.popEvent();
-
-		logicSystem_->handleEvent(e);
 	}
 
 	if (currentScene_ != nullptr) 
