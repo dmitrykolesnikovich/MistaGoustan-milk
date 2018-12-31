@@ -5,6 +5,8 @@
 
 #include "../externals/sol.hpp"
 
+#include "EventQueue.h"
+
 class Actor;
 class Script;
 
@@ -16,6 +18,8 @@ public:
 
 	void onActorAdded(Actor& actor);
 	void onActorDestroyed(Actor& actor);
+
+	void handleEvent(std::shared_ptr<GameEvent> gameEvent);
 
 	void update();
 

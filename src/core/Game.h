@@ -16,6 +16,7 @@
 #include "../systems/DebugRenderer.h"
 #endif
 
+#include "../systems/EventQueue.h"
 #include "../systems/Logic.h"
 #include "../systems/Renderer.h"
 #include "../systems/Physics.h"
@@ -70,6 +71,7 @@ private:
 
 	SceneLoader sceneLoader_;
 	ResourceManager resourceManager_;
+	EventQueue eventQueue_;
 
 	sol::state luaState_;
 

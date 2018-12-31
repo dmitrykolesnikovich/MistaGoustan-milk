@@ -34,6 +34,15 @@ void Script::update()
 	luaScript_["update"](self);
 }
 
+void Script::onCollision(ActorCollisionEvent& collisionEvent)
+{
+	sol::table self = luaScript_;
+	sol::function onCollision = luaScript_["onCollision"];
+
+	if (onCollision.valid())
+		luaScript_["onCollision"](self, collisionEvent);
+}
+
 void Script::end() 
 {
 	sol::table self = luaScript_;

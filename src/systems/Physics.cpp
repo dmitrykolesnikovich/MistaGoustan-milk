@@ -7,8 +7,11 @@
 
 #include "../core/Actor.h"
 
-Physics::Physics()
-	: partitionGrid_(new SpatialPartitionGrid())
+#include "../systems/EventQueue.h"
+
+Physics::Physics(EventQueue& eventQueue)
+	: eventQueue_(eventQueue)
+	, partitionGrid_(new SpatialPartitionGrid())
 {
 }
 
@@ -69,6 +72,8 @@ void Physics::update()
 		// For now, simply reverting back to the actors previous axis position is fine.
 		for (auto it : collisions) 
 		{
+			eventQueue_.pushEvent(new ActorCollisionEvent(actor.id(), *it.other));
+
 			auto pos = actor.position();
 
 			actor.position(actor.position().x, oldActorPosition.y);

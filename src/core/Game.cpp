@@ -127,6 +127,13 @@ void Game::update()
 		sceneToLoad_.clear();
 	}
 
+	while (!eventQueue_.empty()) 
+	{
+		auto e = eventQueue_.popEvent();
+
+		logicSystem_->handleEvent(e);
+	}
+
 	if (currentScene_ != nullptr) 
 	{
 		currentScene_->update();
@@ -264,6 +271,6 @@ void Game::initGameSubsystems()
 #endif
 
 	logicSystem_ = std::unique_ptr<Logic>(new Logic(luaState_));
-	physicsSystem_ = std::unique_ptr<Physics>(new Physics());
+	physicsSystem_ = std::unique_ptr<Physics>(new Physics(eventQueue_));
 	renderSystem_ = std::unique_ptr<Renderer>(new Renderer(window_.sdlRenderer(), resourceManager_));
 }

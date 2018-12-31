@@ -8,12 +8,13 @@
 
 class Actor;
 class BoxCollider;
+class EventQueue;
 class Velocity;
 
 class Physics 
 {
 public:
-	Physics();
+	Physics(EventQueue& eventQueue);
 	~Physics() = default;
 
 	void onActorAdded(Actor& actor);
@@ -22,6 +23,8 @@ public:
 	void update();
 
 private:
+	EventQueue& eventQueue_;
+
 	std::unordered_map<int, Velocity*> velocityByActorId_;
 	std::unique_ptr<SpatialPartitionGrid> partitionGrid_;
 };

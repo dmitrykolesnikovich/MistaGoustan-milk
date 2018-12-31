@@ -2,6 +2,8 @@ target_sources(Milk
     PRIVATE
 	DebugRenderer.h
 	DebugRenderer.cpp
+	EventQueue.h
+	EventQueue.cpp
         Logic.h
 	Logic.cpp
 	Physics.h

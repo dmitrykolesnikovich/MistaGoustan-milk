@@ -39,6 +39,21 @@ void Logic::onActorDestroyed(Actor& actor)
 	scriptByActorId_.erase(actor.id());
 }
 
+void Logic::handleEvent(std::shared_ptr<GameEvent>  gameEvent)
+{
+	switch (gameEvent->type()) 
+	{
+	case GameEventType::ACTOR_COLLISION:
+		auto e = std::dynamic_pointer_cast<ActorCollisionEvent>(gameEvent);
+		auto& script = scriptByActorId_.find(e->actorId());
+
+		if (script != scriptByActorId_.end()) 		
+			script->second->onCollision(*e);
+
+		break;
+	}
+}
+
 void Logic::update()
 {
 	for (auto& it : scriptByActorId_) 

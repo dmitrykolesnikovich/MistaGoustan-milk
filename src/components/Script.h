@@ -3,8 +3,11 @@
 
 #include <string>
 
-#include "../core/ActorComponent.h"
 #include "../externals/sol.hpp"
+
+#include "../core/ActorComponent.h"
+
+#include "../systems/EventQueue.h"
 
 class LuaHandle_Actor;
 
@@ -27,6 +30,8 @@ public:
 
 	// Called once per frame.
 	virtual void update();
+
+	virtual void onCollision(ActorCollisionEvent& collisionEvent);
 
 	// Called once the actor has been destroyed.
 	virtual void end();
