@@ -53,6 +53,9 @@ function player:update()
 	self.actor:move(inputvec.x, inputvec.y)
 end
 
+function player:onCollision(e)
+end
+
 function player:destroyed()
 end
 
