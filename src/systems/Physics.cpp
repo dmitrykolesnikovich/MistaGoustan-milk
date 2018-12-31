@@ -54,6 +54,10 @@ void Physics::update()
 		actor.position(actor.position() + velocity);
 
 		BoxCollider* collider = it.second->actor().getComponent<BoxCollider>();
+
+		if (collider == nullptr)
+			continue;
+
 		collider->updateBBox();
 
 		// Get collision events from collision world.
