@@ -97,6 +97,10 @@ void Game::handleEvents()
 			case SDL_KEYUP:
 				if (e.key.keysym.sym == SDLK_ESCAPE)
 					isRunning_ = false;
+#ifdef _DEBUG
+				if (e.key.keysym.sym == SDLK_BACKQUOTE)
+					debugRenderer_->show = !debugRenderer_->show;
+#endif
 				break;
 			default:
 				break;
@@ -138,6 +142,7 @@ void Game::render()
 	if (currentScene_ != nullptr) 
 	{
 		renderSystem_->render(*currentScene_);
+
 #ifdef _DEBUG
 		debugRenderer_->render(*currentScene_);
 #endif

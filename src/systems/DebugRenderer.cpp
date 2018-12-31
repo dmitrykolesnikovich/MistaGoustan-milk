@@ -24,6 +24,9 @@ void DebugRenderer::onActorDestroyed(Actor& actor)
 
 void DebugRenderer::render(Scene& scene)
 {
+	if (!show)
+		return;
+
 	int cells = SpatialPartitionGrid::NUM_CELLS;
 	int size = SpatialPartitionGrid::CELL_SIZE;
 
