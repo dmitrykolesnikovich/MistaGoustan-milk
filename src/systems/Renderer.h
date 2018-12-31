@@ -5,6 +5,7 @@
 
 class Actor;
 class Camera;
+class GameEvent;
 class ResourceManager;
 class Scene;
 class Sprite;
@@ -19,6 +20,8 @@ public:
 
 	void onActorAdded(Actor& actor);
 	void onActorDestroyed(Actor& actor);
+
+	void handleEvent(GameEvent& gameEvent);
 
 	void render(Scene& scene);
 

@@ -107,12 +107,14 @@ void Game::handleEvents()
 		}
 	}
 
+	// It is important that this is caused AFTER polling all events.
+	// SDL_Poll events internal updates sdl key states, which is what input uses.
 	Input::updateKeyboardState();
 
 	while (!eventQueue_.empty())
 	{
 		auto e = eventQueue_.popEvent();
-		logicSystem_->handleEvent(e);
+		logicSystem_->handleEvent(*e);
 	}
 }
 

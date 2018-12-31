@@ -41,6 +41,10 @@ void Renderer::onActorDestroyed(Actor& actor)
 		spritesByActorId_.erase(actor.id());	
 }
 
+void Renderer::handleEvent(GameEvent& gameEvent)
+{
+}
+
 void Renderer::render(Scene& scene)
 {
 	scene.camera().update();
