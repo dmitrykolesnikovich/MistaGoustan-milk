@@ -43,7 +43,7 @@ bool Window::initSDLRenderWindow()
 
 	if (isFullscreen_)
 		flags |= SDL_WINDOW_FULLSCREEN;
-;
+
 	sdlWindow_ = SDL_CreateWindow(title_.c_str(), windowXPosition, windowYPosition, width_, height_, flags);
 
 	if (sdlWindow_ == nullptr)
