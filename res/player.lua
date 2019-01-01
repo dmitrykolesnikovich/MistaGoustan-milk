@@ -54,7 +54,6 @@ function player:update()
 end
 
 function player:on_collision(e)
-	print(e.other.actor.name)
 	if e.other.actor.name == 'door' then
 		game:loadScene('res/testmap.xml')
 	end
