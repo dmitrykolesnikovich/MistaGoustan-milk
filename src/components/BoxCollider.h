@@ -11,6 +11,8 @@
 
 class SpatialPartitionGrid;
 
+// Actors with a box collider will be static collidable objects.
+// Actors with a box collider and velocity will be dynamic collidable objects.
 class BoxCollider : public ActorComponent
 {
 public:
@@ -19,18 +21,18 @@ public:
 	friend class SpatialPartitionGrid;
 
 	BoxCollider(Actor& actor);
-	~BoxCollider();
+	~BoxCollider() = default;
 
-	// Initialize the collider so it can become one with the collision grid.
+	// Initializes the collider so it can become one with the collision grid.
 	void init(SpatialPartitionGrid* grid);
 
-	// Center the colliders origin.
+	// Centers the collider's origin.
 	void center();
 
-	// Update the bounding box. This is called every time the actors position changes.
+	// Updates the bounding box. If the actor's position is changed, this method must be called in order to update the collider's bounding box.
 	void updateBBox();
 	
-	// Returns the colliders rect.
+	// Returns the collider's bounding box.
 	SDL_Rect rect() const;
 
 	// Sets the width of the collider.
@@ -39,13 +41,13 @@ public:
 	// Sets the height of the collider.
 	void height(int height);
 
-	// Offset the collider.
+	// Offsets the collider.
 	void offset(int x, int y);
 
-	// Returns true if collider is overlapping another rect.
+	// Returns true if collider's bounding box is overlapping another collider's bounding box.
 	bool overlaps(SDL_Rect otherRect) const;
 
-	// Returns true if collider if overlapping another rect and outputs the depth rect.
+	// Returns true if collider's bounding box is overlapping another collider's bounding box, and outputs the depth rect.
 	bool overlaps(SDL_Rect otherRect, SDL_Rect* result) const;
 
 	// Top of collider.

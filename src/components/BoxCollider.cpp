@@ -17,10 +17,6 @@ BoxCollider::BoxCollider(Actor& actor)
 	updateBBox();
 }
 
-BoxCollider::~BoxCollider()
-{
-}
-
 void BoxCollider::init(SpatialPartitionGrid* grid)
 {
 	grid_ = grid;
@@ -39,6 +35,7 @@ void BoxCollider::updateBBox()
 {
 	Vector2d actorPosition = actor_.position();
 
+	// Update the old bounding box before invalidating the current one.
 	oldRect_ = rect_;
 
 	switch (origin_) 

@@ -17,30 +17,30 @@ public:
 	static const ComponentType type;
 
 	Sprite(Actor& actor);
-	~Sprite();
+	~Sprite() = default;
 
-	// Load the sprites texture.
+	// Load the sprite's texture.
 	void load(ResourceManager& resourceManager);
 
-	// Set the sprites texture asset name.
+	// Set the sprite's texture asset name.
 	void textureName(const std::string& name);
 
 	// Get the sprites texture.
 	Texture* texture() const;
 
-	// Center the sprites origin.
+	// Center the sprite's origin.
 	void center();
 
-	// Set the sprites source rectangle.
+	// Set the sprite's source rectangle.
 	void sourceRect(int x, int y, int width, int height);
 
-	// Set the sprites source rectangle.
+	// Set the sprite's source rectangle.
 	void sourceRect(SDL_Rect rect);
 
-	// Get the sprites source rectangle.
+	// Get the sprite's source rectangle.
 	SDL_Rect sourceRect() const;
 
-	// Get the sprites destination rectangle.
+	// Get the sprite's destination rectangle.
 	SDL_Rect destinationRect() const;
 
 	// Flip the sprite horizontally.

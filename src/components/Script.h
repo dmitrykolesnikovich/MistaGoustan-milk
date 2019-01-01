@@ -1,6 +1,11 @@
 #ifndef _Script_
 #define _Script_
 
+#define SCRIPT_CALLBACK_BEGIN "begin"
+#define SCRIPT_CALLBACK_UPDATE "update"
+#define SCRIPT_CALLBACK_ON_COLLISION "on_collision"
+#define SCRIPT_CALLBACK_END "destroy"
+
 #include <string>
 
 #include "../externals/sol.hpp"
@@ -11,6 +16,7 @@
 
 class LuaHandle_Actor;
 
+// A script is what controls an actor's behavior.
 class Script : public ActorComponent
 {
 public:
@@ -19,10 +25,10 @@ public:
 	Script(Actor& actor);
 	~Script() = default;
 
-	// Set the name of the script to load.
+	// Sets the name of the script to load.
 	void script(const std::string& scriptName);
 
-	// Load the script.
+	// Loads the script.
 	void load(sol::state& luaState);
 
 	// Called once the actor has been spawned into the scene.
@@ -31,9 +37,10 @@ public:
 	// Called once per frame.
 	virtual void update();
 
+	// Called when a collision has been detected.
 	virtual void onCollision(ActorCollisionEvent& collisionEvent);
 
-	// Called once the actor has been destroyed.
+	// Called once before the actor is about to be destroyed.
 	virtual void end();
 
 private:

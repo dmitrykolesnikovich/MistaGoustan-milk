@@ -13,10 +13,6 @@ Sprite::Sprite(Actor& actor)
 {
 }
 
-Sprite::~Sprite()
-{
-}
-
 void Sprite::load(ResourceManager& resourceManager)
 {
 	texture_ = resourceManager.loadTexture(textureName_);

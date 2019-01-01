@@ -15,13 +15,13 @@ public:
 	Velocity(Actor& actor);
 	~Velocity();
 
-	// Set the velocity.
+	// Sets the velocity.
 	void value(float x, float y);
 
-	// Set the velocity.
+	// Sets the velocity.
 	void value(Vector2d velocity);
 
-	// Get the velocity.
+	// Gets the velocity.
 	Vector2d value() const;
 
 private:

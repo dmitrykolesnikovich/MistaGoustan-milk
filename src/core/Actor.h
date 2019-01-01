@@ -12,6 +12,9 @@
 class ResourceManager;
 class Scene;
 
+// An object that exists within the current scene.
+// An actor can range from a rock on the ground to a dragon boss monster.
+// Attach components to an actor in order to define it and give it behavior.
 class Actor
 {
 public:
