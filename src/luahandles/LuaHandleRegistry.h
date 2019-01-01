@@ -4,11 +4,14 @@
 #include "../externals/sol.hpp"
 
 #include "LuaHandle_Actor.h"
+#include "LuaHandle_CollisionEvent.h"
+#include "LuaHandle_BoxCollider.h"
 
 #include "../core/Game.h"
 #include "../math/Vector2d.h"
 #include "../utilities/Input.h"
 #include "../utilities/Window.h"
+#include "../components/BoxCollider.h"
 
 // Registry for the Lua API.
 static class LuaHandleRegistry
@@ -16,12 +19,19 @@ static class LuaHandleRegistry
 public:
 	static void RegisterHandles(sol::state& luaState)
 	{
-		luaState.new_usertype<LuaHandle_Actor>("actor",
+		luaState.new_usertype<LuaHandle_Actor>("Actor",
+			"name", sol::readonly_property(&LuaHandle_Actor::name),
 			"move", &LuaHandle_Actor::move,
 			"set_animation", &LuaHandle_Actor::setAnimation,
 			"flip_x", &LuaHandle_Actor::flipX,
 			"flip_y", &LuaHandle_Actor::flipY,
 			"make_cam_target", &LuaHandle_Actor::setAsCameraTarget);
+
+		luaState.new_usertype<LuaHandle_CollisionEvent>("CollisionEvent",
+			"other", sol::readonly_property(&LuaHandle_CollisionEvent::other));
+
+		luaState.new_usertype<LuaHandle_BoxCollider>("BoxCollider",
+			"actor", sol::readonly_property(&LuaHandle_BoxCollider::actor));
 
 		luaState.new_usertype<Input>("Input",
 			"get_key", &Input::getKey,

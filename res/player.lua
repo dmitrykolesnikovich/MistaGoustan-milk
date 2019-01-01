@@ -53,7 +53,11 @@ function player:update()
 	self.actor:move(inputvec.x, inputvec.y)
 end
 
-function player:onCollision(e)
+function player:on_collision(e)
+	print(e.other.actor.name)
+	if e.other.actor.name == 'door' then
+		game:loadScene('res/testmap.xml')
+	end
 end
 
 function player:destroyed()

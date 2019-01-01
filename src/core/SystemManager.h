@@ -43,7 +43,7 @@ public:
 
 	void handleInputEvent(SDL_Event& inputEvent);
 
-	void handleGameEvent(ActorEvent& gameEvent);
+	void handleActorEvent(ActorEvent& gameEvent);
 
 	void update();
 

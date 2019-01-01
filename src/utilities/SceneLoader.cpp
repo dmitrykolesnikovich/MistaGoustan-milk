@@ -46,8 +46,12 @@ std::unique_ptr<Scene> SceneLoader::load(const std::string& file) const
 		int x = e->IntAttribute("x");
 		int y = e->IntAttribute("y");
 		bool collidable = e->BoolAttribute("collidable");
+		const char* name = e->Attribute("name");
 
-		tilemap.addTileType(id, x, y, collidable);
+		if (name == nullptr)
+			name = "tile";
+
+		tilemap.addTileType(id, x, y, collidable, name);
 	}
 
 	tinyxml2::XMLElement* layersElement = tilesetElement->NextSiblingElement();
@@ -83,7 +87,7 @@ std::unique_ptr<Scene> SceneLoader::load(const std::string& file) const
 
 				if (tile->collidable)
 				{
-					Actor* actor = scene->spawnActor("tile");
+					Actor* actor = scene->spawnActor(tile->name);
 					actor->position((float)x, (float)y);
 					actor->addComponent<BoxCollider>();
 

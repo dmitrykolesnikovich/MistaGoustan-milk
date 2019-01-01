@@ -3,7 +3,7 @@
   <tileset>
     <tile id="01" x="0" y="0"></tile>
     <tile id="02" x="64" y="0" collidable="true"></tile>
-    <tile id="03" x="0" y="64"></tile>
+    <tile id="03" x="0" y="64" name="door" collidable="true"></tile>
   </tileset>
   <layers>
     <layer>

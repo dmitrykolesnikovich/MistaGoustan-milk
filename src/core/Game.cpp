@@ -112,7 +112,7 @@ void Game::handleEvents()
 	while (!eventQueue_.empty())
 	{
 		auto e = eventQueue_.popEvent();
-		systemManager_.handleGameEvent(*e);
+		systemManager_.handleActorEvent(*e);
 	}
 }
 
@@ -122,7 +122,16 @@ void Game::update()
 	{
 		if (currentScene_ != nullptr) 
 		{
+			// Generate actor destroyed events.
 			currentScene_->unload();
+
+			// Let the systems process the destroyed events.
+			while (!eventQueue_.empty())
+			{
+				auto e = eventQueue_.popEvent();
+				systemManager_.handleActorEvent(*e);
+			}
+
 			currentScene_.release();
 
 			resourceManager_.freeResources();
@@ -135,8 +144,7 @@ void Game::update()
 
 	if (currentScene_ != nullptr) 
 	{
-		currentScene_->update();
-		
+		currentScene_->update();		
 		systemManager_.update();
 	}
 }

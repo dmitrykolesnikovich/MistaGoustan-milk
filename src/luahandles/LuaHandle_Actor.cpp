@@ -12,6 +12,11 @@ LuaHandle_Actor::LuaHandle_Actor(Actor& actor)
 {
 }
 
+std::string LuaHandle_Actor::name() const
+{
+	return actor_.name();
+}
+
 void LuaHandle_Actor::setAsCameraTarget()
 {
 	auto& scene = actor_.scene();

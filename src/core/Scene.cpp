@@ -32,7 +32,7 @@ bool Scene::destroyActor(int id)
 	if (foundActor == actorsById_.end())
 		return false;
 
-	game_.eventQueue().pushEvent(new ActorSpawnedEvent(*foundActor->second));
+	game_.eventQueue().pushEvent(new ActorDestroyedEvent(*foundActor->second));
 
 	actorsToDestroy_.emplace_back(id);
 
@@ -78,10 +78,8 @@ void Scene::update()
 
 void Scene::unload() const
 {
-	for (auto& it : actorsById_)
-	{
-		//game_.onActorDestroyed(*it.second);
-	}
+	for (auto& it : actorsById_)	
+		game_.eventQueue().pushEvent(new ActorDestroyedEvent(*it.second));	
 }
 
 SDL_Rect Scene::bounds() const

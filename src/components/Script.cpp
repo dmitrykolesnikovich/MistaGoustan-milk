@@ -3,6 +3,8 @@
 #include "../core/Actor.h"
 
 #include "../luahandles/LuaHandle_Actor.h"
+#include "../luahandles/LuaHandle_BoxCollider.h"
+#include "../luahandles/LuaHandle_CollisionEvent.h"
 
 const ComponentType Script::type = SCRIPT;
 
@@ -26,9 +28,9 @@ void Script::load(sol::state& luaState)
 
 void Script::begin()
 {
-	sol::function onCollision = luaScript_[SCRIPT_CALLBACK_BEGIN];
+	sol::function onBegin = luaScript_[SCRIPT_CALLBACK_BEGIN];
 
-	if (!onCollision.valid())
+	if (!onBegin.valid())
 		return;
 
 	sol::table self = luaScript_;
@@ -37,9 +39,9 @@ void Script::begin()
 
 void Script::update() 
 {
-	sol::function onCollision = luaScript_[SCRIPT_CALLBACK_UPDATE];
+	sol::function onUpdate = luaScript_[SCRIPT_CALLBACK_UPDATE];
 
-	if (!onCollision.valid())
+	if (!onUpdate.valid())
 		return;
 
 	sol::table self = luaScript_;
@@ -54,14 +56,14 @@ void Script::onCollision(ActorCollisionEvent& collisionEvent)
 		return;
 
 	sol::table self = luaScript_;
-	luaScript_[SCRIPT_CALLBACK_ON_COLLISION](self, collisionEvent);
+	luaScript_[SCRIPT_CALLBACK_ON_COLLISION](self, LuaHandle_CollisionEvent(collisionEvent));
 }
 
 void Script::end() 
 {
-	sol::function onCollision = luaScript_[SCRIPT_CALLBACK_END];
+	sol::function onEnd = luaScript_[SCRIPT_CALLBACK_END];
 
-	if (!onCollision.valid())
+	if (!onEnd.valid())
 		return;
 
 	sol::table self = luaScript_;

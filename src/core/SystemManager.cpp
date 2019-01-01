@@ -24,7 +24,7 @@ void SystemManager::handleInputEvent(SDL_Event& inputEvent)
 	}
 }
 
-void SystemManager::handleGameEvent(ActorEvent& gameEvent)
+void SystemManager::handleActorEvent(ActorEvent& gameEvent)
 {
 #ifdef _DEBUG
 	debugRenderer_->handleEvent(gameEvent);

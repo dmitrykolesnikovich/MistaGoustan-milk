@@ -13,6 +13,8 @@ public:
 	LuaHandle_Actor(Actor& actor);
 	LuaHandle_Actor() = default;
 
+	std::string name() const;
+
 	void setAsCameraTarget();
 
 	// Move the actor.
