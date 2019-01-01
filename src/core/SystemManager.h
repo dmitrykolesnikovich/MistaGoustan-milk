@@ -18,8 +18,6 @@ namespace sol
 }
 
 class Actor;
-class ActorEventQueue;
-class ActorEvent;
 class ResourceManager;
 class Scene;
 
@@ -28,7 +26,6 @@ struct SDL_Renderer;
 struct SystemManagerParams 
 {
 	sol::state& luaState;
-	ActorEventQueue& eventQueue;
 	SDL_Renderer& renderer;
 	ResourceManager& resourceManager;
 };
@@ -39,11 +36,13 @@ public:
 	SystemManager() = default;
 	~SystemManager() = default;
 
+	ActorEventQueue& actorEventQueue();
+
 	void init(SystemManagerParams& params);
 
 	void handleInputEvent(SDL_Event& inputEvent);
 
-	void handleActorEvent(ActorEvent& gameEvent);
+	void handleActorEvents();
 
 	void update();
 
@@ -52,6 +51,8 @@ public:
 	void unload();
 
 private:
+	ActorEventQueue actorEventQueue_;
+
 #ifdef _DEBUG
 	std::unique_ptr<DebugRenderer> debugRenderer_;
 #endif

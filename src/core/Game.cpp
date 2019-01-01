@@ -109,11 +109,8 @@ void Game::handleEvents()
 	// SDL_Poll events internal updates SDL key states, which is what input uses.
 	Input::updateKeyboardState();
 
-	while (!eventQueue_.empty())
-	{
-		auto e = eventQueue_.popEvent();
-		systemManager_.handleActorEvent(*e);
-	}
+	// Handle all actor events enqueued last frame.
+	systemManager_.handleActorEvents();
 }
 
 void Game::update()
@@ -126,11 +123,7 @@ void Game::update()
 			currentScene_->unload();
 
 			// Let the systems process the destroyed events.
-			while (!eventQueue_.empty())
-			{
-				auto e = eventQueue_.popEvent();
-				systemManager_.handleActorEvent(*e);
-			}
+			systemManager_.handleActorEvents();
 
 			currentScene_.release();
 
@@ -144,7 +137,8 @@ void Game::update()
 
 	if (currentScene_ != nullptr) 
 	{
-		currentScene_->update();		
+		currentScene_->update();	
+
 		systemManager_.update();
 	}
 }
@@ -187,9 +181,9 @@ ResourceManager& Game::resourceManager()
 	return resourceManager_;
 }
 
-ActorEventQueue& Game::eventQueue()
+SystemManager& Game::systemManager()
 {
-	return eventQueue_;
+	return systemManager_;
 }
 
 void Game::loadScene(const std::string& name)
@@ -247,7 +241,6 @@ void Game::initGameSubsystems()
 
 	SystemManagerParams params = {
 		luaState_,
-		eventQueue_,
 		*window_.sdlRenderer(),
 		resourceManager_
 	};

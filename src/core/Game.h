@@ -13,13 +13,9 @@
 
 #include "../externals/sol.hpp"
 
-#include "../systems/ActorEventQueue.h"
-
 #include "../utilities/ResourceManager.h"
 #include "../utilities/SceneLoader.h"
 #include "../utilities/Window.h"
-
-class Actor;
 
 struct GameRunParameters 
 {
@@ -51,8 +47,8 @@ public:
 	// Returns the games resource manager.
 	ResourceManager& resourceManager();
 
-	// Returns the games event queue.
-	ActorEventQueue& eventQueue();
+	// Returns the games system manager.
+	SystemManager& systemManager();
 
 	// Loads an XML based scene.
 	void loadScene(const std::string& name);
@@ -62,7 +58,6 @@ private:
 
 	SceneLoader sceneLoader_;
 	ResourceManager resourceManager_;
-	ActorEventQueue eventQueue_;
 	SystemManager systemManager_;
 
 	sol::state luaState_;

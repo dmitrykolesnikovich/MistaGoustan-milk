@@ -19,7 +19,7 @@ public:
 
 	void render(Scene& scene);
 
-	bool show = true;
+	bool show = false;
 
 private:
 	SDL_Renderer& sdlRenderer_;

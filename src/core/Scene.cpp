@@ -20,7 +20,7 @@ Actor* Scene::spawnActor(const std::string& name)
 
 	actorsToSpawn_.emplace_back(std::move(actor));
 
-	game_.eventQueue().pushEvent(new ActorSpawnedEvent(*ptr));
+	game_.systemManager().actorEventQueue().pushEvent(new ActorSpawnedEvent(*ptr));
 
 	return ptr;
 }
@@ -32,7 +32,7 @@ bool Scene::destroyActor(int id)
 	if (foundActor == actorsById_.end())
 		return false;
 
-	game_.eventQueue().pushEvent(new ActorDestroyedEvent(*foundActor->second));
+	game_.systemManager().actorEventQueue().pushEvent(new ActorDestroyedEvent(*foundActor->second));
 
 	actorsToDestroy_.emplace_back(id);
 
@@ -79,7 +79,7 @@ void Scene::update()
 void Scene::unload() const
 {
 	for (auto& it : actorsById_)	
-		game_.eventQueue().pushEvent(new ActorDestroyedEvent(*it.second));	
+		game_.systemManager().actorEventQueue().pushEvent(new ActorDestroyedEvent(*it.second));	
 }
 
 SDL_Rect Scene::bounds() const

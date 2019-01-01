@@ -46,6 +46,8 @@ struct ActorEventComparison
 class ActorEventQueue
 {
 public:
+	ActorEventQueue() = default;
+
 	void pushEvent(ActorEvent* gameEvent);
 
 	std::shared_ptr<ActorEvent> popEvent();
