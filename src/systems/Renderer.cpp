@@ -5,20 +5,48 @@
 #include <cmath>
 
 #include "../components/Animator.h"
+#include "../components/BoxCollider.h"
 #include "../components/Sprite.h"
+
 #include "../core/Scene.h"
+
+#include "../systems/ActorEventList.h"
 
 #include "../utilities/Texture.h"
 
-#include "../components/BoxCollider.h"
-
-Renderer::Renderer(SDL_Renderer* renderer, ResourceManager& resourceManager)
+Renderer::Renderer(SDL_Renderer& renderer, ResourceManager& resourceManager)
 	: sdlRenderer_(renderer)
 	, resourceManager_(resourceManager)
 {
 }
 
-void Renderer::onActorAdded(Actor& actor)
+void Renderer::handleEvent(ActorEvent& gameEvent)
+{
+	switch (gameEvent.type())
+	{
+	case ActorEventType::ACTOR_SPAWNED: 
+	{
+		auto& spawnedEvent = dynamic_cast<ActorSpawnedEvent&>(gameEvent);
+		onActorSpawned(spawnedEvent.actor());
+	}
+		break;
+	case ActorEventType::ACTOR_DETROYED: 
+	{
+		auto& destroyedEvent = dynamic_cast<ActorDestroyedEvent&>(gameEvent);
+		onActorDestroyed(destroyedEvent.actor());
+	}
+		break;
+	}
+}
+
+void Renderer::render(Scene& scene)
+{
+	scene.camera().update();
+	renderTilemap(scene.tilemap(), scene.camera());
+	renderActors(scene.camera());
+}
+
+void Renderer::onActorSpawned(Actor& actor)
 {
 	Sprite* sprite = actor.getComponent<Sprite>();
 
@@ -37,19 +65,8 @@ void Renderer::onActorAdded(Actor& actor)
 
 void Renderer::onActorDestroyed(Actor& actor)
 {
-	if (spritesByActorId_.find(actor.id()) != spritesByActorId_.end()) 	
-		spritesByActorId_.erase(actor.id());	
-}
-
-void Renderer::handleEvent(GameEvent& gameEvent)
-{
-}
-
-void Renderer::render(Scene& scene)
-{
-	scene.camera().update();
-	renderTilemap(scene.tilemap(), scene.camera());
-	renderActors(scene.camera());
+	if (spritesByActorId_.find(actor.id()) != spritesByActorId_.end())
+		spritesByActorId_.erase(actor.id());
 }
 
 void Renderer::renderTilemap(const Tilemap& tilemap, const Camera& camera)
@@ -64,7 +81,7 @@ void Renderer::renderTilemap(const Tilemap& tilemap, const Camera& camera)
 			destinationRect.w = tile->type.sourceRect.w;
 			destinationRect.h = tile->type.sourceRect.h;
 
-			SDL_RenderCopyEx(sdlRenderer_, tilemap.texture->get(), &tile->type.sourceRect, &destinationRect, 0, nullptr, SDL_FLIP_NONE);
+			SDL_RenderCopyEx(&sdlRenderer_, tilemap.texture->get(), &tile->type.sourceRect, &destinationRect, 0, nullptr, SDL_FLIP_NONE);
 		}
 	}
 }
@@ -84,6 +101,6 @@ void Renderer::renderActors(const Camera& camera)
 		destinationRect.x -= camera.position().x;
 		destinationRect.y -= camera.position().y;
 
-		SDL_RenderCopyEx(sdlRenderer_, texture->get(), &sourceRect, &destinationRect, 0, nullptr, it.second->rendererFlip());
+		SDL_RenderCopyEx(&sdlRenderer_, texture->get(), &sourceRect, &destinationRect, 0, nullptr, it.second->rendererFlip());
 	}
 }

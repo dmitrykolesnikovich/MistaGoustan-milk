@@ -6,7 +6,8 @@
 #include "../externals/sol.hpp"
 
 class Actor;
-class GameEvent;
+class ActorCollisionEvent;
+class ActorEvent;
 class Script;
 
 class Logic
@@ -15,10 +16,7 @@ public:
 	Logic(sol::state& luaState);
 	~Logic() = default;
 
-	void onActorAdded(Actor& actor);
-	void onActorDestroyed(Actor& actor);
-
-	void handleEvent(GameEvent& gameEvent);
+	void handleEvent(ActorEvent& gameEvent);
 
 	void update();
 
@@ -26,6 +24,10 @@ private:
 	sol::state& luaState_;
 
 	std::unordered_map<int, Script*> scriptByActorId_;
+
+	void onActorSpawned(Actor& actor);
+	void onActorDestroyed(Actor& actor);
+	void onActorCollision(ActorCollisionEvent& collisionEvent);
 };
 
 #endif

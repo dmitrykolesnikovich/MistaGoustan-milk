@@ -71,7 +71,7 @@ int Game::run()
 	}
 	catch(const std::exception& e)
 	{
-		std::cout << "Fatal error occured: " << e.what() << std::endl;
+		std::cout << "Fatal error occurred: " << e.what() << std::endl;
 
 		shutDown();
 
@@ -97,24 +97,22 @@ void Game::handleEvents()
 			case SDL_KEYUP:
 				if (e.key.keysym.sym == SDLK_ESCAPE)
 					isRunning_ = false;
-#ifdef _DEBUG
-				if (e.key.keysym.sym == SDLK_BACKQUOTE)
-					debugRenderer_->show = !debugRenderer_->show;
-#endif
 				break;
 			default:
 				break;
 		}
+
+		systemManager_.handleInputEvent(e);
 	}
 
 	// It is important that this is caused AFTER polling all events.
-	// SDL_Poll events internal updates sdl key states, which is what input uses.
+	// SDL_Poll events internal updates SDL key states, which is what input uses.
 	Input::updateKeyboardState();
 
 	while (!eventQueue_.empty())
 	{
 		auto e = eventQueue_.popEvent();
-		logicSystem_->handleEvent(*e);
+		systemManager_.handleGameEvent(*e);
 	}
 }
 
@@ -138,8 +136,8 @@ void Game::update()
 	if (currentScene_ != nullptr) 
 	{
 		currentScene_->update();
-		logicSystem_->update();
-		physicsSystem_->update();
+		
+		systemManager_.update();
 	}
 }
 
@@ -147,14 +145,8 @@ void Game::render()
 {
 	SDL_RenderClear(window_.sdlRenderer());
 
-	if (currentScene_ != nullptr) 
-	{
-		renderSystem_->render(*currentScene_);
-
-#ifdef _DEBUG
-		debugRenderer_->render(*currentScene_);
-#endif
-	}
+	if (currentScene_ != nullptr) 	
+		systemManager_.render(*currentScene_);	
 
 	SDL_RenderPresent(window_.sdlRenderer());
 }
@@ -166,9 +158,7 @@ void Game::shutDown()
 
 	resourceManager_.freeResources();
 
-	logicSystem_.release();
-	physicsSystem_.release();
-	renderSystem_.release();
+	systemManager_.unload();
 
 	window_.freeSDLResources();
 
@@ -189,34 +179,14 @@ ResourceManager& Game::resourceManager()
 	return resourceManager_;
 }
 
+ActorEventQueue& Game::eventQueue()
+{
+	return eventQueue_;
+}
+
 void Game::loadScene(const std::string& name)
 {
 	sceneToLoad_ = name;
-}
-
-void Game::onActorSpawned(Actor& actor)
-{
-#ifdef _DEBUG
-	debugRenderer_->onActorAdded(actor);
-#endif
-
-	physicsSystem_->onActorAdded(actor);
-	renderSystem_->onActorAdded(actor);
-
-	// Since each individual system is responsible for calling .load() on the actors required resources,
-	// we run them before the logic system, in case a lua script call depends on a resource being loaded.
-	logicSystem_->onActorAdded(actor);
-}
-
-void Game::onActorDestroyed(Actor& actor)
-{
-#ifdef _DEBUG
-	debugRenderer_->onActorDestroyed(actor);
-#endif
-
-	logicSystem_->onActorDestroyed(actor);
-	physicsSystem_->onActorDestroyed(actor);
-	renderSystem_->onActorDestroyed(actor);
 }
 
 bool Game::initSDLSubsystems()
@@ -267,11 +237,12 @@ void Game::initGameSubsystems()
 
 	resourceManager_.init(window_.sdlRenderer());
 
-#ifdef _DEBUG
-	debugRenderer_ = std::unique_ptr<DebugRenderer>(new DebugRenderer(window_.sdlRenderer()));
-#endif
+	SystemManagerParams params = {
+		luaState_,
+		eventQueue_,
+		*window_.sdlRenderer(),
+		resourceManager_
+	};
 
-	logicSystem_ = std::unique_ptr<Logic>(new Logic(luaState_));
-	physicsSystem_ = std::unique_ptr<Physics>(new Physics(eventQueue_));
-	renderSystem_ = std::unique_ptr<Renderer>(new Renderer(window_.sdlRenderer(), resourceManager_));
+	systemManager_.init(params);
 }

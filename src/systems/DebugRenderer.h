@@ -4,6 +4,7 @@
 #include <unordered_map>
 
 class Actor;
+class ActorEvent;
 class BoxCollider;
 class Scene;
 
@@ -12,19 +13,21 @@ struct SDL_Renderer;
 class DebugRenderer
 {
 public:
-	DebugRenderer(SDL_Renderer* renderer);
+	DebugRenderer(SDL_Renderer& renderer);
 
-	void onActorAdded(Actor& actor);
-	void onActorDestroyed(Actor& actor);
+	void handleEvent(ActorEvent& gameEvent);
 
 	void render(Scene& scene);
 
 	bool show = true;
 
 private:
-	SDL_Renderer* sdlRenderer_;
+	SDL_Renderer& sdlRenderer_;
 
 	std::unordered_map<int, Actor*> actorsById_;
+
+	void onActorSpawned(Actor& actor);
+	void onActorDestroyed(Actor& actor);
 };
 
 #endif

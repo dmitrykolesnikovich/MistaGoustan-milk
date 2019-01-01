@@ -5,14 +5,34 @@
 
 #include "../components/BoxCollider.h"
 
+#include "../systems/ActorEventList.h"
 #include "../systems/SpatialPartitionGrid.h"
 
-DebugRenderer::DebugRenderer(SDL_Renderer* renderer)
+DebugRenderer::DebugRenderer(SDL_Renderer& renderer)
 	: sdlRenderer_(renderer)
 {
 }
 
-void DebugRenderer::onActorAdded(Actor& actor)
+void DebugRenderer::handleEvent(ActorEvent& gameEvent)
+{
+	switch (gameEvent.type())
+	{
+	case ActorEventType::ACTOR_SPAWNED: 
+	{
+		auto& spawnedEvent = dynamic_cast<ActorSpawnedEvent&>(gameEvent);
+		onActorSpawned(spawnedEvent.actor());
+	}		
+		break;
+	case ActorEventType::ACTOR_DETROYED: 
+	{
+		auto& destroyedEvent = dynamic_cast<ActorDestroyedEvent&>(gameEvent);
+		onActorDestroyed(destroyedEvent.actor());
+	}
+		break;
+	}
+}
+
+void DebugRenderer::onActorSpawned(Actor& actor)
 {
 	actorsById_.insert(std::make_pair(actor.id(), &actor));
 }
@@ -40,8 +60,8 @@ void DebugRenderer::render(Scene& scene)
 			dest.w = size;
 			dest.h = size;
 
-			SDL_SetRenderDrawColor(sdlRenderer_, 0x00, 0xff, 0x00, 90);
-			SDL_RenderDrawRect(sdlRenderer_, &dest);
+			SDL_SetRenderDrawColor(&sdlRenderer_, 0x00, 0xff, 0x00, 90);
+			SDL_RenderDrawRect(&sdlRenderer_, &dest);
 		}
 	}
 
@@ -54,8 +74,8 @@ void DebugRenderer::render(Scene& scene)
 			SDL_Rect destinationRect = coll->rect();
 			destinationRect.x -= scene.camera().position().x;
 			destinationRect.y -= scene.camera().position().y;
-			SDL_SetRenderDrawColor(sdlRenderer_, 0xFF, 0x00, 0x00, 75);
-			SDL_RenderFillRect(sdlRenderer_, &destinationRect);
+			SDL_SetRenderDrawColor(&sdlRenderer_, 0xFF, 0x00, 0x00, 75);
+			SDL_RenderFillRect(&sdlRenderer_, &destinationRect);
 		}
 	}
 }

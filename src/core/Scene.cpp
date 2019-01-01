@@ -2,13 +2,11 @@
 
 #include "Game.h"
 
+#include "../systems/ActorEventList.h"
+
 Scene::Scene(Game& game)
 	: game_(game)
 	, camera_(*this, game.window().virtualWidth(), game.window().virtualHeight())
-{
-}
-
-Scene::~Scene()
 {
 }
 
@@ -22,13 +20,19 @@ Actor* Scene::spawnActor(const std::string& name)
 
 	actorsToSpawn_.emplace_back(std::move(actor));
 
+	game_.eventQueue().pushEvent(new ActorSpawnedEvent(*ptr));
+
 	return ptr;
 }
 
 bool Scene::destroyActor(int id)
 {
-	if (actorsById_.find(id) == actorsById_.end())
+	auto foundActor = actorsById_.find(id);
+
+	if (foundActor == actorsById_.end())
 		return false;
+
+	game_.eventQueue().pushEvent(new ActorSpawnedEvent(*foundActor->second));
 
 	actorsToDestroy_.emplace_back(id);
 
@@ -60,24 +64,14 @@ void Scene::update()
 {
 	for (auto& it : actorsToDestroy_) 
 	{
-		auto& actor = *actorsById_.at(it);
-
-		game_.onActorDestroyed(actor);
-
 		idGenerator_.pushId(it);
-
 		actorsById_.erase(it);
 	}
 
 	actorsToDestroy_.clear();
 
-	for (auto& it : actorsToSpawn_)
-	{
-		Actor* rawPtr = it.get();
-		actorsById_.insert(std::make_pair(it->id(), std::move(it)));
-
-		game_.onActorSpawned(*rawPtr);
-	}
+	for (auto& it : actorsToSpawn_)	
+		actorsById_.insert(std::make_pair(it->id(), std::move(it)));	
 
 	actorsToSpawn_.clear();
 }
@@ -86,7 +80,7 @@ void Scene::unload() const
 {
 	for (auto& it : actorsById_)
 	{
-		game_.onActorDestroyed(*it.second);
+		//game_.onActorDestroyed(*it.second);
 	}
 }
 

@@ -12,7 +12,7 @@
 
 #include "../core/ActorComponent.h"
 
-#include "../systems/EventQueue.h"
+#include "../systems/ActorEventList.h"
 
 class LuaHandle_Actor;
 

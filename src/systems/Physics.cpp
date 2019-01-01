@@ -7,39 +7,31 @@
 
 #include "../core/Actor.h"
 
-#include "../systems/EventQueue.h"
+#include "../systems/ActorEventList.h"
 
-Physics::Physics(EventQueue& eventQueue)
+Physics::Physics(ActorEventQueue& eventQueue)
 	: eventQueue_(eventQueue)
 	, partitionGrid_(new SpatialPartitionGrid())
 {
 }
 
-void Physics::onActorAdded(Actor& actor)
+void Physics::handleEvent(ActorEvent& gameEvent)
 {
-	Velocity* velocity = actor.getComponent<Velocity>();	
-
-	if (velocity != nullptr)
-		velocityByActorId_.insert(std::make_pair(actor.id(), velocity));
-
-	BoxCollider* collider = actor.getComponent<BoxCollider>();
-
-	if (collider != nullptr) 
+	switch (gameEvent.type())
 	{
-		collider->init(partitionGrid_.get());
-		partitionGrid_->add(collider);
+	case ActorEventType::ACTOR_SPAWNED: 
+	{
+		auto& spawnedEvent = dynamic_cast<ActorSpawnedEvent&>(gameEvent);
+		onActorSpawned(spawnedEvent.actor());
 	}
-}
-
-void Physics::onActorDestroyed(Actor& actor)
-{
-	if (velocityByActorId_.find(actor.id()) != velocityByActorId_.end())
-		velocityByActorId_.erase(actor.id());
-
-	BoxCollider* collider = actor.getComponent<BoxCollider>();
-	
-	if (collider != nullptr)
-		partitionGrid_->remove(collider);
+		break;
+	case ActorEventType::ACTOR_DETROYED: 
+	{
+		auto& destroyedEvent = dynamic_cast<ActorDestroyedEvent&>(gameEvent);
+		onActorDestroyed(destroyedEvent.actor());
+	}
+		break;
+	}
 }
 
 void Physics::update()
@@ -72,7 +64,7 @@ void Physics::update()
 		// For now, simply reverting back to the actors previous axis position is fine.
 		for (auto it : collisions) 
 		{
-			eventQueue_.pushEvent(new ActorCollisionEvent(actor.id(), *it.other));
+			eventQueue_.pushEvent(new ActorCollisionEvent(actor, *it.other));
 
 			auto pos = actor.position();
 
@@ -86,4 +78,31 @@ void Physics::update()
 			}
 		}
 	}
+}
+
+void Physics::onActorSpawned(Actor& actor)
+{
+	Velocity* velocity = actor.getComponent<Velocity>();
+
+	if (velocity != nullptr)
+		velocityByActorId_.insert(std::make_pair(actor.id(), velocity));
+
+	BoxCollider* collider = actor.getComponent<BoxCollider>();
+
+	if (collider != nullptr)
+	{
+		collider->init(partitionGrid_.get());
+		partitionGrid_->add(collider);
+	}
+}
+
+void Physics::onActorDestroyed(Actor& actor)
+{
+	if (velocityByActorId_.find(actor.id()) != velocityByActorId_.end())
+		velocityByActorId_.erase(actor.id());
+
+	BoxCollider* collider = actor.getComponent<BoxCollider>();
+
+	if (collider != nullptr)
+		partitionGrid_->remove(collider);
 }

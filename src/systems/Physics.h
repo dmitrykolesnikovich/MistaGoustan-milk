@@ -7,26 +7,29 @@
 #include "SpatialPartitionGrid.h"
 
 class Actor;
+class ActorEvent;
+class ActorEventQueue;
 class BoxCollider;
-class EventQueue;
 class Velocity;
 
 class Physics 
 {
 public:
-	Physics(EventQueue& eventQueue);
+	Physics(ActorEventQueue& eventQueue);
 	~Physics() = default;
 
-	void onActorAdded(Actor& actor);
-	void onActorDestroyed(Actor& actor);
+	void handleEvent(ActorEvent& gameEvent);
 
 	void update();
 
 private:
-	EventQueue& eventQueue_;
+	ActorEventQueue& eventQueue_;
 
 	std::unordered_map<int, Velocity*> velocityByActorId_;
 	std::unique_ptr<SpatialPartitionGrid> partitionGrid_;
+
+	void onActorSpawned(Actor& actor);
+	void onActorDestroyed(Actor& actor);
 };
 
 #endif

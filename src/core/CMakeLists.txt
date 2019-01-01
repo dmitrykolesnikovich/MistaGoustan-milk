@@ -7,4 +7,6 @@ target_sources(Milk
         Game.h
         Game.cpp
         Scene.h
-        Scene.cpp)
+        Scene.cpp
+	SystemManager.h
+	SystemManager.cpp)

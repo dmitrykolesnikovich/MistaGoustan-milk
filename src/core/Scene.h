@@ -19,10 +19,10 @@ class Scene
 {
 public:
 	Scene(Game& game);
-	~Scene();
+	~Scene() = default;
 
 	// Spawns a new actor in the games current scene.
-	// Components are to be added immediately after spawed actor is returned.
+	// Components are to be added immediately after spawned actor is returned.
 	Actor* spawnActor(const std::string& name);
 
 	// Attempts to destroy and actor with the given id.

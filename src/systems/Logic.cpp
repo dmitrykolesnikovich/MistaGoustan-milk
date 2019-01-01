@@ -1,18 +1,48 @@
 #include "Logic.h"
 
 #include "../components/Script.h"
+
 #include "../core/Actor.h"
 
-
-
-#include "EventQueue.h"
+#include "../systems/ActorEventList.h"
 
 Logic::Logic(sol::state& luaState)
 	: luaState_(luaState)
 {
 }
 
-void Logic::onActorAdded(Actor& actor)
+void Logic::handleEvent(ActorEvent& gameEvent)
+{
+	switch (gameEvent.type())
+	{
+	case ActorEventType::ACTOR_SPAWNED: 
+	{
+		auto& spawnedEvent = dynamic_cast<ActorSpawnedEvent&>(gameEvent);
+		onActorSpawned(spawnedEvent.actor());
+	}
+		break;
+	case ActorEventType::ACTOR_DETROYED: 
+	{
+		auto& destroyedEvent = dynamic_cast<ActorDestroyedEvent&>(gameEvent);
+		onActorDestroyed(destroyedEvent.actor());
+	}
+		break;
+	case ActorEventType::ACTOR_COLLISION: 
+	{
+		auto& collisionEvent = dynamic_cast<ActorCollisionEvent&>(gameEvent);
+		onActorCollision(collisionEvent);
+	}
+		break;
+	}
+}
+
+void Logic::update()
+{
+	for (auto& it : scriptByActorId_)	
+		it.second->update();	
+}
+
+void Logic::onActorSpawned(Actor& actor)
 {
 	Script* script = actor.getComponent<Script>();
 
@@ -33,34 +63,20 @@ void Logic::onActorDestroyed(Actor& actor)
 	if (found == scriptByActorId_.end())
 		return;
 
-	Script* Script = found->second;
+	Script* script = found->second;
 
-	if (Script == nullptr)
+	if (script == nullptr)
 		return;
 
-	Script->end();
+	script->end();
 
 	scriptByActorId_.erase(actor.id());
 }
 
-void Logic::handleEvent(GameEvent& gameEvent)
+void Logic::onActorCollision(ActorCollisionEvent& collisionEvent)
 {
-	switch (gameEvent.type())
-	{
-	case GameEventType::ACTOR_COLLISION:
-		auto& e = dynamic_cast<ActorCollisionEvent&>(gameEvent);
-		auto& script = scriptByActorId_.find(e.actorId());
+	auto& script = scriptByActorId_.find(collisionEvent.actor().id());
 
-		if (script != scriptByActorId_.end())
-			script->second->onCollision(e);
-		break;
-	}
-}
-
-void Logic::update()
-{
-	for (auto& it : scriptByActorId_)
-	{
-		it.second->update();
-	}
+	if (script != scriptByActorId_.end())
+		script->second->onCollision(collisionEvent);
 }
