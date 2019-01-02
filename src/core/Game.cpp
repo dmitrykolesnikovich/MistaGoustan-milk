@@ -115,29 +115,33 @@ void Game::handleEvents()
 
 void Game::update()
 {
+	// If loadScene(...) was called, lets unload the current scene, and load the new one.
 	if (!sceneToLoad_.empty()) 
 	{
 		if (currentScene_ != nullptr) 
 		{
 			// Generate actor destroyed events.
-			currentScene_->unload();
+			currentScene_->end();
 
 			// Let the systems process the destroyed events.
 			systemManager_.handleActorEvents();
 
 			currentScene_.release();
-
 			resourceManager_.freeResources();
 		}
 
+		// Load the new scene. All actors added in this process will generate an ACTOR_SPAWNED event.
 		currentScene_ = sceneLoader_.load(sceneToLoad_);
+
+		// Let the systems process the spawned events.
+		systemManager_.handleActorEvents();
 
 		sceneToLoad_.clear();
 	}
 
 	if (currentScene_ != nullptr) 
 	{
-		currentScene_->update();	
+		currentScene_->updateActorList();	
 
 		systemManager_.update();
 	}
@@ -145,9 +149,10 @@ void Game::update()
 
 void Game::render()
 {
+	SDL_SetRenderDrawColor(window_.sdlRenderer(), 0x00, 0x00, 0x00, 0x00);
 	SDL_RenderClear(window_.sdlRenderer());
 
-	if (currentScene_ != nullptr) 	
+	if (sceneToLoad_.empty() && currentScene_ != nullptr) 	
 		systemManager_.render(*currentScene_);	
 
 	SDL_RenderPresent(window_.sdlRenderer());

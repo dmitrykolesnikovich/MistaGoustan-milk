@@ -55,7 +55,6 @@ public:
 
 private:
 	Window window_;
-
 	SceneLoader sceneLoader_;
 	ResourceManager resourceManager_;
 	SystemManager systemManager_;

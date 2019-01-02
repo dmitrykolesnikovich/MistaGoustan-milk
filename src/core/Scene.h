@@ -39,11 +39,11 @@ public:
 	// Returns the scenes tilemap.
 	Tilemap& tilemap();
 
-	// Updates the scenes internal lists and notifies game when actors have been spawned, destroyed, or modified.
-	void update();
+	// Updates the scenes internal lists after spawning and destroying actors.
+	void updateActorList();
 
-	// Notified the game of each actor that is destroyed by the game unload.
-	void unload() const;
+	// Destroys all actors and generates events.
+	void end() const;
 
 	// Return the scene boundaries.
 	SDL_Rect bounds() const;

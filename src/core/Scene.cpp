@@ -32,9 +32,9 @@ bool Scene::destroyActor(int id)
 	if (foundActor == actorsById_.end())
 		return false;
 
-	game_.systemManager().actorEventQueue().pushEvent(new ActorDestroyedEvent(*foundActor->second));
-
 	actorsToDestroy_.emplace_back(id);
+
+	game_.systemManager().actorEventQueue().pushEvent(new ActorDestroyedEvent(*foundActor->second));
 
 	return true;
 }
@@ -60,7 +60,7 @@ Tilemap& Scene::tilemap()
 	return tilemap_;
 }
 
-void Scene::update()
+void Scene::updateActorList()
 {
 	for (auto& it : actorsToDestroy_) 
 	{
@@ -76,10 +76,10 @@ void Scene::update()
 	actorsToSpawn_.clear();
 }
 
-void Scene::unload() const
+void Scene::end() const
 {
-	for (auto& it : actorsById_)	
-		game_.systemManager().actorEventQueue().pushEvent(new ActorDestroyedEvent(*it.second));	
+	for (auto& it : actorsById_)
+		game_.systemManager().actorEventQueue().pushEvent(new ActorDestroyedEvent(*it.second));
 }
 
 SDL_Rect Scene::bounds() const
