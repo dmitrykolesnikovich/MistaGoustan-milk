@@ -20,6 +20,8 @@ public:
 	// Load texture. Textures are cached.
 	Texture* loadTexture(const std::string& name);
 
+	std::string loadFile(const std::string& filename);
+
 	// Unload all loaded textures.
 	void unloadTextures();
 

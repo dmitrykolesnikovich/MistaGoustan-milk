@@ -131,7 +131,7 @@ void Game::update()
 		}
 
 		// Load the new scene. All actors added in this process will generate an ACTOR_SPAWNED event.
-		currentScene_ = sceneLoader_.load(sceneToLoad_);
+		currentScene_ = sceneLoader_.loadJson(sceneToLoad_);
 
 		// Let the systems process the spawned events.
 		systemManager_.handleActorEvents();

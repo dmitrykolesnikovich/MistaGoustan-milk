@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
 	runParams.virtualHeight = 360;
 	runParams.fullscreen = false;
 	runParams.resourceRootDir = "res";
-	runParams.entryScene = "res/testmap.xml";
+	runParams.entryScene = "main_scene.json";
 
 	Game game(runParams);
 

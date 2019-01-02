@@ -8,6 +8,9 @@
 #include <sstream>
 #include <vector>
 
+#include "SDL.h"
+
+#include "../externals/json.hpp"
 #include "../externals/tinyxml2.h"
 
 #include "../components/Animator.h"
@@ -21,6 +24,86 @@
 SceneLoader::SceneLoader(Game& game)
 	: game_(game)
 {
+}
+
+std::unique_ptr<Scene> SceneLoader::loadJson(const std::string& file) const
+{
+	using json = nlohmann::json;
+
+	auto& resourceManager = game_.resourceManager();
+
+	auto sceneJsonString = resourceManager.loadFile(file);
+	json sceneJson = json::parse(sceneJsonString);
+
+	auto scene = std::unique_ptr<Scene>(new Scene(game_));
+	auto& tilemap = scene->tilemap();
+
+	tilemap.sourceImageFile = sceneJson["source"].get<std::string>();
+	tilemap.width = sceneJson["width"].get<int>();
+	tilemap.height = sceneJson["height"].get<int>();
+	tilemap.tileSize = sceneJson["tileSize"].get<int>();
+
+	auto& tilesetJson = sceneJson["tileset"];
+
+	for (auto& it : tilesetJson.items())
+	{
+		auto& tileTypeJson = it.value();
+
+		int tileTypeId = tileTypeJson["id"].get<int>();
+		std::string name = tileTypeJson["name"].get<std::string>();
+		int x = tileTypeJson["x"].get<int>();
+		int y = tileTypeJson["x"].get<int>();
+		bool collidable = tileTypeJson["collidable"].get<bool>();
+
+		tilemap.addTileType(tileTypeId, x, y, collidable, name);
+	}
+
+	int rows = tilemap.height / tilemap.tileSize;
+	int columns = tilemap.width / tilemap.tileSize;
+
+	auto& layersJson = sceneJson["layers"];
+
+	for (auto& it : layersJson.items())
+	{
+		auto& tilemapLayer = tilemap.addLayer();
+
+		auto& layerJson = it.value();
+
+		for (int i = 0; i < layerJson.size(); ++i) 
+		{
+			auto& row = layerJson[i];
+
+			for (int j = 0; j < row.size(); ++j)
+			{
+				auto& column = row[j];
+				int typeId = column.get<int>();
+
+				if (typeId > 0) 
+				{
+					auto tile = tilemap.tileTypes[typeId];
+
+					int x = j * tilemap.tileSize;
+					int y = i * tilemap.tileSize;
+
+					tilemapLayer.addTile(*tile, x, y);
+
+					if (tile->collidable)
+					{
+						auto actor = scene->spawnActor(tile->name);
+						actor->position((float)x, (float)y);
+
+						auto coll = actor->addComponent<BoxCollider>();
+						coll->width(tilemap.tileSize);
+						coll->height(tilemap.tileSize);
+					}
+				}
+			}
+		}
+	}
+
+	tilemap.texture = resourceManager.loadTexture(tilemap.sourceImageFile);
+
+	return scene;
 }
 
 std::unique_ptr<Scene> SceneLoader::load(const std::string& file) const
