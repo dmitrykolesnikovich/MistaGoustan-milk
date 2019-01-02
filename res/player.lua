@@ -9,23 +9,23 @@ function player:begin()
 end
 
 function player:update()
-	if Input.get_key_pressed(102) then
+	if Input.get_key_pressed(Keys.F) then
 		game.window:toggle_fullscreen()
 	end
 
-	if Input.get_key_pressed(114) then
-		game:loadScene('res/testmap.xml');
+	if Input.get_key_pressed(Keys.R) then
+		game:load_scene('res/testmap.xml');
 	end
 
 	local inputvec = Vector2D.new(0, 0)
 
-	if Input.get_key(119) then
+	if Input.get_key(Keys.W) then
 		inputvec.y = -1
 	end
-	if Input.get_key(115) then
+	if Input.get_key(Keys.S) then
 		inputvec.y = 1
 	end
-	if Input.get_key(97) then
+	if Input.get_key(Keys.A) then
 		inputvec.x = -1
 
 		if (not self.flipped_x) then
@@ -33,7 +33,7 @@ function player:update()
 			self.actor:flip_x()
 		end
 	end
-	if Input.get_key(100) then
+	if Input.get_key(Keys.D) then
 		inputvec.x = 1
 
 		if (self.flipped_x) then
@@ -55,7 +55,7 @@ end
 
 function player:on_collision(e)
 	if e.other.actor.name == 'door' then
-		game:loadScene('res/testmap.xml')
+		game:load_scene('res/inside.xml')
 	end
 end
 

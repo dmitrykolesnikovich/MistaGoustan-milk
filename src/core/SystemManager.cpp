@@ -64,8 +64,8 @@ void SystemManager::render(Scene& scene)
 
 void SystemManager::unload()
 {
-	logicSystem_.release();
-	physicsSystem_.release();
-	renderSystem_.release();
-	debugRenderer_.release();
+	logicSystem_.reset();
+	physicsSystem_.reset();
+	renderSystem_.reset();
+	debugRenderer_.reset();
 }

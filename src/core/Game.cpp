@@ -126,7 +126,7 @@ void Game::update()
 			// Let the systems process the destroyed events.
 			systemManager_.handleActorEvents();
 
-			currentScene_.release();
+			currentScene_.reset();
 			resourceManager_.freeResources();
 		}
 
