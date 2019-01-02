@@ -69,6 +69,17 @@ bool Window::initSDLRenderWindow()
 	return true;
 }
 
+void Window::clear()
+{
+	SDL_SetRenderDrawColor(sdlRenderer_, 0x00, 0x00, 0x00, 0x00);
+	SDL_RenderClear(sdlRenderer_);
+}
+
+void Window::present()
+{
+	SDL_RenderPresent(sdlRenderer_);
+}
+
 unsigned int Window::width() const
 {
 	return width_;

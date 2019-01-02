@@ -17,6 +17,12 @@ public:
 	// Initialize the SDL_Window and SDL_Renderer.
 	bool initSDLRenderWindow();
 
+	// Clear the renderer to black.
+	void clear();
+
+	// Draw the contents of the renderer to the window.
+	void present();
+
 	// Get width of window.
 	unsigned int width() const;
 

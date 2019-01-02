@@ -17,7 +17,7 @@ Game::Game()
 }
 
 Game::Game(const GameRunParameters& runParams)
-	: window_(runParams.title, runParams.width, runParams.height, runParams.virtualWidth, runParams.virtualHeight, runParams.fullscreen)
+	: renderWindow_(runParams.title, runParams.width, runParams.height, runParams.virtualWidth, runParams.virtualHeight, runParams.fullscreen)
 	, sceneLoader_(*this)
 	, resourceManager_(runParams.resourceRootDir)
 	, sceneToLoad_(runParams.entryScene)
@@ -149,13 +149,12 @@ void Game::update()
 
 void Game::render()
 {
-	SDL_SetRenderDrawColor(window_.sdlRenderer(), 0x00, 0x00, 0x00, 0x00);
-	SDL_RenderClear(window_.sdlRenderer());
+	renderWindow_.clear();
 
 	if (sceneToLoad_.empty() && currentScene_ != nullptr) 	
 		systemManager_.render(*currentScene_);	
 
-	SDL_RenderPresent(window_.sdlRenderer());
+	renderWindow_.present();
 }
 
 void Game::shutDown()
@@ -167,7 +166,7 @@ void Game::shutDown()
 
 	systemManager_.unload();
 
-	window_.freeSDLResources();
+	renderWindow_.freeSDLResources();
 
 	IMG_Quit();
 	SDL_Quit();
@@ -178,7 +177,7 @@ void Game::shutDown()
 
 Window& Game::window()
 {
-	return window_;
+	return renderWindow_;
 }
 
 ResourceManager& Game::resourceManager()
@@ -218,7 +217,7 @@ bool Game::initSDLSubsystems()
 
 bool Game::initGameWindow()
 {
-	if (!window_.initSDLRenderWindow()) 
+	if (!renderWindow_.initSDLRenderWindow()) 
 	{
 		IMG_Quit();
 		SDL_Quit();
@@ -242,11 +241,11 @@ void Game::initGameSubsystems()
 {
 	Input::initialize();
 
-	resourceManager_.init(window_.sdlRenderer());
+	resourceManager_.init(renderWindow_.sdlRenderer());
 
 	SystemManagerParams params = {
 		luaState_,
-		*window_.sdlRenderer(),
+		*renderWindow_.sdlRenderer(),
 		resourceManager_
 	};
 

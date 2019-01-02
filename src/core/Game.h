@@ -54,7 +54,7 @@ public:
 	void loadScene(const std::string& name);
 
 private:
-	Window window_;
+	Window renderWindow_;
 	SceneLoader sceneLoader_;
 	ResourceManager resourceManager_;
 	SystemManager systemManager_;
