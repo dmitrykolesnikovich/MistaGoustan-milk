@@ -13,7 +13,6 @@ public:
 	SceneLoader(Game& game);
 	~SceneLoader() = default;
 
-	std::unique_ptr<Scene> loadJson(const std::string& file) const;
 	std::unique_ptr<Scene> load(const std::string& file) const;
 
 private:

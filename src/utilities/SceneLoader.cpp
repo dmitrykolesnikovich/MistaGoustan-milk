@@ -11,7 +11,6 @@
 #include "SDL.h"
 
 #include "../externals/json.hpp"
-#include "../externals/tinyxml2.h"
 
 #include "../components/Animator.h"
 #include "../components/Script.h"
@@ -26,7 +25,7 @@ SceneLoader::SceneLoader(Game& game)
 {
 }
 
-std::unique_ptr<Scene> SceneLoader::loadJson(const std::string& file) const
+std::unique_ptr<Scene> SceneLoader::load(const std::string& file) const
 {
 	using json = nlohmann::json;
 
@@ -52,7 +51,7 @@ std::unique_ptr<Scene> SceneLoader::loadJson(const std::string& file) const
 		int tileTypeId = tileTypeJson["id"].get<int>();
 		std::string name = tileTypeJson["name"].get<std::string>();
 		int x = tileTypeJson["x"].get<int>();
-		int y = tileTypeJson["x"].get<int>();
+		int y = tileTypeJson["y"].get<int>();
 		bool collidable = tileTypeJson["collidable"].get<bool>();
 
 		tilemap.addTileType(tileTypeId, x, y, collidable, name);
@@ -92,206 +91,104 @@ std::unique_ptr<Scene> SceneLoader::loadJson(const std::string& file) const
 						auto actor = scene->spawnActor(tile->name);
 						actor->position((float)x, (float)y);
 
-						auto coll = actor->addComponent<BoxCollider>();
-						coll->width(tilemap.tileSize);
-						coll->height(tilemap.tileSize);
+						auto collider = actor->addComponent<BoxCollider>();
+						collider->width(tilemap.tileSize);
+						collider->height(tilemap.tileSize);
 					}
 				}
 			}
 		}
 	}
 
-	tilemap.texture = resourceManager.loadTexture(tilemap.sourceImageFile);
+	auto& actorListJson = sceneJson["actors"];
 
-	return scene;
-}
-
-std::unique_ptr<Scene> SceneLoader::load(const std::string& file) const
-{
-	tinyxml2::XMLDocument doc;
-	doc.LoadFile(file.c_str());
-
-	std::unique_ptr<Scene> scene(new Scene(game_));
-	Tilemap& tilemap = scene->tilemap();
-
-	tinyxml2::XMLElement* root = doc.RootElement();
-
-	tilemap.sourceImageFile = root->Attribute("source");
-	tilemap.width = root->IntAttribute("width");
-	tilemap.height = root->IntAttribute("height");
-	tilemap.tileSize = root->IntAttribute("tilesize");
-
-	tinyxml2::XMLElement* tilesetElement = root->FirstChildElement("tileset");
-
-	for (tinyxml2::XMLElement* e = tilesetElement->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
+	for (auto& actorItr : actorListJson.items())
 	{
-		int id = e->IntAttribute("id");
-		int x = e->IntAttribute("x");
-		int y = e->IntAttribute("y");
-		bool collidable = e->BoolAttribute("collidable");
-		const char* name = e->Attribute("name");
+		auto& actorJson = actorItr.value();
 
-		if (name == nullptr)
-			name = "tile";
+		std::string name = actorJson["name"].get<std::string>();
+		int x = actorJson["x"].get<int>();
+		int y = actorJson["y"].get<int>();
 
-		tilemap.addTileType(id, x, y, collidable, name);
-	}
-
-	tinyxml2::XMLElement* layersElement = tilesetElement->NextSiblingElement();
-
-	int rows = tilemap.height / tilemap.tileSize;
-	int columns = tilemap.width / tilemap.tileSize;
-
-	for (tinyxml2::XMLElement* e = layersElement->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
-	{
-		tinyxml2::XMLElement* tiles = e->FirstChildElement("tiles");
-		const char* tilesText = tiles->GetText();
-
-		std::istringstream iss(tilesText);
-		std::vector<std::string> results((std::istream_iterator<std::string>(iss)), std::istream_iterator<std::string>());
-
-		TileLayer& layer = tilemap.addLayer();
-
-		int currentRow = 0;
-		int currentColumn = 0;
-
-
-		for (auto& t : results)
-		{
-			int tileid = std::atoi(t.c_str());
-			if (tileid > 0)
-			{
-				TileType* tile = tilemap.tileTypes[tileid];
-
-				int x = currentColumn * tilemap.tileSize;
-				int y = currentRow * tilemap.tileSize;
-
-				layer.addTile(*tile, x, y);
-
-				if (tile->collidable)
-				{
-					Actor* actor = scene->spawnActor(tile->name);
-					actor->position((float)x, (float)y);
-					actor->addComponent<BoxCollider>();
-
-					auto coll = actor->getComponent<BoxCollider>();
-					coll->width(tilemap.tileSize);
-					coll->height(tilemap.tileSize);
-				}
-			}
-
-			currentColumn++;
-			if (currentColumn > columns - 1)
-			{
-				currentColumn = 0;
-				currentRow++;
-			}
-		}
-	}
-
-	tinyxml2::XMLElement* objectsElement = layersElement->NextSiblingElement("actors");
-
-	for (tinyxml2::XMLElement* e = objectsElement->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
-	{
-		const char* name = e->FirstChildElement("name")->GetText();
-		tinyxml2::XMLElement* posElement = e->FirstChildElement("position");
-		int x = posElement->IntAttribute("x");
-		int y = posElement->IntAttribute("y");
-
-		Actor* actor = scene->spawnActor(name);
+		auto actor = scene->spawnActor(name);
 		actor->position(x, y);
 
-		tinyxml2::XMLElement* componentsElement = e->FirstChildElement("components");
+		auto& componentListJson = actorJson["components"];
 
-		for (tinyxml2::XMLElement* e = componentsElement->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
+		for (auto& componentItr : componentListJson.items()) 
 		{
-			const char* type = e->Attribute("type");
+			auto& componentJson = componentItr.value();
 
-			if (strcmp(type, "Sprite") == 0) 
+			std::string type = componentJson["type"];
+
+			if (type == "sprite")
 			{
-				const char* textureName = e->FirstChildElement("textureName")->GetText();
-				tinyxml2::XMLElement* srcRctElement = e->FirstChildElement("sourceRect");
-				int sx = srcRctElement->IntAttribute("x");
-				int sy = srcRctElement->IntAttribute("y");
-				int sw = srcRctElement->IntAttribute("w");
-				int sh = srcRctElement->IntAttribute("h");
+				std::string textureName = componentJson["textureName"].get<std::string>();
 
-				actor->addComponent<Sprite>();
-				auto sprite = actor->getComponent<Sprite>();
+				auto& sourceRectJson = componentJson["sourceRect"];
+				int x = sourceRectJson["x"].get<int>();
+				int y = sourceRectJson["y"].get<int>();
+				int w = sourceRectJson["w"].get<int>();
+				int h = sourceRectJson["h"].get<int>();
+
+				auto sprite = actor->addComponent<Sprite>();
 				sprite->textureName(textureName);
-				sprite->sourceRect(sx,sy, sw, sh);
+				sprite->sourceRect(x, y, w, h);
 				sprite->center();
 			}
-
-			if (strcmp(type, "Velocity") == 0)
+			else if (type == "velocity")
 			{
-				float vx = e->FloatAttribute("x");
-				float vy = e->FloatAttribute("y");
+				float x = componentJson["x"].get<float>();
+				float y = componentJson["y"].get<float>();
 
-				actor->addComponent<Velocity>();
-				auto vel = actor->getComponent<Velocity>();
-				vel->value(vx, vy);
+				auto velocity = actor->addComponent<Velocity>();
+				velocity->value(x, y);
 			}
-
-			if (strcmp(type, "Script") == 0)
+			else if (type == "script")
 			{
-				const char* name = e->Attribute("name");
-				actor->addComponent<Script>();
-				auto beh = actor->getComponent<Script>();
-				beh->script(name);
+				std::string scriptName = componentJson["name"].get<std::string>();
+
+				auto script = actor->addComponent<Script>();
+				script->script(scriptName);
 			}
-
-			if (strcmp(type, "Collider") == 0)
+			else if (type == "collider")
 			{
-				int w = e->IntAttribute("w");
-				int h = e->IntAttribute("h");
-				int xOff = e->IntAttribute("xOffset");
-				int yOff = e->IntAttribute("yOffset");
+				int w = componentJson["w"].get<int>();
+				int h = componentJson["h"].get<int>();
+				int xOffset = componentJson["xOffset"].get<int>();
+				int yOffset = componentJson["yOffset"].get<int>();
 
-				actor->addComponent<BoxCollider>();
-				auto coll = actor->getComponent<BoxCollider>();
-				coll->center();
-				coll->width(w);
-				coll->height(h);
-				coll->offset(xOff, yOff);
-				coll->updateBBox();
+				auto collider = actor->addComponent<BoxCollider>();
+				collider->width(w);
+				collider->height(h);
+				collider->offset(xOffset, yOffset);
+				collider->center();
 			}
-
-			if (strcmp(type, "Animator") == 0)
+			else if (type == "animator")
 			{
-				int rows = e->IntAttribute("rows");
-				int columns = e->IntAttribute("columns");
+				int columns = componentJson["columns"].get<int>();
+				int rows = componentJson["rows"].get<int>();
 
-				actor->addComponent<Animator>();
-				auto animator = actor->getComponent<Animator>();
-				animator->rows(rows);
+				auto animator = actor->addComponent<Animator>();
 				animator->columns(columns);
+				animator->rows(rows);
 
-				tinyxml2::XMLElement* animationElements = e->FirstChildElement("animations");
-
-				for (tinyxml2::XMLElement* e = animationElements->FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) 
+				for (auto& animItr : componentJson["animations"].items()) 
 				{
-					const char* name = e->Attribute("name");
+					auto& animationJson = animItr.value();
 
-					const char* tilesText = e->Attribute("frames");
+					std::string name = animationJson["name"].get<std::string>();
+					auto& frames = animationJson["frames"].items();
+					auto frameVector = std::vector<int>();
+					
+					for (auto& frameItr : frames) 					
+						frameVector.emplace_back(frameItr.value().get<int>());					
 
-					std::istringstream iss(tilesText);
-					std::vector<std::string> res((std::istream_iterator<std::string>(iss)), std::istream_iterator<std::string>());
-
-					std::vector<int> f(0);
-
-					for (auto& it : res) 
-					{
-						f.emplace_back(std::atoi(it.c_str()));
-					}
-
-					animator->addAnimation(name, f);
+					animator->addAnimation(name, frameVector);
 				}
 			}
 		}
 	}
-
-	auto& resourceManager = game_.resourceManager();
 
 	tilemap.texture = resourceManager.loadTexture(tilemap.sourceImageFile);
 
