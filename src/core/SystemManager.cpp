@@ -1,3 +1,7 @@
+#include <memory>
+
+#include <memory>
+
 #include "SystemManager.h"
 
 ActorEventQueue& SystemManager::actorEventQueue()
@@ -8,12 +12,12 @@ ActorEventQueue& SystemManager::actorEventQueue()
 void SystemManager::init(SystemManagerParams& params)
 {
 #ifdef _DEBUG
-	debugRenderer_ = std::unique_ptr<DebugRenderer>(new DebugRenderer(params.renderer));
+	debugRenderer_ = std::make_unique<DebugRenderer>(params.renderer);
 #endif
 
-	logicSystem_ = std::unique_ptr<Logic>(new Logic(params.luaState));
-	physicsSystem_ = std::unique_ptr<Physics>(new Physics(actorEventQueue_));
-	renderSystem_ = std::unique_ptr<Renderer>(new Renderer(params.renderer, params.resourceManager));
+	logicSystem_ = std::make_unique<Logic>(params.luaState);
+	physicsSystem_ = std::make_unique<Physics>(actorEventQueue_);
+	renderSystem_ = std::make_unique<Renderer>(params.renderer, params.resourceManager);
 }
 
 void SystemManager::handleInputEvent(SDL_Event& inputEvent)
@@ -69,6 +73,6 @@ void SystemManager::unload()
 	renderSystem_.reset();
 
 #ifdef _DEBUG
-	debugRenderer_->reset;
+	debugRenderer_.reset();
 #endif
 }

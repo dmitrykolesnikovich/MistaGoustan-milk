@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.13)
 
 project(Milk)
 
+set(CMAKE_CXX_STANDARD 11)
+
 # get absolute paths of third party paths
 # we do this so when we provide the .lib/.a files for linking, we don't get any wierd behavior
 get_filename_component(SDL2_PATH thirdparty/SDL2-2.0.9 ABSOLUTE)
