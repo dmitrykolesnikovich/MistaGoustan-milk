@@ -67,5 +67,8 @@ void SystemManager::unload()
 	logicSystem_.reset();
 	physicsSystem_.reset();
 	renderSystem_.reset();
-	debugRenderer_.reset();
+
+#ifdef _DEBUG
+	debugRenderer_->reset;
+#endif
 }
