@@ -50,8 +50,12 @@ endif()
 # enable testing up in this mafk
 enable_testing()
 
+# create milk lib
 add_subdirectory(src)
+#create milk exe
 add_subdirectory(main)
+# create test exe
+add_subdirectory(test)
 
 # set start up project for visual studio
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT milkengine)

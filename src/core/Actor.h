@@ -7,7 +7,7 @@
 
 #include "ActorComponent.h"
 
-#include "../math/Vector2d.h"
+#include "math/Vector2d.h"
 
 class ResourceManager;
 class Scene;

@@ -73,5 +73,6 @@ before_install:
 
 script:
   - mkdir build && cd build
-  - cmake -DCMAKE_BUILD_TYPE=Release ..
-  - cmake --build .
+  - cmake -DCODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=Release ..
+  - cmake build .
+  - ctest
