@@ -1,9 +1,0 @@
-target_sources(Milk
-    PRIVATE
-	LuaHandleRegistry.h
-        LuaHandle_Actor.cpp
-        LuaHandle_Actor.h
-	LuaHandle_BoxCollider.h
-	LuaHandle_BoxCollider.cpp
-	LuaHandle_CollisionEvent.h
-	LuaHandle_CollisionEvent.cpp)

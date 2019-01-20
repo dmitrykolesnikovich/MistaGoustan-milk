@@ -14,7 +14,7 @@
 #include "../components/BoxCollider.h"
 
 // Registry for the Lua API.
-static class LuaHandleRegistry
+class LuaHandleRegistry
 {
 public:
 	static void RegisterHandles(sol::state& luaState)

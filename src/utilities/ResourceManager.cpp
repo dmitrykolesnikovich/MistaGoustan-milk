@@ -27,7 +27,7 @@ void ResourceManager::init(SDL_Renderer* sdlRenderer)
 
 Texture* ResourceManager::loadTexture(const std::string& name)
 {
-	auto& found = textureCache_.find(name);
+	auto found = textureCache_.find(name);
 	
 	if (found != textureCache_.end())
 		return found->second;

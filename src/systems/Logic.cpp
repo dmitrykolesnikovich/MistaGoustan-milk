@@ -75,7 +75,7 @@ void Logic::onActorDestroyed(Actor& actor)
 
 void Logic::onActorCollision(ActorCollisionEvent& collisionEvent)
 {
-	auto& script = scriptByActorId_.find(collisionEvent.actor().id());
+	auto script = scriptByActorId_.find(collisionEvent.actor().id());
 
 	if (script != scriptByActorId_.end())
 		script->second->onCollision(collisionEvent);

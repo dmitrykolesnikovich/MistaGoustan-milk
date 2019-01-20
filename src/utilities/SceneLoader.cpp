@@ -166,25 +166,25 @@ std::unique_ptr<Scene> SceneLoader::load(const std::string& file) const
 			}
 			else if (type == "animator")
 			{
-				int columns = componentJson["columns"].get<int>();
-				int rows = componentJson["rows"].get<int>();
+				int c = componentJson["columns"].get<int>();
+				int r = componentJson["rows"].get<int>();
 
 				auto animator = actor->addComponent<Animator>();
-				animator->columns(columns);
-				animator->rows(rows);
+				animator->columns(c);
+				animator->rows(r);
 
 				for (auto& animItr : componentJson["animations"].items()) 
 				{
 					auto& animationJson = animItr.value();
 
-					std::string name = animationJson["name"].get<std::string>();
-					auto& frames = animationJson["frames"].items();
+					std::string n = animationJson["name"].get<std::string>();
+					auto frames = animationJson["frames"].items();
 					auto frameVector = std::vector<int>();
 					
 					for (auto& frameItr : frames) 					
 						frameVector.emplace_back(frameItr.value().get<int>());					
 
-					animator->addAnimation(name, frameVector);
+					animator->addAnimation(n, frameVector);
 				}
 			}
 		}

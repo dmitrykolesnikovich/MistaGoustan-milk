@@ -3,7 +3,7 @@
 
 #include "SDL.h"
 
-static class Input
+class Input
 {
 public:
 	Input() = default;
