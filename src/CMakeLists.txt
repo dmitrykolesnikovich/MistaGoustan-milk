@@ -81,4 +81,7 @@ target_link_libraries(milklib
             ${SDL2_LIBRARY}
             ${SDL2_IMAGE_LIBRARIES}
             ${LUA53_LIBRARIES}
+        PRIVATE
+            # Include code-coverage settings
+            coverage_config
         )
