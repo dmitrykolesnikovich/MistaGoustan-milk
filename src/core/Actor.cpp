@@ -1,6 +1,6 @@
 #include "Actor.h"
 
-Actor::Actor(Scene& scene, int id, const std::string& name, const Vector2d& position)
+Actor::Actor(IScene& scene, int id, const std::string& name, const Vector2d& position)
 	: scene_(scene)
 	, id_(id)
 	, name_(name)
@@ -9,7 +9,7 @@ Actor::Actor(Scene& scene, int id, const std::string& name, const Vector2d& posi
 {
 }
 
-Scene& Actor::scene() const
+IScene& Actor::scene() const
 {
 	return scene_;
 }

@@ -7,46 +7,47 @@
 #include <vector>
 
 #include "Actor.h"
+#include "IScene.h"
 
-#include "../tilemap/Tilemap.h"
+#include "tilemap/Tilemap.h"
 
-#include "../utilities/Camera.h"
-#include "../utilities/IdGenerator.h"
+#include "utilities/Camera.h"
+#include "utilities/IdGenerator.h"
 
 class Game;
 
-class Scene
+class Scene : public IScene
 {
 public:
 	explicit Scene(Game& game);
 	~Scene() = default;
 
-	// Spawns a new actor in the games current scene.
-	// Components are to be added immediately after spawned actor is returned.
-	Actor* spawnActor(const std::string& name);
+		// Spawns a new actor in the games current scene.
+		// Components are to be added immediately after spawned actor is returned.
+		Actor* spawnActor(const std::string& name) override;
 
-	// Attempts to destroy and actor with the given id.
-	// Returns true if successful.
-	bool destroyActor(int id);
+		// Attempts to destroy and actor with the given id.
+		// Returns true if successful.
+		bool destroyActor(int id) override;
 
-	// Attempts to find an actor with the given name.
-	// Returns nullptr if not actor is found.
-	Actor* findActor(const std::string& name) const;
+		// Attempts to find an actor with the given name.
+		// Returns nullptr if not actor is found.
+		Actor* findActor(const std::string& name) const override;
 
-	// Returns the scenes camera.
-	Camera& camera();
+		// Returns the scenes camera.
+		Camera& camera() override;
 
-	// Returns the scenes tilemap.
-	Tilemap& tilemap();
+		// Returns the scenes tilemap.
+		Tilemap& tilemap() override;
 
-	// Updates the scenes internal lists after spawning and destroying actors.
-	void updateActorList();
+		// Updates the scenes internal lists after spawning and destroying actors.
+		void updateActorList() override;
 
-	// Destroys all actors and generates events.
-	void end() const;
+		// Destroys all actors and generates events.
+		void end() override;
 
-	// Return the scene boundaries.
-	SDL_Rect bounds() const;
+		// Return the scene boundaries.
+		SDL_Rect bounds() const;
 
 private:
 	Game& game_;

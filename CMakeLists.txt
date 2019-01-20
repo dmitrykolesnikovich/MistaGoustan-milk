@@ -8,7 +8,9 @@ set(CMAKE_CXX_STANDARD 14)
 # set the ~/cmake module path for project
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
+#---------------------------------------------------------------------------
 # On windows, you have to point cmake to our third party dependencies.
+#---------------------------------------------------------------------------
 if (WIN32)
 
     if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
@@ -26,12 +28,16 @@ if (WIN32)
     endif()
 endif()
 
+#---------------------------------------------------------------------------
 # run find scripts
+#---------------------------------------------------------------------------
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 find_package(Lua53 REQUIRED)
 
+#---------------------------------------------------------------------------
 # code coverage configuration (ccc)
+#---------------------------------------------------------------------------
 option(CODE_COVERAGE "Enable coverage reporting" OFF)
 
 add_library(coverage_config INTERFACE)
@@ -47,7 +53,10 @@ if(CODE_COVERAGE)
     target_link_libraries(coverage_config INTERFACE --coverage)
 endif()
 
+#---------------------------------------------------------------------------
 # enable testing up in this mafk
+#---------------------------------------------------------------------------
+include(CTest)
 enable_testing()
 
 # create milk lib
@@ -57,5 +66,7 @@ add_subdirectory(main)
 # create test exe
 add_subdirectory(test)
 
+#---------------------------------------------------------------------------
 # set start up project for visual studio
+#---------------------------------------------------------------------------
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT milkengine)

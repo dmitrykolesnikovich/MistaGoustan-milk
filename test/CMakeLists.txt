@@ -36,8 +36,19 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
 
 # create test exe
 #-------------------------------------------------------
-add_executable(milktests
-        main.cpp)
+set (TESTS
+        tests/core/ActorTests.h
+        )
+
+set(MOCKS
+        mocks/core/MScene.h
+        )
+
+add_executable(milktests main.cpp ${TESTS} ${MOCKS})
+
+target_include_directories(milktests
+        PRIVATE
+            ${milktests_SOURCE_DIR})
 
 # link test exe with libs
 target_link_libraries(milktests

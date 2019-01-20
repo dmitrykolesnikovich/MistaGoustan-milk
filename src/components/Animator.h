@@ -6,8 +6,8 @@
 #include <unordered_map>
 #include <vector>
 
-#include "../core/ActorComponent.h"
-#include "../utilities/Timer.h"
+#include "core/ActorComponent.h"
+#include "utilities/Timer.h"
 
 class Sprite;
 

@@ -76,7 +76,7 @@ void Scene::updateActorList()
 	actorsToSpawn_.clear();
 }
 
-void Scene::end() const
+void Scene::end()
 {
 	for (auto& it : actorsById_)
 		game_.systemManager().actorEventQueue().pushEvent(new ActorDestroyedEvent(*it.second));

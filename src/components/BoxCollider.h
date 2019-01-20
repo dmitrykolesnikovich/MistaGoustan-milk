@@ -3,11 +3,9 @@
 
 #include "SDL.h"
 
-#include "../core/ActorComponent.h"
-
-#include "../math/Vector2d.h"
-
-#include "../utilities/Alignment.h"
+#include "core/ActorComponent.h"
+#include "math/Vector2d.h"
+#include "utilities/Alignment.h"
 
 class SpatialPartitionGrid;
 

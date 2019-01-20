@@ -10,7 +10,7 @@
 #include "math/Vector2d.h"
 
 class ResourceManager;
-class Scene;
+class IScene;
 
 // An object that exists within the current scene.
 // An actor can range from a rock on the ground to a dragon boss monster.
@@ -18,11 +18,11 @@ class Scene;
 class Actor
 {
 public:
-	Actor(Scene& scene, int id, const std::string& name, const Vector2d& position);
+	Actor(IScene& scene, int id, const std::string& name, const Vector2d& position);
 	~Actor() = default;
 
 	// Returns the actors scene.
-	Scene& scene() const;
+	IScene& scene() const;
 
 	// Returns the actors unique id.
 	int id() const;
@@ -77,7 +77,7 @@ private:
 	Vector2d position_;
 	uint32_t componentBitmask_;
 
-	Scene& scene_;
+	IScene& scene_;
 
 	std::unordered_map<int, std::unique_ptr<ActorComponent>> componentsByType_;
 };
