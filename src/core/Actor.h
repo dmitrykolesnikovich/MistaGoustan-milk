@@ -79,7 +79,7 @@ private:
 
 	Scene& scene_;
 
-	std::unordered_map<ComponentType, std::unique_ptr<ActorComponent>> componentsByType_;
+	std::unordered_map<int, std::unique_ptr<ActorComponent>> componentsByType_;
 };
 
 #endif
