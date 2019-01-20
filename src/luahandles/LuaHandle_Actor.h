@@ -10,8 +10,7 @@ class Actor;
 class LuaHandle_Actor
 {
 public:
-	LuaHandle_Actor(Actor& actor);
-	LuaHandle_Actor() = default;
+	explicit LuaHandle_Actor(Actor& actor);
 
 	std::string name() const;
 

@@ -17,7 +17,7 @@ class ResourceManager;
 class ActorComponent
 {
 public:
-	ActorComponent(Actor& actor);
+	explicit ActorComponent(Actor& actor);
 	virtual ~ActorComponent() = default;
 
 	// Returns the components actor.

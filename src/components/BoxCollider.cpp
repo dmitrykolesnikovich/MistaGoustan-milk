@@ -41,12 +41,12 @@ void BoxCollider::updateBBox()
 	switch (origin_) 
 	{
 	case Alignment::TOP_LEFT:
-		rect_.x = actorPosition.x + offset_.x;
-		rect_.y = actorPosition.y + offset_.y;
+		rect_.x = (int)(actorPosition.x + offset_.x);
+		rect_.y = (int)(actorPosition.y + offset_.y);
 		break;
 	case Alignment::CENTER_ORIGIN:
-		rect_.x = actorPosition.x - (rect_.w / 2) + offset_.x;
-		rect_.y = actorPosition.y - (rect_.h / 2) + offset_.y;
+		rect_.x = (int)(actorPosition.x - (rect_.w / 2) + offset_.x);
+		rect_.y = (int)(actorPosition.y - (rect_.h / 2) + offset_.y);
 		break;
 	}
 

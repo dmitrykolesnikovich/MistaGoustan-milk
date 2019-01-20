@@ -10,7 +10,7 @@ class Game;
 class SceneLoader
 {
 public:
-	SceneLoader(Game& game);
+	explicit SceneLoader(Game& game);
 	~SceneLoader() = default;
 
 	std::unique_ptr<Scene> load(const std::string& file) const;

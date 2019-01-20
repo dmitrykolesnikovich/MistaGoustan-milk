@@ -16,8 +16,8 @@ class Sprite : public ActorComponent
 public:
 	static const ComponentType type;
 
-	Sprite(Actor& actor);
-	~Sprite() = default;
+	explicit Sprite(Actor& actor);
+	~Sprite() override = default;
 
 	// Load the sprite's texture.
 	void load(ResourceManager& resourceManager);

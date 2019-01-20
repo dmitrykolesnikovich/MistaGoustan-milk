@@ -22,8 +22,8 @@ class Script : public ActorComponent
 public:
 	static const ComponentType type;
 
-	Script(Actor& actor);
-	~Script() = default;
+	explicit Script(Actor& actor);
+	~Script() override = default;
 
 	// Sets the name of the script to load.
 	void script(const std::string& scriptName);

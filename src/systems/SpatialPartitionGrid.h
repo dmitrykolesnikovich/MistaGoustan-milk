@@ -19,11 +19,11 @@ enum class CollisionSide
 
 struct CollisionEvent
 {
-	CollisionEvent(BoxCollider* o, CollisionSide dir, SDL_Rect depth) 
+	CollisionEvent(BoxCollider* o, CollisionSide dir, SDL_Rect depth)
+		: other(o)
+		, direction(dir)
+		, depthRect(depth)
 	{
-		other = o;
-		direction = dir;
-		depthRect = depth;
 	}
 
 	// The other collider.

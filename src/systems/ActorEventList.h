@@ -6,7 +6,7 @@
 class ActorSpawnedEvent : public ActorEvent
 {
 public:
-	ActorSpawnedEvent(Actor& actor)
+	explicit ActorSpawnedEvent(Actor& actor)
 		: ActorEvent::ActorEvent(ActorEventType::ACTOR_SPAWNED, actor)
 	{
 	}
@@ -15,7 +15,7 @@ public:
 class ActorDestroyedEvent : public ActorEvent
 {
 public:
-	ActorDestroyedEvent(Actor& actor)
+	explicit ActorDestroyedEvent(Actor& actor)
 		: ActorEvent::ActorEvent(ActorEventType::ACTOR_DETROYED, actor)
 	{
 	}

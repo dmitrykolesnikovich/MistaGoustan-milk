@@ -51,7 +51,7 @@ Texture* ResourceManager::loadTexture(const std::string& name)
 
 	SDL_QueryTexture(sdlTex, nullptr, nullptr, &width, &height);
 
-	Texture* texture = new Texture(sdlTex, width, height);
+	auto texture = new Texture(sdlTex, width, height);
 
 	textureCache_.insert(std::make_pair(name, texture));
 
@@ -68,7 +68,7 @@ std::string ResourceManager::loadFile(const std::string& filename)
 
 	Sint64 fileSize = SDL_RWsize(rwops);
 
-	char* fileContents = (char*)std::malloc(fileSize + 1);
+	auto fileContents = (char*)std::malloc((size_t)(fileSize + 1));
 
 	Sint64 readTotal = 0;
 	Sint64 read = 1;
@@ -77,7 +77,7 @@ std::string ResourceManager::loadFile(const std::string& filename)
 
 	while (readTotal < fileSize && read != 0) 
 	{
-		read = SDL_RWread(rwops, buffer, 1, (fileSize - readTotal));
+		read = SDL_RWread(rwops, buffer, 1, ((size_t)(fileSize - readTotal)));
 
 		readTotal += read;
 		buffer += read;
@@ -98,10 +98,10 @@ std::string ResourceManager::loadFile(const std::string& filename)
 
 void ResourceManager::unloadTextures()
 {
-	for (auto it = textureCache_.begin(); it != textureCache_.end(); ++it) 
+	for (auto &it : textureCache_)
 	{
-		delete it->second;
-		it->second = nullptr;
+		delete it.second;
+		it.second = nullptr;
 	}
 
 	textureCache_.clear();

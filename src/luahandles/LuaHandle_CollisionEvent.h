@@ -8,7 +8,7 @@
 class LuaHandle_CollisionEvent
 {
 public:
-	LuaHandle_CollisionEvent(ActorCollisionEvent& collisionEvent);
+	explicit LuaHandle_CollisionEvent(ActorCollisionEvent& collisionEvent);
 
 	LuaHandle_BoxCollider other();
 

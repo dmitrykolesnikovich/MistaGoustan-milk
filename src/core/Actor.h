@@ -50,7 +50,7 @@ public:
 
 		componentBitmask_ |= type;
 
-		TComponent* rawPtr = new TComponent(*this);
+		auto rawPtr = new TComponent(*this);
 
 		componentsByType_.insert(std::make_pair(type, std::unique_ptr<ActorComponent>(rawPtr)));
 

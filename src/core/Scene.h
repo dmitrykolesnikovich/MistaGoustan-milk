@@ -18,7 +18,7 @@ class Game;
 class Scene
 {
 public:
-	Scene(Game& game);
+	explicit Scene(Game& game);
 	~Scene() = default;
 
 	// Spawns a new actor in the games current scene.

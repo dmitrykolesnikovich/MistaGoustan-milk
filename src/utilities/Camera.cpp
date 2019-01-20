@@ -15,13 +15,13 @@ Camera::Camera(Scene& scene, unsigned int width, unsigned int height)
 
 void Camera::position(float x, float y)
 {
-	camRect_.x = std::floor(x);
-	camRect_.y = std::floor(y);
+	camRect_.x = (int)std::floor(x);
+	camRect_.y = (int)std::floor(y);
 }
 
 Vector2d Camera::position() const
 {
-	return Vector2d(camRect_.x, camRect_.y);
+	return {(float)camRect_.x, (float)camRect_.y};
 }
 
 void Camera::setTarget(Actor* actor)
@@ -39,8 +39,8 @@ void Camera::followTarget()
 {
 	if (target_ != nullptr)
 	{
-		camRect_.x = std::floor(target_->position().x - camRect_.w  * 0.5f);
-		camRect_.y = std::floor(target_->position().y - camRect_.h * 0.5f);
+		camRect_.x = (int)std::floor(target_->position().x - camRect_.w  * 0.5f);
+		camRect_.y = (int)std::floor(target_->position().y - camRect_.h * 0.5f);
 	}
 }
 

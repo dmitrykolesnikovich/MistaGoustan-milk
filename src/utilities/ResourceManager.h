@@ -11,7 +11,7 @@ class Texture;
 class ResourceManager
 {
 public:
-	ResourceManager(const std::string& rootDir = "");
+	explicit ResourceManager(const std::string& rootDir = "");
 	~ResourceManager();
 
 	// Initialize the resource manager.

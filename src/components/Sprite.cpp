@@ -65,12 +65,12 @@ SDL_Rect Sprite::destinationRect() const
 	switch (alignment_)
 	{
 	case Alignment::TOP_LEFT:
-		destinationRect.x = std::floor(actorPosition.x);
-		destinationRect.y = std::floor(actorPosition.y);
+		destinationRect.x = (int)std::floor(actorPosition.x);
+		destinationRect.y = (int)std::floor(actorPosition.y);
 		break;
 	case Alignment::CENTER_ORIGIN:
-		destinationRect.x = std::floor(actorPosition.x) - (sourceRect_.w / 2);
-		destinationRect.y = std::floor(actorPosition.y) - (sourceRect_.h / 2);
+		destinationRect.x = (int)std::floor(actorPosition.x) - (sourceRect_.w / 2);
+		destinationRect.y = (int)std::floor(actorPosition.y) - (sourceRect_.h / 2);
 		break;
 	}
 

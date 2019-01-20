@@ -13,7 +13,7 @@ struct SDL_Renderer;
 class DebugRenderer
 {
 public:
-	DebugRenderer(SDL_Renderer& renderer);
+	explicit DebugRenderer(SDL_Renderer& renderer);
 
 	void handleEvent(ActorEvent& gameEvent);
 

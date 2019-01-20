@@ -44,7 +44,7 @@ bool Window::initSDLRenderWindow()
 	if (isFullscreen_)
 		flags |= SDL_WINDOW_FULLSCREEN;
 
-	sdlWindow_ = SDL_CreateWindow(title_.c_str(), windowXPosition, windowYPosition, width_, height_, flags);
+	sdlWindow_ = SDL_CreateWindow(title_.c_str(), windowXPosition, windowYPosition, width_, height_, (Uint32)flags);
 
 	if (sdlWindow_ == nullptr)
 	{
@@ -134,8 +134,8 @@ void Window::toggleFullscreen()
 		SDL_Rect displayBounds;
 		SDL_GetDisplayBounds(displayIndex, &displayBounds);
 
-		nativeWidth_ = displayBounds.w;
-		nativeHeight_ = displayBounds.h;
+		nativeWidth_ = (unsigned int)(displayBounds.w);
+		nativeHeight_ = (unsigned int)displayBounds.h;
 
 		SDL_SetWindowSize(sdlWindow_, nativeWidth_, nativeHeight_);
 		SDL_SetWindowFullscreen(sdlWindow_, SDL_WINDOW_FULLSCREEN);

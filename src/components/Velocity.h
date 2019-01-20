@@ -12,8 +12,8 @@ class Velocity : public ActorComponent
 public:
 	static const ComponentType type;
 
-	Velocity(Actor& actor);
-	~Velocity();
+	explicit Velocity(Actor& actor);
+	~Velocity() override = default;
 
 	// Sets the velocity.
 	void value(float x, float y);

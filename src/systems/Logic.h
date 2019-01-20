@@ -13,7 +13,7 @@ class Script;
 class Logic
 {
 public:
-	Logic(sol::state& luaState);
+	explicit Logic(sol::state& luaState);
 	~Logic() = default;
 
 	void handleEvent(ActorEvent& gameEvent);

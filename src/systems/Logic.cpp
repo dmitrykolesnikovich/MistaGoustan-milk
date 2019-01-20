@@ -15,24 +15,21 @@ void Logic::handleEvent(ActorEvent& gameEvent)
 {
 	switch (gameEvent.type())
 	{
-	case ActorEventType::ACTOR_SPAWNED: 
-	{
-		auto& spawnedEvent = dynamic_cast<ActorSpawnedEvent&>(gameEvent);
-		onActorSpawned(spawnedEvent.actor());
-	}
-		break;
-	case ActorEventType::ACTOR_DETROYED: 
-	{
-		auto& destroyedEvent = dynamic_cast<ActorDestroyedEvent&>(gameEvent);
-		onActorDestroyed(destroyedEvent.actor());
-	}
-		break;
-	case ActorEventType::ACTOR_COLLISION: 
-	{
-		auto& collisionEvent = dynamic_cast<ActorCollisionEvent&>(gameEvent);
-		onActorCollision(collisionEvent);
-	}
-		break;
+		case ActorEventType::ACTOR_SPAWNED: {
+			auto &spawnedEvent = dynamic_cast<ActorSpawnedEvent &>(gameEvent);
+			onActorSpawned(spawnedEvent.actor());
+		}
+			break;
+		case ActorEventType::ACTOR_DETROYED: {
+			auto &destroyedEvent = dynamic_cast<ActorDestroyedEvent &>(gameEvent);
+			onActorDestroyed(destroyedEvent.actor());
+		}
+			break;
+		case ActorEventType::ACTOR_COLLISION: {
+			auto &collisionEvent = dynamic_cast<ActorCollisionEvent &>(gameEvent);
+			onActorCollision(collisionEvent);
+		}
+			break;
 	}
 }
 
@@ -44,7 +41,7 @@ void Logic::update()
 
 void Logic::onActorSpawned(Actor& actor)
 {
-	Script* script = actor.getComponent<Script>();
+	auto script = actor.getComponent<Script>();
 
 	if (script == nullptr)
 		return;
@@ -63,7 +60,7 @@ void Logic::onActorDestroyed(Actor& actor)
 	if (found == scriptByActorId_.end())
 		return;
 
-	Script* script = found->second;
+	auto script = found->second;
 
 	if (script == nullptr)
 		return;

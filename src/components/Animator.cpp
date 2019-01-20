@@ -1,3 +1,5 @@
+#include <memory>
+
 #include "Animator.h"
 
 #include "SDL.h"
@@ -46,12 +48,12 @@ void Animator::togglePaused()
 
 void Animator::addAnimation(const std::string& name, std::initializer_list<int> f)
 {
-	animations_.insert(std::make_pair(name, std::unique_ptr<Animation>(new Animation(name, f))));
+	animations_.insert(std::make_pair(name, std::make_unique<Animation>(name, f)));
 }
 
 void Animator::addAnimation(const std::string& name, std::vector<int> f)
 {
-	animations_.insert(std::make_pair(name, std::unique_ptr<Animation>(new Animation(name, f))));
+	animations_.insert(std::make_pair(name, std::make_unique<Animation>(name, f)));
 }
 
 void Animator::setAnimation(const std::string& name)

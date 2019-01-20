@@ -12,13 +12,10 @@ class Texture;
 struct TileType
 {
 	TileType(int x, int y, int size, bool coll, const std::string& n)
+		: sourceRect({x, y, size, size})
+		, collidable(coll)
+		, name(n)
 	{
-		sourceRect.x = x;
-		sourceRect.y = y;
-		sourceRect.w = size;
-		sourceRect.h = size;
-		collidable = coll;
-		name = n;
 	}
 
 	SDL_Rect sourceRect;
@@ -102,7 +99,7 @@ struct Tilemap
 
 	TileType& addTileType(int id, int x, int y, bool collidable, const std::string& name) 
 	{
-		TileType* type = new TileType(x, y, tileSize, collidable, name);
+		auto type = new TileType(x, y, tileSize, collidable, name);
 		tileTypes.insert(std::pair<int, TileType*>(id, type));
 
 		return *type;
@@ -110,7 +107,7 @@ struct Tilemap
 
 	TileLayer& addLayer() 
 	{
-		TileLayer* layer = new TileLayer();
+		auto layer = new TileLayer();
 		layers.emplace_back(layer);
 
 		return *layer;

@@ -36,19 +36,19 @@ void Physics::handleEvent(ActorEvent& gameEvent)
 
 void Physics::update()
 {
-	for (auto& it : velocityByActorId_) 
+	for (auto& velItr : velocityByActorId_)
 	{
-		Vector2d velocity = it.second->value();
+		Vector2d velocity = velItr.second->value();
 
 		if (velocity == Vector2d(0, 0))
 			continue;
 
-		Actor& actor = it.second->actor();
+		Actor& actor = velItr.second->actor();
 		Vector2d oldActorPosition = actor.position();
 
 		actor.position(actor.position() + velocity);
 
-		BoxCollider* collider = it.second->actor().getComponent<BoxCollider>();
+		auto collider = velItr.second->actor().getComponent<BoxCollider>();
 
 		if (collider == nullptr)
 			continue;
@@ -62,16 +62,16 @@ void Physics::update()
 		// Collision events contain a collision side and intersection depth rectangle.
 		// In the future, these two values can be used to create a more accurate collision.
 		// For now, simply reverting back to the actors previous axis position is fine.
-		for (auto it : collisions) 
+		for (auto collItr : collisions)
 		{
-			eventQueue_.pushEvent(new ActorCollisionEvent(actor, *it.other));
+			eventQueue_.pushEvent(new ActorCollisionEvent(actor, *collItr.other));
 
 			auto pos = actor.position();
 
 			actor.position(actor.position().x, oldActorPosition.y);
 			collider->updateBBox();
 
-			if (collider->overlaps(it.other->rect())) 
+			if (collider->overlaps(collItr.other->rect()))
 			{
 				actor.position(oldActorPosition.x, pos.y);
 				collider->updateBBox();
@@ -82,12 +82,12 @@ void Physics::update()
 
 void Physics::onActorSpawned(Actor& actor)
 {
-	Velocity* velocity = actor.getComponent<Velocity>();
+	auto velocity = actor.getComponent<Velocity>();
 
 	if (velocity != nullptr)
 		velocityByActorId_.insert(std::make_pair(actor.id(), velocity));
 
-	BoxCollider* collider = actor.getComponent<BoxCollider>();
+	auto collider = actor.getComponent<BoxCollider>();
 
 	if (collider != nullptr)
 	{
@@ -101,7 +101,7 @@ void Physics::onActorDestroyed(Actor& actor)
 	if (velocityByActorId_.find(actor.id()) != velocityByActorId_.end())
 		velocityByActorId_.erase(actor.id());
 
-	BoxCollider* collider = actor.getComponent<BoxCollider>();
+	auto collider = actor.getComponent<BoxCollider>();
 
 	if (collider != nullptr)
 		partitionGrid_->remove(collider);

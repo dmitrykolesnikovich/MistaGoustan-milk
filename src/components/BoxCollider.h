@@ -20,8 +20,8 @@ public:
 
 	friend class SpatialPartitionGrid;
 
-	BoxCollider(Actor& actor);
-	~BoxCollider() = default;
+	explicit BoxCollider(Actor& actor);
+	~BoxCollider() override = default;
 
 	// Initializes the collider so it can become one with the collision grid.
 	void init(SpatialPartitionGrid* grid);

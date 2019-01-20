@@ -25,7 +25,7 @@ struct Animation
 			++i;
 		}
 
-		size = f.size();
+		size = (int)f.size();
 	}
 
 	Animation(const std::string& n, std::vector<int> f)
@@ -58,8 +58,8 @@ class Animator : public ActorComponent
 public:
 	static const ComponentType type;
 
-	Animator(Actor& actor);
-	~Animator() = default;
+	explicit Animator(Actor& actor);
+	~Animator() override = default;
 
 	// Initialize the animator.
 	void init();

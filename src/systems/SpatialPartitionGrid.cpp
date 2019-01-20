@@ -8,11 +8,11 @@
 SpatialPartitionGrid::SpatialPartitionGrid()
 {
 	// Initialize the grid.
-	for (int x = 0; x < NUM_CELLS; x++)
+	for (auto &cell : cells_)
 	{
-		for (int y = 0; y < NUM_CELLS; y++)
+		for (auto &y : cell)
 		{
-			cells_[x][y] = nullptr;
+			y = nullptr;
 		}
 	}
 }
@@ -20,8 +20,8 @@ SpatialPartitionGrid::SpatialPartitionGrid()
 void SpatialPartitionGrid::add(BoxCollider* collider)
 {
 	// Determine which grid cell it's in.
-	int cellX = (int)(collider->rect().x / SpatialPartitionGrid::CELL_SIZE);
-	int cellY = (int)(collider->rect().y/ SpatialPartitionGrid::CELL_SIZE);
+	int cellX = collider->rect().x / SpatialPartitionGrid::CELL_SIZE;
+	int cellY = collider->rect().y/ SpatialPartitionGrid::CELL_SIZE;
 
 	// Add to the front of list for the cell it's in.
 	collider->prev_ = nullptr;
@@ -35,8 +35,8 @@ void SpatialPartitionGrid::add(BoxCollider* collider)
 
 void SpatialPartitionGrid::remove(BoxCollider* collider)
 {
-	int cellX = (int)(collider->oldRect_.x / SpatialPartitionGrid::CELL_SIZE);
-	int cellY = (int)(collider->oldRect_.y / SpatialPartitionGrid::CELL_SIZE);
+	int cellX = collider->oldRect_.x / SpatialPartitionGrid::CELL_SIZE;
+	int cellY = collider->oldRect_.y / SpatialPartitionGrid::CELL_SIZE;
 
 	// Unlink it from the list of its old cell.
 	if (collider->prev_ != nullptr)
@@ -52,11 +52,11 @@ void SpatialPartitionGrid::remove(BoxCollider* collider)
 
 void SpatialPartitionGrid::move(BoxCollider* collider)
 {
-	int oldCellX = (int)(collider->oldRect_.x / SpatialPartitionGrid::CELL_SIZE);
-	int oldCellY = (int)(collider->oldRect_.y / SpatialPartitionGrid::CELL_SIZE);
+	int oldCellX = collider->oldRect_.x / SpatialPartitionGrid::CELL_SIZE;
+	int oldCellY = collider->oldRect_.y / SpatialPartitionGrid::CELL_SIZE;
 
-	int cellX = (int)(collider->rect_.x / SpatialPartitionGrid::CELL_SIZE);
-	int cellY = (int)(collider->rect_.y / SpatialPartitionGrid::CELL_SIZE);
+	int cellX = collider->rect_.x / SpatialPartitionGrid::CELL_SIZE;
+	int cellY = collider->rect_.y / SpatialPartitionGrid::CELL_SIZE;
 
 	// If we didn't move cells, then return early.
 	if (oldCellX == cellX && oldCellY == cellY)
@@ -73,8 +73,8 @@ std::vector<CollisionEvent> SpatialPartitionGrid::getCollisions(BoxCollider* col
 {
 	std::vector<CollisionEvent> collisions;
 
-	int cellX = (int)(collider->rect().x / SpatialPartitionGrid::CELL_SIZE);
-	int cellY = (int)(collider->rect().y / SpatialPartitionGrid::CELL_SIZE);
+	int cellX = collider->rect().x / SpatialPartitionGrid::CELL_SIZE;
+	int cellY = collider->rect().y / SpatialPartitionGrid::CELL_SIZE;
 
 	// Get collisions for current cell.
 	getCollisionForCell(collider, cells_[cellX][cellY], &collisions);

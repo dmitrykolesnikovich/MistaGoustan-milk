@@ -8,10 +8,6 @@ Velocity::Velocity(Actor& actor)
 	value_ = Vector2d(0, 0);
 }
 
-Velocity::~Velocity()
-{
-}
-
 void Velocity::value(float x, float y)
 {
 	value_.x = x;

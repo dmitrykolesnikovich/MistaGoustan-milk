@@ -1,7 +1,9 @@
+#include <cmath>
+
 #ifndef _VECTOR2D_
 #define _VECTOR2D_
 
-#include <math.h>
+#include <cmath>
 
 struct Vector2d
 {
@@ -51,22 +53,22 @@ struct Vector2d
 
 	Vector2d operator +(const Vector2d& v2)
 	{
-		return Vector2d(x + v2.x, y + v2.y);
+		return {x + v2.x, y + v2.y};
 	}
 
 	Vector2d operator *(float s)
 	{
-		return Vector2d(x * s, y * s);
+		return {x * s, y * s};
 	}
 
 	Vector2d operator /(float s)
 	{
-		return Vector2d(x / s, y / s);
+		return {x / s, y / s};
 	}
 
 	float magnitude()
 	{
-		return sqrt(x * x + y * y);
+		return std::sqrt(x * x + y * y);
 	}
 
 	Vector2d normalize()

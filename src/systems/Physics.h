@@ -15,7 +15,7 @@ class Velocity;
 class Physics 
 {
 public:
-	Physics(ActorEventQueue& eventQueue);
+	explicit Physics(ActorEventQueue& eventQueue);
 	~Physics() = default;
 
 	void handleEvent(ActorEvent& gameEvent);

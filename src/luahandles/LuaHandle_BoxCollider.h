@@ -8,7 +8,7 @@
 class LuaHandle_BoxCollider
 {
 public:
-	LuaHandle_BoxCollider(BoxCollider& collider);
+	explicit LuaHandle_BoxCollider(BoxCollider& collider);
 
 	LuaHandle_Actor actor() const;
 
