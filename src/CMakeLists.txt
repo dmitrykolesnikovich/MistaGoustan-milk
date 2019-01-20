@@ -1,4 +1,6 @@
-set(MILK_SRC
+project(milklib)
+
+set(MILK_SRC_FILES
         components/Animator.cpp
         components/Animator.h
         components/BoxCollider.cpp
@@ -62,20 +64,20 @@ set(MILK_SRC
         utilities/Window.h
         )
 
-add_executable(Milk main.cpp ${MILK_SRC})
+add_library(milklib ${MILK_SRC_FILES})
 
-# include third party headers
-target_include_directories(Milk
-        PRIVATE
+# include lib headers
+target_include_directories(milklib
+        PUBLIC
             ${SDL_INCLUDE_DIR}
             ${SDL2_IMAGE_INCLUDE_DIRS}
             ${LUA53_INCLUDE_DIR}
-            ${Milk_SOURCE_DIR}
+            ${milklib_SOURCE_DIR}
         )
 
-# link lib files
-target_link_libraries(Milk
-        PRIVATE
+# link libs
+target_link_libraries(milklib
+        PUBLIC
             ${SDL2_LIBRARY}
             ${SDL2_IMAGE_LIBRARIES}
             ${LUA53_LIBRARIES}
