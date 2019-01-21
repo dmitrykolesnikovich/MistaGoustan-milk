@@ -60,5 +60,3 @@ target_link_libraries(milktests
         )
 
 add_test(NAME milktests COMMAND milktests)
-
-#-------------------------------------------------------

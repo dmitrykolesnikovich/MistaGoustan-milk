@@ -1,5 +1,5 @@
-#ifndef _ACTOR_
-#define _ACTOR_
+#ifndef _ACTOR_H
+#define _ACTOR_H
 
 #include <memory>
 #include <string>
@@ -12,7 +12,7 @@
 class ResourceManager;
 class IScene;
 
-// An object that exists within the current scene.
+// An actor is an object that exists within a scene.
 // An actor can range from a rock on the ground to a dragon boss monster.
 // Attach components to an actor in order to define it and give it behavior.
 class Actor
@@ -21,44 +21,44 @@ public:
 	Actor(IScene& scene, int id, const std::string& name, const Vector2d& position);
 	~Actor() = default;
 
-	// Returns the actors scene.
+	// Returns the scene that the actor is in.
 	IScene& scene() const;
 
-	// Returns the actors unique id.
+	// Returns the actor's unique id.
 	int id() const;
 
-	// Returns the actors name.
+	// Returns the actor's name.
 	std::string name() const;
 
-	// Returns the actors position.
+	// Returns the actor's position.
 	Vector2d position() const;
 
-	// Sets the actors position.
+	// Sets the actor's position.
 	void position(float x, float y);
 
-	// Returns the added component and nullptr if addition failed.
+	// Returns the added component and nullptr if addition fails.
 	template <class TComponent>
 	TComponent* addComponent() 
 	{
-		ComponentType type = TComponent::type;
+		auto type = TComponent::type;
 
 		if ((componentBitmask_ & type) == type)
 			return nullptr;
 
 		componentBitmask_ |= type;
 
-		auto rawPtr = new TComponent(*this);
+		auto component = new TComponent(*this);
 
-		componentsByType_.insert(std::make_pair(type, std::unique_ptr<ActorComponent>(rawPtr)));
+		componentsByType_.insert(std::make_pair(type, std::unique_ptr<ActorComponent>(component)));
 
-		return rawPtr;
+		return component;
 	}
 	
 	// Returns component of the given type and nullptr if not found.
 	template <class TComponent>
 	TComponent* getComponent() const
 	{
-		ComponentType type = TComponent::type;
+		auto type = TComponent::type;
 
 		if ((componentBitmask_ & type) != type)
 			return nullptr;
