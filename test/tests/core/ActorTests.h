@@ -137,7 +137,7 @@ TEST_F(ActorTests, GetComponent_GivenComponentExists_ReturnsComponent)
     ASSERT_NE(nullptr, component);
 }
 
-TEST_F(ActorTests, GetComponent_GivenNoComponentExists_ReturnsComponent)
+TEST_F(ActorTests, GetComponent_GivenNoComponentExists_ReturnsNoComponent)
 {
     // Arrange
     MScene mscene;
