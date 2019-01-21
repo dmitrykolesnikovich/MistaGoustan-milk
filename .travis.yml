@@ -74,5 +74,5 @@ before_install:
 script:
   - mkdir build && cd build
   - cmake -DCODE_COVERAGE=ON ..
-  - cmake build .
+  - cmake --build .
   - ctest
