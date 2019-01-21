@@ -46,7 +46,8 @@ void Physics::update()
 		Actor& actor = velItr.second->actor();
 		Vector2d oldActorPosition = actor.position();
 
-		actor.position(actor.position() + velocity);
+		auto newPos = actor.position() + velocity;
+		actor.position(newPos.x, newPos.y);
 
 		auto collider = velItr.second->actor().getComponent<BoxCollider>();
 

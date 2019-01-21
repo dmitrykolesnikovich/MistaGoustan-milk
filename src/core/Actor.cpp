@@ -34,9 +34,3 @@ void Actor::position(float x, float y)
 	position_.x = x;
 	position_.y = y;
 }
-
-void Actor::position(Vector2d position)
-{
-	position_.x = position.x;
-	position_.y = position.y;
-}

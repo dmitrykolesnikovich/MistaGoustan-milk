@@ -36,9 +36,6 @@ public:
 	// Sets the actors position.
 	void position(float x, float y);
 
-	// Sets the actors position.
-	void position(Vector2d position);
-
 	// Returns the added component and nullptr if addition failed.
 	template <class TComponent>
 	TComponent* addComponent() 
