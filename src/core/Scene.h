@@ -14,13 +14,15 @@
 #include "utilities/Camera.h"
 #include "utilities/IdGenerator.h"
 
-class Game;
+class Window;
+class EventQueue;
 
 class Scene : public IScene
 {
 public:
-	explicit Scene(Game& game);
-	~Scene() = default;
+	friend class SceneManager;
+
+	explicit Scene(Window& window, EventQueue& eventQueue);
 
 	// Spawns a new actor in the games current scene.
 	// Components are to be added immediately after spawned actor is returned.
@@ -41,17 +43,16 @@ public:
 	Tilemap& tilemap() override;
 
 	// Updates the scenes internal lists after spawning and destroying actors.
-	void updateActorList() override;
-
-	// Destroys all actors and generates events.
-	void end() override;
+	void update() override;
 
 	// Return the scene boundaries.
 	SDL_Rect bounds() const override;
 
+	void end();
+
 private:
-	Game& game_;
-	
+	EventQueue& eventQueue_;
+
 	IdGenerator idGenerator_;
 	Camera camera_;
 	Tilemap tilemap_;

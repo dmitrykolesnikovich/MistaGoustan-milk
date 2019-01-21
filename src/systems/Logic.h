@@ -3,11 +3,11 @@
 
 #include <unordered_map>
 
-#include "../externals/sol.hpp"
+#include "externals/sol.hpp"
+
+#include "GameEvents.h"
 
 class Actor;
-class ActorCollisionEvent;
-class ActorEvent;
 class Script;
 
 class Logic
@@ -16,7 +16,7 @@ public:
 	explicit Logic(sol::state& luaState);
 	~Logic() = default;
 
-	void handleEvent(ActorEvent& gameEvent);
+	void handleEvent(GameEvent& gameEvent);
 
 	void update();
 

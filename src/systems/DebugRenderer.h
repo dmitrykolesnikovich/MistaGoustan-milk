@@ -4,7 +4,7 @@
 #include <unordered_map>
 
 class Actor;
-class ActorEvent;
+class GameEvent;
 class BoxCollider;
 class Scene;
 
@@ -15,7 +15,7 @@ class DebugRenderer
 public:
 	explicit DebugRenderer(SDL_Renderer& renderer);
 
-	void handleEvent(ActorEvent& gameEvent);
+	void handleEvent(GameEvent& gameEvent);
 
 	void render(Scene& scene);
 

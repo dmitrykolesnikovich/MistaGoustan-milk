@@ -1,34 +1,36 @@
 #include "DebugRenderer.h"
 
-#include "../core/Actor.h"
-#include "../core/Scene.h"
+#include "components/BoxCollider.h"
 
-#include "../components/BoxCollider.h"
+#include "core/Actor.h"
+#include "core/Scene.h"
 
-#include "../systems/ActorEventList.h"
-#include "../systems/SpatialPartitionGrid.h"
+#include "systems/GameEvents.h"
+#include "systems/SpatialPartitionGrid.h"
 
 DebugRenderer::DebugRenderer(SDL_Renderer& renderer)
 	: sdlRenderer_(renderer)
 {
 }
 
-void DebugRenderer::handleEvent(ActorEvent& gameEvent)
+void DebugRenderer::handleEvent(GameEvent& gameEvent)
 {
 	switch (gameEvent.type())
 	{
-	case ActorEventType::ACTOR_SPAWNED: 
-	{
-		auto& spawnedEvent = dynamic_cast<ActorSpawnedEvent&>(gameEvent);
-		onActorSpawned(spawnedEvent.actor());
-	}		
-		break;
-	case ActorEventType::ACTOR_DETROYED: 
-	{
-		auto& destroyedEvent = dynamic_cast<ActorDestroyedEvent&>(gameEvent);
-		onActorDestroyed(destroyedEvent.actor());
-	}
-		break;
+		case GameEventType::ACTOR_SPAWNED:
+		{
+			auto& spawnedEvent = dynamic_cast<ActorSpawnedEvent&>(gameEvent);
+			onActorSpawned(spawnedEvent.actor());
+		}
+			break;
+		case GameEventType::ACTOR_DETROYED:
+		{
+			auto& destroyedEvent = dynamic_cast<ActorDestroyedEvent&>(gameEvent);
+			onActorDestroyed(destroyedEvent.actor());
+		}
+			break;
+		default:
+			break;
 	}
 }
 

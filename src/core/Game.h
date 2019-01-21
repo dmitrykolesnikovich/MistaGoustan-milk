@@ -1,5 +1,5 @@
-#ifndef _GAME_
-#define _GAME_
+#ifndef _GAME_H
+#define _GAME_H
 
 #define MILK_SUCCESS 0
 #define MILK_FAIL 1
@@ -9,14 +9,24 @@
 #include <unordered_map>
 
 #include "Scene.h"
-#include "SystemManager.h"
 
-#include "../externals/sol.hpp"
+#include "externals/sol.hpp"
 
-#include "../utilities/ResourceManager.h"
-#include "../utilities/SceneLoader.h"
-#include "../utilities/Window.h"
+#ifdef _DEBUG
+#include "systems/DebugRenderer.h"
+#endif
 
+#include "systems/EventQueue.h"
+#include "systems/Logic.h"
+#include "systems/SceneManager.h"
+#include "systems/Renderer.h"
+#include "systems/Physics.h"
+
+#include "utilities/ResourceManager.h"
+#include "utilities/SceneLoader.h"
+#include "utilities/Window.h"
+
+// TODO: Make configurable via lua script
 struct GameRunParameters 
 {
 	std::string title;
@@ -29,12 +39,14 @@ struct GameRunParameters
 	std::string resourceRootDir;
 };
 
+// THE Game.
+// As of right now, it's pretty much responsible for a lot of stuff.
+// TODO: Give game a better description about it's responsibilities
 class Game
 {
 public:
-	Game();
-	Game(const GameRunParameters& runParams);
-	~Game() = default;
+    Game();
+	explicit Game(const GameRunParameters& runParams);
 
 	// Initializes and runs the game
 	// Returns MILK_SUCCESS on successful run
@@ -45,24 +57,31 @@ public:
 	Window& window();
 
 	// Returns the games resource manager.
-	ResourceManager& resourceManager();
+	ResourceManager& resources();
 
-	// Returns the games system manager.
-	SystemManager& systemManager();
+	// Returns the games event queue.
+	EventQueue& events();
 
-	// Loads an XML based scene.
+	// Loads an JSON scene.
 	void loadScene(const std::string& name);
 
 private:
-	Window renderWindow_;
-	SceneLoader sceneLoader_;
-	ResourceManager resourceManager_;
-	SystemManager systemManager_;
+	Window window_;
+	SceneLoader sceneLoader_; // TODO: Make sceneLoader a part of resources?
+	ResourceManager resources_;
+	SceneManager sceneManager_;
 
 	sol::state luaState_;
 
-	std::unique_ptr<Scene> currentScene_;
-	std::string sceneToLoad_;
+	EventQueue events_;
+
+#ifdef _DEBUG
+	std::unique_ptr<DebugRenderer> debugTools_;
+#endif
+
+	std::unique_ptr<Logic> logic_;
+	std::unique_ptr<Physics> physics_;
+	std::unique_ptr<Renderer> graphics_;
 
 	bool isRunning_;
 

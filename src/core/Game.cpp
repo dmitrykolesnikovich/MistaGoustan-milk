@@ -6,22 +6,28 @@
 #include "SDL_events.h"
 #include "SDL_image.h"
 
-#include "../utilities/Input.h"
-#include "../utilities/Timer.h"
+#include "luahandles/LuaHandleRegistry.h"
 
-#include "../luahandles/LuaHandleRegistry.h"
+#include "systems/GameEvents.h"
 
+#include "utilities/Input.h"
+#include "utilities/Timer.h"
+
+// TODO: I need to find a way to remove this stupid ctor, but sol2 needs it for game registration.
 Game::Game()
-	: sceneLoader_(*this)
+    : sceneLoader_(*this)
+    , sceneManager_(events_, sceneLoader_)
 {
 }
 
 Game::Game(const GameRunParameters& runParams)
-	: renderWindow_(runParams.title, runParams.width, runParams.height, runParams.virtualWidth, runParams.virtualHeight, runParams.fullscreen)
+	: window_(runParams.title, runParams.width, runParams.height, runParams.virtualWidth, runParams.virtualHeight, runParams.fullscreen)
 	, sceneLoader_(*this)
-	, resourceManager_(runParams.resourceRootDir)
-	, sceneToLoad_(runParams.entryScene)
+	, resources_(runParams.resourceRootDir)
+	, sceneManager_(events_, sceneLoader_)
 {
+	// TODO: this seems gross to me. revisit plz.
+    sceneManager_.loadScene(runParams.entryScene);
 }
 
 int Game::run()
@@ -101,60 +107,51 @@ void Game::handleEvents()
 			default:
 				break;
 		}
-
-		systemManager_.handleInputEvent(e);
 	}
 
 	// It is important that this is caused AFTER polling all events.
 	// SDL_Poll events internal updates SDL key states, which is what input uses.
 	Input::updateKeyboardState();
 
-	// Handle all actor events enqueued last frame.
-	systemManager_.handleActorEvents();
+	// Let systems handle game events enqueued last frame.
+	while (auto gameEvent = events_.pollEvent())
+	{
+		physics_->handleEvent(*gameEvent);
+		graphics_->handleEvent(*gameEvent);
+
+#if _DEBUG
+        debugTools_->handleEvent(*gameEvent);
+#endif
+
+		// It is important to let logic handle it's event last.
+		// This is because the previous systems may load resources or init components that a script depends on.
+		logic_->handleEvent(*gameEvent);
+	}
 }
 
 void Game::update()
 {
-	// If loadScene(...) was called, lets unload the current scene, and load the new one.
-	if (!sceneToLoad_.empty()) 
-	{
-		if (currentScene_ != nullptr) 
-		{
-			// Generate actor destroyed events.
-			currentScene_->end();
-
-			// Let the systems process the destroyed events.
-			systemManager_.handleActorEvents();
-
-			currentScene_.reset();
-			resourceManager_.freeResources();
-		}
-
-		// Load the new scene. All actors added in this process will generate an ACTOR_SPAWNED event.
-		currentScene_ = sceneLoader_.load(sceneToLoad_);
-
-		// Let the systems process the spawned events.
-		systemManager_.handleActorEvents();
-
-		sceneToLoad_.clear();
-	}
-
-	if (currentScene_ != nullptr) 
-	{
-		currentScene_->updateActorList();	
-
-		systemManager_.update();
-	}
+	sceneManager_.update();
+	logic_->update();
+	physics_->update();
 }
 
 void Game::render()
 {
-	renderWindow_.clear();
+	window_.clear();
 
-	if (sceneToLoad_.empty() && currentScene_ != nullptr) 	
-		systemManager_.render(*currentScene_);	
+	// TODO: this is gross. revisit.
+	auto scene = sceneManager_.currentScene();
+	if (scene != nullptr)
+	{
+		graphics_->render(*scene);
 
-	renderWindow_.present();
+#if _DEBUG
+		debugTools_->render(*scene);
+#endif
+	}
+
+	window_.present();
 }
 
 void Game::shutDown()
@@ -162,11 +159,9 @@ void Game::shutDown()
 	std::cout << "Freeing Resources" << std::endl;
 	std::cout << "//////////////////" << std::endl;
 
-	resourceManager_.freeResources();
+	resources_.freeResources();
 
-	systemManager_.unload();
-
-	renderWindow_.freeSDLResources();
+	window_.freeSDLResources();
 
 	IMG_Quit();
 	SDL_Quit();
@@ -177,22 +172,22 @@ void Game::shutDown()
 
 Window& Game::window()
 {
-	return renderWindow_;
+	return window_;
 }
 
-ResourceManager& Game::resourceManager()
+ResourceManager& Game::resources()
 {
-	return resourceManager_;
+	return resources_;
 }
 
-SystemManager& Game::systemManager()
+EventQueue& Game::events()
 {
-	return systemManager_;
+	return events_;
 }
 
 void Game::loadScene(const std::string& name)
 {
-	sceneToLoad_ = name;
+	sceneManager_.loadScene(name);
 }
 
 bool Game::initSDLSubsystems()
@@ -217,7 +212,7 @@ bool Game::initSDLSubsystems()
 
 bool Game::initGameWindow()
 {
-	if (!renderWindow_.initSDLRenderWindow()) 
+	if (!window_.initSDLRenderWindow())
 	{
 		IMG_Quit();
 		SDL_Quit();
@@ -241,13 +236,13 @@ void Game::initGameSubsystems()
 {
 	Input::initialize();
 
-	resourceManager_.init(renderWindow_.sdlRenderer());
+	resources_.init(window_.sdlRenderer());
 
-	SystemManagerParams params = {
-		luaState_,
-		*renderWindow_.sdlRenderer(),
-		resourceManager_
-	};
+#ifdef _DEBUG
+	debugTools_ = std::make_unique<DebugRenderer>(*window_.sdlRenderer());
+#endif
 
-	systemManager_.init(params);
+	logic_ = std::make_unique<Logic>(luaState_);
+	physics_ = std::make_unique<Physics>(events_);
+	graphics_ = std::make_unique<Renderer>(*window_.sdlRenderer(), resources_);
 }

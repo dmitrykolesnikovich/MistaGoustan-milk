@@ -1,12 +1,14 @@
+#include <memory>
+
 #include "Scene.h"
 
-#include "Game.h"
+#include "utilities/Window.h"
+#include "systems/EventQueue.h"
+#include "systems/GameEvents.h"
 
-#include "../systems/ActorEventList.h"
-
-Scene::Scene(Game& game)
-	: game_(game)
-	, camera_(*this, game.window().virtualWidth(), game.window().virtualHeight())
+Scene::Scene(Window& window, EventQueue& eventQueue)
+	: eventQueue_(eventQueue)
+	, camera_(*this, window.virtualWidth(), window.virtualHeight())
 {
 }
 
@@ -14,13 +16,13 @@ Actor* Scene::spawnActor(const std::string& name)
 {
 	int id = idGenerator_.popId();
 
-	auto actor = std::unique_ptr<Actor>(new Actor(*this, id, name, Vector2d(0, 0)));
+	auto actor = std::make_unique<Actor>(*this, id, name, Vector2d(0, 0));
 
 	auto ptr = actor.get();
 
 	actorsToSpawn_.emplace_back(std::move(actor));
 
-	game_.systemManager().actorEventQueue().pushEvent(new ActorSpawnedEvent(*ptr));
+	eventQueue_.pushEvent<ActorSpawnedEvent>(*ptr);
 
 	return ptr;
 }
@@ -34,7 +36,7 @@ bool Scene::destroyActor(int id)
 
 	actorsToDestroy_.emplace_back(id);
 
-	game_.systemManager().actorEventQueue().pushEvent(new ActorDestroyedEvent(*foundActor->second));
+	eventQueue_.pushEvent<ActorDestroyedEvent>(*foundActor->second);
 
 	return true;
 }
@@ -60,7 +62,7 @@ Tilemap& Scene::tilemap()
 	return tilemap_;
 }
 
-void Scene::updateActorList()
+void Scene::update()
 {
 	for (auto& it : actorsToDestroy_) 
 	{
@@ -76,12 +78,6 @@ void Scene::updateActorList()
 	actorsToSpawn_.clear();
 }
 
-void Scene::end()
-{
-	for (auto& it : actorsById_)
-		game_.systemManager().actorEventQueue().pushEvent(new ActorDestroyedEvent(*it.second));
-}
-
 SDL_Rect Scene::bounds() const
 {
 	SDL_Rect bounds;
@@ -91,4 +87,13 @@ SDL_Rect Scene::bounds() const
 	bounds.h = tilemap_.height;
 
 	return bounds;
+}
+
+void Scene::end()
+{
+	for (auto& it : actorsById_)
+		destroyActor(it.first);
+
+	for (auto& toSpawnItr : actorsToSpawn_)
+		destroyActor(toSpawnItr->id());
 }

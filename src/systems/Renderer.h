@@ -5,7 +5,7 @@
 
 class Actor;
 class Camera;
-class ActorEvent;
+class GameEvent;
 class ResourceManager;
 class Scene;
 class Sprite;
@@ -18,7 +18,7 @@ class Renderer
 public:
 	Renderer(SDL_Renderer& renderer, ResourceManager& resourceManager);
 
-	void handleEvent(ActorEvent& gameEvent);
+	void handleEvent(GameEvent& gameEvent);
 
 	void render(Scene& scene);
 

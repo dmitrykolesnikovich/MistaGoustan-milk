@@ -1,5 +1,5 @@
-#ifndef _Script_
-#define _Script_
+#ifndef _SCRIPT_H
+#define _SCRIPT_H
 
 #define SCRIPT_CALLBACK_BEGIN "begin"
 #define SCRIPT_CALLBACK_UPDATE "update"
@@ -8,12 +8,11 @@
 
 #include <string>
 
-#include "../externals/sol.hpp"
+#include "externals/sol.hpp"
 
-#include "../core/ActorComponent.h"
+#include "core/ActorComponent.h"
 
-#include "../systems/ActorEventList.h"
-
+class ActorCollisionEvent;
 class LuaHandle_Actor;
 
 // A script is what controls an actor's behavior.

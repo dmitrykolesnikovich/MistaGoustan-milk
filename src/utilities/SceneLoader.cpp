@@ -29,12 +29,13 @@ std::unique_ptr<Scene> SceneLoader::load(const std::string& file) const
 {
 	using json = nlohmann::json;
 
-	auto& resourceManager = game_.resourceManager();
+	auto& resourceManager = game_.resources();
+	resourceManager.freeResources();
 
 	auto sceneJsonString = resourceManager.loadFile(file);
 	json sceneJson = json::parse(sceneJsonString);
 
-	auto scene = std::unique_ptr<Scene>(new Scene(game_));
+	auto scene = std::unique_ptr<Scene>(new Scene(game_.window(), game_.events()));
 	auto& tilemap = scene->tilemap();
 
 	tilemap.sourceImageFile = sceneJson["source"].get<std::string>();

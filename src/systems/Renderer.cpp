@@ -4,15 +4,15 @@
 
 #include <cmath>
 
-#include "../components/Animator.h"
-#include "../components/BoxCollider.h"
-#include "../components/Sprite.h"
+#include "components/Animator.h"
+#include "components/BoxCollider.h"
+#include "components/Sprite.h"
 
-#include "../core/Scene.h"
+#include "core/Scene.h"
 
-#include "../systems/ActorEventList.h"
+#include "systems/GameEvents.h"
 
-#include "../utilities/Texture.h"
+#include "utilities/Texture.h"
 
 Renderer::Renderer(SDL_Renderer& renderer, ResourceManager& resourceManager)
 	: sdlRenderer_(renderer)
@@ -20,22 +20,22 @@ Renderer::Renderer(SDL_Renderer& renderer, ResourceManager& resourceManager)
 {
 }
 
-void Renderer::handleEvent(ActorEvent& gameEvent)
+void Renderer::handleEvent(GameEvent& gameEvent)
 {
 	switch (gameEvent.type())
 	{
-	case ActorEventType::ACTOR_SPAWNED: 
-	{
-		auto& spawnedEvent = dynamic_cast<ActorSpawnedEvent&>(gameEvent);
-		onActorSpawned(spawnedEvent.actor());
-	}
-		break;
-	case ActorEventType::ACTOR_DETROYED: 
-	{
-		auto& destroyedEvent = dynamic_cast<ActorDestroyedEvent&>(gameEvent);
-		onActorDestroyed(destroyedEvent.actor());
-	}
-		break;
+		case GameEventType::ACTOR_SPAWNED: {
+			auto& spawnedEvent = dynamic_cast<ActorSpawnedEvent&>(gameEvent);
+			onActorSpawned(spawnedEvent.actor());
+		}
+			break;
+		case GameEventType::ACTOR_DETROYED: {
+			auto& destroyedEvent = dynamic_cast<ActorDestroyedEvent&>(gameEvent);
+			onActorDestroyed(destroyedEvent.actor());
+		}
+			break;
+		default:
+			break;
 	}
 }
 
@@ -48,7 +48,7 @@ void Renderer::render(Scene& scene)
 
 void Renderer::onActorSpawned(Actor& actor)
 {
-	Sprite* sprite = actor.getComponent<Sprite>();
+	auto sprite = actor.getComponent<Sprite>();
 
 	if (sprite == nullptr)
 		return;

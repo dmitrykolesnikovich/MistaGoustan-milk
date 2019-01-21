@@ -1,9 +1,9 @@
 #ifndef _LUA_HANDLE_COLLISION_EVENT_
 #define _LUA_HANDLE_COLLISION_EVENT_
 
-#include "../systems/ActorEventList.h"
-
 #include "LuaHandle_BoxCollider.h"
+
+class ActorCollisionEvent;
 
 class LuaHandle_CollisionEvent
 {

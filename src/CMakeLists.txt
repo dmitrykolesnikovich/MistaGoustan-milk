@@ -19,8 +19,6 @@ set(MILK_SRC_FILES
         core/Game.cpp
         core/Scene.cpp
         core/Scene.h
-        core/SystemManager.cpp
-        core/SystemManager.h
         externals/json.hpp
         externals/sol.hpp
         luahandles/LuaHandle_Actor.cpp
@@ -31,17 +29,18 @@ set(MILK_SRC_FILES
         luahandles/LuaHandle_CollisionEvent.h
         luahandles/LuaHandleRegistry.h
         math/Vector2d.h
-        systems/ActorEventList.h
-        systems/ActorEventQueue.cpp
-        systems/ActorEventQueue.h
         systems/DebugRenderer.cpp
         systems/DebugRenderer.h
+        systems/EventQueue.cpp
+        systems/EventQueue.h systems/GameEvents.h
         systems/Logic.cpp
         systems/Logic.h
         systems/Physics.cpp
         systems/Physics.h
         systems/Renderer.cpp
         systems/Renderer.h
+        systems/SceneManager.cpp
+        systems/SceneManager.h
         systems/SpatialPartitionGrid.cpp
         systems/SpatialPartitionGrid.h
         tilemap/Tilemap.h

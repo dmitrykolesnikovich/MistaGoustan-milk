@@ -1,4 +1,5 @@
 #include "LuaHandle_CollisionEvent.h"
+#include "systems/GameEvents.h"
 
 LuaHandle_CollisionEvent::LuaHandle_CollisionEvent(ActorCollisionEvent& collisionEvent)
 	: collisionEvent_(collisionEvent)

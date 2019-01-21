@@ -2,35 +2,36 @@
 
 #include <vector>
 
-#include "../components/BoxCollider.h"
-#include "../components/Velocity.h"
+#include "components/BoxCollider.h"
+#include "components/Velocity.h"
 
-#include "../core/Actor.h"
+#include "core/Actor.h"
 
-#include "../systems/ActorEventList.h"
+#include "systems/EventQueue.h"
+#include "systems/GameEvents.h"
 
-Physics::Physics(ActorEventQueue& eventQueue)
+Physics::Physics(EventQueue& eventQueue)
 	: eventQueue_(eventQueue)
 	, partitionGrid_(new SpatialPartitionGrid())
 {
 }
 
-void Physics::handleEvent(ActorEvent& gameEvent)
+void Physics::handleEvent(GameEvent& gameEvent)
 {
 	switch (gameEvent.type())
 	{
-	case ActorEventType::ACTOR_SPAWNED: 
-	{
-		auto& spawnedEvent = dynamic_cast<ActorSpawnedEvent&>(gameEvent);
-		onActorSpawned(spawnedEvent.actor());
-	}
-		break;
-	case ActorEventType::ACTOR_DETROYED: 
-	{
-		auto& destroyedEvent = dynamic_cast<ActorDestroyedEvent&>(gameEvent);
-		onActorDestroyed(destroyedEvent.actor());
-	}
-		break;
+		case GameEventType ::ACTOR_SPAWNED: {
+			auto& spawnedEvent = dynamic_cast<ActorSpawnedEvent&>(gameEvent);
+			onActorSpawned(spawnedEvent.actor());
+		}
+			break;
+		case GameEventType::ACTOR_DETROYED: {
+			auto& destroyedEvent = dynamic_cast<ActorDestroyedEvent&>(gameEvent);
+			onActorDestroyed(destroyedEvent.actor());
+		}
+			break;
+		default:
+			break;
 	}
 }
 
@@ -65,7 +66,7 @@ void Physics::update()
 		// For now, simply reverting back to the actors previous axis position is fine.
 		for (auto collItr : collisions)
 		{
-			eventQueue_.pushEvent(new ActorCollisionEvent(actor, *collItr.other));
+			eventQueue_.pushEvent<ActorCollisionEvent>(actor, *collItr.other);
 
 			auto pos = actor.position();
 

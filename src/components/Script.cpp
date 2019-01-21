@@ -1,10 +1,10 @@
 #include "Script.h"
 
-#include "../core/Actor.h"
+#include "core/Actor.h"
 
-#include "../luahandles/LuaHandle_Actor.h"
-#include "../luahandles/LuaHandle_BoxCollider.h"
-#include "../luahandles/LuaHandle_CollisionEvent.h"
+#include "luahandles/LuaHandle_Actor.h"
+#include "luahandles/LuaHandle_BoxCollider.h"
+#include "luahandles/LuaHandle_CollisionEvent.h"
 
 const ComponentType Script::type = SCRIPT;
 

@@ -1,34 +1,33 @@
 #include "Logic.h"
 
-#include "../components/Script.h"
-
-#include "../core/Actor.h"
-
-#include "../systems/ActorEventList.h"
+#include "components/Script.h"
+#include "core/Actor.h"
 
 Logic::Logic(sol::state& luaState)
 	: luaState_(luaState)
 {
 }
 
-void Logic::handleEvent(ActorEvent& gameEvent)
+void Logic::handleEvent(GameEvent& gameEvent)
 {
 	switch (gameEvent.type())
 	{
-		case ActorEventType::ACTOR_SPAWNED: {
-			auto &spawnedEvent = dynamic_cast<ActorSpawnedEvent &>(gameEvent);
+		case GameEventType::ACTOR_SPAWNED: {
+			auto& spawnedEvent = dynamic_cast<ActorSpawnedEvent&>(gameEvent);
 			onActorSpawned(spawnedEvent.actor());
 		}
 			break;
-		case ActorEventType::ACTOR_DETROYED: {
-			auto &destroyedEvent = dynamic_cast<ActorDestroyedEvent &>(gameEvent);
+		case GameEventType::ACTOR_DETROYED: {
+			auto& destroyedEvent = dynamic_cast<ActorDestroyedEvent&>(gameEvent);
 			onActorDestroyed(destroyedEvent.actor());
 		}
 			break;
-		case ActorEventType::ACTOR_COLLISION: {
-			auto &collisionEvent = dynamic_cast<ActorCollisionEvent &>(gameEvent);
+		case GameEventType::ACTOR_COLLISION: {
+			auto& collisionEvent = dynamic_cast<ActorCollisionEvent&>(gameEvent);
 			onActorCollision(collisionEvent);
 		}
+			break;
+		default:
 			break;
 	}
 }
