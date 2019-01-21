@@ -159,6 +159,10 @@ void Game::shutDown()
 	std::cout << "Freeing Resources" << std::endl;
 	std::cout << "//////////////////" << std::endl;
 
+	sceneManager_.shutDown();
+	handleEvents();
+	sceneManager_.update();
+
 	resources_.freeResources();
 
 	window_.freeSDLResources();

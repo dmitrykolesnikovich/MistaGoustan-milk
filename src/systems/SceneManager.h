@@ -18,6 +18,8 @@ public:
 
     void loadScene(const std::string& scene);
 
+    void shutDown();
+
     Scene* currentScene() const;
 
 private:

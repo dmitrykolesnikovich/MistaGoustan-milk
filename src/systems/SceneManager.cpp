@@ -35,6 +35,12 @@ void SceneManager::update()
         scene_->update();
 }
 
+void SceneManager::shutDown()
+{
+    if (scene_ != nullptr)
+        scene_->end();
+}
+
 Scene* SceneManager::currentScene() const
 {
     return scene_.get();
