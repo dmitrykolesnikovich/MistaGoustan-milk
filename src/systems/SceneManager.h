@@ -3,10 +3,9 @@
 
 #include <memory>
 
-#include "core/Scene.h"
-
 class EventQueue;
 class GameEvent;
+class Scene;
 class SceneLoader;
 
 class SceneManager

@@ -6,7 +6,6 @@
 #include <unordered_map>
 #include <vector>
 
-#include "Actor.h"
 #include "IScene.h"
 
 #include "tilemap/Tilemap.h"
@@ -14,6 +13,7 @@
 #include "utilities/Camera.h"
 #include "utilities/IdGenerator.h"
 
+class Actor;
 class Window;
 class EventQueue;
 
