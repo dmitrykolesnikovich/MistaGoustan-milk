@@ -5,12 +5,11 @@
 #include <string>
 #include <unordered_map>
 
-#include "ActorComponent.h"
-
 #include "math/Vector2d.h"
 
-class ResourceManager;
+class ActorComponent;
 class IScene;
+class ResourceManager;
 
 // An actor is an object that exists within a scene.
 // An actor can range from a rock on the ground to a dragon boss monster.

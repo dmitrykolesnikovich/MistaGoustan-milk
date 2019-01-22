@@ -4,6 +4,8 @@
 #include "gmock/gmock.h"
 
 #include "core/IScene.h"
+#include "tilemap/Tilemap.h"
+#include "utilities/Camera.h"
 
 class MScene : public IScene
 {

@@ -1,5 +1,5 @@
-#ifndef _BOX_COLLIDER_
-#define _BOX_COLLIDER_
+#ifndef _BOX_COLLIDER_H
+#define _BOX_COLLIDER_H
 
 #include "SDL.h"
 

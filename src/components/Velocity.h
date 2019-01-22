@@ -1,5 +1,5 @@
-#ifndef _VELOCITY_
-#define _VELOCITY_
+#ifndef _VELOCITY_H
+#define _VELOCITY_H
 
 #include "../core/ActorComponent.h"
 

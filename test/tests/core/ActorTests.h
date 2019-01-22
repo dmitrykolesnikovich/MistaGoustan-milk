@@ -6,6 +6,7 @@
 
 // sut
 #include "core/Actor.h"
+#include "core/IScene.h"
 
 // mocks
 #include "mocks/core/MActorComponent.h"

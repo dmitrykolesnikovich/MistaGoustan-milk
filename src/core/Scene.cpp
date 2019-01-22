@@ -3,6 +3,7 @@
 #include "Scene.h"
 
 #include "core/Actor.h"
+#include "core/ActorComponent.h"
 #include "utilities/Window.h"
 #include "systems/EventQueue.h"
 #include "systems/GameEvents.h"

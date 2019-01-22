@@ -1,5 +1,5 @@
-#ifndef _ANIMATOR_
-#define _ANIMATOR_
+#ifndef _ANIMATOR_H
+#define _ANIMATOR_H
 
 #include <memory>
 #include <string>

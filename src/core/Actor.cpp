@@ -1,5 +1,7 @@
 #include "Actor.h"
 
+#include "ActorComponent.h"
+
 Actor::Actor(IScene& scene, int id, const std::string& name, const Vector2d& position)
 	: scene_(scene)
 	, id_(id)

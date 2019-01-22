@@ -1,5 +1,5 @@
-#ifndef _SPRITE_
-#define _SPRITE_
+#ifndef _SPRITE_H
+#define _SPRITE_H
 
 #include <string>
 

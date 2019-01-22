@@ -1,5 +1,5 @@
-#ifndef _ACTOR_COMPONENT_
-#define _ACTOR_COMPONENT_
+#ifndef _ACTOR_COMPONENT_H
+#define _ACTOR_COMPONENT_H
 
 enum ComponentType
 {
