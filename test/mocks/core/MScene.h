@@ -13,7 +13,7 @@ public:
     MOCK_CONST_METHOD1(findActor, Actor*(const std::string&));
     MOCK_METHOD0(camera, Camera&());
     MOCK_METHOD0(tilemap, Tilemap&());
-    MOCK_METHOD0(update, void());
+    MOCK_METHOD0(syncActorLists, void());
     MOCK_METHOD0(end, void());
     MOCK_CONST_METHOD0(bounds, SDL_Rect());
 };

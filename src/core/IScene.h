@@ -22,7 +22,7 @@ public:
 
         virtual Tilemap& tilemap() = 0;
 
-        virtual void update() = 0;
+        virtual void syncActorLists() = 0;
 
         virtual SDL_Rect bounds() const = 0;
 };

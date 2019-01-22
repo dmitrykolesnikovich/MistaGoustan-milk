@@ -17,14 +17,13 @@ Actor* Scene::spawnActor(const std::string& name)
 	int id = idGenerator_.popId();
 
 	auto actor = std::make_unique<Actor>(*this, id, name, Vector2d(0, 0));
-
-	auto ptr = actor.get();
+	auto pActor = actor.get();
 
 	actorsToSpawn_.emplace_back(std::move(actor));
 
-	eventQueue_.pushEvent<ActorSpawnedEvent>(*ptr);
+	eventQueue_.pushEvent<ActorSpawnedEvent>(*pActor);
 
-	return ptr;
+	return pActor;
 }
 
 bool Scene::destroyActor(int id)
@@ -43,6 +42,7 @@ bool Scene::destroyActor(int id)
 
 Actor* Scene::findActor(const std::string& name) const
 {
+	// TODO: Brute force implementation. revisit.
 	for (auto& it : actorsById_) 
 	{
 		if (it.second->name() == name)
@@ -62,7 +62,7 @@ Tilemap& Scene::tilemap()
 	return tilemap_;
 }
 
-void Scene::update()
+void Scene::syncActorLists()
 {
 	for (auto& it : actorsToDestroy_) 
 	{

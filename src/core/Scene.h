@@ -43,7 +43,7 @@ public:
 	Tilemap& tilemap() override;
 
 	// Updates the scenes internal lists after spawning and destroying actors.
-	void update() override;
+	void syncActorLists() override;
 
 	// Return the scene boundaries.
 	SDL_Rect bounds() const override;

@@ -26,7 +26,7 @@ Game::Game(const GameRunParameters& runParams)
 	, resources_(runParams.resourceRootDir)
 	, sceneManager_(events_, sceneLoader_)
 {
-	// TODO: this seems gross to me. revisit plz.
+	// TODO: this seems gross to me. revisit plz. An game.init() method might be appropriate here.
     sceneManager_.loadScene(runParams.entryScene);
 }
 
@@ -103,7 +103,11 @@ void Game::handleEvents()
 			case SDL_KEYUP:
 				if (e.key.keysym.sym == SDLK_ESCAPE)
 					isRunning_ = false;
+#ifdef _DEBUG
+                if (e.key.keysym.sym == SDLK_BACKQUOTE)
+                    debugTools_->show = !debugTools_->show;
 				break;
+#endif
 			default:
 				break;
 		}
@@ -119,7 +123,7 @@ void Game::handleEvents()
 		physics_->handleEvent(*gameEvent);
 		graphics_->handleEvent(*gameEvent);
 
-#if _DEBUG
+#ifdef _DEBUG
         debugTools_->handleEvent(*gameEvent);
 #endif
 
@@ -146,7 +150,7 @@ void Game::render()
 	{
 		graphics_->render(*scene);
 
-#if _DEBUG
+#ifdef _DEBUG
 		debugTools_->render(*scene);
 #endif
 	}

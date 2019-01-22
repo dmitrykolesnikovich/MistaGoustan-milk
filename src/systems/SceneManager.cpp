@@ -32,7 +32,7 @@ void SceneManager::update()
     }
 
     if (scene_ != nullptr)
-        scene_->update();
+        scene_->syncActorLists();
 }
 
 void SceneManager::shutDown()
