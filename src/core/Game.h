@@ -12,19 +12,20 @@
 
 #include "externals/sol.hpp"
 
-#ifdef _DEBUG
-#include "systems/DebugRenderer.h"
-#endif
-
 #include "systems/EventQueue.h"
-#include "systems/Logic.h"
 #include "systems/SceneManager.h"
-#include "systems/Renderer.h"
-#include "systems/Physics.h"
 
 #include "utilities/ResourceManager.h"
 #include "utilities/SceneLoader.h"
 #include "utilities/Window.h"
+
+#ifdef _DEBUG
+class DebugRenderer;
+#endif
+
+class Logic;
+class Physics;
+class Renderer;
 
 // TODO: Make configurable via lua script
 struct GameRunParameters 
@@ -47,6 +48,8 @@ class Game
 public:
     Game();
 	explicit Game(const GameRunParameters& runParams);
+
+	~Game();
 
 	// Initializes and runs the game
 	// Returns MILK_SUCCESS on successful run

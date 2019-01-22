@@ -1,5 +1,5 @@
-#ifndef _SCENE_
-#define _SCENE_
+#ifndef _SCENE_H
+#define _SCENE_H
 
 #include <memory>
 #include <string>
@@ -9,7 +9,6 @@
 #include "IScene.h"
 
 #include "tilemap/Tilemap.h"
-
 #include "utilities/Camera.h"
 #include "utilities/IdGenerator.h"
 
@@ -20,9 +19,8 @@ class EventQueue;
 class Scene : public IScene
 {
 public:
-	friend class SceneManager;
-
-	explicit Scene(Window& window, EventQueue& eventQueue);
+    explicit Scene(Window& window, EventQueue& eventQueue);
+    ~Scene();
 
 	// Spawns a new actor in the games current scene.
 	// Components are to be added immediately after spawned actor is returned.

@@ -8,6 +8,7 @@
 #include "components/BoxCollider.h"
 #include "components/Sprite.h"
 
+#include "core/Actor.h"
 #include "core/Scene.h"
 
 #include "systems/GameEvents.h"

@@ -8,7 +8,14 @@
 
 #include "luahandles/LuaHandleRegistry.h"
 
+#ifdef _DEBUG
+#include "systems/DebugRenderer.h"
+#endif
+
 #include "systems/GameEvents.h"
+#include "systems/Logic.h"
+#include "systems/Physics.h"
+#include "systems/Renderer.h"
 
 #include "utilities/Input.h"
 #include "utilities/Timer.h"
@@ -29,6 +36,8 @@ Game::Game(const GameRunParameters& runParams)
 	// TODO: this seems gross to me. revisit plz. An game.init() method might be appropriate here.
     sceneManager_.loadScene(runParams.entryScene);
 }
+
+Game::~Game() = default;
 
 int Game::run()
 {

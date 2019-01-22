@@ -5,9 +5,9 @@
 
 #include "SDL.h"
 
-#include "Actor.h"
-#include "utilities/Camera.h"
-#include "tilemap/Tilemap.h"
+class Actor;
+class Camera;
+class Tilemap;
 
 class IScene
 {

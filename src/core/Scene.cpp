@@ -2,6 +2,7 @@
 
 #include "Scene.h"
 
+#include "core/Actor.h"
 #include "utilities/Window.h"
 #include "systems/EventQueue.h"
 #include "systems/GameEvents.h"
@@ -11,6 +12,8 @@ Scene::Scene(Window& window, EventQueue& eventQueue)
 	, camera_(*this, window.virtualWidth(), window.virtualHeight())
 {
 }
+
+Scene::~Scene() = default;
 
 Actor* Scene::spawnActor(const std::string& name)
 {
