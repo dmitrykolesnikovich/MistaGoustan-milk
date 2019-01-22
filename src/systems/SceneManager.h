@@ -2,6 +2,7 @@
 #define _SCENEMANAGER_H
 
 #include <memory>
+#include <string>
 
 class EventQueue;
 class GameEvent;
