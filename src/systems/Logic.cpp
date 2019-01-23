@@ -2,6 +2,7 @@
 
 #include "components/Script.h"
 #include "core/Actor.h"
+#include "systems/GameEvents.h"
 
 Logic::Logic(sol::state& luaState)
 	: luaState_(luaState)

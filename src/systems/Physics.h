@@ -4,19 +4,18 @@
 #include <memory>
 #include <unordered_map>
 
-#include "SpatialPartitionGrid.h"
-
 class Actor;
-class GameEvent;
-class EventQueue;
 class BoxCollider;
+class EventQueue;
+class GameEvent;
+class SpatialPartitionGrid;
 class Velocity;
 
 class Physics 
 {
 public:
 	explicit Physics(EventQueue& eventQueue);
-	~Physics() = default;
+	~Physics();
 
 	void handleEvent(GameEvent& gameEvent);
 

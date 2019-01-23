@@ -3,15 +3,14 @@
 
 #include <memory>
 
-#include "../core/Scene.h"
-
 class Game;
+class Scene;
 
 class SceneLoader
 {
 public:
 	explicit SceneLoader(Game& game);
-	~SceneLoader() = default;
+	~SceneLoader();
 
 	std::unique_ptr<Scene> load(const std::string& file) const;
 

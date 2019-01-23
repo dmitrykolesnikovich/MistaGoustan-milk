@@ -9,12 +9,15 @@
 
 #include "systems/EventQueue.h"
 #include "systems/GameEvents.h"
+#include "systems/SpatialPartitionGrid.h"
 
 Physics::Physics(EventQueue& eventQueue)
 	: eventQueue_(eventQueue)
 	, partitionGrid_(new SpatialPartitionGrid())
 {
 }
+
+Physics::~Physics() = default;
 
 void Physics::handleEvent(GameEvent& gameEvent)
 {

@@ -25,6 +25,8 @@ SceneLoader::SceneLoader(Game& game)
 {
 }
 
+SceneLoader::~SceneLoader() = default;
+
 std::unique_ptr<Scene> SceneLoader::load(const std::string& file) const
 {
 	using json = nlohmann::json;

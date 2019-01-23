@@ -2,6 +2,7 @@
 
 #include "EventQueue.h"
 #include "GameEvents.h"
+#include "core/Scene.h"
 #include "utilities/SceneLoader.h"
 
 SceneManager::SceneManager(EventQueue& eventQueue, SceneLoader& sceneLoader)

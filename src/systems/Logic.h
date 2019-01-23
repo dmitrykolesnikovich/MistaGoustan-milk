@@ -5,9 +5,9 @@
 
 #include "externals/sol.hpp"
 
-#include "GameEvents.h"
-
 class Actor;
+class ActorCollisionEvent;
+class GameEvent;
 class Script;
 
 class Logic
