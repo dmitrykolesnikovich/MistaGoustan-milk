@@ -41,7 +41,7 @@ Game::~Game() = default;
 
 int Game::run()
 {
-	// Shit.. if SDL fails, then you can consider the game to be MILK_FAIL'd, beitch.
+	// Shit.. if SDL fails, then you can consider the game to be MILK_FAIL'd, mafk.
 	if (!initSDLSubsystems() || !initGameWindow())
 		return MILK_FAIL;
 

@@ -4,6 +4,8 @@ project(milkengine)
 
 # we're a c++14 family.
 set(CMAKE_CXX_STANDARD 14)
+
+# set debug symbol = _DEBUG
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D_DEBUG")
 
 # set the ~/cmake module path for project
@@ -16,15 +18,17 @@ if (WIN32)
 
     if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 
-        # provide paths for winGW development libs
+        # provide paths for minGW/minGW-w64 development libs
         # set(SDL2_PATH ...)
         # set(SDL2_IMAGE_PATH ...)
+        # FindLua53 responds to LUA_DIR env variable
 
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 
         # provide paths for visual c++ development libs
         # set(SDL2_PATH ...)
         # set(SDL2_IMAGE_PATH ...)
+        # FindLua53 responds to LUA_DIR env variable
 
     endif()
 endif()
@@ -37,7 +41,7 @@ find_package(SDL2_image REQUIRED)
 find_package(Lua53 REQUIRED)
 
 #---------------------------------------------------------------------------
-# code coverage configuration (ccc)
+# code coverage configuration
 #---------------------------------------------------------------------------
 option(CODE_COVERAGE "Enable coverage reporting" OFF)
 
@@ -62,7 +66,7 @@ enable_testing()
 
 # create milk lib
 add_subdirectory(src)
-#create milk exe
+# create milk exe
 add_subdirectory(main)
 # create test exe
 add_subdirectory(test)
