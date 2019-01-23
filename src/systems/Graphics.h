@@ -13,10 +13,10 @@ class Sprite;
 struct SDL_Renderer;
 struct Tilemap;
 
-class Renderer
+class Graphics
 {
 public:
-	Renderer(SDL_Renderer& renderer, ResourceManager& resourceManager);
+	Graphics(SDL_Renderer& renderer, ResourceManager& resourceManager);
 
 	void handleEvent(GameEvent& gameEvent);
 

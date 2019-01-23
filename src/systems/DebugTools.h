@@ -10,10 +10,10 @@ class Scene;
 
 struct SDL_Renderer;
 
-class DebugRenderer
+class DebugTools
 {
 public:
-	explicit DebugRenderer(SDL_Renderer& renderer);
+	explicit DebugTools(SDL_Renderer& renderer);
 
 	void handleEvent(GameEvent& gameEvent);
 

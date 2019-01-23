@@ -29,16 +29,16 @@ set(MILK_SRC_FILES
         luahandles/LuaHandle_CollisionEvent.h
         luahandles/LuaHandleRegistry.h
         math/Vector2d.h
-        systems/DebugRenderer.cpp
-        systems/DebugRenderer.h
+        systems/DebugTools.cpp
+        systems/DebugTools.h
         systems/EventQueue.cpp
         systems/EventQueue.h systems/GameEvents.h
         systems/Logic.cpp
         systems/Logic.h
         systems/Physics.cpp
         systems/Physics.h
-        systems/Renderer.cpp
-        systems/Renderer.h
+        systems/Graphics.cpp
+        systems/Graphics.h
         systems/SceneManager.cpp
         systems/SceneManager.h
         systems/SpatialPartitionGrid.cpp

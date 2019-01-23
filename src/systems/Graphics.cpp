@@ -1,4 +1,4 @@
-#include "Renderer.h"
+#include "Graphics.h"
 
 #include "SDL.h"
 
@@ -15,13 +15,13 @@
 
 #include "utilities/Texture.h"
 
-Renderer::Renderer(SDL_Renderer& renderer, ResourceManager& resourceManager)
+Graphics::Graphics(SDL_Renderer& renderer, ResourceManager& resourceManager)
 	: sdlRenderer_(renderer)
 	, resourceManager_(resourceManager)
 {
 }
 
-void Renderer::handleEvent(GameEvent& gameEvent)
+void Graphics::handleEvent(GameEvent& gameEvent)
 {
 	switch (gameEvent.type())
 	{
@@ -40,14 +40,14 @@ void Renderer::handleEvent(GameEvent& gameEvent)
 	}
 }
 
-void Renderer::render(Scene& scene)
+void Graphics::render(Scene& scene)
 {
 	scene.camera().update();
 	renderTilemap(scene.tilemap(), scene.camera());
 	renderActors(scene.camera());
 }
 
-void Renderer::onActorSpawned(Actor& actor)
+void Graphics::onActorSpawned(Actor& actor)
 {
 	auto sprite = actor.getComponent<Sprite>();
 
@@ -64,13 +64,13 @@ void Renderer::onActorSpawned(Actor& actor)
 		anim->init();
 }
 
-void Renderer::onActorDestroyed(Actor& actor)
+void Graphics::onActorDestroyed(Actor& actor)
 {
 	if (spritesByActorId_.find(actor.id()) != spritesByActorId_.end())
 		spritesByActorId_.erase(actor.id());
 }
 
-void Renderer::renderTilemap(const Tilemap& tilemap, const Camera& camera)
+void Graphics::renderTilemap(const Tilemap& tilemap, const Camera& camera)
 {
 	for (auto& layer : tilemap.layers)
 	{
@@ -87,7 +87,7 @@ void Renderer::renderTilemap(const Tilemap& tilemap, const Camera& camera)
 	}
 }
 
-void Renderer::renderActors(const Camera& camera)
+void Graphics::renderActors(const Camera& camera)
 {
 	for (auto it : spritesByActorId_)
 	{

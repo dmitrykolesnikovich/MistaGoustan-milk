@@ -9,13 +9,13 @@
 #include "luahandles/LuaHandleRegistry.h"
 
 #ifdef _DEBUG
-#include "systems/DebugRenderer.h"
+#include "systems/DebugTools.h"
 #endif
 
 #include "systems/GameEvents.h"
 #include "systems/Logic.h"
 #include "systems/Physics.h"
-#include "systems/Renderer.h"
+#include "systems/Graphics.h"
 
 #include "utilities/Input.h"
 #include "utilities/Timer.h"
@@ -256,10 +256,10 @@ void Game::initGameSubsystems()
 	resources_.init(window_.sdlRenderer());
 
 #ifdef _DEBUG
-	debugTools_ = std::make_unique<DebugRenderer>(*window_.sdlRenderer());
+	debugTools_ = std::make_unique<DebugTools>(*window_.sdlRenderer());
 #endif
 
 	logic_ = std::make_unique<Logic>(luaState_);
 	physics_ = std::make_unique<Physics>(events_);
-	graphics_ = std::make_unique<Renderer>(*window_.sdlRenderer(), resources_);
+	graphics_ = std::make_unique<Graphics>(*window_.sdlRenderer(), resources_);
 }

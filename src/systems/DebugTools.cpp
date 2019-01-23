@@ -1,4 +1,4 @@
-#include "DebugRenderer.h"
+#include "DebugTools.h"
 
 #include "components/BoxCollider.h"
 
@@ -8,12 +8,12 @@
 #include "systems/GameEvents.h"
 #include "systems/SpatialPartitionGrid.h"
 
-DebugRenderer::DebugRenderer(SDL_Renderer& renderer)
+DebugTools::DebugTools(SDL_Renderer& renderer)
 	: sdlRenderer_(renderer)
 {
 }
 
-void DebugRenderer::handleEvent(GameEvent& gameEvent)
+void DebugTools::handleEvent(GameEvent& gameEvent)
 {
 	switch (gameEvent.type())
 	{
@@ -34,17 +34,17 @@ void DebugRenderer::handleEvent(GameEvent& gameEvent)
 	}
 }
 
-void DebugRenderer::onActorSpawned(Actor& actor)
+void DebugTools::onActorSpawned(Actor& actor)
 {
 	actorsById_.insert(std::make_pair(actor.id(), &actor));
 }
 
-void DebugRenderer::onActorDestroyed(Actor& actor)
+void DebugTools::onActorDestroyed(Actor& actor)
 {
 	actorsById_.erase(actor.id());
 }
 
-void DebugRenderer::render(Scene& scene)
+void DebugTools::render(Scene& scene)
 {
 	if (!show)
 		return;

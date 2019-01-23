@@ -20,12 +20,12 @@
 #include "utilities/Window.h"
 
 #ifdef _DEBUG
-class DebugRenderer;
+class DebugTools;
 #endif
 
+class Graphics;
 class Logic;
 class Physics;
-class Renderer;
 
 // TODO: Make configurable via lua script
 struct GameRunParameters 
@@ -48,7 +48,6 @@ class Game
 public:
     Game();
 	explicit Game(const GameRunParameters& runParams);
-
 	~Game();
 
 	// Initializes and runs the game
@@ -79,12 +78,12 @@ private:
 	EventQueue events_;
 
 #ifdef _DEBUG
-	std::unique_ptr<DebugRenderer> debugTools_;
+	std::unique_ptr<DebugTools> debugTools_;
 #endif
 
 	std::unique_ptr<Logic> logic_;
 	std::unique_ptr<Physics> physics_;
-	std::unique_ptr<Renderer> graphics_;
+	std::unique_ptr<Graphics> graphics_;
 
 	bool isRunning_;
 
