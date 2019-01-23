@@ -1,17 +1,17 @@
 #ifndef _LUA_HANDLE_REGISTRY_
 #define _LUA_HANDLE_REGISTRY_
 
-#include "../externals/sol.hpp"
+#include "externals/sol.hpp"
 
 #include "LuaHandle_Actor.h"
 #include "LuaHandle_CollisionEvent.h"
 #include "LuaHandle_BoxCollider.h"
 
-#include "../core/Game.h"
-#include "../math/Vector2d.h"
-#include "../utilities/Input.h"
-#include "../utilities/Window.h"
-#include "../components/BoxCollider.h"
+#include "core/Game.h"
+#include "math/Vector2d.h"
+#include "utilities/Input.h"
+#include "utilities/Window.h"
+#include "components/BoxCollider.h"
 
 // Registry for the Lua API.
 class LuaHandleRegistry

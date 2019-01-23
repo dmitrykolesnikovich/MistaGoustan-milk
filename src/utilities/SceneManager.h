@@ -13,6 +13,7 @@ class SceneManager
 {
 public:
     explicit SceneManager(EventQueue& eventQueue, SceneLoader& sceneLoader);
+    ~SceneManager();
 
     void update();
 

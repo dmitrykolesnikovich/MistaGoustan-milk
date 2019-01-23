@@ -1,3 +1,5 @@
+#include <memory>
+
 #include "SceneLoader.h"
 
 #include <algorithm>
@@ -10,15 +12,17 @@
 
 #include "SDL.h"
 
-#include "../externals/json.hpp"
+#include "externals/json.hpp"
 
-#include "../components/Animator.h"
-#include "../components/Script.h"
-#include "../components/BoxCollider.h"
-#include "../components/Sprite.h"
-#include "../components/Velocity.h"
-#include "../core/Game.h"
-#include "../core/Actor.h"
+#include "components/Animator.h"
+#include "components/Script.h"
+#include "components/BoxCollider.h"
+#include "components/Sprite.h"
+#include "components/Velocity.h"
+#include "core/Actor.h"
+#include "core/Game.h"
+#include "core/Scene.h"
+#include "utilities/ResourceManager.h"
 
 SceneLoader::SceneLoader(Game& game)
 	: game_(game)
@@ -37,7 +41,7 @@ std::unique_ptr<Scene> SceneLoader::load(const std::string& file) const
 	auto sceneJsonString = resourceManager.loadFile(file);
 	json sceneJson = json::parse(sceneJsonString);
 
-	auto scene = std::unique_ptr<Scene>(new Scene(game_.window(), game_.events()));
+	auto scene = std::make_unique<Scene>(game_.window(), game_.events());
 	auto& tilemap = scene->tilemap();
 
 	tilemap.sourceImageFile = sceneJson["source"].get<std::string>();

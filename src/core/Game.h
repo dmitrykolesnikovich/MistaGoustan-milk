@@ -8,26 +8,21 @@
 #include <string>
 #include <unordered_map>
 
-#include "Scene.h"
-
 #include "externals/sol.hpp"
-
-#include "systems/EventQueue.h"
-#include "systems/SceneManager.h"
-
-#include "utilities/ResourceManager.h"
-#include "utilities/SceneLoader.h"
-#include "utilities/Window.h"
 
 #ifdef _DEBUG
 class DebugTools;
 #endif
 
+class EventQueue;
 class Graphics;
 class Logic;
 class Physics;
+class ResourceManager;
+class SceneLoader;
+class SceneManager;
+class Window;
 
-// TODO: Make configurable via lua script
 struct GameRunParameters 
 {
 	std::string title;
@@ -40,14 +35,11 @@ struct GameRunParameters
 	std::string resourceRootDir;
 };
 
-// THE Game.
-// As of right now, it's pretty much responsible for a lot of stuff.
-// TODO: Give game a better description about it's responsibilities
 class Game
 {
 public:
     Game();
-	explicit Game(const GameRunParameters& runParams);
+    explicit Game(const std::string& configFile);
 	~Game();
 
 	// Initializes and runs the game
@@ -56,26 +48,27 @@ public:
 	int run();
 
 	// Returns the game window.
-	Window& window();
+	Window& window() const;
 
 	// Returns the games resource manager.
-	ResourceManager& resources();
+	ResourceManager& resources() const;
 
 	// Returns the games event queue.
-	EventQueue& events();
+	EventQueue& events() const;
 
 	// Loads an JSON scene.
 	void loadScene(const std::string& name);
 
 private:
-	Window window_;
-	SceneLoader sceneLoader_; // TODO: Make sceneLoader a part of resources?
-	ResourceManager resources_;
-	SceneManager sceneManager_;
+    std::string configFile_;
+
+	std::unique_ptr<Window> window_;
+	std::unique_ptr<SceneLoader> sceneLoader_;
+	std::unique_ptr<ResourceManager> resources_;
+	std::unique_ptr<SceneManager> sceneManager_;
+	std::unique_ptr<EventQueue> events_;
 
 	sol::state luaState_;
-
-	EventQueue events_;
 
 #ifdef _DEBUG
 	std::unique_ptr<DebugTools> debugTools_;
@@ -87,10 +80,11 @@ private:
 
 	bool isRunning_;
 
+    void initLua();
+    void initFromConfig();
 	bool initSDLSubsystems();
 	bool initGameWindow();
-	void initLua();
-	void initGameSubsystems();
+	void initSubsystems();
 	void handleEvents();
 	void update();
 	void render();

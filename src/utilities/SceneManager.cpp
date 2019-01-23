@@ -1,7 +1,7 @@
 #include "SceneManager.h"
 
-#include "EventQueue.h"
-#include "GameEvents.h"
+#include "systems/EventQueue.h"
+#include "systems/GameEvents.h"
 #include "core/Scene.h"
 #include "utilities/SceneLoader.h"
 
@@ -11,6 +11,8 @@ SceneManager::SceneManager(EventQueue& eventQueue, SceneLoader& sceneLoader)
     , scene_(nullptr)
 {
 }
+
+SceneManager::~SceneManager() = default;
 
 void SceneManager::loadScene(const std::string& scene)
 {

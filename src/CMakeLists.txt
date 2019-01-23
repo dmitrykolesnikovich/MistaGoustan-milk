@@ -39,8 +39,8 @@ set(MILK_SRC_FILES
         systems/Physics.h
         systems/Graphics.cpp
         systems/Graphics.h
-        systems/SceneManager.cpp
-        systems/SceneManager.h
+        utilities/SceneManager.cpp
+        utilities/SceneManager.h
         systems/SpatialPartitionGrid.cpp
         systems/SpatialPartitionGrid.h
         tilemap/Tilemap.h

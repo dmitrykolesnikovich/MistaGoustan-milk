@@ -3,8 +3,9 @@
 #include <iostream>
 
 #include "SDL.h"
-#include "SDL_events.h"
 #include "SDL_image.h"
+
+#include "core/Scene.h"
 
 #include "luahandles/LuaHandleRegistry.h"
 
@@ -12,41 +13,47 @@
 #include "systems/DebugTools.h"
 #endif
 
+#include "systems/EventQueue.h"
+#include "utilities/SceneManager.h"
 #include "systems/GameEvents.h"
 #include "systems/Logic.h"
 #include "systems/Physics.h"
 #include "systems/Graphics.h"
 
 #include "utilities/Input.h"
+#include "utilities/ResourceManager.h"
+#include "utilities/SceneLoader.h"
 #include "utilities/Timer.h"
+#include "utilities/Window.h"
 
-// TODO: I need to find a way to remove this stupid ctor, but sol2 needs it for game registration.
-Game::Game()
-    : sceneLoader_(*this)
-    , sceneManager_(events_, sceneLoader_)
-{
-}
+Game::Game() = default;
 
-Game::Game(const GameRunParameters& runParams)
-	: window_(runParams.title, runParams.width, runParams.height, runParams.virtualWidth, runParams.virtualHeight, runParams.fullscreen)
-	, sceneLoader_(*this)
-	, resources_(runParams.resourceRootDir)
-	, sceneManager_(events_, sceneLoader_)
+Game::Game(const std::string& configFile)
+	: configFile_(configFile)
 {
-	// TODO: this seems gross to me. revisit plz. An game.init() method might be appropriate here.
-    sceneManager_.loadScene(runParams.entryScene);
 }
 
 Game::~Game() = default;
 
 int Game::run()
 {
+	// No game for you.
+	if (configFile_.empty())
+	{
+		std::cout << "Cannot find config file" << std::endl;
+		return MILK_FAIL;
+	}
+
+	// Init lua first so we can use it to load config file.
+    initLua();
+
+	initFromConfig();
+
 	// Shit.. if SDL fails, then you can consider the game to be MILK_FAIL'd, mafk.
 	if (!initSDLSubsystems() || !initGameWindow())
 		return MILK_FAIL;
 
-	initLua();
-	initGameSubsystems();
+	initSubsystems();
 
 	isRunning_ = true;
 
@@ -127,7 +134,7 @@ void Game::handleEvents()
 	Input::updateKeyboardState();
 
 	// Let systems handle game events enqueued last frame.
-	while (auto gameEvent = events_.pollEvent())
+	while (auto gameEvent = events_->pollEvent())
 	{
 		physics_->handleEvent(*gameEvent);
 		graphics_->handleEvent(*gameEvent);
@@ -144,17 +151,17 @@ void Game::handleEvents()
 
 void Game::update()
 {
-	sceneManager_.update();
+	sceneManager_->update();
 	logic_->update();
 	physics_->update();
 }
 
 void Game::render()
 {
-	window_.clear();
+	window_->clear();
 
 	// TODO: this is gross. revisit.
-	auto scene = sceneManager_.currentScene();
+	auto scene = sceneManager_->currentScene();
 	if (scene != nullptr)
 	{
 		graphics_->render(*scene);
@@ -164,7 +171,7 @@ void Game::render()
 #endif
 	}
 
-	window_.present();
+	window_->present();
 }
 
 void Game::shutDown()
@@ -172,13 +179,13 @@ void Game::shutDown()
 	std::cout << "Freeing Resources" << std::endl;
 	std::cout << "//////////////////" << std::endl;
 
-	sceneManager_.shutDown();
+	sceneManager_->shutDown();
 	handleEvents();
-	sceneManager_.update();
+	sceneManager_->update();
 
-	resources_.freeResources();
+	resources_->freeResources();
 
-	window_.freeSDLResources();
+	window_->freeSDLResources();
 
 	IMG_Quit();
 	SDL_Quit();
@@ -187,24 +194,58 @@ void Game::shutDown()
 	std::cout << "//////////////////" << std::endl;
 }
 
-Window& Game::window()
+Window& Game::window() const
 {
-	return window_;
+	return *window_;
 }
 
-ResourceManager& Game::resources()
+ResourceManager& Game::resources() const
 {
-	return resources_;
+	return *resources_;
 }
 
-EventQueue& Game::events()
+EventQueue& Game::events() const
 {
-	return events_;
+	return *events_;
 }
 
 void Game::loadScene(const std::string& name)
 {
-	sceneManager_.loadScene(name);
+	sceneManager_->loadScene(name);
+}
+
+void Game::initLua()
+{
+	luaState_.open_libraries(sol::lib::base, sol::lib::math, sol::lib::package);
+
+	LuaHandleRegistry::RegisterHandles(luaState_);
+
+	luaState_["game"] = this;
+}
+
+void Game::initFromConfig()
+{
+	sol::table config = luaState_.script_file(configFile_);
+
+	std::string title = config["title"];
+	int width = config["width"];
+	int height = config["height"];
+	int vwidth = config["vwidth"];
+	int vheight = config["vheight"];
+	bool fullscreen = config["fullscreen"];
+	std::string resourceRootDir = config["resourceRootDir"];
+	std::string entryScene = config["entryScene"];
+
+	window_ = std::make_unique<Window>(title, width, height, vwidth, vheight, fullscreen);
+
+	resources_ = std::make_unique<ResourceManager>(resourceRootDir);
+
+	events_ = std::make_unique<EventQueue>();
+
+    sceneLoader_ = std::make_unique<SceneLoader>(*this);
+	sceneManager_ = std::make_unique<SceneManager>(*events_, *sceneLoader_);
+
+	sceneManager_->loadScene(entryScene);
 }
 
 bool Game::initSDLSubsystems()
@@ -229,7 +270,7 @@ bool Game::initSDLSubsystems()
 
 bool Game::initGameWindow()
 {
-	if (!window_.initSDLRenderWindow())
+	if (!window_->initSDLRenderWindow())
 	{
 		IMG_Quit();
 		SDL_Quit();
@@ -240,26 +281,17 @@ bool Game::initGameWindow()
 	return true;
 }
 
-void Game::initLua()
-{
-	luaState_.open_libraries(sol::lib::base, sol::lib::math, sol::lib::package);
-
-	LuaHandleRegistry::RegisterHandles(luaState_);
-
-	luaState_["game"] = this;
-}
-
-void Game::initGameSubsystems()
+void Game::initSubsystems()
 {
 	Input::initialize();
 
-	resources_.init(window_.sdlRenderer());
+	resources_->init(window_->sdlRenderer());
 
 #ifdef _DEBUG
-	debugTools_ = std::make_unique<DebugTools>(*window_.sdlRenderer());
+	debugTools_ = std::make_unique<DebugTools>(*window_->sdlRenderer());
 #endif
 
 	logic_ = std::make_unique<Logic>(luaState_);
-	physics_ = std::make_unique<Physics>(events_);
-	graphics_ = std::make_unique<Graphics>(*window_.sdlRenderer(), resources_);
+	physics_ = std::make_unique<Physics>(*events_);
+	graphics_ = std::make_unique<Graphics>(*window_->sdlRenderer(), *resources_);
 }
