@@ -20,7 +20,7 @@ class EventQueue;
 
 class Scene : public IScene {
 public:
-    explicit Scene(Window& window, EventQueue& eventQueue);
+    Scene(Window& window, EventQueue& eventQueue);
 
     ~Scene();
 

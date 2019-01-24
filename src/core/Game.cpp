@@ -47,7 +47,9 @@ int Game::run() {
     // Init lua first so we can use it to load config file.
     initLua();
 
-    initFromConfig();
+    // You gonna getta no no game.
+    if (!initFromConfig())
+        return MILK_FAIL;
 
     // Shit.. if SDL fails, then you can consider the game to be MILK_FAIL'd, mafk.
     if (!initSDL() || !initRenderWindow())
@@ -56,9 +58,6 @@ int Game::run() {
     initSystems();
 
     isRunning_ = true;
-
-    std::cout << "Game started" << std::endl;
-    std::cout << "//////////////////" << std::endl;
 
     const int SCREEN_FPS = 60;
     const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
@@ -165,9 +164,6 @@ void Game::render() {
 }
 
 void Game::shutDown() {
-    std::cout << "Freeing Resources" << std::endl;
-    std::cout << "//////////////////" << std::endl;
-
     sceneManager_->shutDown();
     handleEvents();
     sceneManager_->update();
@@ -178,9 +174,6 @@ void Game::shutDown() {
 
     IMG_Quit();
     SDL_Quit();
-
-    std::cout << "Game shutting down" << std::endl;
-    std::cout << "//////////////////" << std::endl;
 }
 
 Window& Game::window() const {
