@@ -71,6 +71,7 @@ target_include_directories(milklib
             ${SDL_INCLUDE_DIR}
             ${SDL2_IMAGE_INCLUDE_DIRS}
             ${LUA53_INCLUDE_DIR}
+            ${PHYSFS_INCLUDE_DIR}
             ${milklib_SOURCE_DIR}
         )
 
@@ -80,6 +81,7 @@ target_link_libraries(milklib
             ${SDL2_LIBRARY}
             ${SDL2_IMAGE_LIBRARIES}
             ${LUA53_LIBRARIES}
+            ${PHYSFS_LIBRARY}
         PRIVATE
             # Include code-coverage settings
             coverage_config
