@@ -39,7 +39,9 @@ endif()
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 find_package(Lua53 REQUIRED)
-find_package(PhysFS REQUIRED)
+
+# not quite yet
+#find_package(PhysFS REQUIRED)
 
 #---------------------------------------------------------------------------
 # code coverage configuration

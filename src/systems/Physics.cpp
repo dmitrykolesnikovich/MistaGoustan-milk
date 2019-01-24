@@ -55,7 +55,7 @@ void Physics::update() {
         collider->updateBBox();
 
         // Get collision events from collision world.
-        std::vector<CollisionEvent> collisions = partitionGrid_->getCollisions(collider);
+        auto collisions = partitionGrid_->getCollisions(collider);
 
         // Resolve the collisions:
         // Collision events contain a collision side and intersection depth rectangle.
