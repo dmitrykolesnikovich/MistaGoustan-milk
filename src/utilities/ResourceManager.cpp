@@ -10,104 +10,92 @@
 #include "Texture.h"
 
 ResourceManager::ResourceManager(const std::string& rootDir)
-	: rootDir_(rootDir)
-	, sdlRenderer_(nullptr)
-{
+        : rootDir_(rootDir), sdlRenderer_(nullptr) {
 }
 
-ResourceManager::~ResourceManager()
-{
-	freeResources();
+ResourceManager::~ResourceManager() {
+    freeResources();
 }
 
-void ResourceManager::init(SDL_Renderer* sdlRenderer)
-{
-	sdlRenderer_ = sdlRenderer;
+void ResourceManager::init(SDL_Renderer* sdlRenderer) {
+    sdlRenderer_ = sdlRenderer;
 }
 
-Texture* ResourceManager::loadTexture(const std::string& name)
-{
-	auto found = textureCache_.find(name);
-	
-	if (found != textureCache_.end())
-		return found->second;
+Texture* ResourceManager::loadTexture(const std::string& name) {
+    auto found = textureCache_.find(name);
 
-	std::string resourcePath = rootDir_ + "/" + name;
+    if (found != textureCache_.end())
+        return found->second;
 
-	SDL_Surface* surf = IMG_Load(resourcePath.c_str());
+    std::string resourcePath = rootDir_ + "/" + name;
 
-	if (surf == nullptr) 
-	{
-		std::cout << "Error loading image: " << IMG_GetError() << std::endl;
-		return nullptr;
-	}
+    SDL_Surface* surf = IMG_Load(resourcePath.c_str());
 
-	SDL_Texture* sdlTex = SDL_CreateTextureFromSurface(sdlRenderer_, surf);
+    if (surf == nullptr) {
+        std::cout << "Error loading image: " << IMG_GetError() << std::endl;
+        return nullptr;
+    }
 
-	SDL_FreeSurface(surf);
+    SDL_Texture* sdlTex = SDL_CreateTextureFromSurface(sdlRenderer_, surf);
 
-	int width;
-	int height;
+    SDL_FreeSurface(surf);
 
-	SDL_QueryTexture(sdlTex, nullptr, nullptr, &width, &height);
+    int width;
+    int height;
 
-	auto texture = new Texture(sdlTex, width, height);
+    SDL_QueryTexture(sdlTex, nullptr, nullptr, &width, &height);
 
-	textureCache_.insert(std::make_pair(name, texture));
+    auto texture = new Texture(sdlTex, width, height);
 
-	return texture;
+    textureCache_.insert(std::make_pair(name, texture));
+
+    return texture;
 }
 
-std::string ResourceManager::loadFile(const std::string& filename)
-{
-	std::string path = rootDir_ + "/" + filename;
-	SDL_RWops* rwops = SDL_RWFromFile(path.c_str(), "r");
+std::string ResourceManager::loadFile(const std::string& filename) {
+    std::string path = rootDir_ + "/" + filename;
+    SDL_RWops* rwops = SDL_RWFromFile(path.c_str(), "r");
 
-	if (rwops == nullptr) 
-		return nullptr;
+    if (rwops == nullptr)
+        return nullptr;
 
-	Sint64 fileSize = SDL_RWsize(rwops);
+    Sint64 fileSize = SDL_RWsize(rwops);
 
-	auto fileContents = (char*)std::malloc((size_t)(fileSize + 1));
+    auto fileContents = (char*)std::malloc((size_t)(fileSize + 1));
 
-	Sint64 readTotal = 0;
-	Sint64 read = 1;
+    Sint64 readTotal = 0;
+    Sint64 read = 1;
 
-	char* buffer = fileContents;
+    char* buffer = fileContents;
 
-	while (readTotal < fileSize && read != 0) 
-	{
-		read = SDL_RWread(rwops, buffer, 1, ((size_t)(fileSize - readTotal)));
+    while (readTotal < fileSize && read != 0) {
+        read = SDL_RWread(rwops, buffer, 1, ((size_t)(fileSize - readTotal)));
 
-		readTotal += read;
-		buffer += read;
-	}
+        readTotal += read;
+        buffer += read;
+    }
 
-	SDL_RWclose(rwops);
+    SDL_RWclose(rwops);
 
-	if (readTotal != fileSize) 
-	{
-		free(fileContents);
-		return nullptr;
-	}
+    if (readTotal != fileSize) {
+        free(fileContents);
+        return nullptr;
+    }
 
-	fileContents[readTotal] = '\0';
+    fileContents[readTotal] = '\0';
 
-	return std::string(fileContents);
+    return std::string(fileContents);
 }
 
-void ResourceManager::unloadTextures()
-{
-	for (auto &it : textureCache_)
-	{
-		delete it.second;
-		it.second = nullptr;
-	}
+void ResourceManager::unloadTextures() {
+    for (auto& it : textureCache_) {
+        delete it.second;
+        it.second = nullptr;
+    }
 
-	textureCache_.clear();
+    textureCache_.clear();
 }
 
-void ResourceManager::freeResources()
-{
-	unloadTextures();
+void ResourceManager::freeResources() {
+    unloadTextures();
 }

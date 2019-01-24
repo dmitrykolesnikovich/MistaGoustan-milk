@@ -1,5 +1,5 @@
-#ifndef _RESOURCE_MANAGER_
-#define _RESOURCE_MANAGER_
+#ifndef _RESOURCE_MANAGER_H
+#define _RESOURCE_MANAGER_H
 
 #include <unordered_map>
 #include <string>
@@ -8,32 +8,32 @@ struct SDL_Renderer;
 
 class Texture;
 
-class ResourceManager
-{
+class ResourceManager {
 public:
-	explicit ResourceManager(const std::string& rootDir = "");
-	~ResourceManager();
+    explicit ResourceManager(const std::string& rootDir = "");
 
-	// Initialize the resource manager.
-	void init(SDL_Renderer* sdlRenderer);
+    ~ResourceManager();
 
-	// Load texture. Textures are cached.
-	Texture* loadTexture(const std::string& name);
+    // Initialize the resource manager.
+    void init(SDL_Renderer* sdlRenderer);
 
-	std::string loadFile(const std::string& filename);
+    // Load texture. Textures are cached.
+    Texture* loadTexture(const std::string& name);
 
-	// Unload all loaded textures.
-	void unloadTextures();
+    std::string loadFile(const std::string& filename);
 
-	// Frees all loaded resources.
-	void freeResources();
+    // Unload all loaded textures.
+    void unloadTextures();
+
+    // Frees all loaded resources.
+    void freeResources();
 
 private:
-	std::string rootDir_;
+    std::string rootDir_;
 
-	SDL_Renderer* sdlRenderer_;
+    SDL_Renderer* sdlRenderer_;
 
-	std::unordered_map<std::string, Texture*> textureCache_;
+    std::unordered_map<std::string, Texture*> textureCache_;
 };
 
 #endif

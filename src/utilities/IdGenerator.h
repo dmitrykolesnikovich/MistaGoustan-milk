@@ -1,22 +1,21 @@
-#ifndef _ID_GENERATOR_
-#define _ID_GENERATOR_
+#ifndef _ID_GENERATOR_H
+#define _ID_GENERATOR_H
 
 #include <vector>
 
-class IdGenerator
-{
+class IdGenerator {
 public:
-	IdGenerator();
+    IdGenerator();
 
-	// Get unique id.
-	unsigned int popId();
+    // Get unique id.
+    unsigned int popId();
 
-	// Push id back onto stack for re use.
-	void pushId(unsigned int id);
+    // Push id back onto stack for re use.
+    void pushId(unsigned int id);
 
 private:
-	std::vector<unsigned int> availableIds_;
-	unsigned int count_;
+    std::vector<unsigned int> availableIds_;
+    unsigned int count_;
 };
 
 #endif

@@ -15,7 +15,7 @@ public:
 	~Window();
 
 	// Initialize the SDL_Window and SDL_Renderer.
-	bool initSDLRenderWindow();
+	bool init();
 
 	// Clear the renderer to black.
 	void clear();

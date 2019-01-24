@@ -5,15 +5,14 @@
 
 #include "LuaHandle_Actor.h"
 
-class LuaHandle_BoxCollider
-{
+class LuaHandle_BoxCollider {
 public:
-	explicit LuaHandle_BoxCollider(BoxCollider& collider);
+    explicit LuaHandle_BoxCollider(BoxCollider& collider);
 
-	LuaHandle_Actor actor() const;
+    LuaHandle_Actor actor() const;
 
 private:
-	BoxCollider& collider_;
+    BoxCollider& collider_;
 };
 
 #endif

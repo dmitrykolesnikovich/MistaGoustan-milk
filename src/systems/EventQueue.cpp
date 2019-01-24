@@ -1,14 +1,11 @@
 #include "EventQueue.h"
 
 EventQueue::EventQueue()
-    : lastPoppedEvent_(nullptr)
-{
+        : lastPoppedEvent_(nullptr) {
 }
 
-GameEvent* EventQueue::pollEvent()
-{
-    if (lastPoppedEvent_ != nullptr)
-    {
+GameEvent* EventQueue::pollEvent() {
+    if (lastPoppedEvent_ != nullptr) {
         delete lastPoppedEvent_;
         lastPoppedEvent_ = nullptr;
     }

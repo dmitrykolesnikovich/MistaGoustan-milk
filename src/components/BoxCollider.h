@@ -11,67 +11,67 @@ class SpatialPartitionGrid;
 
 // Actors with a box collider will be static collidable objects.
 // Actors with a box collider and velocity will be dynamic collidable objects.
-class BoxCollider : public ActorComponent
-{
+class BoxCollider : public ActorComponent {
 public:
-	static const ComponentType type;
+    static const ComponentType type;
 
-	friend class SpatialPartitionGrid;
+    friend class SpatialPartitionGrid;
 
-	explicit BoxCollider(Actor& actor);
-	~BoxCollider() override = default;
+    explicit BoxCollider(Actor& actor);
 
-	// Initializes the collider so it can become one with the collision grid.
-	void init(SpatialPartitionGrid* grid);
+    ~BoxCollider() override = default;
 
-	// Centers the collider's origin.
-	void center();
+    // Initializes the collider so it can become one with the collision grid.
+    void init(SpatialPartitionGrid* grid);
 
-	// Updates the bounding box. If the actor's position is changed, this method must be called in order to update the collider's bounding box.
-	void updateBBox();
-	
-	// Returns the collider's bounding box.
-	SDL_Rect rect() const;
+    // Centers the collider's origin.
+    void center();
 
-	// Sets the width of the collider.
-	void width(int width);
+    // Updates the bounding box. If the actor's position is changed, this method must be called in order to update the collider's bounding box.
+    void updateBBox();
 
-	// Sets the height of the collider.
-	void height(int height);
+    // Returns the collider's bounding box.
+    SDL_Rect rect() const;
 
-	// Offsets the collider.
-	void offset(int x, int y);
+    // Sets the width of the collider.
+    void width(int width);
 
-	// Returns true if collider's bounding box is overlapping another collider's bounding box.
-	bool overlaps(SDL_Rect otherRect) const;
+    // Sets the height of the collider.
+    void height(int height);
 
-	// Returns true if collider's bounding box is overlapping another collider's bounding box, and outputs the depth rect.
-	bool overlaps(SDL_Rect otherRect, SDL_Rect* result) const;
+    // Offsets the collider.
+    void offset(int x, int y);
 
-	// Top of collider.
-	int top();
+    // Returns true if collider's bounding box is overlapping another collider's bounding box.
+    bool overlaps(SDL_Rect otherRect) const;
 
-	// Bottom of collider.
-	int bottom();
+    // Returns true if collider's bounding box is overlapping another collider's bounding box, and outputs the depth rect.
+    bool overlaps(SDL_Rect otherRect, SDL_Rect* result) const;
 
-	// Left of collider.
-	int left();
+    // Top of collider.
+    int top();
 
-	// Right of collider;
-	int right();
+    // Bottom of collider.
+    int bottom();
+
+    // Left of collider.
+    int left();
+
+    // Right of collider;
+    int right();
 
 private:
-	Alignment origin_;
+    Alignment origin_;
 
-	SDL_Rect rect_;
-	SDL_Rect oldRect_;
+    SDL_Rect rect_;
+    SDL_Rect oldRect_;
 
-	Vector2d offset_;
+    Vector2d offset_;
 
-	SpatialPartitionGrid* grid_;
+    SpatialPartitionGrid* grid_;
 
-	BoxCollider* prev_;
-	BoxCollider* next_;
+    BoxCollider* prev_;
+    BoxCollider* next_;
 };
 
 #endif

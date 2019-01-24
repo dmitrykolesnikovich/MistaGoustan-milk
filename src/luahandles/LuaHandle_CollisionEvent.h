@@ -5,15 +5,14 @@
 
 class ActorCollisionEvent;
 
-class LuaHandle_CollisionEvent
-{
+class LuaHandle_CollisionEvent {
 public:
-	explicit LuaHandle_CollisionEvent(ActorCollisionEvent& collisionEvent);
+    explicit LuaHandle_CollisionEvent(ActorCollisionEvent& collisionEvent);
 
-	LuaHandle_BoxCollider other();
+    LuaHandle_BoxCollider other();
 
 private:
-	ActorCollisionEvent& collisionEvent_;
+    ActorCollisionEvent& collisionEvent_;
 };
 
 #endif

@@ -1,28 +1,28 @@
-#ifndef _TEXTURE_
-#define _TEXTURE_
+#ifndef _TEXTURE_H
+#define _TEXTURE_H
 
 struct SDL_Texture;
 
-class Texture
-{
+class Texture {
 public:
-	Texture(SDL_Texture* sdlTexture, int width, int height);
-	~Texture();
+    Texture(SDL_Texture* sdlTexture, int width, int height);
 
-	// Get the raw SDL_Texture.
-	SDL_Texture* get() const;
+    ~Texture();
 
-	// Get texture width.
-	int width() const;
+    // Get the raw SDL_Texture.
+    SDL_Texture* get() const;
 
-	// Get texture height.
-	int height() const;
+    // Get texture width.
+    int width() const;
+
+    // Get texture height.
+    int height() const;
 
 private:
-	SDL_Texture* sdlTexture_;
+    SDL_Texture* sdlTexture_;
 
-	int width_;
-	int height_;
+    int width_;
+    int height_;
 };
 
 #endif

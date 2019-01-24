@@ -31,7 +31,7 @@ Window::~Window()
 	freeSDLResources();
 }
 
-bool Window::initSDLRenderWindow()
+bool Window::init()
 {
 	SDL_DisplayMode currentDisplayMode;
 	SDL_GetCurrentDisplayMode(0, &currentDisplayMode);

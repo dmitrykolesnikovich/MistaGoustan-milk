@@ -8,57 +8,50 @@
 #include "../core/Scene.h"
 
 LuaHandle_Actor::LuaHandle_Actor(Actor& actor)
-	: actor_(actor)
-{
+        : actor_(actor) {
 }
 
-std::string LuaHandle_Actor::name() const
-{
-	return actor_.name();
+std::string LuaHandle_Actor::name() const {
+    return actor_.name();
 }
 
-void LuaHandle_Actor::setAsCameraTarget()
-{
-	auto& scene = actor_.scene();
-	scene.camera().setTarget(&actor_);
+void LuaHandle_Actor::setAsCameraTarget() {
+    auto& scene = actor_.scene();
+    scene.camera().setTarget(&actor_);
 }
 
-void LuaHandle_Actor::move(float x, float y)
-{
-	auto velocity = actor_.getComponent<Velocity>();
+void LuaHandle_Actor::move(float x, float y) {
+    auto velocity = actor_.getComponent<Velocity>();
 
-	if (velocity == nullptr)
-		return;
+    if (velocity == nullptr)
+        return;
 
-	velocity->value(x, y);
+    velocity->value(x, y);
 }
 
-void LuaHandle_Actor::setAnimation(const std::string& name)
-{
-	auto animator = actor_.getComponent<Animator>();
+void LuaHandle_Actor::setAnimation(const std::string& name) {
+    auto animator = actor_.getComponent<Animator>();
 
-	if (animator == nullptr)
-		return;
+    if (animator == nullptr)
+        return;
 
-	animator->setAnimation(name);
+    animator->setAnimation(name);
 }
 
-void LuaHandle_Actor::flipX()
-{
-	auto sprite = actor_.getComponent<Sprite>();
+void LuaHandle_Actor::flipX() {
+    auto sprite = actor_.getComponent<Sprite>();
 
-	if (sprite == nullptr)
-		return;
+    if (sprite == nullptr)
+        return;
 
-	sprite->flipX();
+    sprite->flipX();
 }
 
-void LuaHandle_Actor::flipY()
-{
-	auto sprite = actor_.getComponent<Sprite>();
+void LuaHandle_Actor::flipY() {
+    auto sprite = actor_.getComponent<Sprite>();
 
-	if (sprite == nullptr)
-		return;
+    if (sprite == nullptr)
+        return;
 
-	sprite->flipY();
+    sprite->flipY();
 }

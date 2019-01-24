@@ -6,16 +6,12 @@
 #include "utilities/SceneLoader.h"
 
 SceneManager::SceneManager(EventQueue& eventQueue, SceneLoader& sceneLoader)
-    : eventQueue_(eventQueue)
-    , sceneLoader_(sceneLoader)
-    , scene_(nullptr)
-{
+        : eventQueue_(eventQueue), sceneLoader_(sceneLoader), scene_(nullptr) {
 }
 
 SceneManager::~SceneManager() = default;
 
-void SceneManager::loadScene(const std::string& scene)
-{
+void SceneManager::loadScene(const std::string& scene) {
     if (scene_ != nullptr)
         scene_->end();
 
@@ -23,10 +19,8 @@ void SceneManager::loadScene(const std::string& scene)
     sceneToLoad_ = scene;
 }
 
-void SceneManager::update()
-{
-    if (!sceneToLoad_.empty())
-    {
+void SceneManager::update() {
+    if (!sceneToLoad_.empty()) {
         if (scene_ != nullptr)
             scene_.reset();
 
@@ -38,13 +32,11 @@ void SceneManager::update()
         scene_->syncActorLists();
 }
 
-void SceneManager::shutDown()
-{
+void SceneManager::shutDown() {
     if (scene_ != nullptr)
         scene_->end();
 }
 
-Scene* SceneManager::currentScene() const
-{
+Scene* SceneManager::currentScene() const {
     return scene_.get();
 }

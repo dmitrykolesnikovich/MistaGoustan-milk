@@ -5,14 +5,17 @@
 #include <string>
 
 class EventQueue;
+
 class GameEvent;
+
 class Scene;
+
 class SceneLoader;
 
-class SceneManager
-{
+class SceneManager {
 public:
     explicit SceneManager(EventQueue& eventQueue, SceneLoader& sceneLoader);
+
     ~SceneManager();
 
     void update();

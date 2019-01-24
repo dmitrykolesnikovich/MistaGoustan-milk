@@ -1,34 +1,40 @@
-#ifndef _PHYSICS_SYSTEM_
-#define _PHYSICS_SYSTEM_
+#ifndef _PHYSICS_SYSTEM_H
+#define _PHYSICS_SYSTEM_H
 
 #include <memory>
 #include <unordered_map>
 
 class Actor;
+
 class BoxCollider;
+
 class EventQueue;
+
 class GameEvent;
+
 class SpatialPartitionGrid;
+
 class Velocity;
 
-class Physics 
-{
+class Physics {
 public:
-	explicit Physics(EventQueue& eventQueue);
-	~Physics();
+    explicit Physics(EventQueue& eventQueue);
 
-	void handleEvent(GameEvent& gameEvent);
+    ~Physics();
 
-	void update();
+    void handleEvent(GameEvent& gameEvent);
+
+    void update();
 
 private:
-	EventQueue& eventQueue_;
+    EventQueue& eventQueue_;
 
-	std::unordered_map<int, Velocity*> velocityByActorId_;
-	std::unique_ptr<SpatialPartitionGrid> partitionGrid_;
+    std::unordered_map<int, Velocity*> velocityByActorId_;
+    std::unique_ptr<SpatialPartitionGrid> partitionGrid_;
 
-	void onActorSpawned(Actor& actor);
-	void onActorDestroyed(Actor& actor);
+    void onActorSpawned(Actor& actor);
+
+    void onActorDestroyed(Actor& actor);
 };
 
 #endif

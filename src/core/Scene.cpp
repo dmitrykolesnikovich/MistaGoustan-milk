@@ -4,100 +4,88 @@
 
 #include "core/Actor.h"
 #include "core/ActorComponent.h"
-#include "utilities/Window.h"
 #include "systems/EventQueue.h"
 #include "systems/GameEvents.h"
+#include "utilities/Window.h"
 
 Scene::Scene(Window& window, EventQueue& eventQueue)
-	: eventQueue_(eventQueue)
-	, camera_(*this, window.virtualWidth(), window.virtualHeight())
-{
+        : eventQueue_(eventQueue), camera_(*this, window.virtualWidth(), window.virtualHeight()) {
 }
 
 Scene::~Scene() = default;
 
-Actor* Scene::spawnActor(const std::string& name)
-{
-	int id = idGenerator_.popId();
+Actor* Scene::spawnActor(const std::string& name) {
+    int id = idGenerator_.popId();
 
-	auto actor = std::make_unique<Actor>(*this, id, name, Vector2d(0, 0));
-	auto pActor = actor.get();
+    auto actor = std::make_unique<Actor>(*this, id, name, Vector2d(0, 0));
+    auto pActor = actor.get();
 
-	actorsToSpawn_.emplace_back(std::move(actor));
+    actorsToSpawn_.emplace_back(std::move(actor));
 
-	eventQueue_.pushEvent<ActorSpawnedEvent>(*pActor);
+    eventQueue_.pushEvent<ActorSpawnedEvent>(*pActor);
 
-	return pActor;
+    return pActor;
 }
 
-bool Scene::destroyActor(int id)
-{
-	auto foundActor = actorsById_.find(id);
+bool Scene::destroyActor(int id) {
+    auto foundActor = actorsById_.find(id);
 
-	if (foundActor == actorsById_.end())
-		return false;
+    if (foundActor == actorsById_.end())
+        return false;
 
-	actorsToDestroy_.emplace_back(id);
+    actorsToDestroy_.emplace_back(id);
 
-	eventQueue_.pushEvent<ActorDestroyedEvent>(*foundActor->second);
+    eventQueue_.pushEvent<ActorDestroyedEvent>(*foundActor->second);
 
-	return true;
+    return true;
 }
 
-Actor* Scene::findActor(const std::string& name) const
-{
-	// TODO: Brute force implementation. revisit.
-	for (auto& it : actorsById_) 
-	{
-		if (it.second->name() == name)
-			return it.second.get();
-	}
+Actor* Scene::findActor(const std::string& name) const {
+    // TODO: Brute force implementation. revisit.
+    for (auto& it : actorsById_) {
+        if (it.second->name() == name)
+            return it.second.get();
+    }
 
-	return nullptr;
+    return nullptr;
 }
 
-Camera& Scene::camera()
-{
-	return camera_;
+Camera& Scene::camera() {
+    return camera_;
 }
 
-Tilemap& Scene::tilemap()
-{
-	return tilemap_;
+Tilemap& Scene::tilemap() {
+    return tilemap_;
 }
 
-void Scene::syncActorLists()
-{
-	for (auto& it : actorsToDestroy_) 
-	{
-		idGenerator_.pushId(it);
-		actorsById_.erase(it);
-	}
+void Scene::syncActorLists() {
+    for (auto& it : actorsToDestroy_) {
+        idGenerator_.pushId(it);
+        actorsById_.erase(it);
+    }
 
-	actorsToDestroy_.clear();
+    actorsToDestroy_.clear();
 
-	for (auto& it : actorsToSpawn_)	
-		actorsById_.insert(std::make_pair(it->id(), std::move(it)));	
+    for (auto& it : actorsToSpawn_)
+        actorsById_.insert(std::make_pair(it->id(), std::move(it)));
 
-	actorsToSpawn_.clear();
+    actorsToSpawn_.clear();
 }
 
-SDL_Rect Scene::bounds() const
-{
-	SDL_Rect bounds;
-	bounds.x = 0;
-	bounds.y = 0;
-	bounds.w = tilemap_.width;
-	bounds.h = tilemap_.height;
+SDL_Rect Scene::bounds() const {
+    SDL_Rect bounds;
+    bounds.x = 0;
+    bounds.y = 0;
+    bounds.w = tilemap_.width;
+    bounds.h = tilemap_.height;
 
-	return bounds;
+    return bounds;
 }
 
-void Scene::end()
-{
-	for (auto& it : actorsById_)
-		destroyActor(it.first);
+void Scene::end() {
+    for (auto& it : actorsById_)
+        destroyActor(it.first);
 
-	for (auto& toSpawnItr : actorsToSpawn_)
-		destroyActor(toSpawnItr->id());
+    for (auto& toSpawnItr : actorsToSpawn_)
+        destroyActor(toSpawnItr->id());
 }

@@ -13,38 +13,39 @@
 #include "core/ActorComponent.h"
 
 class ActorCollisionEvent;
+
 class LuaHandle_Actor;
 
 // A script is what controls an actor's behavior.
-class Script : public ActorComponent
-{
+class Script : public ActorComponent {
 public:
-	static const ComponentType type;
+    static const ComponentType type;
 
-	explicit Script(Actor& actor);
-	~Script() override = default;
+    explicit Script(Actor& actor);
 
-	// Sets the name of the script to load.
-	void script(const std::string& scriptName);
+    ~Script() override = default;
 
-	// Loads the script.
-	void load(sol::state& luaState);
+    // Sets the name of the script to load.
+    void script(const std::string& scriptName);
 
-	// Called once the actor has been spawned into the scene.
-	virtual void begin();
+    // Loads the script.
+    void load(sol::state& luaState);
 
-	// Called once per frame.
-	virtual void update();
+    // Called once the actor has been spawned into the scene.
+    virtual void begin();
 
-	// Called when a collision has been detected.
-	virtual void onCollision(ActorCollisionEvent& collisionEvent);
+    // Called once per frame.
+    virtual void update();
 
-	// Called once before the actor is about to be destroyed.
-	virtual void end();
+    // Called when a collision has been detected.
+    virtual void onCollision(ActorCollisionEvent& collisionEvent);
+
+    // Called once before the actor is about to be destroyed.
+    virtual void end();
 
 private:
-	std::string scriptName_;
-	sol::table luaScript_;
+    std::string scriptName_;
+    sol::table luaScript_;
 };
 
 #endif

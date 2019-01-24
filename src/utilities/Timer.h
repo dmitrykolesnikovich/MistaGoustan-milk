@@ -1,29 +1,32 @@
-#ifndef _TIMER_
-#define _TIMER_
+#ifndef _TIMER_H
+#define _TIMER_H
 
 #include "SDL.h"
 
-class Timer
-{
+class Timer {
 public:
-	Timer();
+    Timer();
 
-	void start();
-	void stop();
-	void pause();
-	void unpause();
+    void start();
 
-	Uint32 getTicks();
+    void stop();
 
-	bool isStarted();
-	bool isPaused();
+    void pause();
+
+    void unpause();
+
+    Uint32 getTicks();
+
+    bool isStarted();
+
+    bool isPaused();
 
 private:
-	Uint32 startTicks_;
-	Uint32 pausedTicks_;
+    Uint32 startTicks_;
+    Uint32 pausedTicks_;
 
-	bool paused_;
-	bool started_;
+    bool paused_;
+    bool started_;
 };
 
 #endif

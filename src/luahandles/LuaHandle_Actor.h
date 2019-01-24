@@ -7,29 +7,28 @@
 
 class Actor;
 
-class LuaHandle_Actor
-{
+class LuaHandle_Actor {
 public:
-	explicit LuaHandle_Actor(Actor& actor);
+    explicit LuaHandle_Actor(Actor& actor);
 
-	std::string name() const;
+    std::string name() const;
 
-	void setAsCameraTarget();
+    void setAsCameraTarget();
 
-	// Move the actor.
-	void move(float x, float y);
+    // Move the actor.
+    void move(float x, float y);
 
-	// Set the actors animation.
-	void setAnimation(const std::string& name);
+    // Set the actors animation.
+    void setAnimation(const std::string& name);
 
-	// Flips the actor horizontally.
-	void flipX();
+    // Flips the actor horizontally.
+    void flipX();
 
-	// Flips the actor vertically.
-	void flipY();
+    // Flips the actor vertically.
+    void flipY();
 
 private:
-	Actor& actor_;
+    Actor& actor_;
 };
 
 #endif

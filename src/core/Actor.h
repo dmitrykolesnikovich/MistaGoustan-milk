@@ -8,74 +8,74 @@
 #include "math/Vector2d.h"
 
 class ActorComponent;
+
 class IScene;
+
 class ResourceManager;
 
 // An actor is an object that exists within a scene.
 // An actor can range from a rock on the ground to a dragon boss monster.
 // Attach components to an actor in order to define it and give it behavior.
-class Actor
-{
+class Actor {
 public:
-	Actor(IScene& scene, int id, const std::string& name, const Vector2d& position);
-	~Actor() = default;
+    Actor(IScene& scene, int id, const std::string& name, const Vector2d& position);
 
-	// Returns the scene that the actor is in.
-	IScene& scene() const;
+    ~Actor() = default;
 
-	// Returns the actor's unique id.
-	int id() const;
+    // Returns the scene that the actor is in.
+    IScene& scene() const;
 
-	// Returns the actor's name.
-	std::string name() const;
+    // Returns the actor's unique id.
+    int id() const;
 
-	// Returns the actor's position.
-	Vector2d position() const;
+    // Returns the actor's name.
+    std::string name() const;
 
-	// Sets the actor's position.
-	void position(float x, float y);
+    // Returns the actor's position.
+    Vector2d position() const;
 
-	// Returns the added component and nullptr if addition fails.
-	template <class TComponent>
-	TComponent* addComponent() 
-	{
-		auto type = TComponent::type;
+    // Sets the actor's position.
+    void position(float x, float y);
 
-		if ((componentBitmask_ & type) == type)
-			return nullptr;
+    // Returns the added component and nullptr if addition fails.
+    template<class TComponent>
+    TComponent* addComponent() {
+        auto type = TComponent::type;
 
-		componentBitmask_ |= type;
+        if ((componentBitmask_ & type) == type)
+            return nullptr;
 
-		auto component = new TComponent(*this);
+        componentBitmask_ |= type;
 
-		componentsByType_.insert(std::make_pair(type, std::unique_ptr<ActorComponent>(component)));
+        auto component = new TComponent(*this);
 
-		return component;
-	}
-	
-	// Returns component of the given type and nullptr if not found.
-	template <class TComponent>
-	TComponent* getComponent() const
-	{
-		auto type = TComponent::type;
+        componentsByType_.insert(std::make_pair(type, std::unique_ptr<ActorComponent>(component)));
 
-		if ((componentBitmask_ & type) != type)
-			return nullptr;
+        return component;
+    }
 
-		auto& component = componentsByType_.at(type);
+    // Returns component of the given type and nullptr if not found.
+    template<class TComponent>
+    TComponent* getComponent() const {
+        auto type = TComponent::type;
 
-		return dynamic_cast<TComponent*>(component.get());
-	}
+        if ((componentBitmask_ & type) != type)
+            return nullptr;
+
+        auto& component = componentsByType_.at(type);
+
+        return dynamic_cast<TComponent*>(component.get());
+    }
 
 private:
-	int id_;
-	std::string name_;
-	Vector2d position_;
-	uint32_t componentBitmask_;
+    int id_;
+    std::string name_;
+    Vector2d position_;
+    uint32_t componentBitmask_;
 
-	IScene& scene_;
+    IScene& scene_;
 
-	std::unordered_map<int, std::unique_ptr<ActorComponent>> componentsByType_;
+    std::unordered_map<int, std::unique_ptr<ActorComponent>> componentsByType_;
 };
 
 #endif

@@ -1,21 +1,22 @@
-#ifndef _SCENE_LOADER_
-#define _SCENE_LOADER_
+#ifndef _SCENE_LOADER_H
+#define _SCENE_LOADER_H
 
 #include <memory>
 
 class Game;
+
 class Scene;
 
-class SceneLoader
-{
+class SceneLoader {
 public:
-	explicit SceneLoader(Game& game);
-	~SceneLoader();
+    explicit SceneLoader(Game& game);
 
-	std::unique_ptr<Scene> load(const std::string& file) const;
+    ~SceneLoader();
+
+    std::unique_ptr<Scene> load(const std::string& file) const;
 
 private:
-	Game& game_;
+    Game& game_;
 };
 
 #endif
