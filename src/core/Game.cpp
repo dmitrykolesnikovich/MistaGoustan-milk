@@ -26,7 +26,7 @@
 #include "utilities/SceneLoader.h"
 #include "utilities/SceneManager.h"
 #include "utilities/Timer.h"
-#include "utilities/Window.h"
+#include "window/Window.h"
 
 
 Game::Game() = default;

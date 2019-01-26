@@ -23,7 +23,7 @@
 #include "core/Game.h"
 #include "core/Scene.h"
 #include "utilities/ResourceManager.h"
-#include "utilities/Window.h"
+#include "window/Window.h"
 
 SceneLoader::SceneLoader(Game& game)
         : game_(game) {

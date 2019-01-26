@@ -6,7 +6,7 @@
 #include "core/ActorComponent.h"
 #include "events/EventQueue.h"
 #include "events/GameEvents.h"
-#include "utilities/Window.h"
+#include "window/Window.h"
 
 Scene::Scene(EventQueue& eventQueue, unsigned virtualWidth, unsigned virtualHeight)
         : eventQueue_(eventQueue), camera_(*this, virtualWidth, virtualHeight) {

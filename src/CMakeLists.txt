@@ -82,8 +82,8 @@ set(MILK_SRC_FILES
         utilities/SceneManager.h
         utilities/Timer.cpp
         utilities/Timer.h
-        utilities/Window.cpp
-        utilities/Window.h)
+        window/Window.cpp
+        window/Window.h)
 
 add_library(milklib ${MILK_SRC_FILES})
 

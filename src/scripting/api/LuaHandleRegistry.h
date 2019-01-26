@@ -13,7 +13,7 @@
 #include "core/Game.h"
 #include "math/Vector2d.h"
 #include "input/Keyboard.h"
-#include "utilities/Window.h"
+#include "window/Window.h"
 #include "physics/BoxCollider.h"
 #include "events/GameEvents.h"
 
