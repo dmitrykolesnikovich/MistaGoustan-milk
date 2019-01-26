@@ -2,7 +2,6 @@
 
 #include "core/Actor.h"
 
-#include "luahandles/LuaHandle_Actor.h"
 #include "luahandles/LuaHandle_BoxCollider.h"
 #include "luahandles/LuaHandle_CollisionEvent.h"
 
@@ -20,7 +19,7 @@ void Script::load(sol::state& luaState) {
     luaScript_ = luaState.script_file(scriptName_);
 
     // Set "self.actor"
-    luaScript_.set("actor", LuaHandle_Actor(actor_));
+    luaScript_["actor"] = &actor_;
 }
 
 void Script::begin() {

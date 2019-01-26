@@ -1,15 +1,13 @@
 #ifndef _LUA_HANDLE_BOX_COLLIDER_
 #define _LUA_HANDLE_BOX_COLLIDER_
 
-#include "../components/BoxCollider.h"
-
-#include "LuaHandle_Actor.h"
+#include "components/BoxCollider.h"
 
 class LuaHandle_BoxCollider {
 public:
     explicit LuaHandle_BoxCollider(BoxCollider& collider);
 
-    LuaHandle_Actor actor() const;
+    Actor& actor() const;
 
 private:
     BoxCollider& collider_;

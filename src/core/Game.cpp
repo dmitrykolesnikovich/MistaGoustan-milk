@@ -188,6 +188,10 @@ EventQueue& Game::events() const {
     return *events_;
 }
 
+SceneManager& Game::sceneManager() const {
+    return *sceneManager_;
+}
+
 void Game::loadScene(const std::string& name) {
     sceneManager_->loadScene(name);
 }

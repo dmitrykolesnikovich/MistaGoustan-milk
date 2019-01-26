@@ -57,6 +57,9 @@ public:
     // Returns the games event queue.
     EventQueue& events() const;
 
+    // Returns the games scene manager.
+    SceneManager& sceneManager() const;
+
     // Loads an JSON scene.
     void loadScene(const std::string& name);
 

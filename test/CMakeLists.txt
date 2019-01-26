@@ -41,7 +41,6 @@ set (TESTS
         )
 
 set(MOCKS
-        mocks/core/MScene.h
         mocks/core/MActorComponent.h)
 
 add_executable(milktests main.cpp ${TESTS} ${MOCKS})

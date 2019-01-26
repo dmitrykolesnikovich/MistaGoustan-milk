@@ -6,44 +6,24 @@
 
 // sut
 #include "core/Actor.h"
-#include "core/IScene.h"
 
 // mocks
 #include "mocks/core/MActorComponent.h"
-#include "mocks/core/MScene.h"
 
 class ActorTests : public ::testing::Test {};
 
 TEST_F(ActorTests, Ctor_Constructs)
 {
-    // Arrange
-    MScene mscene;
-
     // Act & Assert
-    ASSERT_NO_THROW(Actor(mscene, 1, "steve", {0, 0}));
-}
-
-TEST_F(ActorTests, Scene_ReturnsScene)
-{
-    // Arrange
-    MScene mscene;
-
-    Actor actor{mscene, 1, "steve", {0, 0}};
-
-    // Act
-    auto& scene = actor.scene();
-
-    // Assert
-    ASSERT_EQ(&mscene, &scene);
+    ASSERT_NO_THROW(Actor(1, "steve", {0, 0}));
 }
 
 TEST_F(ActorTests, Id_ReturnsId)
 {
     // Arrange
-    MScene mscene;
     int expectedId = 1;
 
-    Actor actor{mscene, expectedId, "steve", {0, 0}};
+    Actor actor{expectedId, "steve", {0, 0}};
 
     // Act
     auto id = actor.id();
@@ -55,10 +35,9 @@ TEST_F(ActorTests, Id_ReturnsId)
 TEST_F(ActorTests, Name_ReturnsName)
 {
     // Arrange
-    MScene mscene;
     std::string expectedName = "steve";
 
-    Actor actor{mscene, 1, expectedName, {0, 0}};
+    Actor actor{1, expectedName, {0, 0}};
 
     // Act
     auto name = actor.name();
@@ -70,10 +49,9 @@ TEST_F(ActorTests, Name_ReturnsName)
 TEST_F(ActorTests, Position_ReturnsPosition)
 {
     // Arrange
-    MScene mscene;
     Vector2d expectedPosition = {1, 1};
 
-    Actor actor{mscene, 1, "steve", expectedPosition};
+    Actor actor{ 1, "steve", expectedPosition};
 
     // Act
     auto position = actor.position();
@@ -85,8 +63,7 @@ TEST_F(ActorTests, Position_ReturnsPosition)
 TEST_F(ActorTests, Position_SetsPosition)
 {
     // Arrange
-    MScene mscene;
-    Actor actor{mscene, 1, "steve", {0, 0}};
+    Actor actor{1, "steve", {0, 0}};
 
     // Act
     actor.position(5, 7);
@@ -98,8 +75,7 @@ TEST_F(ActorTests, Position_SetsPosition)
 TEST_F(ActorTests, AddComponent_ReturnsNewlyAddedComponent)
 {
     // Arrange
-    MScene mscene;
-    Actor actor{mscene, 1, "steve", {0, 0}};
+    Actor actor{1, "steve", {0, 0}};
 
     // Act
     auto component = actor.addComponent<MActorComponent>();
@@ -111,8 +87,7 @@ TEST_F(ActorTests, AddComponent_ReturnsNewlyAddedComponent)
 TEST_F(ActorTests, AddComponent_DoesNotAddSameComponentTypeTwice)
 {
     // Arrange
-    MScene mscene;
-    Actor actor{mscene, 1, "steve", {0, 0}};
+    Actor actor{1, "steve", {0, 0}};
 
     actor.addComponent<MActorComponent>();
 
@@ -126,8 +101,7 @@ TEST_F(ActorTests, AddComponent_DoesNotAddSameComponentTypeTwice)
 TEST_F(ActorTests, GetComponent_GivenComponentExists_ReturnsComponent)
 {
     // Arrange
-    MScene mscene;
-    Actor actor{mscene, 1, "steve", {0, 0}};
+    Actor actor{1, "steve", {0, 0}};
 
     actor.addComponent<MActorComponent>();
 
@@ -141,8 +115,7 @@ TEST_F(ActorTests, GetComponent_GivenComponentExists_ReturnsComponent)
 TEST_F(ActorTests, GetComponent_GivenNoComponentExists_ReturnsNoComponent)
 {
     // Arrange
-    MScene mscene;
-    Actor actor{mscene, 1, "steve", {0, 0}};
+    Actor actor{1, "steve", {0, 0}};
 
     // Act
     auto component = actor.getComponent<MActorComponent>();

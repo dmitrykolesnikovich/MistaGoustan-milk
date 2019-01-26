@@ -3,10 +3,15 @@
 
 #include "externals/sol.hpp"
 
-#include "LuaHandle_Actor.h"
 #include "LuaHandle_CollisionEvent.h"
 #include "LuaHandle_BoxCollider.h"
 
+#include "LuaActor.h"
+#include "LuaGame.h"
+#include "LuaScene.h"
+
+#include "core/Actor.h"
+#include "core/Scene.h"
 #include "core/Game.h"
 #include "math/Vector2d.h"
 #include "utilities/Input.h"
@@ -17,9 +22,10 @@
 class LuaHandleRegistry {
 public:
     static void RegisterHandles(sol::state& luaState) {
+        using namespace mlk;
+
         // Input
         /////////////////////////////////////////////////////////////////
-
         luaState.new_enum("Keys",
                           "A", SDLK_a,
                           "D", SDLK_d,
@@ -31,18 +37,15 @@ public:
 
         // Actor
         /////////////////////////////////////////////////////////////////
-
-        luaState.new_usertype<LuaHandle_Actor>("Actor",
-                                               "name", sol::readonly_property(&LuaHandle_Actor::name),
-                                               "move", &LuaHandle_Actor::move,
-                                               "set_animation", &LuaHandle_Actor::setAnimation,
-                                               "flip_x", &LuaHandle_Actor::flipX,
-                                               "flip_y", &LuaHandle_Actor::flipY,
-                                               "make_cam_target", &LuaHandle_Actor::setAsCameraTarget);
+        luaState.new_usertype<Actor>("Actor",
+                                     "name", sol::readonly_property(&lua::actor::name),
+                                     "move", &lua::actor::move,
+                                     "set_animation", &lua::actor::setAnimation,
+                                     "flip_x", &lua::actor::flipX,
+                                     "flip_y", &lua::actor::flipY);
 
         // Box Collider
         /////////////////////////////////////////////////////////////////
-
         luaState.new_usertype<LuaHandle_BoxCollider>("BoxCollider",
                                                      "actor", sol::readonly_property(&LuaHandle_BoxCollider::actor));
 
@@ -61,9 +64,12 @@ public:
         // Game
         /////////////////////////////////////////////////////////////////
         luaState.new_usertype<Game>("Game",
-                                    sol::constructors<Game()>(),
-                                    "window", sol::readonly_property(&Game::window),
-                                    "load_scene", &Game::loadScene);
+                                    "window", sol::readonly_property(&lua::game::window),
+                                    "scene", sol::readonly_property(&lua::game::scene),
+                                    "load_scene", &lua::game::loadScene);
+
+        luaState.new_usertype<Scene>("Scene",
+                                    "set_cam_target", &lua::scene::setCameraTarget);
 
         // Vector2D
         /////////////////////////////////////////////////////////////////

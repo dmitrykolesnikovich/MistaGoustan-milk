@@ -4,8 +4,11 @@ local player = {
  }
 
 function player:begin()
+	-- start with idle animation
 	self.actor:set_animation('idle')
-	self.actor:make_cam_target()
+
+	-- set player as the camera target to follow
+	game.scene:set_cam_target(self.actor);
 end
 
 function player:update()

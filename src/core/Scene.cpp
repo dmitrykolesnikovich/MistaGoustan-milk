@@ -17,7 +17,7 @@ Scene::~Scene() = default;
 Actor* Scene::spawnActor(const std::string& name) {
     int id = idGenerator_.popId();
 
-    auto actor = std::make_unique<Actor>(*this, id, name, Vector2d(0, 0));
+    auto actor = std::make_unique<Actor>(id, name, Vector2d(0, 0));
     auto pActor = actor.get();
 
     actorsToSpawn_.emplace_back(std::move(actor));

@@ -6,8 +6,6 @@
 #include <unordered_map>
 #include <vector>
 
-#include "IScene.h"
-
 #include "tilemap/Tilemap.h"
 #include "utilities/Camera.h"
 #include "utilities/IdGenerator.h"
@@ -18,7 +16,7 @@ class Window;
 
 class EventQueue;
 
-class Scene : public IScene {
+class Scene {
 public:
     Scene(Window& window, EventQueue& eventQueue);
 
@@ -26,27 +24,27 @@ public:
 
     // Spawns a new actor in the games current scene.
     // Components are to be added immediately after spawned actor is returned.
-    Actor* spawnActor(const std::string& name) override;
+    Actor* spawnActor(const std::string& name);
 
     // Attempts to destroy and actor with the given id.
     // Returns true if successful.
-    bool destroyActor(int id) override;
+    bool destroyActor(int id);
 
     // Attempts to find an actor with the given name.
     // Returns nullptr if not actor is found.
-    Actor* findActor(const std::string& name) const override;
+    Actor* findActor(const std::string& name) const;
 
     // Returns the scenes camera.
-    Camera& camera() override;
+    Camera& camera();
 
     // Returns the scenes tilemap.
-    Tilemap& tilemap() override;
+    Tilemap& tilemap();
 
     // Updates the scenes internal lists after spawning and destroying actors.
-    void syncActorLists() override;
+    void syncActorLists();
 
     // Return the scene boundaries.
-    SDL_Rect bounds() const override;
+    SDL_Rect bounds() const;
 
     void end();
 

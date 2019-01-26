@@ -9,8 +9,6 @@
 
 class ActorComponent;
 
-class IScene;
-
 class ResourceManager;
 
 // An actor is an object that exists within a scene.
@@ -18,12 +16,9 @@ class ResourceManager;
 // Attach components to an actor in order to define it and give it behavior.
 class Actor {
 public:
-    Actor(IScene& scene, int id, const std::string& name, const Vector2d& position);
+    Actor(int id, const std::string& name, const Vector2d& position);
 
     ~Actor() = default;
-
-    // Returns the scene that the actor is in.
-    IScene& scene() const;
 
     // Returns the actor's unique id.
     int id() const;
@@ -72,8 +67,6 @@ private:
     std::string name_;
     Vector2d position_;
     uint32_t componentBitmask_;
-
-    IScene& scene_;
 
     std::unordered_map<int, std::unique_ptr<ActorComponent>> componentsByType_;
 };
