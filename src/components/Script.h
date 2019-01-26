@@ -14,8 +14,6 @@
 
 class ActorCollisionEvent;
 
-class LuaHandle_Actor;
-
 // A script is what controls an actor's behavior.
 class Script : public ActorComponent {
 public:

@@ -21,10 +21,6 @@ set(MILK_SRC_FILES
         core/Scene.h
         externals/json.hpp
         externals/sol.hpp
-        luahandles/LuaHandle_BoxCollider.cpp
-        luahandles/LuaHandle_BoxCollider.h
-        luahandles/LuaHandle_CollisionEvent.cpp
-        luahandles/LuaHandle_CollisionEvent.h
         luahandles/LuaHandleRegistry.h
         luahandles/LuaActor.cpp
         luahandles/LuaActor.h
@@ -32,6 +28,8 @@ set(MILK_SRC_FILES
         luahandles/LuaGame.h
         luahandles/LuaScene.cpp
         luahandles/LuaScene.h
+        luahandles/LuaCollisionEvent.cpp
+        luahandles/LuaCollisionEvent.h
         math/Vector2d.h
         systems/DebugTools.cpp
         systems/DebugTools.h

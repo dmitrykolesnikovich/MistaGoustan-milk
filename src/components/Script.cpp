@@ -1,9 +1,7 @@
 #include "Script.h"
 
 #include "core/Actor.h"
-
-#include "luahandles/LuaHandle_BoxCollider.h"
-#include "luahandles/LuaHandle_CollisionEvent.h"
+#include "systems/GameEvents.h"
 
 const ComponentType Script::type = SCRIPT;
 
@@ -49,7 +47,7 @@ void Script::onCollision(ActorCollisionEvent& collisionEvent) {
         return;
 
     sol::table self = luaScript_;
-    luaScript_[SCRIPT_CALLBACK_ON_COLLISION](self, LuaHandle_CollisionEvent(collisionEvent));
+    luaScript_[SCRIPT_CALLBACK_ON_COLLISION](self, collisionEvent);
 }
 
 void Script::end() {

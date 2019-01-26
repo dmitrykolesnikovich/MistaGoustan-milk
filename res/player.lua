@@ -8,16 +8,16 @@ function player:begin()
 	self.actor:set_animation('idle')
 
 	-- set player as the camera target to follow
-	game.scene:set_cam_target(self.actor);
+	Game.scene:set_cam_target(self.actor);
 end
 
 function player:update()
 	if Input.get_key_pressed(Keys.F) then
-		game.window:toggle_fullscreen()
+		Game.window:toggle_fullscreen()
 	end
 
 	if Input.get_key_pressed(Keys.R) then
-		game:load_scene('main_scene.json')
+		Game:load_scene('main_scene.json')
 	end
 
 	local inputvec = Vector2D.new(0, 0)
@@ -57,8 +57,8 @@ function player:update()
 end
 
 function player:on_collision(e)
-	if e.other.actor.name == 'door' then
-        game:load_scene('main_scene.json')
+	if e.other.name == 'door' then
+		Game:load_scene('main_scene.json')
 	end
 end
 

@@ -3,12 +3,10 @@
 
 #include "externals/sol.hpp"
 
-#include "LuaHandle_CollisionEvent.h"
-#include "LuaHandle_BoxCollider.h"
-
 #include "LuaActor.h"
 #include "LuaGame.h"
 #include "LuaScene.h"
+#include "LuaCollisionEvent.h"
 
 #include "core/Actor.h"
 #include "core/Scene.h"
@@ -17,6 +15,7 @@
 #include "utilities/Input.h"
 #include "utilities/Window.h"
 #include "components/BoxCollider.h"
+#include "systems/GameEvents.h"
 
 // Registry for the Lua API.
 class LuaHandleRegistry {
@@ -44,15 +43,10 @@ public:
                                      "flip_x", &lua::actor::flipX,
                                      "flip_y", &lua::actor::flipY);
 
-        // Box Collider
-        /////////////////////////////////////////////////////////////////
-        luaState.new_usertype<LuaHandle_BoxCollider>("BoxCollider",
-                                                     "actor", sol::readonly_property(&LuaHandle_BoxCollider::actor));
-
         // Collision Event
         /////////////////////////////////////////////////////////////////
-        luaState.new_usertype<LuaHandle_CollisionEvent>("CollisionEvent",
-                                                        "other", sol::readonly_property(&LuaHandle_CollisionEvent::other));
+        luaState.new_usertype<ActorCollisionEvent>("ActorCollisionEvent",
+                                              "other", sol::readonly_property(&lua::collision_event::other));
 
         // Input
         /////////////////////////////////////////////////////////////////

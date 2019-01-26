@@ -201,7 +201,7 @@ void Game::initLua() {
 
     LuaHandleRegistry::RegisterHandles(luaState_);
 
-    luaState_["game"] = this;
+    luaState_["Game"] = this;
 }
 
 bool Game::initFromConfig() {
