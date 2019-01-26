@@ -20,16 +20,25 @@ set(MILK_SRC_FILES
         externals/json.hpp
         externals/sol.hpp
 
+        # input
+        systems/input/Keyboard.cpp
+        systems/input/Keyboard.h
+
         # math
         math/Vector2d.h
 
         # graphics
         systems/graphics/Animator.cpp
         systems/graphics/Animator.h
+        systems/graphics/Camera.cpp
+        systems/graphics/Camera.h
         systems/graphics/Graphics.cpp
         systems/graphics/Graphics.h
         systems/graphics/Sprite.cpp
         systems/graphics/Sprite.h
+        systems/graphics/Texture.cpp
+        systems/graphics/Texture.h
+        systems/graphics/Tilemap.h
 
         # physics
         systems/physics/BoxCollider.cpp
@@ -60,25 +69,16 @@ set(MILK_SRC_FILES
         systems/tools/DebugTools.cpp
         systems/tools/DebugTools.h
 
-        # tilemap
-        tilemap/Tilemap.h
-
         # utilities
         utilities/Alignment.h
-        utilities/Camera.cpp
-        utilities/Camera.h
         utilities/IdGenerator.cpp
         utilities/IdGenerator.h
-        utilities/Input.cpp
-        utilities/Input.h
         utilities/ResourceManager.cpp
         utilities/ResourceManager.h
         utilities/SceneLoader.cpp
         utilities/SceneLoader.h
         utilities/SceneManager.cpp
         utilities/SceneManager.h
-        utilities/Texture.cpp
-        utilities/Texture.h
         utilities/Timer.cpp
         utilities/Timer.h
         utilities/Window.cpp

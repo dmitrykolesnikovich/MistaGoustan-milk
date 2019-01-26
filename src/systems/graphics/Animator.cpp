@@ -7,7 +7,7 @@
 #include "Sprite.h"
 #include "core/Actor.h"
 
-#include "utilities/Texture.h"
+#include "Texture.h"
 
 const ComponentType Animator::type = ANIMATOR;
 

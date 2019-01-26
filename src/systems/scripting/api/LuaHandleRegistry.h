@@ -12,7 +12,7 @@
 #include "core/Scene.h"
 #include "core/Game.h"
 #include "math/Vector2d.h"
-#include "utilities/Input.h"
+#include "systems/input/Keyboard.h"
 #include "utilities/Window.h"
 #include "systems/physics/BoxCollider.h"
 #include "systems/events/GameEvents.h"
@@ -50,10 +50,10 @@ public:
 
         // Input
         /////////////////////////////////////////////////////////////////
-        luaState.new_usertype<Input>("Input",
-                                     "get_key", &Input::getKey,
-                                     "get_key_pressed", &Input::getKeyPressed,
-                                     "get_key_released", &Input::getKeyReleased);
+        luaState.new_usertype<Keyboard>("Input",
+                                     "get_key", &Keyboard::getKey,
+                                     "get_key_pressed", &Keyboard::getKeyPressed,
+                                     "get_key_released", &Keyboard::getKeyReleased);
 
         // Game
         /////////////////////////////////////////////////////////////////

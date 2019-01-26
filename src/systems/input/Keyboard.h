@@ -3,9 +3,9 @@
 
 #include "SDL.h"
 
-class Input {
+class Keyboard {
 public:
-    Input() = default;
+    Keyboard() = default;
 
     // Returns true if given key is down.
     static bool getKey(SDL_Keycode keycode);

@@ -13,7 +13,7 @@
 
 #include "systems/events/GameEvents.h"
 
-#include "utilities/Texture.h"
+#include "Texture.h"
 
 Graphics::Graphics(SDL_Renderer& renderer, ResourceManager& resourceManager)
         : sdlRenderer_(renderer), resourceManager_(resourceManager) {

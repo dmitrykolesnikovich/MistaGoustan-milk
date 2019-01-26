@@ -7,7 +7,7 @@
 #include <string>
 #include <iostream>
 
-#include "Texture.h"
+#include "systems/graphics/Texture.h"
 
 ResourceManager::ResourceManager(const std::string& rootDir)
         : rootDir_(rootDir), sdlRenderer_(nullptr) {

@@ -21,7 +21,7 @@
 #include "systems/physics/Physics.h"
 #include "systems/graphics/Graphics.h"
 
-#include "utilities/Input.h"
+#include "systems/input/Keyboard.h"
 #include "utilities/ResourceManager.h"
 #include "utilities/SceneLoader.h"
 #include "utilities/SceneManager.h"
@@ -124,7 +124,7 @@ void Game::handleEvents() {
 
     // It is important that this is caused AFTER polling all events.
     // SDL_Poll events internal updates SDL key states, which is what input uses.
-    Input::updateKeyboardState();
+    Keyboard::updateKeyboardState();
 
     // Let systems handle game events enqueued last frame.
     while (auto gameEvent = events_->pollEvent()) {
@@ -267,7 +267,7 @@ bool Game::initRenderWindow() {
 }
 
 void Game::initSystems() {
-    Input::initialize();
+    Keyboard::initialize();
 
     resources_->init(window_->sdlRenderer());
 
