@@ -109,12 +109,15 @@ TEST_F(SceneTests, DestroyActor_GeneratesActorDestroyedEvent) {
     // Lets get rid of that spawned event
     eventQueue.pollEvent();
 
+    scene.syncActorLists();
+
     // Act
     scene.destroyActor(actor->id());
 
     // Assert
     auto destroyedEvent = eventQueue.pollEvent();
 
+    ASSERT_NE(nullptr, destroyedEvent);
     ASSERT_TRUE(destroyedEvent->type() == GameEventType::ACTOR_DETROYED);
 
     auto& destroyedEventActor = (dynamic_cast<ActorDestroyedEvent*>(destroyedEvent))->actor();

@@ -1,5 +1,5 @@
-#ifndef _MACTOR_COMPONENT_
-#define _MACTOR_COMPONENT_
+#ifndef _MACTOR_COMPONENT_H
+#define _MACTOR_COMPONENT_H
 
 #include "core/ActorComponent.h"
 
