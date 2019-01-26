@@ -1,7 +1,7 @@
 #include "LuaCollisionEvent.h"
 
-#include "systems/physics/BoxCollider.h"
-#include "systems/events/GameEvents.h"
+#include "physics/BoxCollider.h"
+#include "events/GameEvents.h"
 
 namespace mlk {
     namespace lua {

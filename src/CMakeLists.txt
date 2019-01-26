@@ -1,6 +1,7 @@
 project(milklib)
 
 set(MILK_SRC_FILES
+
         # core
         core/Actor.cpp
         core/Actor.h
@@ -12,62 +13,62 @@ set(MILK_SRC_FILES
         core/Scene.h
 
         # events
-        systems/events/EventQueue.cpp
-        systems/events/EventQueue.h
-        systems/events/GameEvents.h
+        events/EventQueue.cpp
+        events/EventQueue.h
+        events/GameEvents.h
 
         # externals
         externals/json.hpp
         externals/sol.hpp
 
         # input
-        systems/input/Keyboard.cpp
-        systems/input/Keyboard.h
+        input/Keyboard.cpp
+        input/Keyboard.h
+
+        # graphics
+        graphics/Animator.cpp
+        graphics/Animator.h
+        graphics/Camera.cpp
+        graphics/Camera.h
+        graphics/Graphics.cpp
+        graphics/Graphics.h
+        graphics/Sprite.cpp
+        graphics/Sprite.h
+        graphics/Texture.cpp
+        graphics/Texture.h
+        graphics/Tilemap.h
 
         # math
         math/Vector2d.h
 
-        # graphics
-        systems/graphics/Animator.cpp
-        systems/graphics/Animator.h
-        systems/graphics/Camera.cpp
-        systems/graphics/Camera.h
-        systems/graphics/Graphics.cpp
-        systems/graphics/Graphics.h
-        systems/graphics/Sprite.cpp
-        systems/graphics/Sprite.h
-        systems/graphics/Texture.cpp
-        systems/graphics/Texture.h
-        systems/graphics/Tilemap.h
-
         # physics
-        systems/physics/BoxCollider.cpp
-        systems/physics/BoxCollider.h
-        systems/physics/Physics.cpp
-        systems/physics/Physics.h
-        systems/physics/SpatialPartitionGrid.cpp
-        systems/physics/SpatialPartitionGrid.h
-        systems/physics/Velocity.cpp
-        systems/physics/Velocity.h
+        physics/BoxCollider.cpp
+        physics/BoxCollider.h
+        physics/Physics.cpp
+        physics/Physics.h
+        physics/SpatialPartitionGrid.cpp
+        physics/SpatialPartitionGrid.h
+        physics/Velocity.cpp
+        physics/Velocity.h
 
         # scripting
-        systems/scripting/api/LuaHandleRegistry.h
-        systems/scripting/api/LuaActor.cpp
-        systems/scripting/api/LuaActor.h
-        systems/scripting/api/LuaGame.cpp
-        systems/scripting/api/LuaGame.h
-        systems/scripting/api/LuaScene.cpp
-        systems/scripting/api/LuaScene.h
-        systems/scripting/api/LuaCollisionEvent.cpp
-        systems/scripting/api/LuaCollisionEvent.h
-        systems/scripting/Logic.cpp
-        systems/scripting/Logic.h
-        systems/scripting/Script.cpp
-        systems/scripting/Script.h
+        scripting/api/LuaHandleRegistry.h
+        scripting/api/LuaActor.cpp
+        scripting/api/LuaActor.h
+        scripting/api/LuaGame.cpp
+        scripting/api/LuaGame.h
+        scripting/api/LuaScene.cpp
+        scripting/api/LuaScene.h
+        scripting/api/LuaCollisionEvent.cpp
+        scripting/api/LuaCollisionEvent.h
+        scripting/Logic.cpp
+        scripting/Logic.h
+        scripting/Script.cpp
+        scripting/Script.h
 
         # tools
-        systems/tools/DebugTools.cpp
-        systems/tools/DebugTools.h
+        tools/DebugTools.cpp
+        tools/DebugTools.h
 
         # utilities
         utilities/Alignment.h

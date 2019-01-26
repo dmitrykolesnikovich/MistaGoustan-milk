@@ -7,8 +7,8 @@
 
 #include "core/Actor.h"
 
-#include "systems/events/EventQueue.h"
-#include "systems/events/GameEvents.h"
+#include "events/EventQueue.h"
+#include "events/GameEvents.h"
 #include "SpatialPartitionGrid.h"
 
 Physics::Physics(EventQueue& eventQueue)

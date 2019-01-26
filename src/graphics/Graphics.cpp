@@ -5,13 +5,13 @@
 #include <cmath>
 
 #include "Animator.h"
-#include "systems/physics/BoxCollider.h"
+#include "physics/BoxCollider.h"
 #include "Sprite.h"
 
 #include "core/Actor.h"
 #include "core/Scene.h"
 
-#include "systems/events/GameEvents.h"
+#include "events/GameEvents.h"
 
 #include "Texture.h"
 

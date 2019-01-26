@@ -7,21 +7,21 @@
 
 #include "core/Scene.h"
 
-#include "systems/scripting/api/LuaHandleRegistry.h"
+#include "scripting/api/LuaHandleRegistry.h"
 
 #ifdef _DEBUG
 
-#include "systems/tools/DebugTools.h"
+#include "tools/DebugTools.h"
 
 #endif
 
-#include "systems/events/EventQueue.h"
-#include "systems/events/GameEvents.h"
-#include "systems/scripting/Logic.h"
-#include "systems/physics/Physics.h"
-#include "systems/graphics/Graphics.h"
+#include "events/EventQueue.h"
+#include "events/GameEvents.h"
+#include "scripting/Logic.h"
+#include "physics/Physics.h"
+#include "graphics/Graphics.h"
 
-#include "systems/input/Keyboard.h"
+#include "input/Keyboard.h"
 #include "utilities/ResourceManager.h"
 #include "utilities/SceneLoader.h"
 #include "utilities/SceneManager.h"

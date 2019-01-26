@@ -4,8 +4,8 @@
 
 #include "core/Actor.h"
 #include "core/ActorComponent.h"
-#include "systems/events/EventQueue.h"
-#include "systems/events/GameEvents.h"
+#include "events/EventQueue.h"
+#include "events/GameEvents.h"
 #include "utilities/Window.h"
 
 Scene::Scene(EventQueue& eventQueue, unsigned virtualWidth, unsigned virtualHeight)

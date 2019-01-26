@@ -6,8 +6,8 @@
 #include <unordered_map>
 #include <vector>
 
-#include "systems/graphics/Tilemap.h"
-#include "systems/graphics/Camera.h"
+#include "graphics/Tilemap.h"
+#include "graphics/Camera.h"
 #include "utilities/IdGenerator.h"
 
 class Actor;

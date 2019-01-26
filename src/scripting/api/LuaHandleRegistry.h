@@ -12,10 +12,10 @@
 #include "core/Scene.h"
 #include "core/Game.h"
 #include "math/Vector2d.h"
-#include "systems/input/Keyboard.h"
+#include "input/Keyboard.h"
 #include "utilities/Window.h"
-#include "systems/physics/BoxCollider.h"
-#include "systems/events/GameEvents.h"
+#include "physics/BoxCollider.h"
+#include "events/GameEvents.h"
 
 // Registry for the Lua API.
 class LuaHandleRegistry {

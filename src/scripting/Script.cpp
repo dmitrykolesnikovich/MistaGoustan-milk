@@ -1,7 +1,7 @@
 #include "Script.h"
 
 #include "core/Actor.h"
-#include "systems/events/GameEvents.h"
+#include "events/GameEvents.h"
 
 const ComponentType Script::type = SCRIPT;
 

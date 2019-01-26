@@ -7,8 +7,8 @@
 #include "core/Actor.h"
 #include "core/Scene.h"
 
-#include "systems/events/EventQueue.h"
-#include "systems/events/GameEvents.h"
+#include "events/EventQueue.h"
+#include "events/GameEvents.h"
 
 class SceneTests : public ::testing::Test {};
 

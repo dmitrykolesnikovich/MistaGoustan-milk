@@ -1,7 +1,7 @@
 #include "BoxCollider.h"
 
 #include "core/Actor.h"
-#include "systems/physics/SpatialPartitionGrid.h"
+#include "SpatialPartitionGrid.h"
 
 const ComponentType BoxCollider::type = BOX_COLLIDER;
 
