@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 
 #include "../test/tests/core/ActorTests.h"
+#include "../test/tests/core/SceneTests.h"
 
 int main(int argc, char **argv)
 {

@@ -18,7 +18,7 @@ class EventQueue;
 
 class Scene {
 public:
-    Scene(Window& window, EventQueue& eventQueue);
+    Scene(EventQueue& eventQueue, unsigned virtualWidth, unsigned virtualHeight);
 
     ~Scene();
 

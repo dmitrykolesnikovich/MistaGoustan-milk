@@ -8,8 +8,8 @@
 #include "systems/events/GameEvents.h"
 #include "utilities/Window.h"
 
-Scene::Scene(Window& window, EventQueue& eventQueue)
-        : eventQueue_(eventQueue), camera_(*this, window.virtualWidth(), window.virtualHeight()) {
+Scene::Scene(EventQueue& eventQueue, unsigned virtualWidth, unsigned virtualHeight)
+        : eventQueue_(eventQueue), camera_(*this, virtualWidth, virtualHeight) {
 }
 
 Scene::~Scene() = default;

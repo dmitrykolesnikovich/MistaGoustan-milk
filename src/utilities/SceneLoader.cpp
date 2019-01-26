@@ -23,6 +23,7 @@
 #include "core/Game.h"
 #include "core/Scene.h"
 #include "utilities/ResourceManager.h"
+#include "utilities/Window.h"
 
 SceneLoader::SceneLoader(Game& game)
         : game_(game) {
@@ -39,7 +40,7 @@ std::unique_ptr<Scene> SceneLoader::load(const std::string& file) const {
     auto sceneJsonString = resourceManager.loadFile(file);
     json sceneJson = json::parse(sceneJsonString);
 
-    auto scene = std::make_unique<Scene>(game_.window(), game_.events());
+    auto scene = std::make_unique<Scene>(game_.events(), game_.window().virtualWidth(), game_.window().virtualHeight());
     auto& tilemap = scene->tilemap();
 
     tilemap.sourceImageFile = sceneJson["source"].get<std::string>();

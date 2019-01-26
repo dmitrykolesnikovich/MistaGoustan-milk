@@ -1,5 +1,5 @@
-#ifndef _ACTOR_TESTS_
-#define _ACTOR_TESTS_
+#ifndef _ACTOR_TESTS_H
+#define _ACTOR_TESTS_H
 
 // google test
 #include "gtest/gtest.h"
@@ -10,16 +10,15 @@
 // mocks
 #include "mocks/core/MActorComponent.h"
 
-class ActorTests : public ::testing::Test {};
+class ActorTests : public ::testing::Test {
+};
 
-TEST_F(ActorTests, Ctor_Constructs)
-{
+TEST_F(ActorTests, Ctor_Constructs) {
     // Act & Assert
     ASSERT_NO_THROW(Actor(1, "steve", {0, 0}));
 }
 
-TEST_F(ActorTests, Id_ReturnsId)
-{
+TEST_F(ActorTests, Id_ReturnsId) {
     // Arrange
     int expectedId = 1;
 
@@ -32,8 +31,7 @@ TEST_F(ActorTests, Id_ReturnsId)
     ASSERT_EQ(expectedId, id);
 }
 
-TEST_F(ActorTests, Name_ReturnsName)
-{
+TEST_F(ActorTests, Name_ReturnsName) {
     // Arrange
     std::string expectedName = "steve";
 
@@ -46,12 +44,11 @@ TEST_F(ActorTests, Name_ReturnsName)
     ASSERT_EQ(expectedName, name);
 }
 
-TEST_F(ActorTests, Position_ReturnsPosition)
-{
+TEST_F(ActorTests, Position_ReturnsPosition) {
     // Arrange
     Vector2d expectedPosition = {1, 1};
 
-    Actor actor{ 1, "steve", expectedPosition};
+    Actor actor{1, "steve", expectedPosition};
 
     // Act
     auto position = actor.position();
@@ -60,8 +57,7 @@ TEST_F(ActorTests, Position_ReturnsPosition)
     ASSERT_TRUE(expectedPosition == position);
 }
 
-TEST_F(ActorTests, Position_SetsPosition)
-{
+TEST_F(ActorTests, Position_SetsPosition) {
     // Arrange
     Actor actor{1, "steve", {0, 0}};
 
@@ -72,8 +68,7 @@ TEST_F(ActorTests, Position_SetsPosition)
     ASSERT_TRUE(actor.position() == Vector2d(5, 7));
 }
 
-TEST_F(ActorTests, AddComponent_ReturnsNewlyAddedComponent)
-{
+TEST_F(ActorTests, AddComponent_ReturnsNewlyAddedComponent) {
     // Arrange
     Actor actor{1, "steve", {0, 0}};
 
@@ -84,8 +79,7 @@ TEST_F(ActorTests, AddComponent_ReturnsNewlyAddedComponent)
     ASSERT_NE(nullptr, component);
 }
 
-TEST_F(ActorTests, AddComponent_DoesNotAddSameComponentTypeTwice)
-{
+TEST_F(ActorTests, AddComponent_DoesNotAddSameComponentTypeTwice) {
     // Arrange
     Actor actor{1, "steve", {0, 0}};
 
@@ -98,8 +92,7 @@ TEST_F(ActorTests, AddComponent_DoesNotAddSameComponentTypeTwice)
     ASSERT_EQ(nullptr, component);
 }
 
-TEST_F(ActorTests, GetComponent_GivenComponentExists_ReturnsComponent)
-{
+TEST_F(ActorTests, GetComponent_GivenComponentExists_ReturnsComponent) {
     // Arrange
     Actor actor{1, "steve", {0, 0}};
 
@@ -112,8 +105,7 @@ TEST_F(ActorTests, GetComponent_GivenComponentExists_ReturnsComponent)
     ASSERT_NE(nullptr, component);
 }
 
-TEST_F(ActorTests, GetComponent_GivenNoComponentExists_ReturnsNoComponent)
-{
+TEST_F(ActorTests, GetComponent_GivenNoComponentExists_ReturnsNoComponent) {
     // Arrange
     Actor actor{1, "steve", {0, 0}};
 
