@@ -1,16 +1,7 @@
 project(milklib)
 
 set(MILK_SRC_FILES
-        components/Animator.cpp
-        components/Animator.h
-        components/BoxCollider.cpp
-        components/BoxCollider.h
-        components/Script.cpp
-        components/Script.h
-        components/Sprite.cpp
-        components/Sprite.h
-        components/Velocity.cpp
-        components/Velocity.h
+        # core
         core/Actor.cpp
         core/Actor.h
         core/ActorComponent.cpp
@@ -19,33 +10,60 @@ set(MILK_SRC_FILES
         core/Game.cpp
         core/Scene.cpp
         core/Scene.h
+
+        # events
+        systems/events/EventQueue.cpp
+        systems/events/EventQueue.h
+        systems/events/GameEvents.h
+
+        # externals
         externals/json.hpp
         externals/sol.hpp
-        luahandles/LuaHandleRegistry.h
-        luahandles/LuaActor.cpp
-        luahandles/LuaActor.h
-        luahandles/LuaGame.cpp
-        luahandles/LuaGame.h
-        luahandles/LuaScene.cpp
-        luahandles/LuaScene.h
-        luahandles/LuaCollisionEvent.cpp
-        luahandles/LuaCollisionEvent.h
+
+        # math
         math/Vector2d.h
-        systems/DebugTools.cpp
-        systems/DebugTools.h
-        systems/EventQueue.cpp
-        systems/EventQueue.h systems/GameEvents.h
-        systems/Logic.cpp
-        systems/Logic.h
-        systems/Physics.cpp
-        systems/Physics.h
-        systems/Graphics.cpp
-        systems/Graphics.h
-        utilities/SceneManager.cpp
-        utilities/SceneManager.h
-        systems/SpatialPartitionGrid.cpp
-        systems/SpatialPartitionGrid.h
+
+        # graphics
+        systems/graphics/Animator.cpp
+        systems/graphics/Animator.h
+        systems/graphics/Graphics.cpp
+        systems/graphics/Graphics.h
+        systems/graphics/Sprite.cpp
+        systems/graphics/Sprite.h
+
+        # physics
+        systems/physics/BoxCollider.cpp
+        systems/physics/BoxCollider.h
+        systems/physics/Physics.cpp
+        systems/physics/Physics.h
+        systems/physics/SpatialPartitionGrid.cpp
+        systems/physics/SpatialPartitionGrid.h
+        systems/physics/Velocity.cpp
+        systems/physics/Velocity.h
+
+        # scripting
+        systems/scripting/api/LuaHandleRegistry.h
+        systems/scripting/api/LuaActor.cpp
+        systems/scripting/api/LuaActor.h
+        systems/scripting/api/LuaGame.cpp
+        systems/scripting/api/LuaGame.h
+        systems/scripting/api/LuaScene.cpp
+        systems/scripting/api/LuaScene.h
+        systems/scripting/api/LuaCollisionEvent.cpp
+        systems/scripting/api/LuaCollisionEvent.h
+        systems/scripting/Logic.cpp
+        systems/scripting/Logic.h
+        systems/scripting/Script.cpp
+        systems/scripting/Script.h
+
+        # tools
+        systems/tools/DebugTools.cpp
+        systems/tools/DebugTools.h
+
+        # tilemap
         tilemap/Tilemap.h
+
+        # utilities
         utilities/Alignment.h
         utilities/Camera.cpp
         utilities/Camera.h
@@ -57,6 +75,8 @@ set(MILK_SRC_FILES
         utilities/ResourceManager.h
         utilities/SceneLoader.cpp
         utilities/SceneLoader.h
+        utilities/SceneManager.cpp
+        utilities/SceneManager.h
         utilities/Texture.cpp
         utilities/Texture.h
         utilities/Timer.cpp

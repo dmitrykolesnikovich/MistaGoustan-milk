@@ -14,11 +14,11 @@
 
 #include "externals/json.hpp"
 
-#include "components/Animator.h"
-#include "components/Script.h"
-#include "components/BoxCollider.h"
-#include "components/Sprite.h"
-#include "components/Velocity.h"
+#include "systems/graphics/Animator.h"
+#include "systems/scripting/Script.h"
+#include "systems/physics/BoxCollider.h"
+#include "systems/graphics/Sprite.h"
+#include "systems/physics/Velocity.h"
 #include "core/Actor.h"
 #include "core/Game.h"
 #include "core/Scene.h"

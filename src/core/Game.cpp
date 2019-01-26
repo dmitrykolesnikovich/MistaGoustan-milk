@@ -7,19 +7,19 @@
 
 #include "core/Scene.h"
 
-#include "luahandles/LuaHandleRegistry.h"
+#include "systems/scripting/api/LuaHandleRegistry.h"
 
 #ifdef _DEBUG
 
-#include "systems/DebugTools.h"
+#include "systems/tools/DebugTools.h"
 
 #endif
 
-#include "systems/EventQueue.h"
-#include "systems/GameEvents.h"
-#include "systems/Logic.h"
-#include "systems/Physics.h"
-#include "systems/Graphics.h"
+#include "systems/events/EventQueue.h"
+#include "systems/events/GameEvents.h"
+#include "systems/scripting/Logic.h"
+#include "systems/physics/Physics.h"
+#include "systems/graphics/Graphics.h"
 
 #include "utilities/Input.h"
 #include "utilities/ResourceManager.h"

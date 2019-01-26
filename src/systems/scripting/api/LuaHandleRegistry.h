@@ -14,8 +14,8 @@
 #include "math/Vector2d.h"
 #include "utilities/Input.h"
 #include "utilities/Window.h"
-#include "components/BoxCollider.h"
-#include "systems/GameEvents.h"
+#include "systems/physics/BoxCollider.h"
+#include "systems/events/GameEvents.h"
 
 // Registry for the Lua API.
 class LuaHandleRegistry {

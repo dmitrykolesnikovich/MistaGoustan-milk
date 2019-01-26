@@ -1,8 +1,8 @@
 #include "Logic.h"
 
-#include "components/Script.h"
+#include "Script.h"
 #include "core/Actor.h"
-#include "systems/GameEvents.h"
+#include "systems/events/GameEvents.h"
 
 Logic::Logic(sol::state& luaState)
         : luaState_(luaState) {

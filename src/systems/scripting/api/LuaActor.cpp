@@ -1,8 +1,8 @@
 #include "LuaActor.h"
 
-#include "components/Animator.h"
-#include "components/Sprite.h"
-#include "components/Velocity.h"
+#include "systems/graphics/Animator.h"
+#include "systems/graphics/Sprite.h"
+#include "systems/physics/Velocity.h"
 #include "core/Actor.h"
 
 namespace mlk {

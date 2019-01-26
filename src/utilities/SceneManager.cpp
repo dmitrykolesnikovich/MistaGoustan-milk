@@ -1,7 +1,7 @@
 #include "SceneManager.h"
 
-#include "systems/EventQueue.h"
-#include "systems/GameEvents.h"
+#include "systems/events/EventQueue.h"
+#include "systems/events/GameEvents.h"
 #include "core/Scene.h"
 #include "utilities/SceneLoader.h"
 

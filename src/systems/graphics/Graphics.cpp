@@ -4,14 +4,14 @@
 
 #include <cmath>
 
-#include "components/Animator.h"
-#include "components/BoxCollider.h"
-#include "components/Sprite.h"
+#include "Animator.h"
+#include "systems/physics/BoxCollider.h"
+#include "Sprite.h"
 
 #include "core/Actor.h"
 #include "core/Scene.h"
 
-#include "systems/GameEvents.h"
+#include "systems/events/GameEvents.h"
 
 #include "utilities/Texture.h"
 

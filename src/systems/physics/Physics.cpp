@@ -2,14 +2,14 @@
 
 #include <vector>
 
-#include "components/BoxCollider.h"
-#include "components/Velocity.h"
+#include "BoxCollider.h"
+#include "Velocity.h"
 
 #include "core/Actor.h"
 
-#include "systems/EventQueue.h"
-#include "systems/GameEvents.h"
-#include "systems/SpatialPartitionGrid.h"
+#include "systems/events/EventQueue.h"
+#include "systems/events/GameEvents.h"
+#include "SpatialPartitionGrid.h"
 
 Physics::Physics(EventQueue& eventQueue)
         : eventQueue_(eventQueue), partitionGrid_(new SpatialPartitionGrid()) {

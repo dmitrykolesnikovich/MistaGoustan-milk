@@ -4,10 +4,10 @@
 
 #include "SDL.h"
 
-#include "../components/Sprite.h"
-#include "../core/Actor.h"
+#include "Sprite.h"
+#include "core/Actor.h"
 
-#include "../utilities/Texture.h"
+#include "utilities/Texture.h"
 
 const ComponentType Animator::type = ANIMATOR;
 

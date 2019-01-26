@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "core/Actor.h"
-#include "components/BoxCollider.h"
+#include "BoxCollider.h"
 
 SpatialPartitionGrid::SpatialPartitionGrid() {
     // Initialize the grid.

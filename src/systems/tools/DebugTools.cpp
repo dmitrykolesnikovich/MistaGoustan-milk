@@ -1,12 +1,12 @@
 #include "DebugTools.h"
 
-#include "components/BoxCollider.h"
+#include "systems/physics/BoxCollider.h"
 
 #include "core/Actor.h"
 #include "core/Scene.h"
 
-#include "systems/GameEvents.h"
-#include "systems/SpatialPartitionGrid.h"
+#include "systems/events/GameEvents.h"
+#include "systems/physics/SpatialPartitionGrid.h"
 
 DebugTools::DebugTools(SDL_Renderer& renderer)
         : sdlRenderer_(renderer) {
