@@ -1,4 +1,5 @@
-# milk
+# milk 🥛 
+#### a small 2d game engine that is currently in development.
 
 *linux & osx build status:*
 
