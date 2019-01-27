@@ -1,8 +1,10 @@
 #include "Sprite.h"
 
-#include "scene/Actor.h"
+#include "graphics/Texture.h"
 
 #include "math/Vector2d.h"
+
+#include "scene/Actor.h"
 
 #include "utilities/ResourceManager.h"
 
@@ -11,10 +13,20 @@ const milk::ComponentType milk::Sprite::type = SPRITE;
 milk::Sprite::Sprite(milk::Actor& actor, const std::string& textureName)
         : ActorComponent::ActorComponent(actor), textureName_(textureName), alignment_(Alignment::TOP_LEFT),
           flip_(SDL_FLIP_NONE) {
+
+    sourceRect_ = {0, 0, 0, 0};
 }
 
 void milk::Sprite::load(AssetLoader<Texture>& textureLoader) {
     texture_ = textureLoader.load(textureName_);
+
+    // If the source rect was never explictly set, lets default it to texture rect.
+    if (SDL_RectEmpty(&sourceRect_)) {
+        sourceRect_.x = 0;
+        sourceRect_.y = 0;
+        sourceRect_.w = texture_->width();
+        sourceRect_.h = texture_->height();
+    }
 }
 
 std::shared_ptr<milk::Texture> milk::Sprite::texture() const {
