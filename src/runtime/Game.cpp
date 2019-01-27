@@ -209,7 +209,6 @@ void milk::Game::initLua() {
 }
 
 bool milk::Game::initFromConfig() {
-
     sol::load_result loadResult = luaState_.load_file(configFile_);
 
     if (!loadResult.valid()) {
