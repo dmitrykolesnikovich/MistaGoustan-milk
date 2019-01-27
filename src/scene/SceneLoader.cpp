@@ -10,9 +10,9 @@
 
 #include "SDL.h"
 
-#include "core/Actor.h"
-#include "core/Game.h"
-#include "core/Scene.h"
+#include "scene/Actor.h"
+#include "runtime/Game.h"
+#include "scene/Scene.h"
 
 #include "externals/json.hpp"
 

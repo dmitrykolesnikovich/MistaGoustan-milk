@@ -10,7 +10,7 @@
 
 #include "externals/sol.hpp"
 
-#include "core/ActorComponent.h"
+#include "scene/ActorComponent.h"
 
 namespace milk {
     class ActorCollisionEvent;

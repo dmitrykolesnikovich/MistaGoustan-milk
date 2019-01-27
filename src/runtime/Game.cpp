@@ -5,7 +5,7 @@
 #include "SDL.h"
 #include "SDL_image.h"
 
-#include "core/Scene.h"
+#include "scene/Scene.h"
 
 #include "events/EventQueue.h"
 #include "events/GameEvents.h"
@@ -26,8 +26,8 @@
 #endif
 
 #include "utilities/ResourceManager.h"
-#include "utilities/SceneLoader.h"
-#include "utilities/SceneManager.h"
+#include "scene/SceneLoader.h"
+#include "scene/SceneManager.h"
 #include "utilities/Timer.h"
 
 #include "window/Window.h"

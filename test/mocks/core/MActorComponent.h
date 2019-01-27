@@ -1,7 +1,7 @@
 #ifndef MILK_MACTOR_COMPONENT_H
 #define MILK_MACTOR_COMPONENT_H
 
-#include "core/ActorComponent.h"
+#include "scene/ActorComponent.h"
 
 class MActorComponent : public milk::ActorComponent {
 public:

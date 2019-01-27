@@ -4,7 +4,7 @@
 
 #include "BoxCollider.h"
 
-#include "core/Actor.h"
+#include "scene/Actor.h"
 
 milk::SpatialPartitionGrid::SpatialPartitionGrid() {
     // Initialize the grid.

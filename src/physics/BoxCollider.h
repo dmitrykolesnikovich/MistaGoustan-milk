@@ -3,7 +3,7 @@
 
 #include "SDL.h"
 
-#include "core/ActorComponent.h"
+#include "scene/ActorComponent.h"
 
 #include "math/Vector2d.h"
 

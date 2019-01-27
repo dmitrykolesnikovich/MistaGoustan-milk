@@ -1,7 +1,7 @@
 #include "DebugTools.h"
 
-#include "core/Actor.h"
-#include "core/Scene.h"
+#include "scene/Actor.h"
+#include "scene/Scene.h"
 
 #include "events/GameEvents.h"
 

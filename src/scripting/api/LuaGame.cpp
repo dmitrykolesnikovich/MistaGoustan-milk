@@ -1,8 +1,8 @@
 #include "LuaGame.h"
 
-#include "core/Game.h"
+#include "runtime/Game.h"
 
-#include "utilities/SceneManager.h"
+#include "scene/SceneManager.h"
 
 namespace milk {
     namespace lua {

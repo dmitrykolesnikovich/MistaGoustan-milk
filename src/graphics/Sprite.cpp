@@ -1,6 +1,6 @@
 #include "Sprite.h"
 
-#include "core/Actor.h"
+#include "scene/Actor.h"
 
 #include "math/Vector2d.h"
 

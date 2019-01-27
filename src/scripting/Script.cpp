@@ -1,6 +1,6 @@
 #include "Script.h"
 
-#include "core/Actor.h"
+#include "scene/Actor.h"
 #include "events/GameEvents.h"
 
 const milk::ComponentType milk::Script::type = SCRIPT;

@@ -1,7 +1,7 @@
 #ifndef MILK_VELOCITY_H
 #define MILK_VELOCITY_H
 
-#include "core/ActorComponent.h"
+#include "scene/ActorComponent.h"
 
 #include "math/Vector2d.h"
 

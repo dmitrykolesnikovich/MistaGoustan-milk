@@ -1,11 +1,11 @@
 #include "SceneManager.h"
 
-#include "core/Scene.h"
+#include "scene/Scene.h"
 
 #include "events/EventQueue.h"
 #include "events/GameEvents.h"
 
-#include "utilities/SceneLoader.h"
+#include "SceneLoader.h"
 
 milk::SceneManager::SceneManager(EventQueue& eventQueue, SceneLoader& sceneLoader)
         : eventQueue_(eventQueue), sceneLoader_(sceneLoader), scene_(nullptr) {

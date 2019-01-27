@@ -5,7 +5,7 @@
 #include "gtest/gtest.h"
 
 // sut
-#include "core/Actor.h"
+#include "scene/Actor.h"
 
 // mocks
 #include "mocks/core/MActorComponent.h"

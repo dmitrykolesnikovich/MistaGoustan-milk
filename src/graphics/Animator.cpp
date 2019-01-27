@@ -7,7 +7,7 @@
 #include "Sprite.h"
 #include "Texture.h"
 
-#include "core/Actor.h"
+#include "scene/Actor.h"
 
 const milk::ComponentType milk::Animator::type = ANIMATOR;
 

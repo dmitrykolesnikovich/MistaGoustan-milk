@@ -1,7 +1,7 @@
 #include "Camera.h"
 
-#include "core/Actor.h"
-#include "core/Scene.h"
+#include "scene/Actor.h"
+#include "scene/Scene.h"
 
 milk::Camera::Camera(milk::Scene& scene, unsigned int width, unsigned int height)
         : scene_(scene), target_(nullptr) {

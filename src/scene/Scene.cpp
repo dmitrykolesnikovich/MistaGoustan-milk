@@ -2,8 +2,8 @@
 
 #include "Scene.h"
 
-#include "core/Actor.h"
-#include "core/ActorComponent.h"
+#include "scene/Actor.h"
+#include "scene/ActorComponent.h"
 #include "events/EventQueue.h"
 #include "events/GameEvents.h"
 #include "window/Window.h"

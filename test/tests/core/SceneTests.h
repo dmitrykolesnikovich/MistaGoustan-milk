@@ -4,8 +4,8 @@
 // google test
 #include "gtest/gtest.h"
 
-#include "core/Actor.h"
-#include "core/Scene.h"
+#include "scene/Actor.h"
+#include "scene/Scene.h"
 
 #include "events/EventQueue.h"
 #include "events/GameEvents.h"

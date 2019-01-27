@@ -3,7 +3,7 @@
 #include "graphics/Animator.h"
 #include "graphics/Sprite.h"
 #include "physics/Velocity.h"
-#include "core/Actor.h"
+#include "scene/Actor.h"
 
 namespace milk {
     namespace lua {

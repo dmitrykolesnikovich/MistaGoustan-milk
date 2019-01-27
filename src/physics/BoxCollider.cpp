@@ -2,7 +2,7 @@
 
 #include "SpatialPartitionGrid.h"
 
-#include "core/Actor.h"
+#include "scene/Actor.h"
 
 const milk::ComponentType milk::BoxCollider::type = BOX_COLLIDER;
 

@@ -6,7 +6,7 @@
 #include "SpatialPartitionGrid.h"
 #include "Velocity.h"
 
-#include "core/Actor.h"
+#include "scene/Actor.h"
 
 #include "events/EventQueue.h"
 #include "events/GameEvents.h"

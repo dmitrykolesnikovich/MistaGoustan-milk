@@ -8,9 +8,9 @@
 #include "LuaScene.h"
 #include "LuaCollisionEvent.h"
 
-#include "core/Actor.h"
-#include "core/Scene.h"
-#include "core/Game.h"
+#include "scene/Actor.h"
+#include "scene/Scene.h"
+#include "runtime/Game.h"
 #include "math/Vector2d.h"
 #include "input/Keyboard.h"
 #include "window/Window.h"

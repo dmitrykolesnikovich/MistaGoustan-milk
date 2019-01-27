@@ -6,7 +6,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "core/ActorComponent.h"
+#include "scene/ActorComponent.h"
 #include "utilities/Timer.h"
 
 namespace milk {

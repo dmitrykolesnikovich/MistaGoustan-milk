@@ -2,16 +2,6 @@ project(milklib)
 
 set(MILK_SRC_FILES
 
-        # core
-        core/Actor.cpp
-        core/Actor.h
-        core/ActorComponent.cpp
-        core/ActorComponent.h
-        core/Game.h
-        core/Game.cpp
-        core/Scene.cpp
-        core/Scene.h
-
         # events
         events/EventQueue.cpp
         events/EventQueue.h
@@ -51,6 +41,18 @@ set(MILK_SRC_FILES
         physics/Velocity.cpp
         physics/Velocity.h
 
+        # runtime
+        runtime/Game.h
+        runtime/Game.cpp
+
+        #scene
+        scene/Actor.cpp
+        scene/Actor.h
+        scene/ActorComponent.cpp
+        scene/ActorComponent.h
+        scene/Scene.cpp
+        scene/Scene.h
+
         # scripting
         scripting/api/LuaHandleRegistry.h
         scripting/api/LuaActor.cpp
@@ -76,10 +78,10 @@ set(MILK_SRC_FILES
         utilities/IdGenerator.h
         utilities/ResourceManager.cpp
         utilities/ResourceManager.h
-        utilities/SceneLoader.cpp
-        utilities/SceneLoader.h
-        utilities/SceneManager.cpp
-        utilities/SceneManager.h
+        scene/SceneLoader.cpp
+        scene/SceneLoader.h
+        scene/SceneManager.cpp
+        scene/SceneManager.h
         utilities/Timer.cpp
         utilities/Timer.h
         window/Window.cpp

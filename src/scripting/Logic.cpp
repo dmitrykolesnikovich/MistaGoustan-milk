@@ -1,7 +1,7 @@
 #include "Logic.h"
 
 #include "Script.h"
-#include "core/Actor.h"
+#include "scene/Actor.h"
 #include "events/GameEvents.h"
 
 milk::Logic::Logic(sol::state& luaState)

@@ -5,7 +5,7 @@
 
 #include "SDL.h"
 
-#include "core/ActorComponent.h"
+#include "scene/ActorComponent.h"
 #include "utilities/Alignment.h"
 
 namespace milk {

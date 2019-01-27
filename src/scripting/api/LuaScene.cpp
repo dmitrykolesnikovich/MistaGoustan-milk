@@ -1,6 +1,6 @@
 #include "LuaScene.h"
 
-#include "core/Scene.h"
+#include "scene/Scene.h"
 
 namespace milk {
     namespace lua {
