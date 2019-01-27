@@ -1,5 +1,5 @@
-#ifndef _SCENE_TESTS_H
-#define _SCENE_TESTS_H
+#ifndef MILK_SCENE_TESTS_H
+#define MILK_SCENE_TESTS_H
 
 // google test
 #include "gtest/gtest.h"
