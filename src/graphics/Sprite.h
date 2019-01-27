@@ -6,37 +6,33 @@
 #include "SDL.h"
 
 #include "scene/ActorComponent.h"
+
 #include "utilities/Alignment.h"
+#include "utilities/AssetLoader.h"
 
 namespace milk {
     class Texture;
 
-// All objects that are drawn to the screen do so via the Sprite component.
+    // All objects that are drawn to the screen do so via the Sprite component.
     class Sprite : public ActorComponent {
     public:
         static const ComponentType type;
 
-        explicit Sprite(Actor& actor);
+        explicit Sprite(Actor& actor, const std::string& textureName);
 
         ~Sprite() override = default;
 
         // Load the sprite's texture.
-        void load(ResourceManager& resourceManager);
-
-        // Set the sprite's texture asset name.
-        void textureName(const std::string& name);
+        void load(AssetLoader<Texture>& textureLoader);
 
         // Get the sprites texture.
-        Texture* texture() const;
+        std::shared_ptr<Texture> texture() const;
 
         // Center the sprite's origin.
         void center();
 
         // Set the sprite's source rectangle.
         void sourceRect(int x, int y, int width, int height);
-
-        // Set the sprite's source rectangle.
-        void sourceRect(SDL_Rect rect);
 
         // Get the sprite's source rectangle.
         SDL_Rect sourceRect() const;
@@ -61,7 +57,8 @@ namespace milk {
 
     private:
         std::string textureName_;
-        Texture* texture_;
+        std::shared_ptr<Texture> texture_;
+
         SDL_Rect sourceRect_;
 
         Alignment alignment_;

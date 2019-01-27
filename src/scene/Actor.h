@@ -34,8 +34,8 @@ namespace milk {
         void position(float x, float y);
 
         // Returns the added component and nullptr if addition fails.
-        template<class TComponent>
-        TComponent* addComponent() {
+        template<class TComponent, typename... Args>
+        TComponent* addComponent(Args&& ... args) {
             auto type = TComponent::type;
 
             if ((componentBitmask_ & type) == type)
@@ -43,7 +43,7 @@ namespace milk {
 
             componentBitmask_ |= type;
 
-            auto component = new TComponent(*this);
+            auto component = new TComponent(*this, std::forward<Args>(args)...);
 
             componentsByType_.insert(std::make_pair(type, std::unique_ptr<ActorComponent>(component)));
 

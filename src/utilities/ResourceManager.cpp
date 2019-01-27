@@ -29,14 +29,14 @@ milk::Texture* milk::ResourceManager::loadTexture(const std::string& name) {
 
     std::string resourcePath = rootDir_ + "/" + name;
 
-    SDL_Surface* surf = IMG_Load(resourcePath.c_str());
+    auto surf = IMG_Load(resourcePath.c_str());
 
     if (surf == nullptr) {
         std::cout << "Error loading image: " << IMG_GetError() << std::endl;
         return nullptr;
     }
 
-    SDL_Texture* sdlTex = SDL_CreateTextureFromSurface(sdlRenderer_, surf);
+    auto sdlTex = SDL_CreateTextureFromSurface(sdlRenderer_, surf);
 
     SDL_FreeSurface(surf);
 
@@ -54,7 +54,8 @@ milk::Texture* milk::ResourceManager::loadTexture(const std::string& name) {
 
 std::string milk::ResourceManager::loadFile(const std::string& filename) {
     std::string path = rootDir_ + "/" + filename;
-    SDL_RWops* rwops = SDL_RWFromFile(path.c_str(), "r");
+
+    auto rwops = SDL_RWFromFile(path.c_str(), "r");
 
     if (rwops == nullptr)
         return nullptr;

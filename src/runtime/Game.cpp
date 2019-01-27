@@ -224,12 +224,12 @@ bool milk::Game::initFromConfig() {
     int vwidth = config["vwidth"];
     int vheight = config["vheight"];
     bool fullscreen = config["fullscreen"];
-    std::string resourceRootDir = config["resourceRootDir"];
+    assetRootDir_ = config["resourceRootDir"];
     std::string entryScene = config["entryScene"];
 
     window_ = std::make_unique<Window>(title, width, height, vwidth, vheight, fullscreen);
 
-    resources_ = std::make_unique<ResourceManager>(resourceRootDir);
+    resources_ = std::make_unique<ResourceManager>(assetRootDir_);
 
     events_ = std::make_unique<EventQueue>();
 
@@ -280,5 +280,5 @@ void milk::Game::initSystems() {
 
     logic_ = std::make_unique<Logic>(luaState_);
     physics_ = std::make_unique<Physics>(*events_);
-    graphics_ = std::make_unique<Graphics>(*window_->sdlRenderer(), *resources_);
+    graphics_ = std::make_unique<Graphics>(*window_->sdlRenderer(), assetRootDir_);
 }

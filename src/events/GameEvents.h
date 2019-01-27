@@ -11,15 +11,14 @@ namespace milk {
     enum class GameEventType {
         // Prioritized by greatest value.
 
-        // LEVEL_CHANGED has low priority.
-        // This is so other events can be process before level changed logic is run.
         SCENE_CHANGED,
+        SCENE_LOADED,
 
         // Actor events
         ACTOR_COLLISION,
         ACTOR_TRIGGER,
-        ACTOR_SPAWNED,
-        ACTOR_DETROYED
+        ACTOR_DETROYED,
+        ACTOR_SPAWNED
     };
 
     // Base class for all game events.
@@ -87,6 +86,20 @@ namespace milk {
 
     private:
         std::string sceneToLoad_;
+    };
+
+    class SceneLoadedEvent : public GameEvent {
+    public:
+        explicit SceneLoadedEvent(const std::string& scene)
+                : sceneLoaded_(scene) {
+        }
+
+        GameEventType type() const override { return GameEventType::SCENE_LOADED; }
+
+        std::string sceneLoaded() { return sceneLoaded_; }
+
+    private:
+        std::string sceneLoaded_;
     };
 }
 

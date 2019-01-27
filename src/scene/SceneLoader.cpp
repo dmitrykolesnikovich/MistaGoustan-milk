@@ -131,8 +131,7 @@ std::unique_ptr<milk::Scene> milk::SceneLoader::load(const std::string& file) co
                 int w = sourceRectJson["w"].get<int>();
                 int h = sourceRectJson["h"].get<int>();
 
-                auto sprite = actor->addComponent<Sprite>();
-                sprite->textureName(textureName);
+                auto sprite = actor->addComponent<Sprite>(textureName);
                 sprite->sourceRect(x, y, w, h);
                 sprite->center();
             } else if (type == "velocity") {

@@ -32,6 +32,9 @@ void milk::SceneManager::update() {
         }
 
         scene_ = sceneLoader_.load(sceneToLoad_);
+
+        eventQueue_.pushEvent<SceneLoadedEvent>(sceneToLoad_);
+
         sceneToLoad_.erase();
     }
 

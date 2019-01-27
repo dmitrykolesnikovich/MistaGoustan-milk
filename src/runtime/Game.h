@@ -67,6 +67,9 @@ namespace milk {
     private:
         std::string configFile_;
 
+        // TODO: revisit.
+        std::string assetRootDir_;
+
         std::unique_ptr<Window> window_;
         std::unique_ptr<SceneLoader> sceneLoader_;
         std::unique_ptr<ResourceManager> resources_;

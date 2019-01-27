@@ -30,6 +30,8 @@ set(MILK_SRC_FILES
         graphics/Sprite.h
         graphics/Texture.cpp
         graphics/Texture.h
+        graphics/TextureLoader.cpp
+        graphics/TextureLoader.h
         graphics/Tilemap.h
 
         # math
@@ -78,6 +80,7 @@ set(MILK_SRC_FILES
 
         # utilities
         utilities/Alignment.h
+        utilities/AssetLoader.h
         utilities/IdGenerator.cpp
         utilities/IdGenerator.h
         utilities/ResourceManager.cpp

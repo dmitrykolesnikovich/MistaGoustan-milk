@@ -13,8 +13,8 @@
 
 #include "events/GameEvents.h"
 
-milk::Graphics::Graphics(SDL_Renderer& renderer, milk::ResourceManager& resourceManager)
-        : sdlRenderer_(renderer), resourceManager_(resourceManager) {
+milk::Graphics::Graphics(SDL_Renderer& renderer, const std::string& rootDir)
+        : sdlRenderer_(renderer), textureLoader(renderer, rootDir) {
 }
 
 void milk::Graphics::handleEvent(milk::GameEvent& gameEvent) {
@@ -27,6 +27,10 @@ void milk::Graphics::handleEvent(milk::GameEvent& gameEvent) {
         case GameEventType::ACTOR_DETROYED: {
             auto& destroyedEvent = dynamic_cast<ActorDestroyedEvent&>(gameEvent);
             onActorDestroyed(destroyedEvent.actor());
+        }
+            break;
+        case GameEventType::SCENE_LOADED: {
+            textureLoader.unload();
         }
             break;
         default:
@@ -46,7 +50,7 @@ void milk::Graphics::onActorSpawned(milk::Actor& actor) {
     if (sprite == nullptr)
         return;
 
-    sprite->load(resourceManager_);
+    sprite->load(textureLoader);
 
     spritesByActorId_.insert(std::make_pair(actor.id(), sprite));
 

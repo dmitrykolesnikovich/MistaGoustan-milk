@@ -8,19 +8,16 @@
 
 const milk::ComponentType milk::Sprite::type = SPRITE;
 
-milk::Sprite::Sprite(milk::Actor& actor)
-        : ActorComponent::ActorComponent(actor), alignment_(Alignment::TOP_LEFT), flip_(SDL_FLIP_NONE) {
+milk::Sprite::Sprite(milk::Actor& actor, const std::string& textureName)
+        : ActorComponent::ActorComponent(actor), textureName_(textureName), alignment_(Alignment::TOP_LEFT),
+          flip_(SDL_FLIP_NONE) {
 }
 
-void milk::Sprite::load(milk::ResourceManager& resourceManager) {
-    texture_ = resourceManager.loadTexture(textureName_);
+void milk::Sprite::load(AssetLoader<Texture>& textureLoader) {
+    texture_ = textureLoader.load(textureName_);
 }
 
-void milk::Sprite::textureName(const std::string& name) {
-    textureName_ = name;
-}
-
-milk::Texture* milk::Sprite::texture() const {
+std::shared_ptr<milk::Texture> milk::Sprite::texture() const {
     return texture_;
 }
 
@@ -33,13 +30,6 @@ void milk::Sprite::sourceRect(int x, int y, int width, int height) {
     sourceRect_.y = y;
     sourceRect_.w = width;
     sourceRect_.h = height;
-}
-
-void milk::Sprite::sourceRect(SDL_Rect rect) {
-    sourceRect_.x = rect.x;
-    sourceRect_.y = rect.y;
-    sourceRect_.w = rect.w;
-    sourceRect_.h = rect.h;
 }
 
 SDL_Rect milk::Sprite::sourceRect() const {

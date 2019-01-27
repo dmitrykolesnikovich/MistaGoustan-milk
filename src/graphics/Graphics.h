@@ -3,6 +3,8 @@
 
 #include <unordered_map>
 
+#include "TextureLoader.h"
+
 struct SDL_Renderer;
 
 namespace milk {
@@ -18,19 +20,22 @@ namespace milk {
 
     class Sprite;
 
+    class Texture;
+
     struct Tilemap;
 
     class Graphics {
     public:
-        Graphics(SDL_Renderer& renderer, ResourceManager& resourceManager);
+        Graphics(SDL_Renderer& renderer, const std::string& rootDir);
 
         void handleEvent(GameEvent& gameEvent);
 
         void render(Scene& scene);
 
     private:
+        TextureLoader textureLoader;
+
         SDL_Renderer& sdlRenderer_;
-        ResourceManager& resourceManager_;
 
         std::unordered_map<int, Sprite*> spritesByActorId_;
 
