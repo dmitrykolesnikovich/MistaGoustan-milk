@@ -3,4 +3,4 @@
 
 *linux & osx build status:*
 
-[![Build Status](https://travis-ci.org/Straskal/Milk.svg?branch=master)](https://travis-ci.org/Straskal/Milk)
+[![Build Status](https://travis-ci.org/Straskal/milk.svg?branch=master)](https://travis-ci.org/Straskal/milk)
