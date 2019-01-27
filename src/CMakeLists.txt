@@ -52,6 +52,10 @@ set(MILK_SRC_FILES
         scene/ActorComponent.h
         scene/Scene.cpp
         scene/Scene.h
+        scene/SceneLoader.cpp
+        scene/SceneLoader.h
+        scene/SceneManager.cpp
+        scene/SceneManager.h
 
         # scripting
         scripting/api/LuaHandleRegistry.h
@@ -78,12 +82,10 @@ set(MILK_SRC_FILES
         utilities/IdGenerator.h
         utilities/ResourceManager.cpp
         utilities/ResourceManager.h
-        scene/SceneLoader.cpp
-        scene/SceneLoader.h
-        scene/SceneManager.cpp
-        scene/SceneManager.h
         utilities/Timer.cpp
         utilities/Timer.h
+
+        # window
         window/Window.cpp
         window/Window.h)
 
