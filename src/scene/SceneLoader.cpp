@@ -157,12 +157,10 @@ std::unique_ptr<milk::Scene> milk::SceneLoader::load(const std::string& file) co
                 collider->offset(xOffset, yOffset);
                 collider->center();
             } else if (type == "animator") {
-                int c = componentJson["columns"].get<int>();
                 int r = componentJson["rows"].get<int>();
+                int c = componentJson["columns"].get<int>();
 
-                auto animator = actor->addComponent<Animator>();
-                animator->columns(c);
-                animator->rows(r);
+                auto animator = actor->addComponent<Animator>(r, c);
 
                 for (auto& animItr : componentJson["animations"].items()) {
                     auto& animationJson = animItr.value();
@@ -171,10 +169,12 @@ std::unique_ptr<milk::Scene> milk::SceneLoader::load(const std::string& file) co
                     auto frames = animationJson["frames"].items();
                     auto frameVector = std::vector<int>();
 
-                    for (auto& frameItr : frames)
-                        frameVector.emplace_back(frameItr.value().get<int>());
+                    Animation anim{n};
 
-                    animator->addAnimation(n, frameVector);
+                    for (auto& frameItr : frames)
+                        anim.frames.emplace_back(frameItr.value().get<int>());
+
+                    animator->addAnimation(anim);
                 }
             }
         }

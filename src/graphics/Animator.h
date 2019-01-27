@@ -1,3 +1,5 @@
+#include <utility>
+
 #ifndef MILK_ANIMATOR_H
 #define MILK_ANIMATOR_H
 
@@ -13,66 +15,33 @@ namespace milk {
     class Sprite;
 
     struct Animation {
-        Animation(const std::string& n, std::initializer_list<int> f) {
-            name = n;
-            frames = new int[f.size()];
-
-            int i = 0;
-            for (auto it : f) {
-                frames[i] = it;
-                ++i;
-            }
-
-            size = (int)f.size();
+        explicit Animation(std::string nm)
+            : name(std::move(nm)) {
         }
 
-        Animation(const std::string& n, std::vector<int> f) {
-            name = n;
-            frames = new int[f.size()];
+        // Name of animation
+        const std::string name;
 
-            int i = 0;
-            for (auto it : f) {
-                frames[i] = it;
-                ++i;
-            }
-
-            size = f.size();
-        }
-
-        ~Animation() {
-            delete[] frames;
-        }
-
-        std::string name;
-        int* frames;
-        int size;
+        // Animation frames
+        std::vector<int> frames;
     };
 
     class Animator : public ActorComponent {
     public:
         static const ComponentType type;
 
-        explicit Animator(Actor& actor);
+        Animator(Actor& actor, int rows, int columns);
 
         ~Animator() override = default;
 
         // Initialize the animator.
         void init();
 
-        // Sets the amount of rows in the source sprite sheet.
-        void rows(int rows);
-
-        // Sets the amount of columns in the source sprite sheet.
-        void columns(int columns);
-
         // Toggle animation paused.
         void togglePaused();
 
         // Add an animation.
-        void addAnimation(const std::string& name, std::initializer_list<int> frames);
-
-        // Add an animation.
-        void addAnimation(const std::string& name, std::vector<int> frames);
+        void addAnimation(const Animation& animation);
 
         // Sets the current animation.
         void setAnimation(const std::string& name);
@@ -84,7 +53,7 @@ namespace milk {
         Sprite* sprite_;
 
         Timer timer_;
-
+        bool paused_;
         int currentFrame_;
         float timeBetweenFrames_;
 
@@ -93,10 +62,10 @@ namespace milk {
         int frameWidth_;
         int frameHeight_;
 
-        bool paused_;
-
-        Animation* currentAnimation_;
         std::unordered_map<std::string, std::unique_ptr<Animation>> animations_;
+        Animation* currentAnimation_;
+
+        void updateSourceRect();
     };
 }
 
