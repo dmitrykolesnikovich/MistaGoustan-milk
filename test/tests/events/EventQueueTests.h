@@ -1,13 +1,11 @@
 #ifndef MILK_EVENT_QUEUE_TESTS_H
 #define MILK_EVENT_QUEUE_TESTS_H
 
-// google test
 #include "gtest/gtest.h"
 
-// sut
-#include "events/EventQueue.h"
+#include "mocks/events/MockGameEvent.h"
 
-#include "mocks/events/MGameEvent.h"
+#include "events/EventQueue.h"
 
 class EventQueueTests : public ::testing::Test {};
 
@@ -20,7 +18,7 @@ TEST_F(EventQueueTests, PushEvent_PushesEvent) {
     milk::EventQueue eventQueue;
 
     // Act
-    eventQueue.pushEvent<MGameEvent>();
+    eventQueue.pushEvent<MockGameEvent>();
 
     // Assert
     auto event = eventQueue.pollEvent();
@@ -28,23 +26,25 @@ TEST_F(EventQueueTests, PushEvent_PushesEvent) {
     ASSERT_NE(nullptr, event);
 }
 
-TEST_F(EventQueueTests, PollEvents_PollsEventsInOrderOfPriority) {
+TEST_F(EventQueueTests, PollEvents_PollsEventsInOrderOfHighestPriority) {
     // Arrange
     milk::EventQueue eventQueue;
 
     // Act
 
-    // Push in reverse order
-    // FIFO - so 1 should pop out first
-    // BUT the event queue is prioritized ;)
+    // Even though 1 is enqueued before 2, we should receive the events in order of highest priority.
     eventQueue.pushEvent<MGameEventPriority1>();
     eventQueue.pushEvent<MGameEventPriority2>();
 
     // Assert
-    auto e1 = eventQueue.pollEvent();
-    ASSERT_EQ(2, (int)e1->type());
-    auto e2 = eventQueue.pollEvent();
-    ASSERT_EQ(1, (int)e2->type());
+    auto event1 = eventQueue.pollEvent();
+    ASSERT_EQ(2, (int)event1->type());
+
+    auto event2 = eventQueue.pollEvent();
+    ASSERT_EQ(1, (int)event2->type());
+
+    // Make sure to free all events.
+    while (auto e = eventQueue.pollEvent()) {}
 }
 
 #endif

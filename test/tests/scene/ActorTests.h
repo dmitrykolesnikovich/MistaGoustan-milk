@@ -1,14 +1,11 @@
 #ifndef MILK_ACTOR_TESTS_H
 #define MILK_ACTOR_TESTS_H
 
-// google test
 #include "gtest/gtest.h"
 
-// sut
-#include "scene/Actor.h"
+#include "mocks/scene/MockActorComponent.h"
 
-// mocks
-#include "mocks/core/MActorComponent.h"
+#include "scene/Actor.h"
 
 class ActorTests : public ::testing::Test {
 };
@@ -73,7 +70,7 @@ TEST_F(ActorTests, AddComponent_ReturnsNewlyAddedComponent) {
     milk::Actor actor{1, "steve", {0, 0}};
 
     // Act
-    auto component = actor.addComponent<MActorComponent>();
+    auto component = actor.addComponent<MockActorComponent>();
 
     // Assert
     ASSERT_NE(nullptr, component);
@@ -83,10 +80,10 @@ TEST_F(ActorTests, AddComponent_DoesNotAddSameComponentTypeTwice) {
     // Arrange
     milk::Actor actor{1, "steve", {0, 0}};
 
-    actor.addComponent<MActorComponent>();
+    actor.addComponent<MockActorComponent>();
 
     // Act
-    auto component = actor.addComponent<MActorComponent>();
+    auto component = actor.addComponent<MockActorComponent>();
 
     // Assert
     ASSERT_EQ(nullptr, component);
@@ -96,10 +93,10 @@ TEST_F(ActorTests, GetComponent_GivenComponentExists_ReturnsComponent) {
     // Arrange
     milk::Actor actor{1, "steve", {0, 0}};
 
-    actor.addComponent<MActorComponent>();
+    actor.addComponent<MockActorComponent>();
 
     // Act
-    auto component = actor.getComponent<MActorComponent>();
+    auto component = actor.getComponent<MockActorComponent>();
 
     // Assert
     ASSERT_NE(nullptr, component);
@@ -110,7 +107,7 @@ TEST_F(ActorTests, GetComponent_GivenNoComponentExists_ReturnsNoComponent) {
     milk::Actor actor{1, "steve", {0, 0}};
 
     // Act
-    auto component = actor.getComponent<MActorComponent>();
+    auto component = actor.getComponent<MockActorComponent>();
 
     // Assert
     ASSERT_EQ(nullptr, component);

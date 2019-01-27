@@ -1,7 +1,6 @@
 #ifndef MILK_SCENE_TESTS_H
 #define MILK_SCENE_TESTS_H
 
-// google test
 #include "gtest/gtest.h"
 
 #include "scene/Actor.h"
@@ -61,6 +60,9 @@ TEST_F(SceneTests, SpawnActor_SetsActorId) {
     ASSERT_EQ(0, waddap->id());
     ASSERT_EQ(1, boi->id());
     ASSERT_EQ(2, ahaha->id());
+
+    // Clean up
+    while (auto e = eventQueue.pollEvent()) {}
 }
 
 TEST_F(SceneTests, SpawnActor_GeneratesActorSpawnedEvent) {
@@ -96,6 +98,9 @@ TEST_F(SceneTests, DestroyActor_GivenActorDoesntExist_DoesNotGenerateActorDestro
 
     // Assert
     ASSERT_EQ(nullptr, destroyedEvent);
+
+    // Clean up
+    while (auto e = eventQueue.pollEvent()) {}
 }
 
 TEST_F(SceneTests, DestroyActor_GeneratesActorDestroyedEvent) {
@@ -123,6 +128,9 @@ TEST_F(SceneTests, DestroyActor_GeneratesActorDestroyedEvent) {
     auto& destroyedEventActor = (dynamic_cast<milk::ActorDestroyedEvent*>(destroyedEvent))->actor();
 
     ASSERT_EQ(actor, &destroyedEventActor);
+
+    // Clean up
+    while (auto e = eventQueue.pollEvent()) {}
 }
 
 TEST_F(SceneTests, FindActor_FindsActor) {
@@ -140,6 +148,9 @@ TEST_F(SceneTests, FindActor_FindsActor) {
 
     // Assert
     ASSERT_EQ(actor, foundActor);
+
+    // Clean up
+    while (auto e = eventQueue.pollEvent()) {}
 }
 
 TEST_F(SceneTests, FindActor_GivenActorDoesntExist_DoesNotFindActor) {

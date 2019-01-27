@@ -3,16 +3,15 @@
 
 #include <memory>
 
-// google test
 #include "gtest/gtest.h"
 
-using ::testing::Return;
-
-#include "mocks/graphics/MTextureLoader.h"
+#include "mocks/graphics/MockTextureLoader.h"
 
 #include "graphics/Sprite.h"
 #include "graphics/Texture.h"
 #include "scene/Actor.h"
+
+using ::testing::Return;
 
 class SpriteTests : public ::testing::Test {};
 
@@ -30,7 +29,7 @@ TEST_F(SpriteTests, Load_LoadsTexture) {
 
     auto pTexture = std::make_shared<milk::Texture>(nullptr, 0, 0);
 
-    MTextureLoader textureLoader{"rootDir"};
+    MockTextureLoader textureLoader{"rootDir"};
 
     EXPECT_CALL(textureLoader, load("texturename"))
         .WillOnce(Return(pTexture));
@@ -50,7 +49,7 @@ TEST_F(SpriteTests, Load_GivenSourceRectNotSet_DefaultsFromTextureSize) {
 
     auto pTexture = std::make_shared<milk::Texture>(nullptr, 50, 50);
 
-    MTextureLoader textureLoader{"rootDir"};
+    MockTextureLoader textureLoader{"rootDir"};
 
     EXPECT_CALL(textureLoader, load("texturename"))
             .WillOnce(Return(pTexture));
@@ -75,7 +74,7 @@ TEST_F(SpriteTests, Load_GivenSourceRectSet_DoesNotDefaultToTextureSize) {
 
     auto pTexture = std::make_shared<milk::Texture>(nullptr, 500, 500);
 
-    MTextureLoader textureLoader{"rootDir"};
+    MockTextureLoader textureLoader{"rootDir"};
 
     EXPECT_CALL(textureLoader, load("texturename"))
             .WillOnce(Return(pTexture));
@@ -95,7 +94,7 @@ TEST_F(SpriteTests, Load_GivenSourceRectSet_DoesNotDefaultToTextureSize) {
     ASSERT_EQ(50, sourceRect.h);
 }
 
-TEST_F(SpriteTests, DestinationRect_ReturnsCorrectRect) { // aka corRect, yfeel me?
+TEST_F(SpriteTests, DestinationRect_ReturnsCorRect) {
     // Arrange
     milk::Actor actor{1, "steve", {70, 30}};
 
@@ -112,7 +111,7 @@ TEST_F(SpriteTests, DestinationRect_ReturnsCorrectRect) { // aka corRect, yfeel 
     ASSERT_EQ(50, destRect.h);
 }
 
-TEST_F(SpriteTests, DestinationRect_GivenSpriteOriginCentered_ReturnsCorrectRect) {
+TEST_F(SpriteTests, DestinationRect_GivenSpriteOriginCentered_ReturnsCorRect) {
     // Arrange
     milk::Actor actor{1, "steve", {70, 30}};
 
@@ -155,6 +154,26 @@ TEST_F(SpriteTests, FlipY_FlipsY) {
 
     // Assert
     ASSERT_TRUE(sprite.flippedY());
+}
+
+TEST_F(SpriteTests, RendererFlip_ReturnsExpectedResult) {
+    // Arrange
+    milk::Actor actor{1, "steve", {70, 30}};
+
+    milk::Sprite sprite{actor, "texturename"};
+
+    // Act & Assert
+    ASSERT_EQ(SDL_FLIP_NONE, (sprite.rendererFlip() & SDL_FLIP_NONE));
+
+    sprite.flipY();
+    ASSERT_EQ(SDL_FLIP_VERTICAL, (sprite.rendererFlip() & SDL_FLIP_VERTICAL));
+
+    sprite.flipY();
+    sprite.flipX();
+    ASSERT_EQ(SDL_FLIP_HORIZONTAL, (sprite.rendererFlip() & SDL_FLIP_HORIZONTAL));
+
+    sprite.flipY();
+    ASSERT_EQ((SDL_FLIP_HORIZONTAL & SDL_FLIP_VERTICAL), (sprite.rendererFlip() & (SDL_FLIP_HORIZONTAL & SDL_FLIP_VERTICAL)));
 }
 
 #endif
