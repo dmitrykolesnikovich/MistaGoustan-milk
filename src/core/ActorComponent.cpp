@@ -1,9 +1,9 @@
 #include "ActorComponent.h"
 
-ActorComponent::ActorComponent(Actor& actor)
+milk::ActorComponent::ActorComponent(milk::Actor& actor)
         : actor_(actor) {
 }
 
-Actor& ActorComponent::actor() const {
+milk::Actor& milk::ActorComponent::actor() const {
     return actor_;
 }

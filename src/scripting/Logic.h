@@ -1,38 +1,40 @@
-#ifndef _LOGIC_SYSTEM_H
-#define _LOGIC_SYSTEM_H
+#ifndef MILK_LOGIC_H
+#define MILK_LOGIC_H
 
 #include <unordered_map>
 
 #include "externals/sol.hpp"
 
-class Actor;
+namespace milk {
+    class Actor;
 
-class ActorCollisionEvent;
+    class ActorCollisionEvent;
 
-class GameEvent;
+    class GameEvent;
 
-class Script;
+    class Script;
 
-class Logic {
-public:
-    explicit Logic(sol::state& luaState);
+    class Logic {
+    public:
+        explicit Logic(sol::state& luaState);
 
-    ~Logic() = default;
+        ~Logic() = default;
 
-    void handleEvent(GameEvent& gameEvent);
+        void handleEvent(GameEvent& gameEvent);
 
-    void update();
+        void update();
 
-private:
-    sol::state& luaState_;
+    private:
+        sol::state& luaState_;
 
-    std::unordered_map<int, Script*> scriptByActorId_;
+        std::unordered_map<int, Script*> scriptByActorId_;
 
-    void onActorSpawned(Actor& actor);
+        void onActorSpawned(Actor& actor);
 
-    void onActorDestroyed(Actor& actor);
+        void onActorDestroyed(Actor& actor);
 
-    void onActorCollision(ActorCollisionEvent& collisionEvent);
-};
+        void onActorCollision(ActorCollisionEvent& collisionEvent);
+    };
+}
 
 #endif

@@ -1,36 +1,38 @@
-#ifndef _DEBUG_RENDERER_H
-#define _DEBUG_RENDERER_H
+#ifndef MILK_DEBUG_TOOLS_H
+#define MILK_DEBUG_TOOLS_H
 
 #include <unordered_map>
 
-class Actor;
-
-class GameEvent;
-
-class BoxCollider;
-
-class Scene;
-
 struct SDL_Renderer;
 
-class DebugTools {
-public:
-    explicit DebugTools(SDL_Renderer& renderer);
+namespace milk {
+    class Actor;
 
-    void handleEvent(GameEvent& gameEvent);
+    class GameEvent;
 
-    void render(Scene& scene);
+    class BoxCollider;
 
-    bool show = false;
+    class Scene;
 
-private:
-    SDL_Renderer& sdlRenderer_;
+    class DebugTools {
+    public:
+        explicit DebugTools(SDL_Renderer& renderer);
 
-    std::unordered_map<int, Actor*> actorsById_;
+        void handleEvent(GameEvent& gameEvent);
 
-    void onActorSpawned(Actor& actor);
+        void render(Scene& scene);
 
-    void onActorDestroyed(Actor& actor);
-};
+        bool show = false;
+
+    private:
+        SDL_Renderer& sdlRenderer_;
+
+        std::unordered_map<int, Actor*> actorsById_;
+
+        void onActorSpawned(Actor& actor);
+
+        void onActorDestroyed(Actor& actor);
+    };
+}
 
 #endif

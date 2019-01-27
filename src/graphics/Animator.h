@@ -1,5 +1,5 @@
-#ifndef _ANIMATOR_H
-#define _ANIMATOR_H
+#ifndef MILK_ANIMATOR_H
+#define MILK_ANIMATOR_H
 
 #include <memory>
 #include <string>
@@ -9,93 +9,95 @@
 #include "core/ActorComponent.h"
 #include "utilities/Timer.h"
 
-class Sprite;
+namespace milk {
+    class Sprite;
 
-struct Animation {
-    Animation(const std::string& n, std::initializer_list<int> f) {
-        name = n;
-        frames = new int[f.size()];
+    struct Animation {
+        Animation(const std::string& n, std::initializer_list<int> f) {
+            name = n;
+            frames = new int[f.size()];
 
-        int i = 0;
-        for (auto it : f) {
-            frames[i] = it;
-            ++i;
+            int i = 0;
+            for (auto it : f) {
+                frames[i] = it;
+                ++i;
+            }
+
+            size = (int)f.size();
         }
 
-        size = (int)f.size();
-    }
+        Animation(const std::string& n, std::vector<int> f) {
+            name = n;
+            frames = new int[f.size()];
 
-    Animation(const std::string& n, std::vector<int> f) {
-        name = n;
-        frames = new int[f.size()];
+            int i = 0;
+            for (auto it : f) {
+                frames[i] = it;
+                ++i;
+            }
 
-        int i = 0;
-        for (auto it : f) {
-            frames[i] = it;
-            ++i;
+            size = f.size();
         }
 
-        size = f.size();
-    }
+        ~Animation() {
+            delete[] frames;
+        }
 
-    ~Animation() {
-        delete[] frames;
-    }
+        std::string name;
+        int* frames;
+        int size;
+    };
 
-    std::string name;
-    int* frames;
-    int size;
-};
+    class Animator : public ActorComponent {
+    public:
+        static const ComponentType type;
 
-class Animator : public ActorComponent {
-public:
-    static const ComponentType type;
+        explicit Animator(Actor& actor);
 
-    explicit Animator(Actor& actor);
+        ~Animator() override = default;
 
-    ~Animator() override = default;
+        // Initialize the animator.
+        void init();
 
-    // Initialize the animator.
-    void init();
+        // Sets the amount of rows in the source sprite sheet.
+        void rows(int rows);
 
-    // Sets the amount of rows in the source sprite sheet.
-    void rows(int rows);
+        // Sets the amount of columns in the source sprite sheet.
+        void columns(int columns);
 
-    // Sets the amount of columns in the source sprite sheet.
-    void columns(int columns);
+        // Toggle animation paused.
+        void togglePaused();
 
-    // Toggle animation paused.
-    void togglePaused();
+        // Add an animation.
+        void addAnimation(const std::string& name, std::initializer_list<int> frames);
 
-    // Add an animation.
-    void addAnimation(const std::string& name, std::initializer_list<int> frames);
+        // Add an animation.
+        void addAnimation(const std::string& name, std::vector<int> frames);
 
-    // Add an animation.
-    void addAnimation(const std::string& name, std::vector<int> frames);
+        // Sets the current animation.
+        void setAnimation(const std::string& name);
 
-    // Sets the current animation.
-    void setAnimation(const std::string& name);
+        // Updates the animators state.
+        void update();
 
-    // Updates the animators state.
-    void update();
+    private:
+        Sprite* sprite_;
 
-private:
-    Sprite* sprite_;
+        Timer timer_;
 
-    Timer timer_;
+        int currentFrame_;
+        float timeBetweenFrames_;
 
-    int currentFrame_;
-    float timeBetweenFrames_;
+        int rows_;
+        int columns_;
+        int frameWidth_;
+        int frameHeight_;
 
-    int rows_;
-    int columns_;
-    int frameWidth_;
-    int frameHeight_;
+        bool paused_;
 
-    bool paused_;
-
-    Animation* currentAnimation_;
-    std::unordered_map<std::string, std::unique_ptr<Animation>> animations_;
-};
+        Animation* currentAnimation_;
+        std::unordered_map<std::string, std::unique_ptr<Animation>> animations_;
+    };
+}
 
 #endif

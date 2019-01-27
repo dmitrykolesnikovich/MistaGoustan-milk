@@ -1,27 +1,27 @@
 #include "ResourceManager.h"
 
-#include "SDL.h"
-#include "SDL_image.h"
-
 #include <unordered_map>
 #include <string>
 #include <iostream>
 
+#include "SDL.h"
+#include "SDL_image.h"
+
 #include "graphics/Texture.h"
 
-ResourceManager::ResourceManager(const std::string& rootDir)
+milk::ResourceManager::ResourceManager(const std::string& rootDir)
         : rootDir_(rootDir), sdlRenderer_(nullptr) {
 }
 
-ResourceManager::~ResourceManager() {
+milk::ResourceManager::~ResourceManager() {
     freeResources();
 }
 
-void ResourceManager::init(SDL_Renderer* sdlRenderer) {
+void milk::ResourceManager::init(SDL_Renderer* sdlRenderer) {
     sdlRenderer_ = sdlRenderer;
 }
 
-Texture* ResourceManager::loadTexture(const std::string& name) {
+milk::Texture* milk::ResourceManager::loadTexture(const std::string& name) {
     auto found = textureCache_.find(name);
 
     if (found != textureCache_.end())
@@ -52,7 +52,7 @@ Texture* ResourceManager::loadTexture(const std::string& name) {
     return texture;
 }
 
-std::string ResourceManager::loadFile(const std::string& filename) {
+std::string milk::ResourceManager::loadFile(const std::string& filename) {
     std::string path = rootDir_ + "/" + filename;
     SDL_RWops* rwops = SDL_RWFromFile(path.c_str(), "r");
 
@@ -87,7 +87,7 @@ std::string ResourceManager::loadFile(const std::string& filename) {
     return std::string(fileContents);
 }
 
-void ResourceManager::unloadTextures() {
+void milk::ResourceManager::unloadTextures() {
     for (auto& it : textureCache_) {
         delete it.second;
         it.second = nullptr;
@@ -96,6 +96,6 @@ void ResourceManager::unloadTextures() {
     textureCache_.clear();
 }
 
-void ResourceManager::freeResources() {
+void milk::ResourceManager::freeResources() {
     unloadTextures();
 }

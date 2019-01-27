@@ -4,7 +4,7 @@
 
 #include "utilities/SceneManager.h"
 
-namespace mlk {
+namespace milk {
     namespace lua {
         namespace game {
             Window& window(Game& game) {

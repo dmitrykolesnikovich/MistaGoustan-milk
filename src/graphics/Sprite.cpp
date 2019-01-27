@@ -1,50 +1,52 @@
 #include "Sprite.h"
 
 #include "core/Actor.h"
+
 #include "math/Vector2d.h"
+
 #include "utilities/ResourceManager.h"
 
-const ComponentType Sprite::type = SPRITE;
+const milk::ComponentType milk::Sprite::type = SPRITE;
 
-Sprite::Sprite(Actor& actor)
+milk::Sprite::Sprite(milk::Actor& actor)
         : ActorComponent::ActorComponent(actor), alignment_(Alignment::TOP_LEFT), flip_(SDL_FLIP_NONE) {
 }
 
-void Sprite::load(ResourceManager& resourceManager) {
+void milk::Sprite::load(milk::ResourceManager& resourceManager) {
     texture_ = resourceManager.loadTexture(textureName_);
 }
 
-void Sprite::textureName(const std::string& name) {
+void milk::Sprite::textureName(const std::string& name) {
     textureName_ = name;
 }
 
-Texture* Sprite::texture() const {
+milk::Texture* milk::Sprite::texture() const {
     return texture_;
 }
 
-void Sprite::center() {
+void milk::Sprite::center() {
     alignment_ = Alignment::CENTER_ORIGIN;
 }
 
-void Sprite::sourceRect(int x, int y, int width, int height) {
+void milk::Sprite::sourceRect(int x, int y, int width, int height) {
     sourceRect_.x = x;
     sourceRect_.y = y;
     sourceRect_.w = width;
     sourceRect_.h = height;
 }
 
-void Sprite::sourceRect(SDL_Rect rect) {
+void milk::Sprite::sourceRect(SDL_Rect rect) {
     sourceRect_.x = rect.x;
     sourceRect_.y = rect.y;
     sourceRect_.w = rect.w;
     sourceRect_.h = rect.h;
 }
 
-SDL_Rect Sprite::sourceRect() const {
+SDL_Rect milk::Sprite::sourceRect() const {
     return sourceRect_;
 }
 
-SDL_Rect Sprite::destinationRect() const {
+SDL_Rect milk::Sprite::destinationRect() const {
     Vector2d actorPosition = actor_.position();
 
     SDL_Rect destinationRect;
@@ -65,28 +67,28 @@ SDL_Rect Sprite::destinationRect() const {
     return destinationRect;
 }
 
-void Sprite::flipX() {
+void milk::Sprite::flipX() {
     if (flippedX())
         flip_ &= ~SDL_FLIP_HORIZONTAL;
     else
         flip_ |= SDL_FLIP_HORIZONTAL;
 }
 
-bool Sprite::flippedX() {
+bool milk::Sprite::flippedX() {
     return (flip_ & SDL_FLIP_HORIZONTAL) == SDL_FLIP_HORIZONTAL;
 }
 
-void Sprite::flipY() {
+void milk::Sprite::flipY() {
     if (flippedY())
         flip_ &= ~SDL_FLIP_VERTICAL;
     else
         flip_ |= SDL_FLIP_VERTICAL;
 }
 
-bool Sprite::flippedY() {
+bool milk::Sprite::flippedY() {
     return (flip_ & SDL_FLIP_VERTICAL) == SDL_FLIP_VERTICAL;
 }
 
-SDL_RendererFlip Sprite::rendererFlip() const {
+SDL_RendererFlip milk::Sprite::rendererFlip() const {
     return (SDL_RendererFlip)flip_;
 }

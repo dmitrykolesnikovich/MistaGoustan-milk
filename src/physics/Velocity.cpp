@@ -1,22 +1,22 @@
 #include "Velocity.h"
 
-const ComponentType Velocity::type = VELOCITY;
+const milk::ComponentType milk::Velocity::type = VELOCITY;
 
-Velocity::Velocity(Actor& actor)
+milk::Velocity::Velocity(Actor& actor)
         : ActorComponent::ActorComponent(actor), value_(0, 0) {
     ;
 }
 
-void Velocity::value(float x, float y) {
+void milk::Velocity::value(float x, float y) {
     value_.x = x;
     value_.y = y;
 }
 
-void Velocity::value(Vector2d velocity) {
+void milk::Velocity::value(Vector2d velocity) {
     value_.x = velocity.x;
     value_.y = velocity.y;
 }
 
-Vector2d Velocity::value() const {
+milk::Vector2d milk::Velocity::value() const {
     return value_;
 }

@@ -1,10 +1,10 @@
 #include "EventQueue.h"
 
-EventQueue::EventQueue()
+milk::EventQueue::EventQueue()
         : lastPoppedEvent_(nullptr) {
 }
 
-GameEvent* EventQueue::pollEvent() {
+milk::GameEvent* milk::EventQueue::pollEvent() {
     if (lastPoppedEvent_ != nullptr) {
         delete lastPoppedEvent_;
         lastPoppedEvent_ = nullptr;

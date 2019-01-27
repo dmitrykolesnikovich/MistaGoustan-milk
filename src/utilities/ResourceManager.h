@@ -1,39 +1,41 @@
-#ifndef _RESOURCE_MANAGER_H
-#define _RESOURCE_MANAGER_H
+#ifndef MILK_RESOURCE_MANAGER_H
+#define MILK_RESOURCE_MANAGER_H
 
 #include <unordered_map>
 #include <string>
 
 struct SDL_Renderer;
 
-class Texture;
+namespace milk {
+    class Texture;
 
-class ResourceManager {
-public:
-    explicit ResourceManager(const std::string& rootDir = "");
+    class ResourceManager {
+    public:
+        explicit ResourceManager(const std::string& rootDir = "");
 
-    ~ResourceManager();
+        ~ResourceManager();
 
-    // Initialize the resource manager.
-    void init(SDL_Renderer* sdlRenderer);
+        // Initialize the resource manager.
+        void init(SDL_Renderer* sdlRenderer);
 
-    // Load texture. Textures are cached.
-    Texture* loadTexture(const std::string& name);
+        // Load texture. Textures are cached.
+        Texture* loadTexture(const std::string& name);
 
-    std::string loadFile(const std::string& filename);
+        std::string loadFile(const std::string& filename);
 
-    // Unload all loaded textures.
-    void unloadTextures();
+        // Unload all loaded textures.
+        void unloadTextures();
 
-    // Frees all loaded resources.
-    void freeResources();
+        // Frees all loaded resources.
+        void freeResources();
 
-private:
-    std::string rootDir_;
+    private:
+        std::string rootDir_;
 
-    SDL_Renderer* sdlRenderer_;
+        SDL_Renderer* sdlRenderer_;
 
-    std::unordered_map<std::string, Texture*> textureCache_;
-};
+        std::unordered_map<std::string, Texture*> textureCache_;
+    };
+}
 
 #endif

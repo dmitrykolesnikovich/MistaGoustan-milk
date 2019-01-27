@@ -2,7 +2,7 @@
 
 int main(int argc, char* argv[])
 {
-	Game game("res/config.lua");
+	milk::Game game("res/config.lua");
 
 	return game.run();
 }

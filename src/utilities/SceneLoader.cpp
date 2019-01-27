@@ -1,5 +1,3 @@
-#include <memory>
-
 #include "SceneLoader.h"
 
 #include <algorithm>
@@ -12,26 +10,31 @@
 
 #include "SDL.h"
 
-#include "externals/json.hpp"
-
-#include "graphics/Animator.h"
-#include "scripting/Script.h"
-#include "physics/BoxCollider.h"
-#include "graphics/Sprite.h"
-#include "physics/Velocity.h"
 #include "core/Actor.h"
 #include "core/Game.h"
 #include "core/Scene.h"
+
+#include "externals/json.hpp"
+
+#include "graphics/Animator.h"
+#include "graphics/Sprite.h"
+
+#include "physics/BoxCollider.h"
+#include "physics/Velocity.h"
+
+#include "scripting/Script.h"
+
 #include "utilities/ResourceManager.h"
+
 #include "window/Window.h"
 
-SceneLoader::SceneLoader(Game& game)
+milk::SceneLoader::SceneLoader(Game& game)
         : game_(game) {
 }
 
-SceneLoader::~SceneLoader() = default;
+milk::SceneLoader::~SceneLoader() = default;
 
-std::unique_ptr<Scene> SceneLoader::load(const std::string& file) const {
+std::unique_ptr<milk::Scene> milk::SceneLoader::load(const std::string& file) const {
     using json = nlohmann::json;
 
     auto& resourceManager = game_.resources();

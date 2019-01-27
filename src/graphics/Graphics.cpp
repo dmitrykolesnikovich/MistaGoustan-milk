@@ -1,25 +1,23 @@
 #include "Graphics.h"
 
-#include "SDL.h"
-
 #include <cmath>
 
+#include "SDL.h"
+
 #include "Animator.h"
-#include "physics/BoxCollider.h"
 #include "Sprite.h"
+#include "Texture.h"
 
 #include "core/Actor.h"
 #include "core/Scene.h"
 
 #include "events/GameEvents.h"
 
-#include "Texture.h"
-
-Graphics::Graphics(SDL_Renderer& renderer, ResourceManager& resourceManager)
+milk::Graphics::Graphics(SDL_Renderer& renderer, milk::ResourceManager& resourceManager)
         : sdlRenderer_(renderer), resourceManager_(resourceManager) {
 }
 
-void Graphics::handleEvent(GameEvent& gameEvent) {
+void milk::Graphics::handleEvent(milk::GameEvent& gameEvent) {
     switch (gameEvent.type()) {
         case GameEventType::ACTOR_SPAWNED: {
             auto& spawnedEvent = dynamic_cast<ActorSpawnedEvent&>(gameEvent);
@@ -36,13 +34,13 @@ void Graphics::handleEvent(GameEvent& gameEvent) {
     }
 }
 
-void Graphics::render(Scene& scene) {
+void milk::Graphics::render(milk::Scene& scene) {
     scene.camera().update();
     renderTilemap(scene.tilemap(), scene.camera());
     renderActors(scene.camera());
 }
 
-void Graphics::onActorSpawned(Actor& actor) {
+void milk::Graphics::onActorSpawned(milk::Actor& actor) {
     auto sprite = actor.getComponent<Sprite>();
 
     if (sprite == nullptr)
@@ -58,12 +56,12 @@ void Graphics::onActorSpawned(Actor& actor) {
         anim->init();
 }
 
-void Graphics::onActorDestroyed(Actor& actor) {
+void milk::Graphics::onActorDestroyed(Actor& actor) {
     if (spritesByActorId_.find(actor.id()) != spritesByActorId_.end())
         spritesByActorId_.erase(actor.id());
 }
 
-void Graphics::renderTilemap(const Tilemap& tilemap, const Camera& camera) {
+void milk::Graphics::renderTilemap(const Tilemap& tilemap, const Camera& camera) {
     for (auto& layer : tilemap.layers) {
         for (auto& tile : layer->tiles) {
             SDL_Rect destinationRect;
@@ -78,7 +76,7 @@ void Graphics::renderTilemap(const Tilemap& tilemap, const Camera& camera) {
     }
 }
 
-void Graphics::renderActors(const Camera& camera) {
+void milk::Graphics::renderActors(const Camera& camera) {
     for (auto it : spritesByActorId_) {
         Animator* animator = it.second->actor().getComponent<Animator>();
 

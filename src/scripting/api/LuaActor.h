@@ -1,11 +1,11 @@
-#ifndef _LUA_ACTOR_H
-#define _LUA_ACTOR_H
+#ifndef MILK_LUA_ACTOR_H
+#define MILK_LUA_ACTOR_H
 
 #include <string>
 
-class Actor;
-
-namespace mlk {
+namespace milk {
+    class Actor;
+    
     namespace lua {
         namespace actor {
             std::string name(Actor& actor);

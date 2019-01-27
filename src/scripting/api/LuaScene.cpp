@@ -2,7 +2,7 @@
 
 #include "core/Scene.h"
 
-namespace mlk {
+namespace milk {
     namespace lua {
         namespace scene {
             void setCameraTarget(Scene& scene, Actor& actor) {

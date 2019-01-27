@@ -1,18 +1,18 @@
 #include "DebugTools.h"
 
-#include "physics/BoxCollider.h"
-
 #include "core/Actor.h"
 #include "core/Scene.h"
 
 #include "events/GameEvents.h"
+
+#include "physics/BoxCollider.h"
 #include "physics/SpatialPartitionGrid.h"
 
-DebugTools::DebugTools(SDL_Renderer& renderer)
+milk::DebugTools::DebugTools(SDL_Renderer& renderer)
         : sdlRenderer_(renderer) {
 }
 
-void DebugTools::handleEvent(GameEvent& gameEvent) {
+void milk::DebugTools::handleEvent(GameEvent& gameEvent) {
     switch (gameEvent.type()) {
         case GameEventType::ACTOR_SPAWNED: {
             auto& spawnedEvent = dynamic_cast<ActorSpawnedEvent&>(gameEvent);
@@ -29,15 +29,15 @@ void DebugTools::handleEvent(GameEvent& gameEvent) {
     }
 }
 
-void DebugTools::onActorSpawned(Actor& actor) {
+void milk::DebugTools::onActorSpawned(Actor& actor) {
     actorsById_.insert(std::make_pair(actor.id(), &actor));
 }
 
-void DebugTools::onActorDestroyed(Actor& actor) {
+void milk::DebugTools::onActorDestroyed(Actor& actor) {
     actorsById_.erase(actor.id());
 }
 
-void DebugTools::render(Scene& scene) {
+void milk::DebugTools::render(Scene& scene) {
     if (!show)
         return;
 

@@ -4,25 +4,25 @@
 
 #include "SDL.h"
 
-Window::Window()
+milk::Window::Window()
         : Window::Window("Milk", 800, 600, false) {
 }
 
-Window::Window(const std::string& title, unsigned int width, unsigned int height, bool fullscreen)
+milk::Window::Window(const std::string& title, unsigned int width, unsigned int height, bool fullscreen)
         : Window::Window(title, width, height, width, height, false) {
 }
 
-Window::Window(const std::string& title, unsigned int width, unsigned int height, unsigned int virtualWidth,
-               unsigned int virtualHeight, bool fullscreen)
+milk::Window::Window(const std::string& title, unsigned int width, unsigned int height, unsigned int virtualWidth,
+                     unsigned int virtualHeight, bool fullscreen)
         : title_(title), width_(width), height_(height), virtualWidth_(virtualWidth), virtualHeight_(virtualHeight),
           isFullscreen_(fullscreen), sdlWindow_(nullptr), sdlRenderer_(nullptr) {
 }
 
-Window::~Window() {
+milk::Window::~Window() {
     freeSDLResources();
 }
 
-bool Window::init() {
+bool milk::Window::init() {
     SDL_DisplayMode currentDisplayMode;
     SDL_GetCurrentDisplayMode(0, &currentDisplayMode);
 
@@ -57,46 +57,46 @@ bool Window::init() {
     return true;
 }
 
-void Window::clear() {
+void milk::Window::clear() {
     SDL_SetRenderDrawColor(sdlRenderer_, 0x00, 0x00, 0x00, 0x00);
     SDL_RenderClear(sdlRenderer_);
 }
 
-void Window::present() {
+void milk::Window::present() {
     SDL_RenderPresent(sdlRenderer_);
 }
 
-unsigned int Window::width() const {
+unsigned int milk::Window::width() const {
     return width_;
 }
 
-unsigned int Window::height() const {
+unsigned int milk::Window::height() const {
     return height_;
 }
 
-unsigned int Window::virtualWidth() const {
+unsigned int milk::Window::virtualWidth() const {
     return virtualWidth_;
 }
 
-unsigned int Window::virtualHeight() const {
+unsigned int milk::Window::virtualHeight() const {
     return virtualHeight_;
 }
 
-void Window::size(unsigned int width, unsigned int height) {
+void milk::Window::size(unsigned int width, unsigned int height) {
     width_ = width;
     height_ = height;
 }
 
-void Window::virtualSize(unsigned int virtualWidth, unsigned int virtualHeight) {
+void milk::Window::virtualSize(unsigned int virtualWidth, unsigned int virtualHeight) {
     virtualWidth_ = virtualWidth;
     virtualHeight_ = virtualHeight;
 }
 
-bool Window::fullscreen() const {
+bool milk::Window::fullscreen() const {
     return isFullscreen_;
 }
 
-void Window::toggleFullscreen() {
+void milk::Window::toggleFullscreen() {
     isFullscreen_ = !isFullscreen_;
 
     if (!isFullscreen_) {
@@ -117,17 +117,17 @@ void Window::toggleFullscreen() {
     }
 }
 
-SDL_Window* Window::sdlWindow() const {
+SDL_Window* milk::Window::sdlWindow() const {
     SDL_assert(sdlRenderer_ != nullptr);
     return sdlWindow_;
 }
 
-SDL_Renderer* Window::sdlRenderer() const {
+SDL_Renderer* milk::Window::sdlRenderer() const {
     SDL_assert(sdlRenderer_ != nullptr);
     return sdlRenderer_;
 }
 
-void Window::freeSDLResources() {
+void milk::Window::freeSDLResources() {
     SDL_DestroyRenderer(sdlRenderer_);
     SDL_DestroyWindow(sdlWindow_);
 }

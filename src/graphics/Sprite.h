@@ -1,5 +1,5 @@
-#ifndef _SPRITE_H
-#define _SPRITE_H
+#ifndef MILK_SPRITE_H
+#define MILK_SPRITE_H
 
 #include <string>
 
@@ -8,64 +8,66 @@
 #include "core/ActorComponent.h"
 #include "utilities/Alignment.h"
 
-class Texture;
+namespace milk {
+    class Texture;
 
 // All objects that are drawn to the screen do so via the Sprite component.
-class Sprite : public ActorComponent {
-public:
-    static const ComponentType type;
+    class Sprite : public ActorComponent {
+    public:
+        static const ComponentType type;
 
-    explicit Sprite(Actor& actor);
+        explicit Sprite(Actor& actor);
 
-    ~Sprite() override = default;
+        ~Sprite() override = default;
 
-    // Load the sprite's texture.
-    void load(ResourceManager& resourceManager);
+        // Load the sprite's texture.
+        void load(ResourceManager& resourceManager);
 
-    // Set the sprite's texture asset name.
-    void textureName(const std::string& name);
+        // Set the sprite's texture asset name.
+        void textureName(const std::string& name);
 
-    // Get the sprites texture.
-    Texture* texture() const;
+        // Get the sprites texture.
+        Texture* texture() const;
 
-    // Center the sprite's origin.
-    void center();
+        // Center the sprite's origin.
+        void center();
 
-    // Set the sprite's source rectangle.
-    void sourceRect(int x, int y, int width, int height);
+        // Set the sprite's source rectangle.
+        void sourceRect(int x, int y, int width, int height);
 
-    // Set the sprite's source rectangle.
-    void sourceRect(SDL_Rect rect);
+        // Set the sprite's source rectangle.
+        void sourceRect(SDL_Rect rect);
 
-    // Get the sprite's source rectangle.
-    SDL_Rect sourceRect() const;
+        // Get the sprite's source rectangle.
+        SDL_Rect sourceRect() const;
 
-    // Get the sprite's destination rectangle.
-    SDL_Rect destinationRect() const;
+        // Get the sprite's destination rectangle.
+        SDL_Rect destinationRect() const;
 
-    // Flip the sprite horizontally.
-    void flipX();
+        // Flip the sprite horizontally.
+        void flipX();
 
-    // Returns true if the sprite is flipped horizontally.
-    bool flippedX();
+        // Returns true if the sprite is flipped horizontally.
+        bool flippedX();
 
-    // Flip the sprite vertically.
-    void flipY();
+        // Flip the sprite vertically.
+        void flipY();
 
-    // Returns true if the sprite is flipped vertically.
-    bool flippedY();
+        // Returns true if the sprite is flipped vertically.
+        bool flippedY();
 
-    // Returns the renderer flip states.
-    SDL_RendererFlip rendererFlip() const;
+        // Returns the renderer flip states.
+        SDL_RendererFlip rendererFlip() const;
 
-private:
-    std::string textureName_;
-    Texture* texture_;
-    SDL_Rect sourceRect_;
+    private:
+        std::string textureName_;
+        Texture* texture_;
+        SDL_Rect sourceRect_;
 
-    Alignment alignment_;
+        Alignment alignment_;
 
-    Uint8 flip_;
-};
+        Uint8 flip_;
+    };
+}
 
 #endif

@@ -3,24 +3,24 @@
 #include "core/Actor.h"
 #include "events/GameEvents.h"
 
-const ComponentType Script::type = SCRIPT;
+const milk::ComponentType milk::Script::type = SCRIPT;
 
-Script::Script(Actor& actor)
+milk::Script::Script(Actor& actor)
         : ActorComponent::ActorComponent(actor) {
 }
 
-void Script::script(const std::string& scriptName) {
+void milk::Script::script(const std::string& scriptName) {
     scriptName_ = scriptName;
 }
 
-void Script::load(sol::state& luaState) {
+void milk::Script::load(sol::state& luaState) {
     luaScript_ = luaState.script_file(scriptName_);
 
     // Set "self.actor"
     luaScript_["actor"] = &actor_;
 }
 
-void Script::begin() {
+void milk::Script::begin() {
     sol::function onBegin = luaScript_[SCRIPT_CALLBACK_BEGIN];
 
     if (!onBegin.valid())
@@ -30,7 +30,7 @@ void Script::begin() {
     luaScript_[SCRIPT_CALLBACK_BEGIN](self);
 }
 
-void Script::update() {
+void milk::Script::update() {
     sol::function onUpdate = luaScript_[SCRIPT_CALLBACK_UPDATE];
 
     if (!onUpdate.valid())
@@ -40,7 +40,7 @@ void Script::update() {
     luaScript_[SCRIPT_CALLBACK_UPDATE](self);
 }
 
-void Script::onCollision(ActorCollisionEvent& collisionEvent) {
+void milk::Script::onCollision(ActorCollisionEvent& collisionEvent) {
     sol::function onCollision = luaScript_[SCRIPT_CALLBACK_ON_COLLISION];
 
     if (!onCollision.valid())
@@ -50,7 +50,7 @@ void Script::onCollision(ActorCollisionEvent& collisionEvent) {
     luaScript_[SCRIPT_CALLBACK_ON_COLLISION](self, collisionEvent);
 }
 
-void Script::end() {
+void milk::Script::end() {
     sol::function onEnd = luaScript_[SCRIPT_CALLBACK_END];
 
     if (!onEnd.valid())

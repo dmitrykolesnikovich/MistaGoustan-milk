@@ -1,67 +1,67 @@
-#include <cmath>
-
-#ifndef _VECTOR2D_H
-#define _VECTOR2D_H
+#ifndef MILK_VECTOR2D_H
+#define MILK_VECTOR2D_H
 
 #include <cmath>
 
-struct Vector2d {
-    float x;
-    float y;
+namespace milk {
+    struct Vector2d {
+        float x;
+        float y;
 
-    Vector2d()
-            : x(0), y(0) {
-    }
+        Vector2d()
+                : x(0), y(0) {
+        }
 
-    Vector2d(float a, float b) {
-        x = a;
-        y = b;
-    }
+        Vector2d(float a, float b) {
+            x = a;
+            y = b;
+        }
 
-    Vector2d& operator*=(float scalar) {
-        x *= scalar;
-        y *= scalar;
+        Vector2d& operator*=(float scalar) {
+            x *= scalar;
+            y *= scalar;
 
-        return (*this);
-    }
+            return (*this);
+        }
 
-    Vector2d& operator/=(float scalar) {
-        x /= scalar;
-        y /= scalar;
+        Vector2d& operator/=(float scalar) {
+            x /= scalar;
+            y /= scalar;
 
-        return (*this);
-    }
+            return (*this);
+        }
 
-    Vector2d& operator+=(Vector2d v) {
-        x += v.x;
-        y += v.y;
+        Vector2d& operator+=(Vector2d v) {
+            x += v.x;
+            y += v.y;
 
-        return (*this);
-    }
+            return (*this);
+        }
 
-    bool operator==(const Vector2d& v2) {
-        return x == v2.x && y == v2.y;
-    }
+        bool operator==(const Vector2d& v2) {
+            return x == v2.x && y == v2.y;
+        }
 
-    Vector2d operator+(const Vector2d& v2) {
-        return {x + v2.x, y + v2.y};
-    }
+        Vector2d operator+(const Vector2d& v2) {
+            return {x + v2.x, y + v2.y};
+        }
 
-    Vector2d operator*(float s) {
-        return {x * s, y * s};
-    }
+        Vector2d operator*(float s) {
+            return {x * s, y * s};
+        }
 
-    Vector2d operator/(float s) {
-        return {x / s, y / s};
-    }
+        Vector2d operator/(float s) {
+            return {x / s, y / s};
+        }
 
-    float magnitude() {
-        return std::sqrt(x * x + y * y);
-    }
+        float magnitude() {
+            return std::sqrt(x * x + y * y);
+        }
 
-    Vector2d normalize() {
-        return *this / magnitude();
-    }
-};
+        Vector2d normalize() {
+            return *this / magnitude();
+        }
+    };
+}
 
 #endif

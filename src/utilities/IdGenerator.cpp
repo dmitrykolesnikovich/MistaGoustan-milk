@@ -1,10 +1,10 @@
 #include "IdGenerator.h"
 
-IdGenerator::IdGenerator()
+milk::IdGenerator::IdGenerator()
         : count_(0) {
 }
 
-unsigned int IdGenerator::popId() {
+unsigned int milk::IdGenerator::popId() {
     if (availableIds_.empty())
         return count_++;
 
@@ -14,7 +14,7 @@ unsigned int IdGenerator::popId() {
     return id;
 }
 
-void IdGenerator::pushId(unsigned int id) {
+void milk::IdGenerator::pushId(unsigned int id) {
     for (auto& it : availableIds_) {
         // No duplicate ids allowed.
         if (it == id)

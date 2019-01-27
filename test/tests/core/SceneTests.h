@@ -14,17 +14,17 @@ class SceneTests : public ::testing::Test {};
 
 TEST_F(SceneTests, Ctor_Constructs) {
     // Arrange
-    EventQueue eventQueue;
+    milk::EventQueue eventQueue;
 
     // Act & Assert
-    ASSERT_NO_THROW(Scene(eventQueue, 640, 360));
+    ASSERT_NO_THROW(milk::Scene(eventQueue, 640, 360));
 }
 
 TEST_F(SceneTests, SpawnActor_SpawnsActor) {
     // Arrange
-    EventQueue eventQueue;
+    milk::EventQueue eventQueue;
 
-    Scene scene{eventQueue, 640, 360};
+    milk::Scene scene{eventQueue, 640, 360};
 
     // Act
     auto actor = scene.spawnActor("steve");
@@ -35,9 +35,9 @@ TEST_F(SceneTests, SpawnActor_SpawnsActor) {
 
 TEST_F(SceneTests, SpawnActor_SetsActorName) {
     // Arrange
-    EventQueue eventQueue;
+    milk::EventQueue eventQueue;
 
-    Scene scene{eventQueue, 640, 360};
+    milk::Scene scene{eventQueue, 640, 360};
 
     // Act
     auto actor = scene.spawnActor("steve");
@@ -48,9 +48,9 @@ TEST_F(SceneTests, SpawnActor_SetsActorName) {
 
 TEST_F(SceneTests, SpawnActor_SetsActorId) {
     // Arrange
-    EventQueue eventQueue;
+    milk::EventQueue eventQueue;
 
-    Scene scene{eventQueue, 640, 360};
+    milk::Scene scene{eventQueue, 640, 360};
 
     // Act
     auto waddap = scene.spawnActor("waddap");
@@ -65,9 +65,9 @@ TEST_F(SceneTests, SpawnActor_SetsActorId) {
 
 TEST_F(SceneTests, SpawnActor_GeneratesActorSpawnedEvent) {
     // Arrange
-    EventQueue eventQueue;
+    milk::EventQueue eventQueue;
 
-    Scene scene{eventQueue, 640, 360};
+    milk::Scene scene{eventQueue, 640, 360};
 
     auto actor = scene.spawnActor("steve");
 
@@ -76,18 +76,18 @@ TEST_F(SceneTests, SpawnActor_GeneratesActorSpawnedEvent) {
 
     // Assert
     ASSERT_NE(nullptr, spawnedEvent);
-    ASSERT_TRUE(spawnedEvent->type() == GameEventType::ACTOR_SPAWNED);
+    ASSERT_TRUE(spawnedEvent->type() == milk::GameEventType::ACTOR_SPAWNED);
 
-    auto& spawnedEventActor = (dynamic_cast<ActorSpawnedEvent*>(spawnedEvent))->actor();
+    auto& spawnedEventActor = (dynamic_cast<milk::ActorSpawnedEvent*>(spawnedEvent))->actor();
 
     ASSERT_EQ(actor, &spawnedEventActor);
 }
 
 TEST_F(SceneTests, DestroyActor_GivenActorDoesntExist_DoesNotGenerateActorDestroyedEvent) {
     // Arrange
-    EventQueue eventQueue;
+    milk::EventQueue eventQueue;
 
-    Scene scene{eventQueue, 640, 360};
+    milk::Scene scene{eventQueue, 640, 360};
 
     // Act
     scene.destroyActor(76);
@@ -100,9 +100,9 @@ TEST_F(SceneTests, DestroyActor_GivenActorDoesntExist_DoesNotGenerateActorDestro
 
 TEST_F(SceneTests, DestroyActor_GeneratesActorDestroyedEvent) {
     // Arrange
-    EventQueue eventQueue;
+    milk::EventQueue eventQueue;
 
-    Scene scene{eventQueue, 640, 360};
+    milk::Scene scene{eventQueue, 640, 360};
 
     auto actor = scene.spawnActor("steve");
 
@@ -118,18 +118,18 @@ TEST_F(SceneTests, DestroyActor_GeneratesActorDestroyedEvent) {
     auto destroyedEvent = eventQueue.pollEvent();
 
     ASSERT_NE(nullptr, destroyedEvent);
-    ASSERT_TRUE(destroyedEvent->type() == GameEventType::ACTOR_DETROYED);
+    ASSERT_TRUE(destroyedEvent->type() == milk::GameEventType::ACTOR_DETROYED);
 
-    auto& destroyedEventActor = (dynamic_cast<ActorDestroyedEvent*>(destroyedEvent))->actor();
+    auto& destroyedEventActor = (dynamic_cast<milk::ActorDestroyedEvent*>(destroyedEvent))->actor();
 
     ASSERT_EQ(actor, &destroyedEventActor);
 }
 
 TEST_F(SceneTests, FindActor_FindsActor) {
     // Arrange
-    EventQueue eventQueue;
+    milk::EventQueue eventQueue;
 
-    Scene scene{eventQueue, 640, 360};
+    milk::Scene scene{eventQueue, 640, 360};
 
     auto actor = scene.spawnActor("steve");
 
@@ -144,9 +144,9 @@ TEST_F(SceneTests, FindActor_FindsActor) {
 
 TEST_F(SceneTests, FindActor_GivenActorDoesntExist_DoesNotFindActor) {
     // Arrange
-    EventQueue eventQueue;
+    milk::EventQueue eventQueue;
 
-    Scene scene{eventQueue, 640, 360};
+    milk::Scene scene{eventQueue, 640, 360};
 
     // Act
     auto foundActor = scene.findActor("steve");

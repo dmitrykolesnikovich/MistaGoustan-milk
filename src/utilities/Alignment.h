@@ -1,9 +1,11 @@
-#ifndef _ALIGNMENT_H
-#define _ALIGNMENT_H
+#ifndef MILK_ALIGNMENT_H
+#define MILK_ALIGNMENT_H
 
-enum class Alignment {
-    TOP_LEFT,
-    CENTER_ORIGIN
-};
+namespace milk {
+    enum class Alignment {
+        TOP_LEFT,
+        CENTER_ORIGIN
+    };
+}
 
 #endif

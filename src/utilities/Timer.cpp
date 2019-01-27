@@ -1,10 +1,10 @@
 #include "Timer.h"
 
-Timer::Timer()
+milk::Timer::Timer()
         : startTicks_(0), pausedTicks_(0), paused_(false), started_(false) {
 }
 
-void Timer::start() {
+void milk::Timer::start() {
     started_ = true;
 
     paused_ = false;
@@ -13,7 +13,7 @@ void Timer::start() {
     pausedTicks_ = 0;
 }
 
-void Timer::stop() {
+void milk::Timer::stop() {
     started_ = false;
 
     paused_ = false;
@@ -22,7 +22,7 @@ void Timer::stop() {
     pausedTicks_ = 0;
 }
 
-void Timer::pause() {
+void milk::Timer::pause() {
     if (started_ && !paused_) {
         paused_ = true;
 
@@ -31,7 +31,7 @@ void Timer::pause() {
     }
 }
 
-void Timer::unpause() {
+void milk::Timer::unpause() {
     if (started_ && paused_) {
         paused_ = false;
 
@@ -41,7 +41,7 @@ void Timer::unpause() {
     }
 }
 
-Uint32 Timer::getTicks() {
+Uint32 milk::Timer::getTicks() {
     //The actual timer time
     Uint32 time = 0;
 
@@ -56,10 +56,10 @@ Uint32 Timer::getTicks() {
     return time;
 }
 
-bool Timer::isStarted() {
+bool milk::Timer::isStarted() {
     return started_;
 }
 
-bool Timer::isPaused() {
+bool milk::Timer::isPaused() {
     return paused_ && started_;
 }

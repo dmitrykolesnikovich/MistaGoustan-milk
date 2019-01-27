@@ -1,13 +1,12 @@
-#ifndef _LUAGAME_H
-#define _LUAGAME_H
+#ifndef MILK_LUA_GAME_H
+#define MILK_LUA_GAME_H
 
 #include <string>
+namespace milk {
+    class Game;
+    class Scene;
+    class Window;
 
-class Game;
-class Scene;
-class Window;
-
-namespace mlk {
     namespace lua {
         namespace game {
             Window& window(Game& game);

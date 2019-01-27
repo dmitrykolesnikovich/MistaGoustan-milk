@@ -8,13 +8,13 @@
 #include "events/GameEvents.h"
 #include "window/Window.h"
 
-Scene::Scene(EventQueue& eventQueue, unsigned virtualWidth, unsigned virtualHeight)
+milk::Scene::Scene(milk::EventQueue& eventQueue, unsigned virtualWidth, unsigned virtualHeight)
         : eventQueue_(eventQueue), camera_(*this, virtualWidth, virtualHeight) {
 }
 
-Scene::~Scene() = default;
+milk::Scene::~Scene() = default;
 
-Actor* Scene::spawnActor(const std::string& name) {
+milk::Actor* milk::Scene::spawnActor(const std::string& name) {
     int id = idGenerator_.popId();
 
     auto actor = std::make_unique<Actor>(id, name, Vector2d(0, 0));
@@ -27,7 +27,7 @@ Actor* Scene::spawnActor(const std::string& name) {
     return pActor;
 }
 
-bool Scene::destroyActor(int id) {
+bool milk::Scene::destroyActor(int id) {
     auto foundActor = actorsById_.find(id);
 
     if (foundActor == actorsById_.end())
@@ -40,7 +40,7 @@ bool Scene::destroyActor(int id) {
     return true;
 }
 
-Actor* Scene::findActor(const std::string& name) const {
+milk::Actor* milk::Scene::findActor(const std::string& name) const {
     // TODO: Brute force implementation. revisit.
     for (auto& it : actorsById_) {
         if (it.second->name() == name)
@@ -50,15 +50,15 @@ Actor* Scene::findActor(const std::string& name) const {
     return nullptr;
 }
 
-Camera& Scene::camera() {
+milk::Camera& milk::Scene::camera() {
     return camera_;
 }
 
-Tilemap& Scene::tilemap() {
+milk::Tilemap& milk::Scene::tilemap() {
     return tilemap_;
 }
 
-void Scene::syncActorLists() {
+void milk::Scene::syncActorLists() {
     for (auto& it : actorsToDestroy_) {
         idGenerator_.pushId(it);
         actorsById_.erase(it);
@@ -72,7 +72,7 @@ void Scene::syncActorLists() {
     actorsToSpawn_.clear();
 }
 
-SDL_Rect Scene::bounds() const {
+SDL_Rect milk::Scene::bounds() const {
     SDL_Rect bounds;
     bounds.x = 0;
     bounds.y = 0;
@@ -82,7 +82,7 @@ SDL_Rect Scene::bounds() const {
     return bounds;
 }
 
-void Scene::end() {
+void milk::Scene::end() {
     for (auto& it : actorsById_)
         destroyActor(it.first);
 

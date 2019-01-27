@@ -1,5 +1,5 @@
-#ifndef _GAME_H
-#define _GAME_H
+#ifndef MILK_GAME_H
+#define MILK_GAME_H
 
 // Exit codes
 #define MILK_SUCCESS 0
@@ -11,96 +11,98 @@
 
 #include "externals/sol.hpp"
 
-// Forward declarations
+namespace milk {
 #ifdef _DEBUG
 
-class DebugTools;
+    class DebugTools;
 
 #endif
 
-class EventQueue;
+    class EventQueue;
 
-class Graphics;
+    class Graphics;
 
-class Logic;
+    class Logic;
 
-class Physics;
+    class Physics;
 
-class ResourceManager;
+    class ResourceManager;
 
-class SceneLoader;
+    class SceneLoader;
 
-class SceneManager;
+    class SceneManager;
 
-class Window;
+    class Window;
 
+    // THE Game class.
+    // Handles running the game, updating subsystems, managing scenes, handling input, etc..
+    class Game {
+    public:
+        Game();
 
-class Game {
-public:
-    Game();
+        explicit Game(const std::string& configFile);
 
-    explicit Game(const std::string& configFile);
+        ~Game();
 
-    ~Game();
+        // Initializes and runs the game
+        // Returns MILK_SUCCESS on successful run
+        // Returns MILK_FAIL on unsuccessful run
+        int run();
 
-    // Initializes and runs the game
-    // Returns MILK_SUCCESS on successful run
-    // Returns MILK_FAIL on unsuccessful run
-    int run();
+        // Returns the game window.
+        Window& window() const;
 
-    // Returns the game window.
-    Window& window() const;
+        // Returns the games resource manager.
+        ResourceManager& resources() const;
 
-    // Returns the games resource manager.
-    ResourceManager& resources() const;
+        // Returns the games event queue.
+        EventQueue& events() const;
 
-    // Returns the games event queue.
-    EventQueue& events() const;
+        // Returns the games scene manager.
+        SceneManager& sceneManager() const;
 
-    // Returns the games scene manager.
-    SceneManager& sceneManager() const;
+        // Loads an JSON scene.
+        void loadScene(const std::string& name);
 
-    // Loads an JSON scene.
-    void loadScene(const std::string& name);
+    private:
+        std::string configFile_;
 
-private:
-    std::string configFile_;
+        std::unique_ptr<Window> window_;
+        std::unique_ptr<SceneLoader> sceneLoader_;
+        std::unique_ptr<ResourceManager> resources_;
+        std::unique_ptr<SceneManager> sceneManager_;
+        std::unique_ptr<EventQueue> events_;
 
-    std::unique_ptr<Window> window_;
-    std::unique_ptr<SceneLoader> sceneLoader_;
-    std::unique_ptr<ResourceManager> resources_;
-    std::unique_ptr<SceneManager> sceneManager_;
-    std::unique_ptr<EventQueue> events_;
-
-    sol::state luaState_;
+        sol::state luaState_;
 
 #ifdef _DEBUG
-    std::unique_ptr<DebugTools> debugTools_;
+        std::unique_ptr<DebugTools> debugTools_;
 #endif
 
-    std::unique_ptr<Logic> logic_;
-    std::unique_ptr<Physics> physics_;
-    std::unique_ptr<Graphics> graphics_;
+        std::unique_ptr<Logic> logic_;
+        std::unique_ptr<Physics> physics_;
+        std::unique_ptr<Graphics> graphics_;
 
-    bool isRunning_;
+        bool isRunning_;
 
-    void initLua();
+        void initLua();
 
-    bool initFromConfig();
+        bool initFromConfig();
 
-    bool initSDL();
+        bool initSDL();
 
-    bool initRenderWindow();
+        bool initRenderWindow();
 
-    void initSystems();
+        void initSystems();
 
-    void handleEvents();
+        void handleEvents();
 
-    void update();
+        void update();
 
-    void render();
+        void render();
 
-    void shutDown();
-};
+        void shutDown();
+    };
+}
 
 #endif

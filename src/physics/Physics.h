@@ -1,40 +1,42 @@
-#ifndef _PHYSICS_SYSTEM_H
-#define _PHYSICS_SYSTEM_H
+#ifndef MILK_PHYSICS_H
+#define MILK_PHYSICS_H
 
 #include <memory>
 #include <unordered_map>
 
-class Actor;
+namespace milk {
+    class Actor;
 
-class BoxCollider;
+    class BoxCollider;
 
-class EventQueue;
+    class EventQueue;
 
-class GameEvent;
+    class GameEvent;
 
-class SpatialPartitionGrid;
+    class SpatialPartitionGrid;
 
-class Velocity;
+    class Velocity;
 
-class Physics {
-public:
-    explicit Physics(EventQueue& eventQueue);
+    class Physics {
+    public:
+        explicit Physics(EventQueue& eventQueue);
 
-    ~Physics();
+        ~Physics();
 
-    void handleEvent(GameEvent& gameEvent);
+        void handleEvent(GameEvent& gameEvent);
 
-    void update();
+        void update();
 
-private:
-    EventQueue& eventQueue_;
+    private:
+        EventQueue& eventQueue_;
 
-    std::unordered_map<int, Velocity*> velocityByActorId_;
-    std::unique_ptr<SpatialPartitionGrid> partitionGrid_;
+        std::unordered_map<int, Velocity*> velocityByActorId_;
+        std::unique_ptr<SpatialPartitionGrid> partitionGrid_;
 
-    void onActorSpawned(Actor& actor);
+        void onActorSpawned(Actor& actor);
 
-    void onActorDestroyed(Actor& actor);
-};
+        void onActorDestroyed(Actor& actor);
+    };
+}
 
 #endif

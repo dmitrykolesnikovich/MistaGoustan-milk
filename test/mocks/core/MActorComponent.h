@@ -1,19 +1,17 @@
-#ifndef _MACTOR_COMPONENT_H
-#define _MACTOR_COMPONENT_H
+#ifndef MILK_MACTOR_COMPONENT_H
+#define MILK_MACTOR_COMPONENT_H
 
 #include "core/ActorComponent.h"
 
-class MActorComponent : public ActorComponent
-{
+class MActorComponent : public milk::ActorComponent {
 public:
-    static ComponentType type;
+    static milk::ComponentType type;
 
-    explicit MActorComponent(Actor& actor)
-        : ActorComponent(actor)
-    {
+    explicit MActorComponent(milk::Actor& actor)
+            : ActorComponent(actor) {
     }
 };
 
-ComponentType MActorComponent::type = ComponentType ::MAX_COMPONENTS;
+milk::ComponentType MActorComponent::type = milk::ComponentType::MAX_COMPONENTS;
 
 #endif

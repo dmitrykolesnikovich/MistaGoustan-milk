@@ -3,21 +3,21 @@
 #include <vector>
 
 #include "BoxCollider.h"
+#include "SpatialPartitionGrid.h"
 #include "Velocity.h"
 
 #include "core/Actor.h"
 
 #include "events/EventQueue.h"
 #include "events/GameEvents.h"
-#include "SpatialPartitionGrid.h"
 
-Physics::Physics(EventQueue& eventQueue)
+milk::Physics::Physics(milk::EventQueue& eventQueue)
         : eventQueue_(eventQueue), partitionGrid_(new SpatialPartitionGrid()) {
 }
 
-Physics::~Physics() = default;
+milk::Physics::~Physics() = default;
 
-void Physics::handleEvent(GameEvent& gameEvent) {
+void milk::Physics::handleEvent(milk::GameEvent& gameEvent) {
     switch (gameEvent.type()) {
         case GameEventType::ACTOR_SPAWNED: {
             auto& spawnedEvent = dynamic_cast<ActorSpawnedEvent&>(gameEvent);
@@ -34,7 +34,7 @@ void Physics::handleEvent(GameEvent& gameEvent) {
     }
 }
 
-void Physics::update() {
+void milk::Physics::update() {
     for (auto& velItr : velocityByActorId_) {
         Vector2d velocity = velItr.second->value();
 
@@ -77,7 +77,7 @@ void Physics::update() {
     }
 }
 
-void Physics::onActorSpawned(Actor& actor) {
+void milk::Physics::onActorSpawned(Actor& actor) {
     auto velocity = actor.getComponent<Velocity>();
 
     if (velocity != nullptr)
@@ -91,7 +91,7 @@ void Physics::onActorSpawned(Actor& actor) {
     }
 }
 
-void Physics::onActorDestroyed(Actor& actor) {
+void milk::Physics::onActorDestroyed(Actor& actor) {
     if (velocityByActorId_.find(actor.id()) != velocityByActorId_.end())
         velocityByActorId_.erase(actor.id());
 

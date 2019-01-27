@@ -4,11 +4,11 @@
 #include "core/Actor.h"
 #include "events/GameEvents.h"
 
-Logic::Logic(sol::state& luaState)
+milk::Logic::Logic(sol::state& luaState)
         : luaState_(luaState) {
 }
 
-void Logic::handleEvent(GameEvent& gameEvent) {
+void milk::Logic::handleEvent(GameEvent& gameEvent) {
     switch (gameEvent.type()) {
         case GameEventType::ACTOR_SPAWNED: {
             auto& spawnedEvent = dynamic_cast<ActorSpawnedEvent&>(gameEvent);
@@ -30,12 +30,12 @@ void Logic::handleEvent(GameEvent& gameEvent) {
     }
 }
 
-void Logic::update() {
+void milk::Logic::update() {
     for (auto& it : scriptByActorId_)
         it.second->update();
 }
 
-void Logic::onActorSpawned(Actor& actor) {
+void milk::Logic::onActorSpawned(Actor& actor) {
     auto script = actor.getComponent<Script>();
 
     if (script == nullptr)
@@ -48,7 +48,7 @@ void Logic::onActorSpawned(Actor& actor) {
     script->begin();
 }
 
-void Logic::onActorDestroyed(Actor& actor) {
+void milk::Logic::onActorDestroyed(Actor& actor) {
     auto found = scriptByActorId_.find(actor.id());
 
     if (found == scriptByActorId_.end())
@@ -64,7 +64,7 @@ void Logic::onActorDestroyed(Actor& actor) {
     scriptByActorId_.erase(actor.id());
 }
 
-void Logic::onActorCollision(ActorCollisionEvent& collisionEvent) {
+void milk::Logic::onActorCollision(ActorCollisionEvent& collisionEvent) {
     auto script = scriptByActorId_.find(collisionEvent.actor().id());
 
     if (script != scriptByActorId_.end())

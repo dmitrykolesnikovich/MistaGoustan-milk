@@ -1,49 +1,49 @@
-#include <memory>
-
 #include "Animator.h"
+
+#include <memory>
 
 #include "SDL.h"
 
 #include "Sprite.h"
-#include "core/Actor.h"
-
 #include "Texture.h"
 
-const ComponentType Animator::type = ANIMATOR;
+#include "core/Actor.h"
 
-Animator::Animator(Actor& actor)
+const milk::ComponentType milk::Animator::type = ANIMATOR;
+
+milk::Animator::Animator(Actor& actor)
         : ActorComponent::ActorComponent(actor), timeBetweenFrames_(0.1f), rows_(0), columns_(0), frameWidth_(0),
           frameHeight_(0), paused_(false), currentAnimation_(nullptr) {
 }
 
-void Animator::init() {
+void milk::Animator::init() {
     sprite_ = actor_.getComponent<Sprite>();
 
     frameWidth_ = sprite_->texture()->width() / columns_;
     frameHeight_ = sprite_->texture()->height() / rows_;
 }
 
-void Animator::rows(int rows) {
+void milk::Animator::rows(int rows) {
     rows_ = rows;
 }
 
-void Animator::columns(int columns) {
+void milk::Animator::columns(int columns) {
     columns_ = columns;
 }
 
-void Animator::togglePaused() {
+void milk::Animator::togglePaused() {
     paused_ = !paused_;
 }
 
-void Animator::addAnimation(const std::string& name, std::initializer_list<int> f) {
+void milk::Animator::addAnimation(const std::string& name, std::initializer_list<int> f) {
     animations_.insert(std::make_pair(name, std::make_unique<Animation>(name, f)));
 }
 
-void Animator::addAnimation(const std::string& name, std::vector<int> f) {
+void milk::Animator::addAnimation(const std::string& name, std::vector<int> f) {
     animations_.insert(std::make_pair(name, std::make_unique<Animation>(name, f)));
 }
 
-void Animator::setAnimation(const std::string& name) {
+void milk::Animator::setAnimation(const std::string& name) {
     if (currentAnimation_ != nullptr && currentAnimation_->name == name)
         return;
 
@@ -58,7 +58,7 @@ void Animator::setAnimation(const std::string& name) {
     sprite_->sourceRect(column * frameWidth_, row * frameHeight_, frameWidth_, frameHeight_);
 }
 
-void Animator::update() {
+void milk::Animator::update() {
     if (currentAnimation_ != nullptr && !paused_) {
         auto t = timer_.getTicks() / 1000.0f;
 

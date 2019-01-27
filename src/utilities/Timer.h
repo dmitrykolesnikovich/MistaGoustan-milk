@@ -1,32 +1,34 @@
-#ifndef _TIMER_H
-#define _TIMER_H
+#ifndef MILK_TIMER_H
+#define MILK_TIMER_H
 
 #include "SDL.h"
 
-class Timer {
-public:
-    Timer();
+namespace milk {
+    class Timer {
+    public:
+        Timer();
 
-    void start();
+        void start();
 
-    void stop();
+        void stop();
 
-    void pause();
+        void pause();
 
-    void unpause();
+        void unpause();
 
-    Uint32 getTicks();
+        Uint32 getTicks();
 
-    bool isStarted();
+        bool isStarted();
 
-    bool isPaused();
+        bool isPaused();
 
-private:
-    Uint32 startTicks_;
-    Uint32 pausedTicks_;
+    private:
+        Uint32 startTicks_;
+        Uint32 pausedTicks_;
 
-    bool paused_;
-    bool started_;
-};
+        bool paused_;
+        bool started_;
+    };
+}
 
 #endif

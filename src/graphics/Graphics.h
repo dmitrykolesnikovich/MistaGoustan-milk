@@ -1,44 +1,47 @@
-#ifndef _GRAPHICS_SYSTEM_H
-#define _GRAPHICS_SYSTEM_H
+#ifndef MILK_GRAPHICS_H
+#define MILK_GRAPHICS_H
 
 #include <unordered_map>
 
-class Actor;
-
-class Camera;
-
-class GameEvent;
-
-class ResourceManager;
-
-class Scene;
-
-class Sprite;
-
 struct SDL_Renderer;
-struct Tilemap;
 
-class Graphics {
-public:
-    Graphics(SDL_Renderer& renderer, ResourceManager& resourceManager);
+namespace milk {
+    class Actor;
 
-    void handleEvent(GameEvent& gameEvent);
+    class Camera;
 
-    void render(Scene& scene);
+    class GameEvent;
 
-private:
-    SDL_Renderer& sdlRenderer_;
-    ResourceManager& resourceManager_;
+    class ResourceManager;
 
-    std::unordered_map<int, Sprite*> spritesByActorId_;
+    class Scene;
 
-    void onActorSpawned(Actor& actor);
+    class Sprite;
 
-    void onActorDestroyed(Actor& actor);
+    struct Tilemap;
 
-    void renderTilemap(const Tilemap& tilemap, const Camera& camera);
+    class Graphics {
+    public:
+        Graphics(SDL_Renderer& renderer, ResourceManager& resourceManager);
 
-    void renderActors(const Camera& camera);
-};
+        void handleEvent(GameEvent& gameEvent);
+
+        void render(Scene& scene);
+
+    private:
+        SDL_Renderer& sdlRenderer_;
+        ResourceManager& resourceManager_;
+
+        std::unordered_map<int, Sprite*> spritesByActorId_;
+
+        void onActorSpawned(Actor& actor);
+
+        void onActorDestroyed(Actor& actor);
+
+        void renderTilemap(const Tilemap& tilemap, const Camera& camera);
+
+        void renderActors(const Camera& camera);
+    };
+}
 
 #endif

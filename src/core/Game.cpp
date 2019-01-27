@@ -7,7 +7,17 @@
 
 #include "core/Scene.h"
 
+#include "events/EventQueue.h"
+#include "events/GameEvents.h"
+
+#include "graphics/Graphics.h"
+
+#include "input/Keyboard.h"
+
+#include "physics/Physics.h"
+
 #include "scripting/api/LuaHandleRegistry.h"
+#include "scripting/Logic.h"
 
 #ifdef _DEBUG
 
@@ -15,29 +25,23 @@
 
 #endif
 
-#include "events/EventQueue.h"
-#include "events/GameEvents.h"
-#include "scripting/Logic.h"
-#include "physics/Physics.h"
-#include "graphics/Graphics.h"
-
-#include "input/Keyboard.h"
 #include "utilities/ResourceManager.h"
 #include "utilities/SceneLoader.h"
 #include "utilities/SceneManager.h"
 #include "utilities/Timer.h"
+
 #include "window/Window.h"
 
 
-Game::Game() = default;
+milk::Game::Game() = default;
 
-Game::Game(const std::string& configFile)
+milk::Game::Game(const std::string& configFile)
         : configFile_(configFile) {
 }
 
-Game::~Game() = default;
+milk::Game::~Game() = default;
 
-int Game::run() {
+int milk::Game::run() {
     // No game for you.
     if (configFile_.empty()) {
         std::cout << "Cannot find config file" << std::endl;
@@ -101,7 +105,7 @@ int Game::run() {
     return MILK_SUCCESS;
 }
 
-void Game::handleEvents() {
+void milk::Game::handleEvents() {
     SDL_Event e;
 
     while (SDL_PollEvent(&e)) {
@@ -141,13 +145,13 @@ void Game::handleEvents() {
     }
 }
 
-void Game::update() {
+void milk::Game::update() {
     sceneManager_->update();
     logic_->update();
     physics_->update();
 }
 
-void Game::render() {
+void milk::Game::render() {
     window_->clear();
 
     // TODO: this is gross. revisit.
@@ -163,7 +167,7 @@ void Game::render() {
     window_->present();
 }
 
-void Game::shutDown() {
+void milk::Game::shutDown() {
     sceneManager_->shutDown();
     handleEvents();
     sceneManager_->update();
@@ -176,27 +180,27 @@ void Game::shutDown() {
     SDL_Quit();
 }
 
-Window& Game::window() const {
+milk::Window& milk::Game::window() const {
     return *window_;
 }
 
-ResourceManager& Game::resources() const {
+milk::ResourceManager& milk::Game::resources() const {
     return *resources_;
 }
 
-EventQueue& Game::events() const {
+milk::EventQueue& milk::Game::events() const {
     return *events_;
 }
 
-SceneManager& Game::sceneManager() const {
+milk::SceneManager& milk::Game::sceneManager() const {
     return *sceneManager_;
 }
 
-void Game::loadScene(const std::string& name) {
+void milk::Game::loadScene(const std::string& name) {
     sceneManager_->loadScene(name);
 }
 
-void Game::initLua() {
+void milk::Game::initLua() {
     luaState_.open_libraries(sol::lib::base, sol::lib::math, sol::lib::package);
 
     LuaHandleRegistry::RegisterHandles(luaState_);
@@ -204,7 +208,7 @@ void Game::initLua() {
     luaState_["Game"] = this;
 }
 
-bool Game::initFromConfig() {
+bool milk::Game::initFromConfig() {
 
     sol::load_result loadResult = luaState_.load_file(configFile_);
 
@@ -238,7 +242,7 @@ bool Game::initFromConfig() {
     return true;
 }
 
-bool Game::initSDL() {
+bool milk::Game::initSDL() {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) < 0) {
         std::cout << "Error initializing SDL: " << SDL_GetError() << std::endl;
         return false;
@@ -255,7 +259,7 @@ bool Game::initSDL() {
     return true;
 }
 
-bool Game::initRenderWindow() {
+bool milk::Game::initRenderWindow() {
     if (!window_->init()) {
         IMG_Quit();
         SDL_Quit();
@@ -266,7 +270,7 @@ bool Game::initRenderWindow() {
     return true;
 }
 
-void Game::initSystems() {
+void milk::Game::initSystems() {
     Keyboard::initialize();
 
     resources_->init(window_->sdlRenderer());

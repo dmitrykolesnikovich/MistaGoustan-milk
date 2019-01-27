@@ -1,30 +1,31 @@
 #include "BoxCollider.h"
 
-#include "core/Actor.h"
 #include "SpatialPartitionGrid.h"
 
-const ComponentType BoxCollider::type = BOX_COLLIDER;
+#include "core/Actor.h"
 
-BoxCollider::BoxCollider(Actor& actor)
+const milk::ComponentType milk::BoxCollider::type = BOX_COLLIDER;
+
+milk::BoxCollider::BoxCollider(Actor& actor)
         : ActorComponent::ActorComponent(actor), origin_(Alignment::TOP_LEFT), offset_(0, 0), grid_(nullptr),
           next_(nullptr), prev_(nullptr) {
 
     updateBBox();
 }
 
-void BoxCollider::init(SpatialPartitionGrid* grid) {
+void milk::BoxCollider::init(SpatialPartitionGrid* grid) {
     grid_ = grid;
 
     updateBBox();
 }
 
-void BoxCollider::center() {
+void milk::BoxCollider::center() {
     origin_ = Alignment::CENTER_ORIGIN;
 
     updateBBox();
 }
 
-void BoxCollider::updateBBox() {
+void milk::BoxCollider::updateBBox() {
     Vector2d actorPosition = actor_.position();
 
     // Update the old bounding box before invalidating the current one.
@@ -45,43 +46,43 @@ void BoxCollider::updateBBox() {
         grid_->move(this);
 }
 
-SDL_Rect BoxCollider::rect() const {
+SDL_Rect milk::BoxCollider::rect() const {
     return rect_;
 }
 
-void BoxCollider::width(int width) {
+void milk::BoxCollider::width(int width) {
     rect_.w = width;
 }
 
-void BoxCollider::height(int height) {
+void milk::BoxCollider::height(int height) {
     rect_.h = height;
 }
 
-void BoxCollider::offset(int x, int y) {
+void milk::BoxCollider::offset(int x, int y) {
     offset_.x = x;
     offset_.y = y;
 }
 
-bool BoxCollider::overlaps(SDL_Rect otherRect) const {
+bool milk::BoxCollider::overlaps(SDL_Rect otherRect) const {
     return SDL_HasIntersection(&rect_, &otherRect);
 }
 
-bool BoxCollider::overlaps(SDL_Rect otherRect, SDL_Rect* result) const {
+bool milk::BoxCollider::overlaps(SDL_Rect otherRect, SDL_Rect* result) const {
     return SDL_IntersectRect(&rect_, &otherRect, result);
 }
 
-int BoxCollider::top() {
+int milk::BoxCollider::top() {
     return rect_.y;
 }
 
-int BoxCollider::bottom() {
+int milk::BoxCollider::bottom() {
     return rect_.y + rect_.h;
 }
 
-int BoxCollider::left() {
+int milk::BoxCollider::left() {
     return rect_.x;
 }
 
-int BoxCollider::right() {
+int milk::BoxCollider::right() {
     return rect_.x + rect_.w;
 }

@@ -5,7 +5,7 @@
 #include "physics/Velocity.h"
 #include "core/Actor.h"
 
-namespace mlk {
+namespace milk {
     namespace lua {
         namespace actor {
             std::string name(Actor& actor) {
