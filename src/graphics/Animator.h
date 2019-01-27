@@ -30,7 +30,7 @@ namespace milk {
     public:
         static const ComponentType type;
 
-        Animator(Actor& actor, int rows, int columns);
+        Animator(Actor& actor, int rows, int columns, float timeBetweenFrames = 0.1f);
 
         ~Animator() override = default;
 
@@ -53,7 +53,6 @@ namespace milk {
         Sprite* sprite_;
 
         Timer timer_;
-        bool paused_;
         int currentFrame_;
         float timeBetweenFrames_;
 

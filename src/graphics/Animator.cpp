@@ -11,9 +11,9 @@
 
 const milk::ComponentType milk::Animator::type = ANIMATOR;
 
-milk::Animator::Animator(Actor& actor, int rows, int columns)
-        : ActorComponent::ActorComponent(actor), rows_(rows), columns_(columns), timeBetweenFrames_(0.1f),
-          frameWidth_(0), frameHeight_(0), paused_(false), currentAnimation_(nullptr) {
+milk::Animator::Animator(Actor& actor, int rows, int columns, float timeBetweenFrames)
+        : ActorComponent::ActorComponent(actor), rows_(rows), columns_(columns), timeBetweenFrames_(timeBetweenFrames),
+          frameWidth_(0), frameHeight_(0), currentAnimation_(nullptr) {
 }
 
 void milk::Animator::init() {
