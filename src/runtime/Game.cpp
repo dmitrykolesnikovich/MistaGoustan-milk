@@ -21,7 +21,7 @@
 
 #ifdef _DEBUG
 
-#include "tools/DebugTools.h"
+#include "debugtools/DebugTools.h"
 
 #endif
 

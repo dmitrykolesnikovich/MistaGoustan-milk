@@ -2,6 +2,10 @@ project(milklib)
 
 set(MILK_SRC_FILES
 
+        # debug tools
+        debugtools/DebugTools.cpp
+        debugtools/DebugTools.h
+
         # events
         events/EventQueue.cpp
         events/EventQueue.h
@@ -71,10 +75,6 @@ set(MILK_SRC_FILES
         scripting/Logic.h
         scripting/Script.cpp
         scripting/Script.h
-
-        # tools
-        tools/DebugTools.cpp
-        tools/DebugTools.h
 
         # utilities
         utilities/Alignment.h
