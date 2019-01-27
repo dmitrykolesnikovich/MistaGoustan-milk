@@ -1,11 +1,10 @@
-#include <utility>
-
 #ifndef MILK_ANIMATOR_H
 #define MILK_ANIMATOR_H
 
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include "scene/ActorComponent.h"
