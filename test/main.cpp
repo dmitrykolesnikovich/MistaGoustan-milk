@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 
+#include "../test/tests/events/EventQueueTests.h"
 #include "../test/tests/scene/ActorTests.h"
 #include "../test/tests/scene/SceneTests.h"
 

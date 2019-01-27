@@ -13,16 +13,16 @@ namespace milk {
 
         // LEVEL_CHANGED has low priority.
         // This is so other events can be process before level changed logic is run.
-                SCENE_CHANGED,
+        SCENE_CHANGED,
 
         // Actor events
-                ACTOR_COLLISION,
+        ACTOR_COLLISION,
         ACTOR_TRIGGER,
         ACTOR_SPAWNED,
         ACTOR_DETROYED
     };
 
-// Base class for all game events.
+    // Base class for all game events.
     class GameEvent {
     public:
         virtual ~GameEvent() = default;

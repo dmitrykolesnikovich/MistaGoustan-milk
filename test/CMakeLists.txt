@@ -37,12 +37,13 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
 # create test exe
 #-------------------------------------------------------
 set (TESTS
+        tests/events/EventQueueTests.h
         tests/scene/ActorTests.h
         tests/scene/SceneTests.h
         )
 
 set(MOCKS
-        mocks/core/MActorComponent.h)
+        mocks/core/MActorComponent.h mocks/events/MGameEvent.h)
 
 add_executable(milktests main.cpp ${TESTS} ${MOCKS})
 
