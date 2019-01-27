@@ -1,8 +1,14 @@
 #include "gtest/gtest.h"
 
+// events
 #include "../test/tests/events/EventQueueTests.h"
+
+// graphics
 #include "../test/tests/graphics/AnimatorTests.h"
+#include "../test/tests/graphics/CameraTests.h"
 #include "../test/tests/graphics/SpriteTests.h"
+
+// scene
 #include "../test/tests/scene/ActorTests.h"
 #include "../test/tests/scene/SceneTests.h"
 

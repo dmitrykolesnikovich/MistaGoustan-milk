@@ -5,6 +5,7 @@
 
 milk::Camera::Camera(milk::Scene& scene, unsigned int width, unsigned int height)
         : scene_(scene), target_(nullptr) {
+
     camRect_.x = 0;
     camRect_.y = 0;
     camRect_.w = width;
