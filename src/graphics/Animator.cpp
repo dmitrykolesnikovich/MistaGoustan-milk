@@ -1,7 +1,5 @@
 #include "Animator.h"
 
-#include <memory>
-
 #include "SDL.h"
 
 #include "Sprite.h"
@@ -54,9 +52,7 @@ void milk::Animator::setAnimation(const std::string& name) {
 
 void milk::Animator::update() {
     if (currentAnimation_ != nullptr && !timer_.isPaused()) {
-        auto frameTime = timer_.getTicks() / 1000.0f;
-
-        if (frameTime > timeBetweenFrames_) {
+        if (timer_.seconds() > timeBetweenFrames_) {
             timer_.start();
 
             currentFrame_++;

@@ -16,15 +16,17 @@ namespace milk {
 
         void unpause();
 
-        Uint32 getTicks();
+        int milliseconds();
+
+        float seconds();
 
         bool isStarted();
 
         bool isPaused();
 
     private:
-        Uint32 startTicks_;
-        Uint32 pausedTicks_;
+        int startTicks_;
+        int pausedTicks_;
 
         bool paused_;
         bool started_;

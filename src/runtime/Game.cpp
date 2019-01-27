@@ -63,8 +63,7 @@ int milk::Game::run() {
 
     isRunning_ = true;
 
-    const int SCREEN_FPS = 60;
-    const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
+    const int MILLISECONDS_PER_FRAME = 1000 / 60; // = 16
 
     Timer fpsTimer;
     Timer frameCapTimer;
@@ -77,9 +76,11 @@ int milk::Game::run() {
         while (isRunning_) {
             frameCapTimer.start();
 
-            float averageFps = countedFrames / (fpsTimer.getTicks() / 1000.f);
+            float averageFps = countedFrames / fpsTimer.seconds();
             if (averageFps > 2000000)
                 averageFps = 0;
+
+            std::cout << averageFps << std::endl;
 
             handleEvents();
             update();
@@ -87,9 +88,9 @@ int milk::Game::run() {
 
             countedFrames++;
 
-            int frameTicks = frameCapTimer.getTicks();
-            if (frameTicks < SCREEN_TICKS_PER_FRAME)
-                SDL_Delay(SCREEN_TICKS_PER_FRAME - frameTicks);
+            int frameTicks = frameCapTimer.milliseconds();
+            if (frameTicks < MILLISECONDS_PER_FRAME)
+                SDL_Delay((Uint32)(MILLISECONDS_PER_FRAME - frameTicks));
         }
     }
     catch (const std::exception& e) {

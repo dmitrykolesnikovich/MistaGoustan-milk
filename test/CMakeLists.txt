@@ -38,6 +38,7 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
 #-------------------------------------------------------
 set (TESTS
         tests/events/EventQueueTests.h
+        tests/graphics/AnimatorTests.h
         tests/graphics/SpriteTests.h
         tests/scene/ActorTests.h
         tests/scene/SceneTests.h

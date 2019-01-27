@@ -41,7 +41,7 @@ void milk::Timer::unpause() {
     }
 }
 
-Uint32 milk::Timer::getTicks() {
+int milk::Timer::milliseconds() {
     //The actual timer time
     Uint32 time = 0;
 
@@ -54,6 +54,10 @@ Uint32 milk::Timer::getTicks() {
     }
 
     return time;
+}
+
+float milk::Timer::seconds() {
+    return milliseconds() / 1000.f;
 }
 
 bool milk::Timer::isStarted() {
