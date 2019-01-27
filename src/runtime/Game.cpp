@@ -154,9 +154,7 @@ void milk::Game::update() {
 void milk::Game::render() {
     window_->clear();
 
-    // TODO: this is gross. revisit.
-    auto scene = sceneManager_->currentScene();
-    if (scene != nullptr) {
+    if (auto scene = sceneManager_->currentScene()) {
         graphics_->render(*scene);
 
 #ifdef _DEBUG
@@ -168,8 +166,10 @@ void milk::Game::render() {
 }
 
 void milk::Game::shutDown() {
-    sceneManager_->shutDown();
+    sceneManager_->loadScene(MILK_NULL_SCENE);
+    // Let systems handle the newly enqueued actor destroyed events.
     handleEvents();
+    // Lets load NULL_SCENE and free the previous one.
     sceneManager_->update();
 
     resources_->freeResources();

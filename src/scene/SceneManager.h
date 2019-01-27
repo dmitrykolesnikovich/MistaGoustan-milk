@@ -1,6 +1,8 @@
 #ifndef MILK_SCENE_MANAGER_H
 #define MILK_SCENE_MANAGER_H
 
+#define MILK_NULL_SCENE "ABSOLUTELY_NO_GD_SCENE"
+
 #include <memory>
 #include <string>
 
@@ -22,8 +24,6 @@ namespace milk {
         void update();
 
         void loadScene(const std::string& scene);
-
-        void shutDown();
 
         Scene* currentScene() const;
 

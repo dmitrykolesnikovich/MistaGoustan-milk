@@ -26,17 +26,17 @@ void milk::SceneManager::update() {
         if (scene_ != nullptr)
             scene_.reset();
 
+        if (sceneToLoad_ == MILK_NULL_SCENE) {
+            sceneToLoad_.erase();
+            return;
+        }
+
         scene_ = sceneLoader_.load(sceneToLoad_);
         sceneToLoad_.erase();
     }
 
     if (scene_ != nullptr)
         scene_->syncActorLists();
-}
-
-void milk::SceneManager::shutDown() {
-    if (scene_ != nullptr)
-        scene_->end();
 }
 
 milk::Scene* milk::SceneManager::currentScene() const {
