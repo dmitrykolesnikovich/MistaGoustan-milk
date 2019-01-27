@@ -126,8 +126,8 @@ void milk::Game::handleEvents() {
         }
     }
 
-    // It is important that this is caused AFTER polling all events.
-    // SDL_Poll events internal updates SDL key states, which is what input uses.
+    // It is important that this is called AFTER polling all SDL events.
+    // SDL_PollEvent internally updates SDL key/mouse/gamepad states..
     Keyboard::updateKeyboardState();
 
     // Let systems handle game events enqueued last frame.
