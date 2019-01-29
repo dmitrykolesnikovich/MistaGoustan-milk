@@ -5,16 +5,15 @@
 
 #include "externals/sol.hpp"
 
-namespace milk {
+namespace milk
+{
     class Actor;
-
     class ActorCollisionEvent;
-
     class GameEvent;
-
     class Script;
 
-    class Logic {
+    class Logic
+    {
     public:
         explicit Logic(sol::state& luaState);
 

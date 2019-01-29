@@ -5,22 +5,28 @@
 #include "events/GameEvents.h"
 
 milk::Logic::Logic(sol::state& luaState)
-        : luaState_(luaState) {
+        : luaState_(luaState)
+{
 }
 
-void milk::Logic::handleEvent(GameEvent& gameEvent) {
-    switch (gameEvent.type()) {
-        case GameEventType::ACTOR_SPAWNED: {
+void milk::Logic::handleEvent(GameEvent& gameEvent)
+{
+    switch (gameEvent.type())
+    {
+        case GameEventType::ACTOR_SPAWNED:
+        {
             auto& spawnedEvent = dynamic_cast<ActorSpawnedEvent&>(gameEvent);
             onActorSpawned(spawnedEvent.actor());
         }
             break;
-        case GameEventType::ACTOR_DETROYED: {
+        case GameEventType::ACTOR_DETROYED:
+        {
             auto& destroyedEvent = dynamic_cast<ActorDestroyedEvent&>(gameEvent);
             onActorDestroyed(destroyedEvent.actor());
         }
             break;
-        case GameEventType::ACTOR_COLLISION: {
+        case GameEventType::ACTOR_COLLISION:
+        {
             auto& collisionEvent = dynamic_cast<ActorCollisionEvent&>(gameEvent);
             onActorCollision(collisionEvent);
         }
@@ -30,12 +36,14 @@ void milk::Logic::handleEvent(GameEvent& gameEvent) {
     }
 }
 
-void milk::Logic::update() {
+void milk::Logic::update()
+{
     for (auto& it : scriptByActorId_)
         it.second->update();
 }
 
-void milk::Logic::onActorSpawned(Actor& actor) {
+void milk::Logic::onActorSpawned(Actor& actor)
+{
     auto script = actor.getComponent<Script>();
 
     if (script == nullptr)
@@ -48,7 +56,8 @@ void milk::Logic::onActorSpawned(Actor& actor) {
     script->begin();
 }
 
-void milk::Logic::onActorDestroyed(Actor& actor) {
+void milk::Logic::onActorDestroyed(Actor& actor)
+{
     auto found = scriptByActorId_.find(actor.id());
 
     if (found == scriptByActorId_.end())
@@ -64,7 +73,8 @@ void milk::Logic::onActorDestroyed(Actor& actor) {
     scriptByActorId_.erase(actor.id());
 }
 
-void milk::Logic::onActorCollision(ActorCollisionEvent& collisionEvent) {
+void milk::Logic::onActorCollision(ActorCollisionEvent& collisionEvent)
+{
     auto script = scriptByActorId_.find(collisionEvent.actor().id());
 
     if (script != scriptByActorId_.end())

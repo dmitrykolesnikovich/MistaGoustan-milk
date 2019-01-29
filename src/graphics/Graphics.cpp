@@ -14,22 +14,29 @@
 #include "events/GameEvents.h"
 
 milk::Graphics::Graphics(SDL_Renderer& renderer, const std::string& rootDir)
-        : sdlRenderer_(renderer), textureLoader(renderer, rootDir) {
+        : sdlRenderer_(renderer),
+          textureLoader(renderer, rootDir)
+{
 }
 
-void milk::Graphics::handleEvent(milk::GameEvent& gameEvent) {
-    switch (gameEvent.type()) {
-        case GameEventType::ACTOR_SPAWNED: {
+void milk::Graphics::handleEvent(milk::GameEvent& gameEvent)
+{
+    switch (gameEvent.type())
+    {
+        case GameEventType::ACTOR_SPAWNED:
+        {
             auto& spawnedEvent = dynamic_cast<ActorSpawnedEvent&>(gameEvent);
             onActorSpawned(spawnedEvent.actor());
         }
             break;
-        case GameEventType::ACTOR_DETROYED: {
+        case GameEventType::ACTOR_DETROYED:
+        {
             auto& destroyedEvent = dynamic_cast<ActorDestroyedEvent&>(gameEvent);
             onActorDestroyed(destroyedEvent.actor());
         }
             break;
-        case GameEventType::SCENE_LOADED: {
+        case GameEventType::SCENE_LOADED:
+        {
             textureLoader.unload();
         }
             break;
@@ -38,13 +45,15 @@ void milk::Graphics::handleEvent(milk::GameEvent& gameEvent) {
     }
 }
 
-void milk::Graphics::render(milk::Scene& scene) {
+void milk::Graphics::render(milk::Scene& scene)
+{
     scene.camera().update();
     renderTilemap(scene.tilemap(), scene.camera());
     renderActors(scene.camera());
 }
 
-void milk::Graphics::onActorSpawned(milk::Actor& actor) {
+void milk::Graphics::onActorSpawned(milk::Actor& actor)
+{
     auto sprite = actor.getComponent<Sprite>();
 
     if (sprite == nullptr)
@@ -60,14 +69,18 @@ void milk::Graphics::onActorSpawned(milk::Actor& actor) {
         anim->init();
 }
 
-void milk::Graphics::onActorDestroyed(Actor& actor) {
+void milk::Graphics::onActorDestroyed(Actor& actor)
+{
     if (spritesByActorId_.find(actor.id()) != spritesByActorId_.end())
         spritesByActorId_.erase(actor.id());
 }
 
-void milk::Graphics::renderTilemap(const Tilemap& tilemap, const Camera& camera) {
-    for (auto& layer : tilemap.layers) {
-        for (auto& tile : layer->tiles) {
+void milk::Graphics::renderTilemap(const Tilemap& tilemap, const Camera& camera)
+{
+    for (auto& layer : tilemap.layers)
+    {
+        for (auto& tile : layer->tiles)
+        {
             SDL_Rect destinationRect;
             destinationRect.x = tile->x - camera.position().x;
             destinationRect.y = tile->y - camera.position().y;
@@ -80,8 +93,10 @@ void milk::Graphics::renderTilemap(const Tilemap& tilemap, const Camera& camera)
     }
 }
 
-void milk::Graphics::renderActors(const Camera& camera) {
-    for (auto it : spritesByActorId_) {
+void milk::Graphics::renderActors(const Camera& camera)
+{
+    for (auto it : spritesByActorId_)
+    {
         Animator* animator = it.second->actor().getComponent<Animator>();
 
         if (animator != nullptr)

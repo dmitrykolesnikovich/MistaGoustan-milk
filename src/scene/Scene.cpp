@@ -9,12 +9,15 @@
 #include "window/Window.h"
 
 milk::Scene::Scene(milk::EventQueue& eventQueue, unsigned virtualWidth, unsigned virtualHeight)
-        : eventQueue_(eventQueue), camera_(*this, virtualWidth, virtualHeight) {
+        : eventQueue_(eventQueue),
+          camera_(*this, virtualWidth, virtualHeight)
+{
 }
 
 milk::Scene::~Scene() = default;
 
-milk::Actor* milk::Scene::spawnActor(const std::string& name) {
+milk::Actor* milk::Scene::spawnActor(const std::string& name)
+{
     int id = idGenerator_.popId();
 
     auto actor = std::make_unique<Actor>(id, name, Vector2d(0, 0));
@@ -27,7 +30,8 @@ milk::Actor* milk::Scene::spawnActor(const std::string& name) {
     return pActor;
 }
 
-bool milk::Scene::destroyActor(int id) {
+bool milk::Scene::destroyActor(int id)
+{
     auto foundActor = actorsById_.find(id);
 
     if (foundActor == actorsById_.end())
@@ -40,9 +44,11 @@ bool milk::Scene::destroyActor(int id) {
     return true;
 }
 
-milk::Actor* milk::Scene::findActor(const std::string& name) const {
+milk::Actor* milk::Scene::findActor(const std::string& name) const
+{
     // TODO: Brute force implementation. revisit.
-    for (auto& it : actorsById_) {
+    for (auto& it : actorsById_)
+    {
         if (it.second->name() == name)
             return it.second.get();
     }
@@ -50,16 +56,20 @@ milk::Actor* milk::Scene::findActor(const std::string& name) const {
     return nullptr;
 }
 
-milk::Camera& milk::Scene::camera() {
+milk::Camera& milk::Scene::camera()
+{
     return camera_;
 }
 
-milk::Tilemap& milk::Scene::tilemap() {
+milk::Tilemap& milk::Scene::tilemap()
+{
     return tilemap_;
 }
 
-void milk::Scene::syncActorLists() {
-    for (auto& it : actorsToDestroy_) {
+void milk::Scene::syncActorLists()
+{
+    for (auto& it : actorsToDestroy_)
+    {
         idGenerator_.pushId(it);
         actorsById_.erase(it);
     }
@@ -72,7 +82,8 @@ void milk::Scene::syncActorLists() {
     actorsToSpawn_.clear();
 }
 
-SDL_Rect milk::Scene::bounds() const {
+SDL_Rect milk::Scene::bounds() const
+{
     SDL_Rect bounds;
     bounds.x = 0;
     bounds.y = 0;
@@ -82,7 +93,8 @@ SDL_Rect milk::Scene::bounds() const {
     return bounds;
 }
 
-void milk::Scene::end() {
+void milk::Scene::end()
+{
     for (auto& it : actorsById_)
         destroyActor(it.first);
 

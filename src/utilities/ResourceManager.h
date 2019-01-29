@@ -6,10 +6,12 @@
 
 struct SDL_Renderer;
 
-namespace milk {
+namespace milk
+{
     class Texture;
 
-    class ResourceManager {
+    class ResourceManager
+    {
     public:
         explicit ResourceManager(const std::string& rootDir = "");
 

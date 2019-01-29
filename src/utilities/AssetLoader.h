@@ -5,12 +5,15 @@
 #include <string>
 #include <utility>
 
-namespace milk {
+namespace milk
+{
     template<class TAsset>
-    class AssetLoader {
+    class AssetLoader
+    {
     public:
         explicit AssetLoader(std::string rootDir)
-            : rootDir_(std::move(rootDir)) {
+                : rootDir_(std::move(rootDir))
+        {
         }
 
         virtual ~AssetLoader() = default;
@@ -22,7 +25,8 @@ namespace milk {
     protected:
         const std::string rootDir_;
 
-        std::string getPath(const std::string& assetName) {
+        std::string getPath(const std::string& assetName)
+        {
             return rootDir_ + "/" + assetName;
         }
     };

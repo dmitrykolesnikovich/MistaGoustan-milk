@@ -7,19 +7,25 @@
 
 #include "SDL.h"
 
-namespace milk {
+namespace milk
+{
     class BoxCollider;
 
-    enum class CollisionSide {
+    enum class CollisionSide
+    {
         TOP,
         BOTTOM,
         LEFT,
         RIGHT
     };
 
-    struct CollisionEvent {
+    struct CollisionEvent
+    {
         CollisionEvent(BoxCollider* o, CollisionSide dir, SDL_Rect depth)
-                : other(o), direction(dir), depthRect(depth) {
+                : other(o),
+                  direction(dir),
+                  depthRect(depth)
+        {
         }
 
         // The other collider.
@@ -35,7 +41,8 @@ namespace milk {
 // The spatial partition grid divides the scene into cells.
 // Each cell contains collidable actors.
 // When checking for collisions with a given collider, it only queries the current and neighboring cells.
-    class SpatialPartitionGrid {
+    class SpatialPartitionGrid
+    {
     public:
         SpatialPartitionGrid();
 

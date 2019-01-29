@@ -3,11 +3,14 @@
 
 #include <string>
 
-namespace milk {
+namespace milk
+{
     class Actor;
-    
-    namespace lua {
-        namespace actor {
+
+    namespace lua
+    {
+        namespace actor
+        {
             std::string name(Actor& actor);
 
             void setAsCameraTarget(Actor& actor);

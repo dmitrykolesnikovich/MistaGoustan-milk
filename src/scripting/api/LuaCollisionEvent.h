@@ -1,12 +1,15 @@
 #ifndef MILK_LUA_COLLISION_EVENT_H
 #define MILK_LUA_COLLISION_EVENT_H
 
-namespace milk {
+namespace milk
+{
     class Actor;
     class ActorCollisionEvent;
 
-    namespace lua {
-        namespace collision_event {
+    namespace lua
+    {
+        namespace collision_event
+        {
             Actor& other(ActorCollisionEvent& collisionEvent);
         }
     }

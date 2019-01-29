@@ -8,10 +8,12 @@
 
 struct SDL_Renderer;
 
-namespace milk {
+namespace milk
+{
     class Texture;
 
-    class TextureLoader : public AssetLoader<Texture> {
+    class TextureLoader : public AssetLoader<Texture>
+    {
     public:
         TextureLoader(SDL_Renderer& sdlRenderer, const std::string& rootDir);
 

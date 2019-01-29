@@ -5,12 +5,13 @@
 
 #include "math/Vector2d.h"
 
-namespace milk {
+namespace milk
+{
     class Actor;
-
     class Scene;
 
-    class Camera {
+    class Camera
+    {
     public:
         Camera(Scene& scene, unsigned int width, unsigned int height);
 

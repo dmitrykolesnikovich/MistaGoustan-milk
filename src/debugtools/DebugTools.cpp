@@ -9,17 +9,22 @@
 #include "physics/SpatialPartitionGrid.h"
 
 milk::DebugTools::DebugTools(SDL_Renderer& renderer)
-        : sdlRenderer_(renderer) {
+        : sdlRenderer_(renderer)
+{
 }
 
-void milk::DebugTools::handleEvent(GameEvent& gameEvent) {
-    switch (gameEvent.type()) {
-        case GameEventType::ACTOR_SPAWNED: {
+void milk::DebugTools::handleEvent(GameEvent& gameEvent)
+{
+    switch (gameEvent.type())
+    {
+        case GameEventType::ACTOR_SPAWNED:
+        {
             auto& spawnedEvent = dynamic_cast<ActorSpawnedEvent&>(gameEvent);
             onActorSpawned(spawnedEvent.actor());
         }
             break;
-        case GameEventType::ACTOR_DETROYED: {
+        case GameEventType::ACTOR_DETROYED:
+        {
             auto& destroyedEvent = dynamic_cast<ActorDestroyedEvent&>(gameEvent);
             onActorDestroyed(destroyedEvent.actor());
         }
@@ -29,23 +34,28 @@ void milk::DebugTools::handleEvent(GameEvent& gameEvent) {
     }
 }
 
-void milk::DebugTools::onActorSpawned(Actor& actor) {
+void milk::DebugTools::onActorSpawned(Actor& actor)
+{
     actorsById_.insert(std::make_pair(actor.id(), &actor));
 }
 
-void milk::DebugTools::onActorDestroyed(Actor& actor) {
+void milk::DebugTools::onActorDestroyed(Actor& actor)
+{
     actorsById_.erase(actor.id());
 }
 
-void milk::DebugTools::render(Scene& scene) {
+void milk::DebugTools::render(Scene& scene)
+{
     if (!show)
         return;
 
     int cells = SpatialPartitionGrid::NUM_CELLS;
     int size = SpatialPartitionGrid::CELL_SIZE;
 
-    for (int i = 0; i < cells; i++) {
-        for (int j = 0; j < cells; j++) {
+    for (int i = 0; i < cells; i++)
+    {
+        for (int j = 0; j < cells; j++)
+        {
             SDL_Rect dest;
             dest.x = j * size - scene.camera().position().x;
             dest.y = i * size - scene.camera().position().y;
@@ -57,10 +67,12 @@ void milk::DebugTools::render(Scene& scene) {
         }
     }
 
-    for (auto it : actorsById_) {
+    for (auto it : actorsById_)
+    {
         auto coll = it.second->getComponent<BoxCollider>();
 
-        if (coll != nullptr) {
+        if (coll != nullptr)
+        {
             SDL_Rect destinationRect = coll->rect();
             destinationRect.x -= scene.camera().position().x;
             destinationRect.y -= scene.camera().position().y;

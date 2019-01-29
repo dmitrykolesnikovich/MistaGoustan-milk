@@ -20,18 +20,19 @@ milk::adapter::WindowAdapter::WindowAdapter()
 milk::adapter::WindowAdapter::~WindowAdapter() = default;
 
 bool milk::adapter::WindowAdapter::init(const std::string& title,
-                                    unsigned int width,
-                                    unsigned int height,
-                                    unsigned int resolutionWidth,
-                                    unsigned int resolutionHeight,
-                                    bool fullscreen)
+                                        unsigned int width,
+                                        unsigned int height,
+                                        unsigned int resolutionWidth,
+                                        unsigned int resolutionHeight,
+                                        bool fullscreen)
 {
     title_ = title;
     width_ = width;
     height_ = height;
     fullscreen_ = fullscreen;
 
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0) {
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0)
+    {
         std::cout << "Error initializing SDL: " << SDL_GetError() << std::endl;
         return false;
     }

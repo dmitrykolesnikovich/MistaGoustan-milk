@@ -5,14 +5,19 @@
 #include "physics/Velocity.h"
 #include "scene/Actor.h"
 
-namespace milk {
-    namespace lua {
-        namespace actor {
-            std::string name(Actor& actor) {
+namespace milk
+{
+    namespace lua
+    {
+        namespace actor
+        {
+            std::string name(Actor& actor)
+            {
                 return actor.name();
             }
 
-            void move(Actor& actor, float x, float y) {
+            void move(Actor& actor, float x, float y)
+            {
                 auto velocity = actor.getComponent<Velocity>();
                 if (velocity == nullptr)
                     return;
@@ -20,7 +25,8 @@ namespace milk {
                 velocity->value(x, y);
             }
 
-            void setAnimation(Actor& actor, const std::string& name) {
+            void setAnimation(Actor& actor, const std::string& name)
+            {
                 auto animator = actor.getComponent<Animator>();
                 if (animator == nullptr)
                     return;
@@ -28,7 +34,8 @@ namespace milk {
                 animator->setAnimation(name);
             }
 
-            void flipX(Actor& actor) {
+            void flipX(Actor& actor)
+            {
                 auto sprite = actor.getComponent<Sprite>();
                 if (sprite == nullptr)
                     return;
@@ -36,7 +43,8 @@ namespace milk {
                 sprite->flipX();
             }
 
-            void flipY(Actor& actor) {
+            void flipY(Actor& actor)
+            {
                 auto sprite = actor.getComponent<Sprite>();
                 if (sprite == nullptr)
                     return;

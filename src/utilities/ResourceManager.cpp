@@ -10,18 +10,23 @@
 #include "graphics/Texture.h"
 
 milk::ResourceManager::ResourceManager(const std::string& rootDir)
-        : rootDir_(rootDir), sdlRenderer_(nullptr) {
+        : rootDir_(rootDir),
+          sdlRenderer_(nullptr)
+{
 }
 
-milk::ResourceManager::~ResourceManager() {
+milk::ResourceManager::~ResourceManager()
+{
     freeResources();
 }
 
-void milk::ResourceManager::init(SDL_Renderer* sdlRenderer) {
+void milk::ResourceManager::init(SDL_Renderer* sdlRenderer)
+{
     sdlRenderer_ = sdlRenderer;
 }
 
-milk::Texture* milk::ResourceManager::loadTexture(const std::string& name) {
+milk::Texture* milk::ResourceManager::loadTexture(const std::string& name)
+{
     auto found = textureCache_.find(name);
 
     if (found != textureCache_.end())
@@ -31,7 +36,8 @@ milk::Texture* milk::ResourceManager::loadTexture(const std::string& name) {
 
     auto surf = IMG_Load(resourcePath.c_str());
 
-    if (surf == nullptr) {
+    if (surf == nullptr)
+    {
         std::cout << "Error loading image: " << IMG_GetError() << std::endl;
         return nullptr;
     }
@@ -52,7 +58,8 @@ milk::Texture* milk::ResourceManager::loadTexture(const std::string& name) {
     return texture;
 }
 
-std::string milk::ResourceManager::loadFile(const std::string& filename) {
+std::string milk::ResourceManager::loadFile(const std::string& filename)
+{
     std::string path = rootDir_ + "/" + filename;
 
     auto rwops = SDL_RWFromFile(path.c_str(), "r");
@@ -69,7 +76,8 @@ std::string milk::ResourceManager::loadFile(const std::string& filename) {
 
     char* buffer = fileContents;
 
-    while (readTotal < fileSize && read != 0) {
+    while (readTotal < fileSize && read != 0)
+    {
         read = SDL_RWread(rwops, buffer, 1, ((size_t)(fileSize - readTotal)));
 
         readTotal += read;
@@ -78,7 +86,8 @@ std::string milk::ResourceManager::loadFile(const std::string& filename) {
 
     SDL_RWclose(rwops);
 
-    if (readTotal != fileSize) {
+    if (readTotal != fileSize)
+    {
         free(fileContents);
         return nullptr;
     }
@@ -88,8 +97,10 @@ std::string milk::ResourceManager::loadFile(const std::string& filename) {
     return std::string(fileContents);
 }
 
-void milk::ResourceManager::unloadTextures() {
-    for (auto& it : textureCache_) {
+void milk::ResourceManager::unloadTextures()
+{
+    for (auto& it : textureCache_)
+    {
         delete it.second;
         it.second = nullptr;
     }
@@ -97,6 +108,7 @@ void milk::ResourceManager::unloadTextures() {
     textureCache_.clear();
 }
 
-void milk::ResourceManager::freeResources() {
+void milk::ResourceManager::freeResources()
+{
     unloadTextures();
 }

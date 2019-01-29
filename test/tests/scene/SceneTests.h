@@ -9,9 +9,12 @@
 #include "events/EventQueue.h"
 #include "events/GameEvents.h"
 
-class SceneTests : public ::testing::Test {};
+class SceneTests : public ::testing::Test
+{
+};
 
-TEST_F(SceneTests, Ctor_Constructs) {
+TEST_F(SceneTests, Ctor_Constructs)
+{
     // Arrange
     milk::EventQueue eventQueue;
 
@@ -19,7 +22,8 @@ TEST_F(SceneTests, Ctor_Constructs) {
     ASSERT_NO_THROW(milk::Scene(eventQueue, 640, 360));
 }
 
-TEST_F(SceneTests, SpawnActor_SpawnsActor) {
+TEST_F(SceneTests, SpawnActor_SpawnsActor)
+{
     // Arrange
     milk::EventQueue eventQueue;
 
@@ -32,7 +36,8 @@ TEST_F(SceneTests, SpawnActor_SpawnsActor) {
     ASSERT_NE(nullptr, actor);
 }
 
-TEST_F(SceneTests, SpawnActor_SetsActorName) {
+TEST_F(SceneTests, SpawnActor_SetsActorName)
+{
     // Arrange
     milk::EventQueue eventQueue;
 
@@ -45,7 +50,8 @@ TEST_F(SceneTests, SpawnActor_SetsActorName) {
     ASSERT_EQ("steve", actor->name());
 }
 
-TEST_F(SceneTests, SpawnActor_SetsActorId) {
+TEST_F(SceneTests, SpawnActor_SetsActorId)
+{
     // Arrange
     milk::EventQueue eventQueue;
 
@@ -62,10 +68,12 @@ TEST_F(SceneTests, SpawnActor_SetsActorId) {
     ASSERT_EQ(2, ahaha->id());
 
     // Clean up
-    while (auto e = eventQueue.pollEvent()) {}
+    while (auto e = eventQueue.pollEvent())
+    {}
 }
 
-TEST_F(SceneTests, SpawnActor_GeneratesActorSpawnedEvent) {
+TEST_F(SceneTests, SpawnActor_GeneratesActorSpawnedEvent)
+{
     // Arrange
     milk::EventQueue eventQueue;
 
@@ -85,7 +93,8 @@ TEST_F(SceneTests, SpawnActor_GeneratesActorSpawnedEvent) {
     ASSERT_EQ(actor, &spawnedEventActor);
 }
 
-TEST_F(SceneTests, DestroyActor_GivenActorDoesntExist_DoesNotGenerateActorDestroyedEvent) {
+TEST_F(SceneTests, DestroyActor_GivenActorDoesntExist_DoesNotGenerateActorDestroyedEvent)
+{
     // Arrange
     milk::EventQueue eventQueue;
 
@@ -100,10 +109,12 @@ TEST_F(SceneTests, DestroyActor_GivenActorDoesntExist_DoesNotGenerateActorDestro
     ASSERT_EQ(nullptr, destroyedEvent);
 
     // Clean up
-    while (auto e = eventQueue.pollEvent()) {}
+    while (auto e = eventQueue.pollEvent())
+    {}
 }
 
-TEST_F(SceneTests, DestroyActor_GeneratesActorDestroyedEvent) {
+TEST_F(SceneTests, DestroyActor_GeneratesActorDestroyedEvent)
+{
     // Arrange
     milk::EventQueue eventQueue;
 
@@ -130,10 +141,12 @@ TEST_F(SceneTests, DestroyActor_GeneratesActorDestroyedEvent) {
     ASSERT_EQ(actor, &destroyedEventActor);
 
     // Clean up
-    while (auto e = eventQueue.pollEvent()) {}
+    while (auto e = eventQueue.pollEvent())
+    {}
 }
 
-TEST_F(SceneTests, FindActor_FindsActor) {
+TEST_F(SceneTests, FindActor_FindsActor)
+{
     // Arrange
     milk::EventQueue eventQueue;
 
@@ -150,10 +163,12 @@ TEST_F(SceneTests, FindActor_FindsActor) {
     ASSERT_EQ(actor, foundActor);
 
     // Clean up
-    while (auto e = eventQueue.pollEvent()) {}
+    while (auto e = eventQueue.pollEvent())
+    {}
 }
 
-TEST_F(SceneTests, FindActor_GivenActorDoesntExist_DoesNotFindActor) {
+TEST_F(SceneTests, FindActor_GivenActorDoesntExist_DoesNotFindActor)
+{
     // Arrange
     milk::EventQueue eventQueue;
 

@@ -30,12 +30,14 @@
 #include "window/Renderer.h"
 
 milk::SceneLoader::SceneLoader(Game& game)
-        : game_(game) {
+        : game_(game)
+{
 }
 
 milk::SceneLoader::~SceneLoader() = default;
 
-std::unique_ptr<milk::Scene> milk::SceneLoader::load(const std::string& file) const {
+std::unique_ptr<milk::Scene> milk::SceneLoader::load(const std::string& file) const
+{
     using json = nlohmann::json;
 
     auto& resourceManager = game_.resources();
@@ -44,7 +46,8 @@ std::unique_ptr<milk::Scene> milk::SceneLoader::load(const std::string& file) co
     auto sceneJsonString = resourceManager.loadFile(file);
     json sceneJson = json::parse(sceneJsonString);
 
-    auto scene = std::make_unique<Scene>(game_.events(), game_.window().renderer().resolution().width, game_.window().renderer().resolution().height);
+    auto scene = std::make_unique<Scene>(game_.events(), game_.window().renderer().resolution().width,
+                                         game_.window().renderer().resolution().height);
     auto& tilemap = scene->tilemap();
 
     tilemap.sourceImageFile = sceneJson["source"].get<std::string>();
@@ -54,7 +57,8 @@ std::unique_ptr<milk::Scene> milk::SceneLoader::load(const std::string& file) co
 
     auto& tilesetJson = sceneJson["tileset"];
 
-    for (auto& it : tilesetJson.items()) {
+    for (auto& it : tilesetJson.items())
+    {
         auto& tileTypeJson = it.value();
 
         int tileTypeId = tileTypeJson["id"].get<int>();
@@ -71,19 +75,23 @@ std::unique_ptr<milk::Scene> milk::SceneLoader::load(const std::string& file) co
 
     auto& layersJson = sceneJson["layers"];
 
-    for (auto& it : layersJson.items()) {
+    for (auto& it : layersJson.items())
+    {
         auto& tilemapLayer = tilemap.addLayer();
 
         auto& layerJson = it.value();
 
-        for (int i = 0; i < layerJson.size(); ++i) {
+        for (int i = 0; i < layerJson.size(); ++i)
+        {
             auto& row = layerJson[i];
 
-            for (int j = 0; j < row.size(); ++j) {
+            for (int j = 0; j < row.size(); ++j)
+            {
                 auto& column = row[j];
                 int typeId = column.get<int>();
 
-                if (typeId > 0) {
+                if (typeId > 0)
+                {
                     auto tile = tilemap.tileTypes[typeId];
 
                     int x = j * tilemap.tileSize;
@@ -91,7 +99,8 @@ std::unique_ptr<milk::Scene> milk::SceneLoader::load(const std::string& file) co
 
                     tilemapLayer.addTile(*tile, x, y);
 
-                    if (tile->collidable) {
+                    if (tile->collidable)
+                    {
                         auto actor = scene->spawnActor(tile->name);
                         actor->position((float)x, (float)y);
 
@@ -106,7 +115,8 @@ std::unique_ptr<milk::Scene> milk::SceneLoader::load(const std::string& file) co
 
     auto& actorListJson = sceneJson["actors"];
 
-    for (auto& actorItr : actorListJson.items()) {
+    for (auto& actorItr : actorListJson.items())
+    {
         auto& actorJson = actorItr.value();
 
         std::string name = actorJson["name"].get<std::string>();
@@ -118,12 +128,14 @@ std::unique_ptr<milk::Scene> milk::SceneLoader::load(const std::string& file) co
 
         auto& componentListJson = actorJson["components"];
 
-        for (auto& componentItr : componentListJson.items()) {
+        for (auto& componentItr : componentListJson.items())
+        {
             auto& componentJson = componentItr.value();
 
             std::string type = componentJson["type"];
 
-            if (type == "sprite") {
+            if (type == "sprite")
+            {
                 std::string textureName = componentJson["textureName"].get<std::string>();
 
                 auto& sourceRectJson = componentJson["sourceRect"];
@@ -135,18 +147,21 @@ std::unique_ptr<milk::Scene> milk::SceneLoader::load(const std::string& file) co
                 auto sprite = actor->addComponent<Sprite>(textureName);
                 sprite->sourceRect(x, y, w, h);
                 sprite->center();
-            } else if (type == "velocity") {
+            } else if (type == "velocity")
+            {
                 float x = componentJson["x"].get<float>();
                 float y = componentJson["y"].get<float>();
 
                 auto velocity = actor->addComponent<Velocity>();
                 velocity->value(x, y);
-            } else if (type == "script") {
+            } else if (type == "script")
+            {
                 std::string scriptName = componentJson["name"].get<std::string>();
 
                 auto script = actor->addComponent<Script>();
                 script->script(scriptName);
-            } else if (type == "collider") {
+            } else if (type == "collider")
+            {
                 int w = componentJson["w"].get<int>();
                 int h = componentJson["h"].get<int>();
                 int xOffset = componentJson["xOffset"].get<int>();
@@ -157,13 +172,15 @@ std::unique_ptr<milk::Scene> milk::SceneLoader::load(const std::string& file) co
                 collider->height(h);
                 collider->offset(xOffset, yOffset);
                 collider->center();
-            } else if (type == "animator") {
+            } else if (type == "animator")
+            {
                 int r = componentJson["rows"].get<int>();
                 int c = componentJson["columns"].get<int>();
 
                 auto animator = actor->addComponent<Animator>(r, c);
 
-                for (auto& animItr : componentJson["animations"].items()) {
+                for (auto& animItr : componentJson["animations"].items())
+                {
                     auto& animationJson = animItr.value();
 
                     std::string n = animationJson["name"].get<std::string>();

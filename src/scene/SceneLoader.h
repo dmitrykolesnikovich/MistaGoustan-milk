@@ -3,12 +3,13 @@
 
 #include <memory>
 
-namespace milk {
+namespace milk
+{
     class Game;
-
     class Scene;
 
-    class SceneLoader {
+    class SceneLoader
+    {
     public:
         explicit SceneLoader(Game& game);
 

@@ -11,12 +11,13 @@
 
 #include "utilities/IdGenerator.h"
 
-namespace milk {
+namespace milk
+{
     class Actor;
-
     class EventQueue;
 
-    class Scene {
+    class Scene
+    {
     public:
         Scene(EventQueue& eventQueue, unsigned virtualWidth, unsigned virtualHeight);
 

@@ -3,8 +3,10 @@
 
 #include "SDL.h"
 
-namespace milk {
-    class Timer {
+namespace milk
+{
+    class Timer
+    {
     public:
         Timer();
 

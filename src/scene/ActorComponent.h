@@ -1,12 +1,13 @@
 #ifndef MILK_ACTOR_COMPONENT_H
 #define MILK_ACTOR_COMPONENT_H
 
-namespace milk {
+namespace milk
+{
     class Actor;
-
     class ResourceManager;
 
-    enum ComponentType {
+    enum ComponentType
+    {
         SCRIPT = 1 << 0,
         SPRITE = 1 << 1,
         ANIMATOR = 1 << 2,
@@ -15,7 +16,8 @@ namespace milk {
         MAX_COMPONENTS = 1 << 31
     };
 
-    class ActorComponent {
+    class ActorComponent
+    {
     public:
         explicit ActorComponent(Actor& actor);
 

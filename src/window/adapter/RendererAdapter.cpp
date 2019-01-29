@@ -12,8 +12,8 @@ milk::adapter::RendererAdapter::RendererAdapter()
 }
 
 bool milk::adapter::RendererAdapter::init(SDL_Window* sdlWindow,
-                                      unsigned int resolutionWidth,
-                                      unsigned int resolutionHeight)
+                                          unsigned int resolutionWidth,
+                                          unsigned int resolutionHeight)
 {
     resolutionWidth_ = resolutionWidth;
     resolutionHeight_ = resolutionHeight;

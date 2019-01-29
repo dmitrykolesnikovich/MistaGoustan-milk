@@ -5,16 +5,15 @@
 
 struct SDL_Renderer;
 
-namespace milk {
+namespace milk
+{
     class Actor;
-
     class GameEvent;
-
     class BoxCollider;
-
     class Scene;
 
-    class DebugTools {
+    class DebugTools
+    {
     public:
         explicit DebugTools(SDL_Renderer& renderer);
 

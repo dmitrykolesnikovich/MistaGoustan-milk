@@ -7,7 +7,8 @@
 
 #include "math/Vector2d.h"
 
-namespace milk {
+namespace milk
+{
     class ActorComponent;
 
     class ResourceManager;
@@ -15,7 +16,8 @@ namespace milk {
     // An actor is an object that exists within a scene.
     // An actor can range from a rock on the ground to a dragon boss monster.
     // Attach components to an actor in order to define it and give it behavior.
-    class Actor {
+    class Actor
+    {
     public:
         Actor(int id, const std::string& name, const Vector2d& position);
 
@@ -35,7 +37,8 @@ namespace milk {
 
         // Returns the added component and nullptr if addition fails.
         template<class TComponent, typename... Args>
-        TComponent* addComponent(Args&& ... args) {
+        TComponent* addComponent(Args&& ... args)
+        {
             auto type = TComponent::type;
 
             if ((componentBitmask_ & type) == type)
@@ -52,7 +55,8 @@ namespace milk {
 
         // Returns component of the given type and nullptr if not found.
         template<class TComponent>
-        TComponent* getComponent() const {
+        TComponent* getComponent() const
+        {
             auto type = TComponent::type;
 
             if ((componentBitmask_ & type) != type)

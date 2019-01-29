@@ -3,8 +3,10 @@
 
 struct SDL_Texture;
 
-namespace milk {
-    class Texture {
+namespace milk
+{
+    class Texture
+    {
     public:
         Texture(SDL_Texture* sdlTexture, int width, int height);
 

@@ -3,12 +3,14 @@
 
 #include "scene/ActorComponent.h"
 
-class MockActorComponent : public milk::ActorComponent {
+class MockActorComponent : public milk::ActorComponent
+{
 public:
     static milk::ComponentType type;
 
     explicit MockActorComponent(milk::Actor& actor)
-            : ActorComponent(actor) {
+            : ActorComponent(actor)
+    {
     }
 };
 

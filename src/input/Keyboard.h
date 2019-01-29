@@ -3,8 +3,10 @@
 
 #include "SDL.h"
 
-namespace milk {
-    class Keyboard {
+namespace milk
+{
+    class Keyboard
+    {
     public:
         Keyboard() = default;
 

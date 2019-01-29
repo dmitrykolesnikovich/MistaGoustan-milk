@@ -7,24 +7,20 @@
 
 struct SDL_Renderer;
 
-namespace milk {
+namespace milk
+{
     class Actor;
-
     class Camera;
-
     class GameEvent;
-
     class ResourceManager;
-
     class Scene;
-
     class Sprite;
-
     class Texture;
 
     struct Tilemap;
 
-    class Graphics {
+    class Graphics
+    {
     public:
         Graphics(SDL_Renderer& renderer, const std::string& rootDir);
 

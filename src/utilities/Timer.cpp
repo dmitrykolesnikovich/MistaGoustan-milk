@@ -1,10 +1,15 @@
 #include "Timer.h"
 
 milk::Timer::Timer()
-        : startTicks_(0), pausedTicks_(0), paused_(false), started_(false) {
+        : startTicks_(0),
+          pausedTicks_(0),
+          paused_(false),
+          started_(false)
+{
 }
 
-void milk::Timer::start() {
+void milk::Timer::start()
+{
     started_ = true;
 
     paused_ = false;
@@ -13,7 +18,8 @@ void milk::Timer::start() {
     pausedTicks_ = 0;
 }
 
-void milk::Timer::stop() {
+void milk::Timer::stop()
+{
     started_ = false;
 
     paused_ = false;
@@ -22,8 +28,10 @@ void milk::Timer::stop() {
     pausedTicks_ = 0;
 }
 
-void milk::Timer::pause() {
-    if (started_ && !paused_) {
+void milk::Timer::pause()
+{
+    if (started_ && !paused_)
+    {
         paused_ = true;
 
         pausedTicks_ = SDL_GetTicks() - startTicks_;
@@ -31,8 +39,10 @@ void milk::Timer::pause() {
     }
 }
 
-void milk::Timer::unpause() {
-    if (started_ && paused_) {
+void milk::Timer::unpause()
+{
+    if (started_ && paused_)
+    {
         paused_ = false;
 
         startTicks_ = SDL_GetTicks() - pausedTicks_;
@@ -41,14 +51,18 @@ void milk::Timer::unpause() {
     }
 }
 
-int milk::Timer::milliseconds() {
+int milk::Timer::milliseconds()
+{
     //The actual timer time
     Uint32 time = 0;
 
-    if (started_) {
-        if (paused_) {
+    if (started_)
+    {
+        if (paused_)
+        {
             time = pausedTicks_;
-        } else {
+        } else
+        {
             time = SDL_GetTicks() - startTicks_;
         }
     }
@@ -56,14 +70,17 @@ int milk::Timer::milliseconds() {
     return time;
 }
 
-float milk::Timer::seconds() {
+float milk::Timer::seconds()
+{
     return milliseconds() / 1000.f;
 }
 
-bool milk::Timer::isStarted() {
+bool milk::Timer::isStarted()
+{
     return started_;
 }
 
-bool milk::Timer::isPaused() {
+bool milk::Timer::isPaused()
+{
     return paused_ && started_;
 }

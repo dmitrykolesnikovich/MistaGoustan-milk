@@ -8,12 +8,16 @@
 #include "SceneLoader.h"
 
 milk::SceneManager::SceneManager(EventQueue& eventQueue, SceneLoader& sceneLoader)
-        : eventQueue_(eventQueue), sceneLoader_(sceneLoader), scene_(nullptr) {
+        : eventQueue_(eventQueue),
+          sceneLoader_(sceneLoader),
+          scene_(nullptr)
+{
 }
 
 milk::SceneManager::~SceneManager() = default;
 
-void milk::SceneManager::loadScene(const std::string& scene) {
+void milk::SceneManager::loadScene(const std::string& scene)
+{
     if (scene_ != nullptr)
         scene_->end();
 
@@ -21,12 +25,15 @@ void milk::SceneManager::loadScene(const std::string& scene) {
     sceneToLoad_ = scene;
 }
 
-void milk::SceneManager::update() {
-    if (!sceneToLoad_.empty()) {
+void milk::SceneManager::update()
+{
+    if (!sceneToLoad_.empty())
+    {
         if (scene_ != nullptr)
             scene_.reset();
 
-        if (sceneToLoad_ == MILK_NULL_SCENE) {
+        if (sceneToLoad_ == MILK_NULL_SCENE)
+        {
             sceneToLoad_.erase();
             return;
         }
@@ -42,6 +49,7 @@ void milk::SceneManager::update() {
         scene_->syncActorLists();
 }
 
-milk::Scene* milk::SceneManager::currentScene() const {
+milk::Scene* milk::SceneManager::currentScene() const
+{
     return scene_.get();
 }

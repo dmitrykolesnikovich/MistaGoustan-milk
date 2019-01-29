@@ -10,11 +10,13 @@
 #include "utilities/Alignment.h"
 #include "utilities/AssetLoader.h"
 
-namespace milk {
+namespace milk
+{
     class Texture;
 
     // All objects that are drawn to the screen do so via the Sprite component.
-    class Sprite : public ActorComponent {
+    class Sprite : public ActorComponent
+    {
     public:
         static const ComponentType type;
 

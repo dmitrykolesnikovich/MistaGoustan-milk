@@ -3,100 +3,147 @@
 
 #include <string>
 
-namespace milk {
+namespace milk
+{
     class Actor;
 
     class BoxCollider;
 
-    enum class GameEventType {
+    enum class GameEventType
+    {
         // Prioritized by greatest value.
 
         SCENE_CHANGED,
         SCENE_LOADED,
 
         // Actor events
-        ACTOR_COLLISION,
+                ACTOR_COLLISION,
         ACTOR_TRIGGER,
         ACTOR_DETROYED,
         ACTOR_SPAWNED
     };
 
     // Base class for all game events.
-    class GameEvent {
+    class GameEvent
+    {
     public:
         virtual ~GameEvent() = default;
 
         virtual GameEventType type() const = 0;
     };
 
-    class ActorSpawnedEvent : public GameEvent {
+    class ActorSpawnedEvent : public GameEvent
+    {
     public:
         explicit ActorSpawnedEvent(Actor& actor)
-                : actor_(actor) {
+                : actor_(actor)
+        {
         }
 
-        GameEventType type() const override { return GameEventType::ACTOR_SPAWNED; }
+        GameEventType type() const override
+        {
+            return GameEventType::ACTOR_SPAWNED;
+        }
 
-        Actor& actor() { return actor_; }
+        Actor& actor()
+        {
+            return actor_;
+        }
 
     private:
         Actor& actor_;
     };
 
-    class ActorDestroyedEvent : public GameEvent {
+    class ActorDestroyedEvent : public GameEvent
+    {
     public:
         explicit ActorDestroyedEvent(Actor& actor)
-                : actor_(actor) {
+                : actor_(actor)
+        {
         }
 
-        GameEventType type() const override { return GameEventType::ACTOR_DETROYED; }
+        GameEventType type() const override
+        {
+            return GameEventType::ACTOR_DETROYED;
+        }
 
-        Actor& actor() { return actor_; }
+        Actor& actor()
+        {
+            return actor_;
+        }
 
     private:
         Actor& actor_;
     };
 
-    class ActorCollisionEvent : public GameEvent {
+    class ActorCollisionEvent : public GameEvent
+    {
     public:
         ActorCollisionEvent(Actor& actor, BoxCollider& collider)
-                : actor_(actor), otherCollider_(collider) {
+                : actor_(actor),
+                  otherCollider_(collider)
+        {
         }
 
-        GameEventType type() const override { return GameEventType::ACTOR_COLLISION; }
+        GameEventType type() const override
+        {
+            return GameEventType::ACTOR_COLLISION;
+        }
 
-        Actor& actor() { return actor_; }
+        Actor& actor()
+        {
+            return actor_;
+        }
 
-        BoxCollider& collider() { return otherCollider_; }
+        BoxCollider& collider()
+        {
+            return otherCollider_;
+        }
 
     private:
         Actor& actor_;
         BoxCollider& otherCollider_;
     };
 
-    class SceneChangedEvent : public GameEvent {
+    class SceneChangedEvent : public GameEvent
+    {
     public:
         explicit SceneChangedEvent(const std::string& scene)
-                : sceneToLoad_(scene) {
+                : sceneToLoad_(scene)
+        {
         }
 
-        GameEventType type() const override { return GameEventType::SCENE_CHANGED; }
+        GameEventType type() const override
+        {
+            return GameEventType::SCENE_CHANGED;
+        }
 
-        std::string sceneToLoad() { return sceneToLoad_; }
+        std::string sceneToLoad()
+        {
+            return sceneToLoad_;
+        }
 
     private:
         std::string sceneToLoad_;
     };
 
-    class SceneLoadedEvent : public GameEvent {
+    class SceneLoadedEvent : public GameEvent
+    {
     public:
         explicit SceneLoadedEvent(const std::string& scene)
-                : sceneLoaded_(scene) {
+                : sceneLoaded_(scene)
+        {
         }
 
-        GameEventType type() const override { return GameEventType::SCENE_LOADED; }
+        GameEventType type() const override
+        {
+            return GameEventType::SCENE_LOADED;
+        }
 
-        std::string sceneLoaded() { return sceneLoaded_; }
+        std::string sceneLoaded()
+        {
+            return sceneLoaded_;
+        }
 
     private:
         std::string sceneLoaded_;

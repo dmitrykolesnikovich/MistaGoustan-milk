@@ -36,14 +36,17 @@
 milk::Game::Game() = default;
 
 milk::Game::Game(const std::string& configFile)
-        : configFile_(configFile) {
+        : configFile_(configFile)
+{
 }
 
 milk::Game::~Game() = default;
 
-int milk::Game::run() {
+int milk::Game::run()
+{
     // No game for you.
-    if (configFile_.empty()) {
+    if (configFile_.empty())
+    {
         std::cout << "Cannot find config file" << std::endl;
         return MILK_FAIL;
     }
@@ -66,8 +69,10 @@ int milk::Game::run() {
 
     fpsTimer.start();
 
-    try {
-        while (isRunning_) {
+    try
+    {
+        while (isRunning_)
+        {
             frameCapTimer.start();
 
             float averageFps = countedFrames / fpsTimer.seconds();
@@ -87,7 +92,8 @@ int milk::Game::run() {
                 SDL_Delay((Uint32)(MILLISECONDS_PER_FRAME - frameTicks));
         }
     }
-    catch (const std::exception& e) {
+    catch (const std::exception& e)
+    {
         std::cout << "Fatal error occurred: " << e.what() << std::endl;
 
         shutDown();
@@ -100,11 +106,14 @@ int milk::Game::run() {
     return MILK_SUCCESS;
 }
 
-void milk::Game::handleEvents() {
+void milk::Game::handleEvents()
+{
     SDL_Event e;
 
-    while (SDL_PollEvent(&e)) {
-        switch (e.type) {
+    while (SDL_PollEvent(&e))
+    {
+        switch (e.type)
+        {
             case SDL_QUIT:
                 isRunning_ = false;
                 break;
@@ -126,7 +135,8 @@ void milk::Game::handleEvents() {
     Keyboard::updateKeyboardState();
 
     // Let systems handle game events enqueued last frame.
-    while (auto gameEvent = events_->pollEvent()) {
+    while (auto gameEvent = events_->pollEvent())
+    {
         physics_->handleEvent(*gameEvent);
         graphics_->handleEvent(*gameEvent);
 
@@ -140,16 +150,19 @@ void milk::Game::handleEvents() {
     }
 }
 
-void milk::Game::update() {
+void milk::Game::update()
+{
     sceneManager_->update();
     logic_->update();
     physics_->update();
 }
 
-void milk::Game::render() {
+void milk::Game::render()
+{
     window_->renderer().clear();
 
-    if (auto scene = sceneManager_->currentScene()) {
+    if (auto scene = sceneManager_->currentScene())
+    {
         graphics_->render(*scene);
 
 #ifdef _DEBUG
@@ -160,7 +173,8 @@ void milk::Game::render() {
     window_->renderer().present();
 }
 
-void milk::Game::shutDown() {
+void milk::Game::shutDown()
+{
     sceneManager_->loadScene(MILK_NULL_SCENE);
     // Let systems handle the newly enqueued actor destroyed events.
     handleEvents();
@@ -175,27 +189,33 @@ void milk::Game::shutDown() {
     SDL_Quit();
 }
 
-milk::Window& milk::Game::window() const {
+milk::Window& milk::Game::window() const
+{
     return *window_;
 }
 
-milk::ResourceManager& milk::Game::resources() const {
+milk::ResourceManager& milk::Game::resources() const
+{
     return *resources_;
 }
 
-milk::EventQueue& milk::Game::events() const {
+milk::EventQueue& milk::Game::events() const
+{
     return *events_;
 }
 
-milk::SceneManager& milk::Game::sceneManager() const {
+milk::SceneManager& milk::Game::sceneManager() const
+{
     return *sceneManager_;
 }
 
-void milk::Game::loadScene(const std::string& name) {
+void milk::Game::loadScene(const std::string& name)
+{
     sceneManager_->loadScene(name);
 }
 
-void milk::Game::initLua() {
+void milk::Game::initLua()
+{
     luaState_.open_libraries(sol::lib::base, sol::lib::math, sol::lib::package);
 
     LuaHandleRegistry::RegisterHandles(luaState_);
@@ -203,10 +223,12 @@ void milk::Game::initLua() {
     luaState_["Game"] = this;
 }
 
-bool milk::Game::initFromConfig() {
+bool milk::Game::initFromConfig()
+{
     sol::load_result loadResult = luaState_.load_file(configFile_);
 
-    if (!loadResult.valid()) {
+    if (!loadResult.valid())
+    {
         std::cout << "could not load config file!" << std::endl;
         return false;
     }
@@ -244,9 +266,11 @@ bool milk::Game::initFromConfig() {
 }
 
 // TODO: move into resource manager
-bool milk::Game::initSDL() {
+bool milk::Game::initSDL()
+{
     int imgFlags = IMG_INIT_JPG | IMG_INIT_PNG;
-    if ((IMG_Init(imgFlags) & imgFlags) != imgFlags) {
+    if ((IMG_Init(imgFlags) & imgFlags) != imgFlags)
+    {
         SDL_Quit();
 
         std::cout << "Error initializing SDL_image: " << IMG_GetError() << std::endl;
@@ -256,7 +280,8 @@ bool milk::Game::initSDL() {
     return true;
 }
 
-void milk::Game::initSystems() {
+void milk::Game::initSystems()
+{
     Keyboard::initialize();
 
     resources_->init(window_->rendererAdapter().sdlRenderer());

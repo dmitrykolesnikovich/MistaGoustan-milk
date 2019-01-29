@@ -4,20 +4,17 @@
 #include <memory>
 #include <unordered_map>
 
-namespace milk {
+namespace milk
+{
     class Actor;
-
     class BoxCollider;
-
     class EventQueue;
-
     class GameEvent;
-
     class SpatialPartitionGrid;
-
     class Velocity;
 
-    class Physics {
+    class Physics
+    {
     public:
         explicit Physics(EventQueue& eventQueue);
 

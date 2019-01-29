@@ -8,12 +8,14 @@
 #include "graphics/Texture.h"
 
 milk::TextureLoader::TextureLoader(SDL_Renderer& sdlRenderer, const std::string& rootDir)
-        : AssetLoader(rootDir)
-        , sdlRenderer_(sdlRenderer) {
+        : AssetLoader(rootDir),
+          sdlRenderer_(sdlRenderer)
+{
 
 }
 
-std::shared_ptr<milk::Texture> milk::TextureLoader::load(const std::string& textureName) {
+std::shared_ptr<milk::Texture> milk::TextureLoader::load(const std::string& textureName)
+{
     auto found = textureCache_.find(textureName);
 
     if (found != textureCache_.end())
@@ -21,7 +23,8 @@ std::shared_ptr<milk::Texture> milk::TextureLoader::load(const std::string& text
 
     auto sdlSurface = IMG_Load(getPath(textureName).c_str());
 
-    if (sdlSurface == nullptr) {
+    if (sdlSurface == nullptr)
+    {
         std::cout << "Error loading image: " << IMG_GetError() << std::endl;
         return nullptr;
     }
@@ -42,10 +45,12 @@ std::shared_ptr<milk::Texture> milk::TextureLoader::load(const std::string& text
     return pTexture;
 }
 
-void milk::TextureLoader::unload() {
+void milk::TextureLoader::unload()
+{
     auto textureItr = textureCache_.begin();
 
-    while (textureItr != textureCache_.end()) {
+    while (textureItr != textureCache_.end())
+    {
         if (textureItr->second.use_count() == 0)
             textureCache_.erase(textureItr->first);
 

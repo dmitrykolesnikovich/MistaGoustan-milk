@@ -2,13 +2,17 @@
 #define MILK_LUA_GAME_H
 
 #include <string>
-namespace milk {
+
+namespace milk
+{
     class Game;
     class Scene;
     class Window;
 
-    namespace lua {
-        namespace game {
+    namespace lua
+    {
+        namespace game
+        {
             Window& window(Game& game);
 
             Scene& scene(Game& game);

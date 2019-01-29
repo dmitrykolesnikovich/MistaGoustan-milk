@@ -12,11 +12,13 @@
 
 #include "scene/ActorComponent.h"
 
-namespace milk {
+namespace milk
+{
     class ActorCollisionEvent;
 
 // A script is what controls an actor's behavior.
-    class Script : public ActorComponent {
+    class Script : public ActorComponent
+    {
     public:
         static const ComponentType type;
 

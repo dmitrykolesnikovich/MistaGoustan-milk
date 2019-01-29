@@ -7,13 +7,17 @@
 
 #include "events/EventQueue.h"
 
-class EventQueueTests : public ::testing::Test {};
+class EventQueueTests : public ::testing::Test
+{
+};
 
-TEST_F(EventQueueTests, Ctor_Constructs) {
+TEST_F(EventQueueTests, Ctor_Constructs)
+{
     ASSERT_NO_THROW(milk::EventQueue());
 }
 
-TEST_F(EventQueueTests, PushEvent_PushesEvent) {
+TEST_F(EventQueueTests, PushEvent_PushesEvent)
+{
     // Arrange
     milk::EventQueue eventQueue;
 
@@ -26,7 +30,8 @@ TEST_F(EventQueueTests, PushEvent_PushesEvent) {
     ASSERT_NE(nullptr, event);
 }
 
-TEST_F(EventQueueTests, PollEvents_PollsEventsInOrderOfHighestPriority) {
+TEST_F(EventQueueTests, PollEvents_PollsEventsInOrderOfHighestPriority)
+{
     // Arrange
     milk::EventQueue eventQueue;
 
@@ -44,7 +49,8 @@ TEST_F(EventQueueTests, PollEvents_PollsEventsInOrderOfHighestPriority) {
     ASSERT_EQ(1, (int)event2->type());
 
     // Make sure to free all events.
-    while (auto e = eventQueue.pollEvent()) {}
+    while (auto e = eventQueue.pollEvent())
+    {}
 }
 
 #endif

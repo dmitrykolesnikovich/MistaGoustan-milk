@@ -6,16 +6,20 @@
 
 #include "scene/Actor.h"
 
-milk::SpatialPartitionGrid::SpatialPartitionGrid() {
+milk::SpatialPartitionGrid::SpatialPartitionGrid()
+{
     // Initialize the grid.
-    for (auto& cell : cells_) {
-        for (auto& y : cell) {
+    for (auto& cell : cells_)
+    {
+        for (auto& y : cell)
+        {
             y = nullptr;
         }
     }
 }
 
-void milk::SpatialPartitionGrid::add(BoxCollider* collider) {
+void milk::SpatialPartitionGrid::add(BoxCollider* collider)
+{
     // Determine which grid cell it's in.
     int cellX = collider->rect().x / SpatialPartitionGrid::CELL_SIZE;
     int cellY = collider->rect().y / SpatialPartitionGrid::CELL_SIZE;
@@ -30,7 +34,8 @@ void milk::SpatialPartitionGrid::add(BoxCollider* collider) {
         collider->next_->prev_ = collider;
 }
 
-void milk::SpatialPartitionGrid::remove(BoxCollider* collider) {
+void milk::SpatialPartitionGrid::remove(BoxCollider* collider)
+{
     int cellX = collider->oldRect_.x / SpatialPartitionGrid::CELL_SIZE;
     int cellY = collider->oldRect_.y / SpatialPartitionGrid::CELL_SIZE;
 
@@ -46,7 +51,8 @@ void milk::SpatialPartitionGrid::remove(BoxCollider* collider) {
         cells_[cellX][cellY] = collider->next_;
 }
 
-void milk::SpatialPartitionGrid::move(BoxCollider* collider) {
+void milk::SpatialPartitionGrid::move(BoxCollider* collider)
+{
     int oldCellX = collider->oldRect_.x / SpatialPartitionGrid::CELL_SIZE;
     int oldCellY = collider->oldRect_.y / SpatialPartitionGrid::CELL_SIZE;
 
@@ -64,7 +70,8 @@ void milk::SpatialPartitionGrid::move(BoxCollider* collider) {
     add(collider);
 }
 
-std::vector<milk::CollisionEvent> milk::SpatialPartitionGrid::getCollisions(BoxCollider* collider) {
+std::vector<milk::CollisionEvent> milk::SpatialPartitionGrid::getCollisions(BoxCollider* collider)
+{
     std::vector<CollisionEvent> collisions;
 
     int cellX = collider->rect().x / SpatialPartitionGrid::CELL_SIZE;
@@ -111,18 +118,22 @@ std::vector<milk::CollisionEvent> milk::SpatialPartitionGrid::getCollisions(BoxC
 }
 
 void milk::SpatialPartitionGrid::getCollisionForCell(BoxCollider* collider, BoxCollider* cell,
-                                                     std::vector<CollisionEvent>* collisions) {
+                                                     std::vector<CollisionEvent>* collisions)
+{
     // TODO dont keep recalculating
     int oldTop = collider->oldRect_.y;
     int oldBottom = collider->oldRect_.y + collider->oldRect_.h;
     int oldLeft = collider->oldRect_.x;
     int oldRight = collider->oldRect_.x + collider->oldRect_.w;
 
-    while (cell != nullptr) {
-        if (collider != cell) {
+    while (cell != nullptr)
+    {
+        if (collider != cell)
+        {
             SDL_Rect intersectionDepth;
 
-            if (collider->overlaps(cell->rect(), &intersectionDepth)) {
+            if (collider->overlaps(cell->rect(), &intersectionDepth))
+            {
                 CollisionSide dir = CollisionSide::BOTTOM;
 
                 if (oldRight <= cell->left() && collider->right() >= cell->left())

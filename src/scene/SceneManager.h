@@ -6,16 +6,15 @@
 #include <memory>
 #include <string>
 
-namespace milk {
+namespace milk
+{
     class EventQueue;
-
     class GameEvent;
-
     class Scene;
-
     class SceneLoader;
 
-    class SceneManager {
+    class SceneManager
+    {
     public:
         explicit SceneManager(EventQueue& eventQueue, SceneLoader& sceneLoader);
 

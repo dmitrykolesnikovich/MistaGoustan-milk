@@ -5,10 +5,12 @@
 
 #include "math/Vector2d.h"
 
-namespace milk {
+namespace milk
+{
     // All objects that move should own a velocity component.
     // In regards to movement, directly setting an objects position is ill advised as the collision system operates on Velocity.
-    class Velocity : public ActorComponent {
+    class Velocity : public ActorComponent
+    {
     public:
         static const ComponentType type;
 

@@ -10,11 +10,18 @@
 const milk::ComponentType milk::Animator::type = ANIMATOR;
 
 milk::Animator::Animator(Actor& actor, int rows, int columns, float timeBetweenFrames)
-        : ActorComponent::ActorComponent(actor), rows_(rows), columns_(columns), timeBetweenFrames_(timeBetweenFrames),
-          frameWidth_(0), frameHeight_(0), currentAnimation_(nullptr) {
+        : ActorComponent::ActorComponent(actor),
+          rows_(rows),
+          columns_(columns),
+          timeBetweenFrames_(timeBetweenFrames),
+          frameWidth_(0),
+          frameHeight_(0),
+          currentAnimation_(nullptr)
+{
 }
 
-void milk::Animator::init() {
+void milk::Animator::init()
+{
     sprite_ = actor_.getComponent<Sprite>();
 
     // TODO: log message.
@@ -27,18 +34,21 @@ void milk::Animator::init() {
     frameHeight_ = texture->height() / rows_;
 }
 
-void milk::Animator::togglePaused() {
+void milk::Animator::togglePaused()
+{
     if (timer_.isPaused())
         timer_.unpause();
     else
         timer_.pause();
 }
 
-void milk::Animator::addAnimation(const Animation& animation) {
+void milk::Animator::addAnimation(const Animation& animation)
+{
     animations_.insert(std::make_pair(animation.name, std::make_unique<Animation>(animation)));
 }
 
-void milk::Animator::setAnimation(const std::string& name) {
+void milk::Animator::setAnimation(const std::string& name)
+{
     if (currentAnimation_ != nullptr && currentAnimation_->name == name)
         return;
 
@@ -50,9 +60,12 @@ void milk::Animator::setAnimation(const std::string& name) {
     updateSourceRect();
 }
 
-void milk::Animator::update() {
-    if (currentAnimation_ != nullptr && !timer_.isPaused()) {
-        if (timer_.seconds() > timeBetweenFrames_) {
+void milk::Animator::update()
+{
+    if (currentAnimation_ != nullptr && !timer_.isPaused())
+    {
+        if (timer_.seconds() > timeBetweenFrames_)
+        {
             timer_.start();
 
             currentFrame_++;
@@ -65,7 +78,8 @@ void milk::Animator::update() {
     }
 }
 
-void milk::Animator::updateSourceRect() {
+void milk::Animator::updateSourceRect()
+{
     int row = (int)((float)currentAnimation_->frames[currentFrame_] / columns_);
     int column = currentAnimation_->frames[currentFrame_] % columns_;
 

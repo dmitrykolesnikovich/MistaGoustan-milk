@@ -13,9 +13,12 @@
 
 using ::testing::Return;
 
-class SpriteTests : public ::testing::Test {};
+class SpriteTests : public ::testing::Test
+{
+};
 
-TEST_F(SpriteTests, Ctor_Constructs) {
+TEST_F(SpriteTests, Ctor_Constructs)
+{
     // Arrange
     milk::Actor actor{1, "steve", {0, 0}};
 
@@ -23,7 +26,8 @@ TEST_F(SpriteTests, Ctor_Constructs) {
     ASSERT_NO_THROW(milk::Sprite(actor, "texturename"));
 }
 
-TEST_F(SpriteTests, Load_LoadsTexture) {
+TEST_F(SpriteTests, Load_LoadsTexture)
+{
     // Arrange
     milk::Actor actor{1, "steve", {0, 0}};
 
@@ -32,7 +36,7 @@ TEST_F(SpriteTests, Load_LoadsTexture) {
     MockTextureLoader textureLoader{"rootDir"};
 
     EXPECT_CALL(textureLoader, load("texturename"))
-        .WillOnce(Return(pTexture));
+            .WillOnce(Return(pTexture));
 
     milk::Sprite sprite{actor, "texturename"};
 
@@ -43,7 +47,8 @@ TEST_F(SpriteTests, Load_LoadsTexture) {
     ASSERT_EQ(sprite.texture().get(), pTexture.get());
 }
 
-TEST_F(SpriteTests, Load_GivenSourceRectNotSet_DefaultsFromTextureSize) {
+TEST_F(SpriteTests, Load_GivenSourceRectNotSet_DefaultsFromTextureSize)
+{
     // Arrange
     milk::Actor actor{1, "steve", {0, 0}};
 
@@ -68,7 +73,8 @@ TEST_F(SpriteTests, Load_GivenSourceRectNotSet_DefaultsFromTextureSize) {
     ASSERT_EQ(50, sourceRect.h);
 }
 
-TEST_F(SpriteTests, Load_GivenSourceRectSet_DoesNotDefaultToTextureSize) {
+TEST_F(SpriteTests, Load_GivenSourceRectSet_DoesNotDefaultToTextureSize)
+{
     // Arrange
     milk::Actor actor{1, "steve", {0, 0}};
 
@@ -94,7 +100,8 @@ TEST_F(SpriteTests, Load_GivenSourceRectSet_DoesNotDefaultToTextureSize) {
     ASSERT_EQ(50, sourceRect.h);
 }
 
-TEST_F(SpriteTests, DestinationRect_ReturnsCorRect) {
+TEST_F(SpriteTests, DestinationRect_ReturnsCorRect)
+{
     // Arrange
     milk::Actor actor{1, "steve", {70, 30}};
 
@@ -111,7 +118,8 @@ TEST_F(SpriteTests, DestinationRect_ReturnsCorRect) {
     ASSERT_EQ(50, destRect.h);
 }
 
-TEST_F(SpriteTests, DestinationRect_GivenSpriteOriginCentered_ReturnsCorRect) {
+TEST_F(SpriteTests, DestinationRect_GivenSpriteOriginCentered_ReturnsCorRect)
+{
     // Arrange
     milk::Actor actor{1, "steve", {70, 30}};
 
@@ -129,7 +137,8 @@ TEST_F(SpriteTests, DestinationRect_GivenSpriteOriginCentered_ReturnsCorRect) {
     ASSERT_EQ(50, destRect.h);
 }
 
-TEST_F(SpriteTests, FlipX_FlipsX) {
+TEST_F(SpriteTests, FlipX_FlipsX)
+{
     // Arrange
     milk::Actor actor{1, "steve", {70, 30}};
 
@@ -143,7 +152,8 @@ TEST_F(SpriteTests, FlipX_FlipsX) {
 }
 
 
-TEST_F(SpriteTests, FlipY_FlipsY) {
+TEST_F(SpriteTests, FlipY_FlipsY)
+{
     // Arrange
     milk::Actor actor{1, "steve", {70, 30}};
 
@@ -156,7 +166,8 @@ TEST_F(SpriteTests, FlipY_FlipsY) {
     ASSERT_TRUE(sprite.flippedY());
 }
 
-TEST_F(SpriteTests, RendererFlip_ReturnsExpectedResult) {
+TEST_F(SpriteTests, RendererFlip_ReturnsExpectedResult)
+{
     // Arrange
     milk::Actor actor{1, "steve", {70, 30}};
 
@@ -173,7 +184,8 @@ TEST_F(SpriteTests, RendererFlip_ReturnsExpectedResult) {
     ASSERT_EQ(SDL_FLIP_HORIZONTAL, (sprite.rendererFlip() & SDL_FLIP_HORIZONTAL));
 
     sprite.flipY();
-    ASSERT_EQ((SDL_FLIP_HORIZONTAL & SDL_FLIP_VERTICAL), (sprite.rendererFlip() & (SDL_FLIP_HORIZONTAL & SDL_FLIP_VERTICAL)));
+    ASSERT_EQ((SDL_FLIP_HORIZONTAL & SDL_FLIP_VERTICAL),
+              (sprite.rendererFlip() & (SDL_FLIP_HORIZONTAL & SDL_FLIP_VERTICAL)));
 }
 
 #endif

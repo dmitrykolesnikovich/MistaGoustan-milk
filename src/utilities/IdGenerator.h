@@ -3,8 +3,10 @@
 
 #include <vector>
 
-namespace milk {
-    class IdGenerator {
+namespace milk
+{
+    class IdGenerator
+    {
     public:
         IdGenerator();
 

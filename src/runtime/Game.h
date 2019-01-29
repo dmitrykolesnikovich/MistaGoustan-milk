@@ -11,7 +11,8 @@
 
 #include "externals/sol.hpp"
 
-namespace milk {
+namespace milk
+{
 #ifdef _DEBUG
 
     class DebugTools;
@@ -19,19 +20,12 @@ namespace milk {
 #endif
 
     class EventQueue;
-
     class Graphics;
-
     class Logic;
-
     class Physics;
-
     class ResourceManager;
-
     class SceneLoader;
-
     class SceneManager;
-
     class Window;
 
     namespace adapter
@@ -41,7 +35,8 @@ namespace milk {
 
     // THE Game class.
     // Handles running the game, updating subsystems, managing scenes, handling input, etc..
-    class Game {
+    class Game
+    {
     public:
         Game();
 

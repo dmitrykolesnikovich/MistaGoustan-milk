@@ -10,12 +10,15 @@
 #include "scene/ActorComponent.h"
 #include "utilities/Timer.h"
 
-namespace milk {
+namespace milk
+{
     class Sprite;
 
-    struct Animation {
+    struct Animation
+    {
         explicit Animation(std::string nm)
-            : name(std::move(nm)) {
+                : name(std::move(nm))
+        {
         }
 
         // Name of animation
@@ -25,11 +28,15 @@ namespace milk {
         std::vector<int> frames;
     };
 
-    class Animator : public ActorComponent {
+    class Animator : public ActorComponent
+    {
     public:
         static const ComponentType type;
 
-        Animator(Actor& actor, int rows, int columns, float timeBetweenFrames = 0.1f);
+        Animator(Actor& actor,
+                 int rows,
+                 int columns,
+                 float timeBetweenFrames = 0.1f);
 
         ~Animator() override = default;
 

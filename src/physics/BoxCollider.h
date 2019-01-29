@@ -9,12 +9,14 @@
 
 #include "utilities/Alignment.h"
 
-namespace  milk {
+namespace milk
+{
     class SpatialPartitionGrid;
 
 // Actors with a box collider will be static collidable objects.
 // Actors with a box collider and velocity will be dynamic collidable objects.
-    class BoxCollider : public ActorComponent {
+    class BoxCollider : public ActorComponent
+    {
     public:
         static const ComponentType type;
 
