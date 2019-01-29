@@ -34,6 +34,11 @@ namespace milk {
 
     class Window;
 
+    namespace adapter
+    {
+        class WindowAdapter;
+    }
+
     // THE Game class.
     // Handles running the game, updating subsystems, managing scenes, handling input, etc..
     class Game {
@@ -70,7 +75,7 @@ namespace milk {
         // TODO: revisit.
         std::string assetRootDir_;
 
-        std::unique_ptr<Window> window_;
+        std::unique_ptr<adapter::WindowAdapter> window_;
         std::unique_ptr<SceneLoader> sceneLoader_;
         std::unique_ptr<ResourceManager> resources_;
         std::unique_ptr<SceneManager> sceneManager_;
@@ -93,8 +98,6 @@ namespace milk {
         bool initFromConfig();
 
         bool initSDL();
-
-        bool initRenderWindow();
 
         void initSystems();
 

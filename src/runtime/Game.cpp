@@ -30,8 +30,8 @@
 #include "scene/SceneManager.h"
 #include "utilities/Timer.h"
 
-#include "window/Window.h"
-
+#include "window/adapter/WindowAdapter.h"
+#include "window/adapter/RendererAdapter.h"
 
 milk::Game::Game() = default;
 
@@ -54,12 +54,6 @@ int milk::Game::run() {
     // You gonna getta no no game.
     if (!initFromConfig())
         return MILK_FAIL;
-
-    // Shit.. if SDL fails, then you can consider the game to be MILK_FAIL'd, mafk.
-    if (!initSDL() || !initRenderWindow())
-        return MILK_FAIL;
-
-    initSystems();
 
     isRunning_ = true;
 
@@ -153,7 +147,7 @@ void milk::Game::update() {
 }
 
 void milk::Game::render() {
-    window_->clear();
+    window_->renderer().clear();
 
     if (auto scene = sceneManager_->currentScene()) {
         graphics_->render(*scene);
@@ -163,7 +157,7 @@ void milk::Game::render() {
 #endif
     }
 
-    window_->present();
+    window_->renderer().present();
 }
 
 void milk::Game::shutDown() {
@@ -175,7 +169,7 @@ void milk::Game::shutDown() {
 
     resources_->freeResources();
 
-    window_->freeSDLResources();
+    window_->free();
 
     IMG_Quit();
     SDL_Quit();
@@ -220,15 +214,20 @@ bool milk::Game::initFromConfig() {
     sol::table config = loadResult();
 
     std::string title = config["title"];
-    int width = config["width"];
-    int height = config["height"];
-    int vwidth = config["vwidth"];
-    int vheight = config["vheight"];
+    unsigned int width = config["width"];
+    unsigned int height = config["height"];
+    unsigned int vwidth = config["vwidth"];
+    unsigned int vheight = config["vheight"];
     bool fullscreen = config["fullscreen"];
     assetRootDir_ = config["resourceRootDir"];
     std::string entryScene = config["entryScene"];
 
-    window_ = std::make_unique<Window>(title, width, height, vwidth, vheight, fullscreen);
+    initSDL();
+
+    window_ = std::make_unique<adapter::WindowAdapter>();
+
+    if (!window_->init(title, width, height, vwidth, vheight, fullscreen))
+        return false;
 
     resources_ = std::make_unique<ResourceManager>(assetRootDir_);
 
@@ -239,15 +238,13 @@ bool milk::Game::initFromConfig() {
 
     sceneManager_->loadScene(entryScene);
 
+    initSystems();
+
     return true;
 }
 
+// TODO: move into resource manager
 bool milk::Game::initSDL() {
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) < 0) {
-        std::cout << "Error initializing SDL: " << SDL_GetError() << std::endl;
-        return false;
-    }
-
     int imgFlags = IMG_INIT_JPG | IMG_INIT_PNG;
     if ((IMG_Init(imgFlags) & imgFlags) != imgFlags) {
         SDL_Quit();
@@ -259,27 +256,16 @@ bool milk::Game::initSDL() {
     return true;
 }
 
-bool milk::Game::initRenderWindow() {
-    if (!window_->init()) {
-        IMG_Quit();
-        SDL_Quit();
-
-        return false;
-    }
-
-    return true;
-}
-
 void milk::Game::initSystems() {
     Keyboard::initialize();
 
-    resources_->init(window_->sdlRenderer());
+    resources_->init(window_->rendererAdapter().sdlRenderer());
 
 #ifdef _DEBUG
-    debugTools_ = std::make_unique<DebugTools>(*window_->sdlRenderer());
+    debugTools_ = std::make_unique<DebugTools>(*window_->rendererAdapter().sdlRenderer());
 #endif
 
     logic_ = std::make_unique<Logic>(luaState_);
     physics_ = std::make_unique<Physics>(*events_);
-    graphics_ = std::make_unique<Graphics>(*window_->sdlRenderer(), assetRootDir_);
+    graphics_ = std::make_unique<Graphics>(*window_->rendererAdapter().sdlRenderer(), assetRootDir_);
 }

@@ -14,8 +14,6 @@
 namespace milk {
     class Actor;
 
-    class Window;
-
     class EventQueue;
 
     class Scene {

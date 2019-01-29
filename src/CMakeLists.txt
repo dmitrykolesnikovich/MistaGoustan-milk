@@ -89,8 +89,12 @@ set(MILK_SRC_FILES
         utilities/Timer.h
 
         # window
-        window/Window.cpp
-        window/Window.h)
+        window/Renderer.h
+        window/Window.h
+        window/adapter/RendererAdapter.cpp
+        window/adapter/RendererAdapter.h
+        window/adapter/WindowAdapter.cpp
+        window/adapter/WindowAdapter.h)
 
 add_library(milklib ${MILK_SRC_FILES})
 

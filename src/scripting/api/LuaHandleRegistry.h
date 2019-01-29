@@ -81,7 +81,6 @@ namespace milk {
                 // Window
                 /////////////////////////////////////////////////////////////////
                 luaState.new_usertype<Window>("Window",
-                                              sol::constructors<Window()>(),
                                               "toggle_fullscreen", &Window::toggleFullscreen);
         }
     };

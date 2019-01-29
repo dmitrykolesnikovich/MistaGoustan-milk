@@ -27,6 +27,7 @@
 #include "utilities/ResourceManager.h"
 
 #include "window/Window.h"
+#include "window/Renderer.h"
 
 milk::SceneLoader::SceneLoader(Game& game)
         : game_(game) {
@@ -43,7 +44,7 @@ std::unique_ptr<milk::Scene> milk::SceneLoader::load(const std::string& file) co
     auto sceneJsonString = resourceManager.loadFile(file);
     json sceneJson = json::parse(sceneJsonString);
 
-    auto scene = std::make_unique<Scene>(game_.events(), game_.window().virtualWidth(), game_.window().virtualHeight());
+    auto scene = std::make_unique<Scene>(game_.events(), game_.window().renderer().resolution().width, game_.window().renderer().resolution().height);
     auto& tilemap = scene->tilemap();
 
     tilemap.sourceImageFile = sceneJson["source"].get<std::string>();

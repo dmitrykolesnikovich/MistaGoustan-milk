@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.6.1)
 
-project(milkengine)
+project(milk)
 
 # we're a c++14 family.
 set(CMAKE_CXX_STANDARD 14)
