@@ -31,7 +31,6 @@ namespace milk
         void handleEvent(GameEvent& gameEvent);
 
         // Render the current scene and all of its components.
-        // TODO: remove scene param. It is only used for tilemap rendering, and theres a better way handle it.
         void render(Scene& scene);
 
     private:
@@ -45,12 +44,6 @@ namespace milk
         void onActorSpawned(Actor& actor);
 
         void onActorDestroyed(Actor& actor);
-
-        void onSceneChanged();
-
-        void renderTilemap(const Tilemap& tilemap, const Camera& camera);
-
-        void renderActors(const Camera& camera);
     };
 }
 

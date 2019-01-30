@@ -32,7 +32,7 @@ namespace milk
         }
 
         // Polls the next event. Returns nullptr when queue is empty.
-        GameEvent* pollEvent();
+        GameEvent* poll();
 
     private:
         std::priority_queue<GameEvent*, std::vector<GameEvent*>, GameEventComparison> events_;

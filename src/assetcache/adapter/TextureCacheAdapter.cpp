@@ -57,7 +57,7 @@ std::shared_ptr<milk::Texture> milk::adapter::TextureCacheAdapter::load(const st
     return pTexture;
 }
 
-void milk::adapter::TextureCacheAdapter::invalidate()
+void milk::adapter::TextureCacheAdapter::freeUnreferencedAssets()
 {
     auto textureItr = textureCache_.begin();
 

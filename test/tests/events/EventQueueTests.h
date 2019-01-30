@@ -25,7 +25,7 @@ TEST_F(EventQueueTests, PushEvent_PushesEvent)
     eventQueue.pushEvent<MockGameEvent>();
 
     // Assert
-    auto event = eventQueue.pollEvent();
+    auto event = eventQueue.poll();
 
     ASSERT_NE(nullptr, event);
 }
@@ -42,14 +42,14 @@ TEST_F(EventQueueTests, PollEvents_PollsEventsInOrderOfHighestPriority)
     eventQueue.pushEvent<MGameEventPriority2>();
 
     // Assert
-    auto event1 = eventQueue.pollEvent();
+    auto event1 = eventQueue.poll();
     ASSERT_EQ(2, (int)event1->type());
 
-    auto event2 = eventQueue.pollEvent();
+    auto event2 = eventQueue.poll();
     ASSERT_EQ(1, (int)event2->type());
 
     // Make sure to free all events.
-    while (auto e = eventQueue.pollEvent())
+    while (auto e = eventQueue.poll())
     {}
 }
 

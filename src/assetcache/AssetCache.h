@@ -22,7 +22,7 @@ namespace milk
         // Load the asset.
         virtual std::shared_ptr<TAsset> load(const std::string& assetName) = 0;
 
-        virtual void invalidate() = 0;
+        virtual void freeUnreferencedAssets() = 0;
 
     protected:
         const std::string rootDir_;

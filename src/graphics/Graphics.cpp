@@ -35,16 +35,9 @@ void milk::Graphics::handleEvent(milk::GameEvent& gameEvent)
             onActorDestroyed(destroyedEvent.actor());
         }
             break;
-        case GameEventType::SCENE_LOADED:
-        {
-            // TODO: should probably move this logic out of here.
-            // Not sure if graphics should be responsible for flushing unref'd textures.
-            textureCache_.invalidate();
-        }
-            break;
         case GameEventType::SCENE_CHANGED:
         {
-            onSceneChanged();
+            spritesByActorId_.clear();
         }
             break;
         default:
@@ -54,8 +47,38 @@ void milk::Graphics::handleEvent(milk::GameEvent& gameEvent)
 
 void milk::Graphics::render(milk::Scene& scene)
 {
-    renderTilemap(scene.tilemap(), scene.camera());
-    renderActors(scene.camera());
+    auto& tilemap = scene.tilemap();
+    auto& camera = scene.camera();
+
+    for (auto& layer : tilemap.layers)
+    {
+        for (auto& tile : layer->tiles)
+        {
+            Rectangle destinationRect;
+            destinationRect.x = tile->x - (int)camera.position().x;
+            destinationRect.y = tile->y - (int)camera.position().y;
+            destinationRect.width = tile->type.sourceRect.width;
+            destinationRect.height = tile->type.sourceRect.height;
+
+            renderer_.draw(*tilemap.texture, tile->type.sourceRect, destinationRect, SDL_FLIP_NONE);
+        }
+    }
+
+    for (auto it : spritesByActorId_)
+    {
+        auto animator = it.second->actor().getComponent<Animator>();
+
+        if (animator != nullptr)
+            animator->update();
+
+        auto texture = it.second->texture();
+        auto sourceRect = it.second->sourceRect();
+        auto destinationRect = it.second->destinationRect();
+        destinationRect.x -= (int)camera.position().x;
+        destinationRect.y -= (int)camera.position().y;
+
+        renderer_.draw(*texture, sourceRect, destinationRect, it.second->rendererFlip());
+    }
 }
 
 void milk::Graphics::onActorSpawned(milk::Actor& actor)
@@ -79,45 +102,4 @@ void milk::Graphics::onActorDestroyed(Actor& actor)
 {
     if (spritesByActorId_.find(actor.id()) != spritesByActorId_.end())
         spritesByActorId_.erase(actor.id());
-}
-
-void milk::Graphics::onSceneChanged()
-{
-    spritesByActorId_.clear();
-}
-
-void milk::Graphics::renderTilemap(const Tilemap& tilemap, const Camera& camera)
-{
-    for (auto& layer : tilemap.layers)
-    {
-        for (auto& tile : layer->tiles)
-        {
-            Rectangle destinationRect;
-            destinationRect.x = tile->x - camera.position().x;
-            destinationRect.y = tile->y - camera.position().y;
-            destinationRect.width = tile->type.sourceRect.width;
-            destinationRect.height = tile->type.sourceRect.height;
-
-            renderer_.draw(*tilemap.texture, tile->type.sourceRect, destinationRect, SDL_FLIP_NONE);
-        }
-    }
-}
-
-void milk::Graphics::renderActors(const Camera& camera)
-{
-    for (auto it : spritesByActorId_)
-    {
-        Animator* animator = it.second->actor().getComponent<Animator>();
-
-        if (animator != nullptr)
-            animator->update();
-
-        auto texture = it.second->texture();
-        auto sourceRect = it.second->sourceRect();
-        auto destinationRect = it.second->destinationRect();
-        destinationRect.x -= camera.position().x;
-        destinationRect.y -= camera.position().y;
-
-        renderer_.draw(*texture, sourceRect, destinationRect, it.second->rendererFlip());
-    }
 }

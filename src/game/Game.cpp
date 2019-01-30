@@ -99,20 +99,20 @@ int milk::Game::run()
 
 void milk::Game::handleEvents()
 {
-    SDL_Event e;
+    SDL_Event sdlEvent;
 
-    while (SDL_PollEvent(&e))
+    while (SDL_PollEvent(&sdlEvent))
     {
-        switch (e.type)
+        switch (sdlEvent.type)
         {
             case SDL_QUIT:
                 isRunning_ = false;
                 break;
             case SDL_KEYUP:
-                if (e.key.keysym.sym == SDLK_ESCAPE)
+                if (sdlEvent.key.keysym.sym == SDLK_ESCAPE)
                     isRunning_ = false;
 #ifdef _DEBUG
-                if (e.key.keysym.sym == SDLK_BACKQUOTE)
+                if (sdlEvent.key.keysym.sym == SDLK_BACKQUOTE)
                     debugTools_->show = !debugTools_->show;
                 break;
 #endif
@@ -126,7 +126,7 @@ void milk::Game::handleEvents()
     Keyboard::updateKeyboardState();
 
     // Let systems handle game events enqueued last frame.
-    while (auto gameEvent = events_->pollEvent())
+    while (auto gameEvent = events_->poll())
     {
         physics_->handleEvent(*gameEvent);
         graphics_->handleEvent(*gameEvent);
@@ -138,6 +138,12 @@ void milk::Game::handleEvents()
         // It is important to let logic handle it's event last.
         // This is because the previous systems may load resources or init components that a script depends on.
         logic_->handleEvent(*gameEvent);
+
+        // If scene loaded, then lets free any unreferenced assets left over from the last scene.
+        if (gameEvent->type() == GameEventType::SCENE_LOADED)
+        {
+            textureCache_->freeUnreferencedAssets();
+        }
     }
 }
 

@@ -5,7 +5,7 @@ milk::EventQueue::EventQueue()
 {
 }
 
-milk::GameEvent* milk::EventQueue::pollEvent()
+milk::GameEvent* milk::EventQueue::poll()
 {
     if (lastPoppedEvent_ != nullptr)
     {

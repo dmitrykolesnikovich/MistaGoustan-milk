@@ -68,7 +68,7 @@ TEST_F(SceneTests, SpawnActor_SetsActorId)
     ASSERT_EQ(2, ahaha->id());
 
     // Clean up
-    while (auto e = eventQueue.pollEvent())
+    while (auto e = eventQueue.poll())
     {}
 }
 
@@ -82,7 +82,7 @@ TEST_F(SceneTests, SpawnActor_GeneratesActorSpawnedEvent)
     auto actor = scene.spawnActor("steve");
 
     // Act
-    auto spawnedEvent = eventQueue.pollEvent();
+    auto spawnedEvent = eventQueue.poll();
 
     // Assert
     ASSERT_NE(nullptr, spawnedEvent);
@@ -103,13 +103,13 @@ TEST_F(SceneTests, DestroyActor_GivenActorDoesntExist_DoesNotGenerateActorDestro
     // Act
     scene.destroyActor(76);
 
-    auto destroyedEvent = eventQueue.pollEvent();
+    auto destroyedEvent = eventQueue.poll();
 
     // Assert
     ASSERT_EQ(nullptr, destroyedEvent);
 
     // Clean up
-    while (auto e = eventQueue.pollEvent())
+    while (auto e = eventQueue.poll())
     {}
 }
 
@@ -123,7 +123,7 @@ TEST_F(SceneTests, DestroyActor_GeneratesActorDestroyedEvent)
     auto actor = scene.spawnActor("steve");
 
     // Lets get rid of that spawned event
-    eventQueue.pollEvent();
+    eventQueue.poll();
 
     scene.syncActorLists();
 
@@ -131,7 +131,7 @@ TEST_F(SceneTests, DestroyActor_GeneratesActorDestroyedEvent)
     scene.destroyActor(actor->id());
 
     // Assert
-    auto destroyedEvent = eventQueue.pollEvent();
+    auto destroyedEvent = eventQueue.poll();
 
     ASSERT_NE(nullptr, destroyedEvent);
     ASSERT_TRUE(destroyedEvent->type() == milk::GameEventType::ACTOR_DETROYED);
@@ -141,7 +141,7 @@ TEST_F(SceneTests, DestroyActor_GeneratesActorDestroyedEvent)
     ASSERT_EQ(actor, &destroyedEventActor);
 
     // Clean up
-    while (auto e = eventQueue.pollEvent())
+    while (auto e = eventQueue.poll())
     {}
 }
 
@@ -163,7 +163,7 @@ TEST_F(SceneTests, FindActor_FindsActor)
     ASSERT_EQ(actor, foundActor);
 
     // Clean up
-    while (auto e = eventQueue.pollEvent())
+    while (auto e = eventQueue.poll())
     {}
 }
 

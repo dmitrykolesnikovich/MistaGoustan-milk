@@ -26,7 +26,7 @@ namespace milk
             std::shared_ptr<Texture> load(const std::string& textureName) override;
 
             // Invalidates the texture cache.
-            void invalidate() override;
+            void freeUnreferencedAssets() override;
 
             // Complete shut down of texture cache and free all texture resources.
             void free();
