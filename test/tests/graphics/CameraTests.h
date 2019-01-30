@@ -4,7 +4,7 @@
 #include "gtest/gtest.h"
 
 #include "events/EventQueue.h"
-#include "graphics/Camera.h"
+#include "scene/Camera.h"
 #include "scene/Actor.h"
 #include "scene/Scene.h"
 

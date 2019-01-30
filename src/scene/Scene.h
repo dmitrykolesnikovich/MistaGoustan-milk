@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "graphics/Tilemap.h"
-#include "graphics/Camera.h"
+#include "Camera.h"
 
 #include "utilities/IdGenerator.h"
 

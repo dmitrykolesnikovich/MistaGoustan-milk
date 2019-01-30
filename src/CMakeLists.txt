@@ -32,8 +32,6 @@ set(MILK_SRC_FILES
         # graphics
         graphics/Animator.cpp
         graphics/Animator.h
-        graphics/Camera.cpp
-        graphics/Camera.h
         graphics/Graphics.cpp
         graphics/Graphics.h
         graphics/Sprite.cpp
@@ -65,6 +63,8 @@ set(MILK_SRC_FILES
         scene/Actor.h
         scene/ActorComponent.cpp
         scene/ActorComponent.h
+        scene/Camera.cpp
+        scene/Camera.h
         scene/Scene.cpp
         scene/Scene.h
         scene/SceneLoader.cpp
