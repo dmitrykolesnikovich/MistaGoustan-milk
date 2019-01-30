@@ -29,6 +29,11 @@ void milk::DebugTools::handleEvent(GameEvent& gameEvent)
             onActorDestroyed(destroyedEvent.actor());
         }
             break;
+        case GameEventType::SCENE_CHANGED:
+        {
+            onSceneChanged();
+        }
+            break;
         default:
             break;
     }
@@ -42,6 +47,11 @@ void milk::DebugTools::onActorSpawned(Actor& actor)
 void milk::DebugTools::onActorDestroyed(Actor& actor)
 {
     actorsById_.erase(actor.id());
+}
+
+void milk::DebugTools::onSceneChanged()
+{
+    actorsById_.clear();
 }
 
 void milk::DebugTools::render(Scene& scene)

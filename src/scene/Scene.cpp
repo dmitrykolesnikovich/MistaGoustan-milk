@@ -10,7 +10,8 @@
 
 milk::Scene::Scene(milk::EventQueue& eventQueue, unsigned virtualWidth, unsigned virtualHeight)
         : eventQueue_(eventQueue),
-          camera_(*this, virtualWidth, virtualHeight)
+          camera_(*this, virtualWidth, virtualHeight),
+          ended_(false)
 {
 }
 
@@ -25,7 +26,10 @@ milk::Actor* milk::Scene::spawnActor(const std::string& name)
 
     actorsToSpawn_.emplace_back(std::move(actor));
 
-    eventQueue_.pushEvent<ActorSpawnedEvent>(*pActor);
+    // If the scene has been unloaded, then let's not push an actor spawned event.
+    // We don't want any systems to hold a reference to an invalid actor.
+    if (!ended_)
+        eventQueue_.pushEvent<ActorSpawnedEvent>(*pActor);
 
     return pActor;
 }
@@ -39,6 +43,8 @@ bool milk::Scene::destroyActor(int id)
 
     actorsToDestroy_.emplace_back(id);
 
+    // We can push actor destroyed events whenever. If a system is written properly,
+    // it will check if it even holds a reference to the actor before making any decisions.
     eventQueue_.pushEvent<ActorDestroyedEvent>(*foundActor->second);
 
     return true;
@@ -82,22 +88,12 @@ void milk::Scene::syncActorLists()
     actorsToSpawn_.clear();
 }
 
-SDL_Rect milk::Scene::bounds() const
+milk::Rectangle milk::Scene::bounds() const
 {
-    SDL_Rect bounds;
-    bounds.x = 0;
-    bounds.y = 0;
-    bounds.w = tilemap_.width;
-    bounds.h = tilemap_.height;
-
-    return bounds;
+    return { 0, 0, tilemap_.width, tilemap_.height };
 }
 
 void milk::Scene::end()
 {
-    for (auto& it : actorsById_)
-        destroyActor(it.first);
-
-    for (auto& toSpawnItr : actorsToSpawn_)
-        destroyActor(toSpawnItr->id());
+    ended_ = true;
 }

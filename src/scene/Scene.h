@@ -6,9 +6,10 @@
 #include <unordered_map>
 #include <vector>
 
-#include "graphics/Tilemap.h"
 #include "Camera.h"
 
+#include "graphics/Tilemap.h"
+#include "math/Rectangle.h"
 #include "utilities/IdGenerator.h"
 
 namespace milk
@@ -45,9 +46,9 @@ namespace milk
         void syncActorLists();
 
         // Return the scene boundaries.
-        SDL_Rect bounds() const;
+        Rectangle bounds() const;
 
-        // Ends scene and emits destroyed events for all actors.
+        // Mark the scene and ended.
         void end();
 
     private:
@@ -56,6 +57,8 @@ namespace milk
         IdGenerator idGenerator_;
         Camera camera_;
         Tilemap tilemap_;
+
+        bool ended_;
 
         std::unordered_map<int, std::unique_ptr<Actor>> actorsById_;
         std::vector<std::unique_ptr<Actor>> actorsToSpawn_;

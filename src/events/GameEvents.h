@@ -3,21 +3,24 @@
 
 #include <string>
 
+// Todo: split into separate source files.
 namespace milk
 {
     class Actor;
-
     class BoxCollider;
 
     enum class GameEventType
     {
         // Prioritized by greatest value.
 
+        // Scene events have lower priority than actor events.
+        // This is so all systems that deal with actors can process all actor events before cleaning up their references.
+        // We wouldnt want a system to clean up all actor references, then handle an outdated actor spawned event.
         SCENE_CHANGED,
         SCENE_LOADED,
 
         // Actor events
-                ACTOR_COLLISION,
+        ACTOR_COLLISION,
         ACTOR_TRIGGER,
         ACTOR_DETROYED,
         ACTOR_SPAWNED

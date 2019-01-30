@@ -37,7 +37,14 @@ void milk::Graphics::handleEvent(milk::GameEvent& gameEvent)
             break;
         case GameEventType::SCENE_LOADED:
         {
+            // TODO: should probably move this logic out of here.
+            // Not sure if graphics should be responsible for flushing unref'd textures.
             textureCache_.invalidate();
+        }
+            break;
+        case GameEventType::SCENE_CHANGED:
+        {
+            onSceneChanged();
         }
             break;
         default:
@@ -72,6 +79,11 @@ void milk::Graphics::onActorDestroyed(Actor& actor)
 {
     if (spritesByActorId_.find(actor.id()) != spritesByActorId_.end())
         spritesByActorId_.erase(actor.id());
+}
+
+void milk::Graphics::onSceneChanged()
+{
+    spritesByActorId_.clear();
 }
 
 void milk::Graphics::renderTilemap(const Tilemap& tilemap, const Camera& camera)

@@ -18,10 +18,13 @@ milk::SceneManager::~SceneManager() = default;
 
 void milk::SceneManager::loadScene(const std::string& scene)
 {
+    // Will generate actor destroyed events for ALL actors.
     if (scene_ != nullptr)
         scene_->end();
 
+    // Push scene changed event so all systems can do their thing.
     eventQueue_.pushEvent<SceneChangedEvent>(scene);
+
     sceneToLoad_ = scene;
 }
 
@@ -29,6 +32,8 @@ void milk::SceneManager::update()
 {
     if (!sceneToLoad_.empty())
     {
+        // By this time, all systems should have already handled the scene change.
+        // So lets free the scene from mem and load the next one.
         if (scene_ != nullptr)
             scene_.reset();
 

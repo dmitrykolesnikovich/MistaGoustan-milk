@@ -152,3 +152,15 @@ void milk::SpatialPartitionGrid::getCollisionForCell(BoxCollider* collider, BoxC
         cell = cell->next_;
     }
 }
+
+void milk::SpatialPartitionGrid::clear()
+{
+    // Remove all colliders.
+    for (auto& cell : cells_)
+    {
+        for (auto& y : cell)
+        {
+            y = nullptr;
+        }
+    }
+}

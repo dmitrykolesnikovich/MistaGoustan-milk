@@ -35,6 +35,12 @@ void milk::Physics::handleEvent(milk::GameEvent& gameEvent)
             onActorDestroyed(destroyedEvent.actor());
         }
             break;
+        case GameEventType::SCENE_CHANGED:
+        {
+            partitionGrid_->clear();
+            velocityByActorId_.clear();
+        }
+            break;
         default:
             break;
     }

@@ -46,6 +46,8 @@ namespace milk
 
         void onActorDestroyed(Actor& actor);
 
+        void onSceneChanged();
+
         void renderTilemap(const Tilemap& tilemap, const Camera& camera);
 
         void renderActors(const Camera& camera);

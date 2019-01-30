@@ -49,11 +49,11 @@ void milk::Camera::clampCameraToSceneBounds()
 {
     if (camRect_.x < scene_.bounds().x)
         camRect_.x = scene_.bounds().x;
-    else if ((camRect_.x + camRect_.w) > scene_.bounds().w)
-        camRect_.x = scene_.bounds().w - camRect_.w;
+    else if ((camRect_.x + camRect_.w) > scene_.bounds().width)
+        camRect_.x = scene_.bounds().width - camRect_.w;
 
     if (camRect_.y < scene_.bounds().y)
         camRect_.y = scene_.bounds().y;
-    else if ((camRect_.y + camRect_.h) > scene_.bounds().h)
-        camRect_.y = scene_.bounds().h - camRect_.h;
+    else if ((camRect_.y + camRect_.h) > scene_.bounds().height)
+        camRect_.y = scene_.bounds().height - camRect_.h;
 }

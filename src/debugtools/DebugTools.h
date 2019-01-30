@@ -31,6 +31,8 @@ namespace milk
         void onActorSpawned(Actor& actor);
 
         void onActorDestroyed(Actor& actor);
+
+        void onSceneChanged();
     };
 }
 

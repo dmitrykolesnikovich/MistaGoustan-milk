@@ -31,6 +31,12 @@ void milk::Logic::handleEvent(GameEvent& gameEvent)
             onActorCollision(collisionEvent);
         }
             break;
+        case GameEventType::SCENE_CHANGED:
+        {
+            // TODO: should probably have a scne ending callback for scripts.
+            scriptByActorId_.clear();
+        }
+            break;
         default:
             break;
     }
