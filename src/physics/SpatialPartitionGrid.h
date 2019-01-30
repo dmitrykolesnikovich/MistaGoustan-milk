@@ -58,6 +58,9 @@ namespace milk
         // Get all colliders than intersect with a given collider.
         std::vector<CollisionEvent> getCollisions(BoxCollider* collider);
 
+        // Clear all colliders from grid.
+        void clear();
+
         // TODO make these data driven
         // TODO NUM_HORIZONTAL_CELLS & NUM_VERTICAL_CELLS
         static const int NUM_CELLS = 4;
