@@ -7,10 +7,15 @@
 
 #include "assetcache/adapter/TextureCache.h"
 
-#include "scene/Scene.h"
+#ifdef _DEBUG
+#include "debugtools/DebugTools.h"
+#endif
 
 #include "events/EventQueue.h"
 #include "events/GameEvents.h"
+
+#include "filesystem/Filesystem.h"
+#include "filesystem/adapter/FilesystemAdapter.h"
 
 #include "graphics/Graphics.h"
 
@@ -18,18 +23,13 @@
 
 #include "physics/Physics.h"
 
+#include "scene/Scene.h"
+#include "scene/SceneLoader.h"
+#include "scene/SceneManager.h"
+
 #include "scripting/api/LuaHandleRegistry.h"
 #include "scripting/Logic.h"
 
-#ifdef _DEBUG
-
-#include "debugtools/DebugTools.h"
-
-#endif
-
-#include "utilities/ResourceManager.h"
-#include "scene/SceneLoader.h"
-#include "scene/SceneManager.h"
 #include "utilities/Timer.h"
 
 #include "window/adapter/WindowAdapter.h"
@@ -46,17 +46,6 @@ milk::Game::~Game() = default;
 
 int milk::Game::run()
 {
-    // No game for you.
-    if (configFile_.empty())
-    {
-        std::cout << "Cannot find config file" << std::endl;
-        return MILK_FAIL;
-    }
-
-    // Init lua first so we can use it to load config file.
-    initLua();
-
-    // You gonna getta no no game.
     if (!initFromConfig())
         return MILK_FAIL;
 
@@ -157,6 +146,8 @@ void milk::Game::update()
     sceneManager_->update();
     logic_->update();
     physics_->update();
+
+    sceneManager_->lateUpdate();
 }
 
 void milk::Game::render()
@@ -183,7 +174,7 @@ void milk::Game::shutDown()
     // Lets load NULL_SCENE and free the previous one.
     sceneManager_->update();
 
-    resources_->freeResources();
+    textureCache_->invalidate();
 
     window_->free();
 
@@ -196,9 +187,14 @@ milk::Window& milk::Game::window() const
     return *window_;
 }
 
-milk::ResourceManager& milk::Game::resources() const
+milk::Filesystem& milk::Game::filesystem() const
 {
-    return *resources_;
+    return *fileSystem_;
+}
+
+milk::AssetCache<milk::Texture>& milk::Game::textureCache() const
+{
+    return *textureCache_;
 }
 
 milk::EventQueue& milk::Game::events() const
@@ -216,17 +212,20 @@ void milk::Game::loadScene(const std::string& name)
     sceneManager_->loadScene(name);
 }
 
-void milk::Game::initLua()
+bool milk::Game::initFromConfig()
 {
+    if (configFile_.empty())
+    {
+        std::cout << "Cannot find config file" << std::endl;
+        return MILK_FAIL;
+    }
+
     luaState_.open_libraries(sol::lib::base, sol::lib::math, sol::lib::package);
 
     LuaHandleRegistry::RegisterHandles(luaState_);
 
     luaState_["Game"] = this;
-}
 
-bool milk::Game::initFromConfig()
-{
     sol::load_result loadResult = luaState_.load_file(configFile_);
 
     if (!loadResult.valid())
@@ -243,18 +242,23 @@ bool milk::Game::initFromConfig()
     unsigned int vwidth = config["vwidth"];
     unsigned int vheight = config["vheight"];
     bool fullscreen = config["fullscreen"];
-    assetRootDir_ = config["resourceRootDir"];
+    std::string assetRootDir = config["resourceRootDir"];
     std::string entryScene = config["entryScene"];
-
-    initSDL();
 
     window_ = std::make_unique<adapter::WindowAdapter>();
 
     if (!window_->init(title, width, height, vwidth, vheight, fullscreen))
         return false;
 
-    resources_ = std::make_unique<ResourceManager>(assetRootDir_);
-    textureCache_ = std::make_unique<adapter::TextureCache>(*window_->rendererAdapter().sdlRenderer(), assetRootDir_);
+    textureCache_ = std::make_unique<adapter::TextureCache>(*window_->rendererAdapter().sdlRenderer(), assetRootDir);
+
+    if (!textureCache_->init())
+    {
+        window_->free();
+        return false;
+    }
+
+    fileSystem_ = std::make_unique<adapter::FilesystemAdapter>(assetRootDir);
 
     events_ = std::make_unique<EventQueue>();
 
@@ -263,31 +267,7 @@ bool milk::Game::initFromConfig()
 
     sceneManager_->loadScene(entryScene);
 
-    initSystems();
-
-    return true;
-}
-
-// TODO: move into resource manager
-bool milk::Game::initSDL()
-{
-    int imgFlags = IMG_INIT_JPG | IMG_INIT_PNG;
-    if ((IMG_Init(imgFlags) & imgFlags) != imgFlags)
-    {
-        SDL_Quit();
-
-        std::cout << "Error initializing SDL_image: " << IMG_GetError() << std::endl;
-        return false;
-    }
-
-    return true;
-}
-
-void milk::Game::initSystems()
-{
     Keyboard::initialize();
-
-    resources_->init(window_->rendererAdapter().sdlRenderer());
 
 #ifdef _DEBUG
     debugTools_ = std::make_unique<DebugTools>(*window_->rendererAdapter().sdlRenderer());
@@ -296,4 +276,6 @@ void milk::Game::initSystems()
     logic_ = std::make_unique<Logic>(luaState_);
     physics_ = std::make_unique<Physics>(*events_);
     graphics_ = std::make_unique<Graphics>(window_->renderer(), *textureCache_);
+
+    return true;
 }

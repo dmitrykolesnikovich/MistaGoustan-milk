@@ -14,6 +14,8 @@
 #include "runtime/Game.h"
 #include "scene/Scene.h"
 
+#include "filesystem/Filesystem.h"
+
 #include "externals/json.hpp"
 
 #include "graphics/Animator.h"
@@ -23,8 +25,6 @@
 #include "physics/Velocity.h"
 
 #include "scripting/Script.h"
-
-#include "utilities/ResourceManager.h"
 
 #include "window/Window.h"
 #include "window/Renderer.h"
@@ -40,10 +40,9 @@ std::unique_ptr<milk::Scene> milk::SceneLoader::load(const std::string& file) co
 {
     using json = nlohmann::json;
 
-    auto& resourceManager = game_.resources();
-    resourceManager.freeResources();
+    auto& textureCache = game_.textureCache();
 
-    auto sceneJsonString = resourceManager.loadFile(file);
+    auto sceneJsonString = game_.filesystem().contents(file);
     json sceneJson = json::parse(sceneJsonString);
 
     auto scene = std::make_unique<Scene>(game_.events(), game_.window().renderer().resolution().width,
@@ -198,7 +197,7 @@ std::unique_ptr<milk::Scene> milk::SceneLoader::load(const std::string& file) co
         }
     }
 
-    tilemap.texture = resourceManager.loadTexture(tilemap.sourceImageFile);
+    tilemap.texture = textureCache.load(tilemap.sourceImageFile);
 
     return scene;
 }

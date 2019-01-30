@@ -20,6 +20,11 @@ set(MILK_SRC_FILES
         externals/json.hpp
         externals/sol.hpp
 
+        # filesystem
+        filesystem/Filesystem.h
+        filesystem/adapter/FilesystemAdapter.cpp
+        filesystem/adapter/FilesystemAdapter.h
+
         # input
         input/Keyboard.cpp
         input/Keyboard.h
@@ -86,8 +91,6 @@ set(MILK_SRC_FILES
         utilities/Alignment.h
         utilities/IdGenerator.cpp
         utilities/IdGenerator.h
-        utilities/ResourceManager.cpp
-        utilities/ResourceManager.h
         utilities/Timer.cpp
         utilities/Timer.h
 

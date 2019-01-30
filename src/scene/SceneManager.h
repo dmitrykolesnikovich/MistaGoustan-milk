@@ -21,6 +21,7 @@ namespace milk
         ~SceneManager();
 
         void update();
+        void lateUpdate();
 
         void loadScene(const std::string& scene);
 

@@ -13,23 +13,26 @@
 
 namespace milk
 {
+    template<class T>
+    class AssetCache;
+
 #ifdef _DEBUG
-
     class DebugTools;
-
 #endif
 
     class EventQueue;
+    class Filesystem;
     class Graphics;
     class Logic;
     class Physics;
-    class ResourceManager;
     class SceneLoader;
     class SceneManager;
+    class Texture;
     class Window;
 
     namespace adapter
     {
+        class FilesystemAdapter;
         class TextureCache;
         class WindowAdapter;
     }
@@ -53,8 +56,10 @@ namespace milk
         // Returns the game window.
         Window& window() const;
 
+        Filesystem& filesystem() const;
+
         // Returns the games resource manager.
-        ResourceManager& resources() const;
+        AssetCache<Texture>& textureCache() const;
 
         // Returns the games event queue.
         EventQueue& events() const;
@@ -68,14 +73,11 @@ namespace milk
     private:
         std::string configFile_;
 
-        // TODO: revisit.
-        std::string assetRootDir_;
-
         std::unique_ptr<adapter::WindowAdapter> window_;
+        std::unique_ptr<adapter::FilesystemAdapter> fileSystem_;
         std::unique_ptr<adapter::TextureCache> textureCache_;
 
         std::unique_ptr<SceneLoader> sceneLoader_;
-        std::unique_ptr<ResourceManager> resources_;
         std::unique_ptr<SceneManager> sceneManager_;
         std::unique_ptr<EventQueue> events_;
 
@@ -91,20 +93,10 @@ namespace milk
 
         bool isRunning_;
 
-        void initLua();
-
         bool initFromConfig();
-
-        bool initSDL();
-
-        void initSystems();
-
         void handleEvents();
-
         void update();
-
         void render();
-
         void shutDown();
     };
 }

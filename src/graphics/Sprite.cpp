@@ -6,8 +6,6 @@
 
 #include "scene/Actor.h"
 
-#include "utilities/ResourceManager.h"
-
 const milk::ComponentType milk::Sprite::type = SPRITE;
 
 milk::Sprite::Sprite(milk::Actor& actor, const std::string& textureName)

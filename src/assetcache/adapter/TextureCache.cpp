@@ -13,6 +13,19 @@ milk::adapter::TextureCache::TextureCache(SDL_Renderer& sdlRenderer, const std::
 {
 }
 
+bool milk::adapter::TextureCache::init()
+{
+    int imgFlags = IMG_INIT_JPG | IMG_INIT_PNG;
+
+    if ((IMG_Init(imgFlags) & imgFlags) != imgFlags)
+    {
+        std::cout << "Error initializing SDL_image: " << IMG_GetError() << std::endl;
+        return false;
+    }
+
+    return true;
+}
+
 std::shared_ptr<milk::Texture> milk::adapter::TextureCache::load(const std::string& textureName)
 {
     auto found = textureCache_.find(textureName);

@@ -19,6 +19,9 @@ namespace milk
         public:
             TextureCache(SDL_Renderer& sdlRenderer, const std::string& rootDir);
 
+            // Initialize the texture cache.
+            bool init();
+
             // Loads the texture/fetches it from cache and returns it.
             std::shared_ptr<Texture> load(const std::string& textureName) override;
 

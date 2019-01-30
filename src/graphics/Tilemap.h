@@ -1,6 +1,7 @@
 #ifndef MILK_TILEMAP_H
 #define MILK_TILEMAP_H
 
+#include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -94,7 +95,7 @@ namespace milk
         int height;
         int tileSize;
 
-        Texture* texture;
+        std::shared_ptr<Texture> texture;
 
         std::unordered_map<int, TileType*> tileTypes;
         std::vector<TileLayer*> layers;

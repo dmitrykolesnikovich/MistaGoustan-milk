@@ -47,7 +47,6 @@ void milk::Graphics::handleEvent(milk::GameEvent& gameEvent)
 
 void milk::Graphics::render(milk::Scene& scene)
 {
-    scene.camera().update();
     renderTilemap(scene.tilemap(), scene.camera());
     renderActors(scene.camera());
 }
