@@ -11,7 +11,7 @@
 #include "SDL.h"
 
 #include "scene/Actor.h"
-#include "runtime/Game.h"
+#include "game/Game.h"
 #include "scene/Scene.h"
 
 #include "filesystem/Filesystem.h"

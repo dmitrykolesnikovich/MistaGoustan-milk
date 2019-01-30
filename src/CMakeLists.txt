@@ -56,9 +56,9 @@ set(MILK_SRC_FILES
         physics/Velocity.cpp
         physics/Velocity.h
 
-        # runtime
-        runtime/Game.h
-        runtime/Game.cpp
+        # game
+        game/Game.h
+        game/Game.cpp
 
         #scene
         scene/Actor.cpp

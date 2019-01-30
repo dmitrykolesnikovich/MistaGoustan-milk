@@ -1,6 +1,6 @@
 #include "LuaGame.h"
 
-#include "runtime/Game.h"
+#include "game/Game.h"
 
 #include "scene/SceneManager.h"
 

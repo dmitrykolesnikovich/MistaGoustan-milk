@@ -8,14 +8,14 @@
 #include "LuaScene.h"
 #include "LuaCollisionEvent.h"
 
+#include "events/GameEvents.h"
+#include "input/Keyboard.h"
+#include "game/Game.h"
+#include "math/Vector2d.h"
+#include "physics/BoxCollider.h"
 #include "scene/Actor.h"
 #include "scene/Scene.h"
-#include "runtime/Game.h"
-#include "math/Vector2d.h"
-#include "input/Keyboard.h"
 #include "window/Window.h"
-#include "physics/BoxCollider.h"
-#include "events/GameEvents.h"
 
 namespace milk
 {
