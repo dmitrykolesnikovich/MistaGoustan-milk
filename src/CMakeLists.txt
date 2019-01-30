@@ -73,6 +73,7 @@ set(MILK_SRC_FILES
         scene/SceneManager.h
 
         # scripting
+        scripting/api/LuaApi.cpp
         scripting/api/LuaApi.h
         scripting/api/LuaActor.cpp
         scripting/api/LuaActor.h
