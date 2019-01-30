@@ -1,4 +1,4 @@
-#include "TextureCache.h"
+#include "TextureCacheAdapter.h"
 
 #include <iostream>
 
@@ -7,13 +7,13 @@
 
 #include "graphics/Texture.h"
 
-milk::adapter::TextureCache::TextureCache(SDL_Renderer& sdlRenderer, const std::string& rootDir)
+milk::adapter::TextureCacheAdapter::TextureCacheAdapter(SDL_Renderer& sdlRenderer, const std::string& rootDir)
         : AssetCache(rootDir),
           sdlRenderer_(sdlRenderer)
 {
 }
 
-bool milk::adapter::TextureCache::init()
+bool milk::adapter::TextureCacheAdapter::init()
 {
     int imgFlags = IMG_INIT_JPG | IMG_INIT_PNG;
 
@@ -26,7 +26,7 @@ bool milk::adapter::TextureCache::init()
     return true;
 }
 
-std::shared_ptr<milk::Texture> milk::adapter::TextureCache::load(const std::string& textureName)
+std::shared_ptr<milk::Texture> milk::adapter::TextureCacheAdapter::load(const std::string& textureName)
 {
     auto found = textureCache_.find(textureName);
 
@@ -57,7 +57,7 @@ std::shared_ptr<milk::Texture> milk::adapter::TextureCache::load(const std::stri
     return pTexture;
 }
 
-void milk::adapter::TextureCache::invalidate()
+void milk::adapter::TextureCacheAdapter::invalidate()
 {
     auto textureItr = textureCache_.begin();
 

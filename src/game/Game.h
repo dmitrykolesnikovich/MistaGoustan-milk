@@ -33,7 +33,7 @@ namespace milk
     namespace adapter
     {
         class FilesystemAdapter;
-        class TextureCache;
+        class TextureCacheAdapter;
         class WindowAdapter;
     }
 
@@ -56,6 +56,7 @@ namespace milk
         // Returns the game window.
         Window& window() const;
 
+        // Returns the games filesystem.
         Filesystem& filesystem() const;
 
         // Returns the games resource manager.
@@ -67,15 +68,12 @@ namespace milk
         // Returns the games scene manager.
         SceneManager& sceneManager() const;
 
-        // Loads an JSON scene.
-        void loadScene(const std::string& name);
-
     private:
         std::string configFile_;
 
         std::unique_ptr<adapter::WindowAdapter> window_;
         std::unique_ptr<adapter::FilesystemAdapter> fileSystem_;
-        std::unique_ptr<adapter::TextureCache> textureCache_;
+        std::unique_ptr<adapter::TextureCacheAdapter> textureCache_;
 
         std::unique_ptr<SceneLoader> sceneLoader_;
         std::unique_ptr<SceneManager> sceneManager_;

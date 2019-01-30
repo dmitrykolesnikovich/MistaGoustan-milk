@@ -4,8 +4,8 @@ set(MILK_SRC_FILES
 
         # asset cache
         assetcache/AssetCache.h
-        assetcache/adapter/TextureCache.cpp
-        assetcache/adapter/TextureCache.h
+        assetcache/adapter/TextureCacheAdapter.cpp
+        assetcache/adapter/TextureCacheAdapter.h
 
         # debug tools
         debugtools/DebugTools.cpp
@@ -73,15 +73,17 @@ set(MILK_SRC_FILES
         scene/SceneManager.h
 
         # scripting
-        scripting/api/LuaHandleRegistry.h
+        scripting/api/LuaApi.h
         scripting/api/LuaActor.cpp
         scripting/api/LuaActor.h
-        scripting/api/LuaGame.cpp
-        scripting/api/LuaGame.h
-        scripting/api/LuaScene.cpp
-        scripting/api/LuaScene.h
         scripting/api/LuaCollisionEvent.cpp
         scripting/api/LuaCollisionEvent.h
+        scripting/api/LuaScene.cpp
+        scripting/api/LuaScene.h
+        scripting/api/LuaSceneManager.cpp
+        scripting/api/LuaSceneManager.h
+        scripting/api/LuaWindow.cpp
+        scripting/api/LuaWindow.h
         scripting/Logic.cpp
         scripting/Logic.h
         scripting/Script.cpp

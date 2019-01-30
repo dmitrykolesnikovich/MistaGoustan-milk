@@ -1,12 +1,13 @@
-#ifndef MILK_LUA_HANDLE_REGISTRY_
-#define MILK_LUA_HANDLE_REGISTRY_
+#ifndef MILK_LUA_API_H
+#define MILK_LUA_API_H
 
 #include "externals/sol.hpp"
 
 #include "LuaActor.h"
-#include "LuaGame.h"
-#include "LuaScene.h"
 #include "LuaCollisionEvent.h"
+#include "LuaScene.h"
+#include "LuaSceneManager.h"
+#include "LuaWindow.h"
 
 #include "events/GameEvents.h"
 #include "input/Keyboard.h"
@@ -15,15 +16,16 @@
 #include "physics/BoxCollider.h"
 #include "scene/Actor.h"
 #include "scene/Scene.h"
+#include "scene/SceneManager.h"
 #include "window/Window.h"
 
 namespace milk
 {
     // Registry for the Lua API.
-    class LuaHandleRegistry
+    class LuaApi
     {
     public:
-        static void RegisterHandles(sol::state& luaState)
+        static void init(sol::state& luaState)
         {
             using namespace milk;
 
@@ -60,15 +62,14 @@ namespace milk
                                             "get_key_pressed", &Keyboard::getKeyPressed,
                                             "get_key_released", &Keyboard::getKeyReleased);
 
-            // Game
+            // Scene
             /////////////////////////////////////////////////////////////////
-            luaState.new_usertype<Game>("Game",
-                                        "window", sol::readonly_property(&lua::game::window),
-                                        "scene", sol::readonly_property(&lua::game::scene),
-                                        "load_scene", &lua::game::loadScene);
-
             luaState.new_usertype<Scene>("Scene",
                                          "set_cam_target", &lua::scene::setCameraTarget);
+
+            luaState.new_usertype<SceneManager>("SceneManager",
+                                                "current", sol::readonly_property(&lua::scene_manager::current),
+                                                "load_scene", &lua::scene_manager::loadScene);
 
             // Vector2D
             /////////////////////////////////////////////////////////////////
@@ -84,7 +85,7 @@ namespace milk
             // Window
             /////////////////////////////////////////////////////////////////
             luaState.new_usertype<Window>("Window",
-                                          "toggle_fullscreen", &Window::toggleFullscreen);
+                                          "toggle_fullscreen", &lua::window::toggleFullscreen);
         }
     };
 }

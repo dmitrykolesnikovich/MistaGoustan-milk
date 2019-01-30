@@ -14,10 +14,10 @@ namespace milk
 
     namespace adapter
     {
-        class TextureCache : public AssetCache<Texture>
+        class TextureCacheAdapter : public AssetCache<Texture>
         {
         public:
-            TextureCache(SDL_Renderer& sdlRenderer, const std::string& rootDir);
+            TextureCacheAdapter(SDL_Renderer& sdlRenderer, const std::string& rootDir);
 
             // Initialize the texture cache.
             bool init();

@@ -5,7 +5,7 @@
 #include "SDL.h"
 #include "SDL_image.h"
 
-#include "assetcache/adapter/TextureCache.h"
+#include "assetcache/adapter/TextureCacheAdapter.h"
 
 #ifdef _DEBUG
 #include "debugtools/DebugTools.h"
@@ -27,7 +27,7 @@
 #include "scene/SceneLoader.h"
 #include "scene/SceneManager.h"
 
-#include "scripting/api/LuaHandleRegistry.h"
+#include "scripting/api/LuaApi.h"
 #include "scripting/Logic.h"
 
 #include "utilities/Timer.h"
@@ -207,11 +207,6 @@ milk::SceneManager& milk::Game::sceneManager() const
     return *sceneManager_;
 }
 
-void milk::Game::loadScene(const std::string& name)
-{
-    sceneManager_->loadScene(name);
-}
-
 bool milk::Game::initFromConfig()
 {
     if (configFile_.empty())
@@ -221,10 +216,6 @@ bool milk::Game::initFromConfig()
     }
 
     luaState_.open_libraries(sol::lib::base, sol::lib::math, sol::lib::package);
-
-    LuaHandleRegistry::RegisterHandles(luaState_);
-
-    luaState_["Game"] = this;
 
     sol::load_result loadResult = luaState_.load_file(configFile_);
 
@@ -250,7 +241,7 @@ bool milk::Game::initFromConfig()
     if (!window_->init(title, width, height, vwidth, vheight, fullscreen))
         return false;
 
-    textureCache_ = std::make_unique<adapter::TextureCache>(*window_->rendererAdapter().sdlRenderer(), assetRootDir);
+    textureCache_ = std::make_unique<adapter::TextureCacheAdapter>(*window_->rendererAdapter().sdlRenderer(), assetRootDir);
 
     if (!textureCache_->init())
     {
@@ -265,8 +256,6 @@ bool milk::Game::initFromConfig()
     sceneLoader_ = std::make_unique<SceneLoader>(*this);
     sceneManager_ = std::make_unique<SceneManager>(*events_, *sceneLoader_);
 
-    sceneManager_->loadScene(entryScene);
-
     Keyboard::initialize();
 
 #ifdef _DEBUG
@@ -276,6 +265,13 @@ bool milk::Game::initFromConfig()
     logic_ = std::make_unique<Logic>(luaState_);
     physics_ = std::make_unique<Physics>(*events_);
     graphics_ = std::make_unique<Graphics>(window_->renderer(), *textureCache_);
+
+    LuaApi::init(luaState_);
+
+    luaState_["Window"] = dynamic_cast<Window*>(window_.get());
+    luaState_["SceneManager"] = sceneManager_.get();
+
+    sceneManager_->loadScene(entryScene);
 
     return true;
 }
