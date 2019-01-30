@@ -16,7 +16,7 @@ public:
     }
 
     MOCK_METHOD1(load, std::shared_ptr<milk::Texture>(const std::string&));
-    MOCK_METHOD0(invalidate, void());
+    MOCK_METHOD0(freeUnreferencedAssets, void());
 };
 
 #endif
