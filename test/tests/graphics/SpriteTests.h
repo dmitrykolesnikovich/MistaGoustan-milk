@@ -5,7 +5,7 @@
 
 #include "gtest/gtest.h"
 
-#include "mocks/graphics/MockTextureLoader.h"
+#include "mocks/graphics/MockTextureCache.h"
 
 #include "graphics/Sprite.h"
 #include "graphics/Texture.h"
@@ -33,7 +33,7 @@ TEST_F(SpriteTests, Load_LoadsTexture)
 
     auto pTexture = std::make_shared<milk::Texture>(nullptr, 0, 0);
 
-    MockTextureLoader textureLoader{"rootDir"};
+    MockTextureCache textureLoader{"rootDir"};
 
     EXPECT_CALL(textureLoader, load("texturename"))
             .WillOnce(Return(pTexture));
@@ -54,7 +54,7 @@ TEST_F(SpriteTests, Load_GivenSourceRectNotSet_DefaultsFromTextureSize)
 
     auto pTexture = std::make_shared<milk::Texture>(nullptr, 50, 50);
 
-    MockTextureLoader textureLoader{"rootDir"};
+    MockTextureCache textureLoader{"rootDir"};
 
     EXPECT_CALL(textureLoader, load("texturename"))
             .WillOnce(Return(pTexture));
@@ -69,8 +69,8 @@ TEST_F(SpriteTests, Load_GivenSourceRectNotSet_DefaultsFromTextureSize)
 
     ASSERT_EQ(0, sourceRect.x);
     ASSERT_EQ(0, sourceRect.y);
-    ASSERT_EQ(50, sourceRect.w);
-    ASSERT_EQ(50, sourceRect.h);
+    ASSERT_EQ(50, sourceRect.width);
+    ASSERT_EQ(50, sourceRect.height);
 }
 
 TEST_F(SpriteTests, Load_GivenSourceRectSet_DoesNotDefaultToTextureSize)
@@ -80,7 +80,7 @@ TEST_F(SpriteTests, Load_GivenSourceRectSet_DoesNotDefaultToTextureSize)
 
     auto pTexture = std::make_shared<milk::Texture>(nullptr, 500, 500);
 
-    MockTextureLoader textureLoader{"rootDir"};
+    MockTextureCache textureLoader{"rootDir"};
 
     EXPECT_CALL(textureLoader, load("texturename"))
             .WillOnce(Return(pTexture));
@@ -96,8 +96,8 @@ TEST_F(SpriteTests, Load_GivenSourceRectSet_DoesNotDefaultToTextureSize)
 
     ASSERT_EQ(0, sourceRect.x);
     ASSERT_EQ(0, sourceRect.y);
-    ASSERT_EQ(50, sourceRect.w);
-    ASSERT_EQ(50, sourceRect.h);
+    ASSERT_EQ(50, sourceRect.width);
+    ASSERT_EQ(50, sourceRect.height);
 }
 
 TEST_F(SpriteTests, DestinationRect_ReturnsCorRect)
@@ -114,8 +114,8 @@ TEST_F(SpriteTests, DestinationRect_ReturnsCorRect)
     // Assert
     ASSERT_EQ(70, destRect.x);
     ASSERT_EQ(30, destRect.y);
-    ASSERT_EQ(50, destRect.w);
-    ASSERT_EQ(50, destRect.h);
+    ASSERT_EQ(50, destRect.width);
+    ASSERT_EQ(50, destRect.height);
 }
 
 TEST_F(SpriteTests, DestinationRect_GivenSpriteOriginCentered_ReturnsCorRect)
@@ -133,8 +133,8 @@ TEST_F(SpriteTests, DestinationRect_GivenSpriteOriginCentered_ReturnsCorRect)
     // Assert
     ASSERT_EQ(45, destRect.x);
     ASSERT_EQ(5, destRect.y);
-    ASSERT_EQ(50, destRect.w);
-    ASSERT_EQ(50, destRect.h);
+    ASSERT_EQ(50, destRect.width);
+    ASSERT_EQ(50, destRect.height);
 }
 
 TEST_F(SpriteTests, FlipX_FlipsX)

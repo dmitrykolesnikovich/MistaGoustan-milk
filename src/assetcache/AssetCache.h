@@ -7,20 +7,22 @@
 
 namespace milk
 {
+    // An asset cache does a bit more than it's name implies. It actually LOADS and caches assets.
     template<class TAsset>
-    class AssetLoader
+    class AssetCache
     {
     public:
-        explicit AssetLoader(std::string rootDir)
+        explicit AssetCache(std::string rootDir)
                 : rootDir_(std::move(rootDir))
         {
         }
 
-        virtual ~AssetLoader() = default;
+        virtual ~AssetCache() = default;
 
+        // Load the asset.
         virtual std::shared_ptr<TAsset> load(const std::string& assetName) = 0;
 
-        virtual void unload() = 0;
+        virtual void invalidate() = 0;
 
     protected:
         const std::string rootDir_;

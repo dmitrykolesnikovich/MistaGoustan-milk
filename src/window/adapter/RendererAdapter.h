@@ -21,6 +21,11 @@ namespace milk
 
             void clear() override;
 
+            virtual void draw(Texture& texture,
+                              Rectangle& sourceRectangle,
+                              Rectangle& destinationRectangle,
+                              int flipFlags) override;
+
             void present() override;
 
             Resolution resolution() const override;

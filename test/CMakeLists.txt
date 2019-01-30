@@ -48,7 +48,7 @@ set (TESTS
 set(MOCKS
         mocks/scene/MockActorComponent.h
         mocks/events/MockGameEvent.h
-        mocks/graphics/MockTextureLoader.h)
+        mocks/graphics/MockTextureCache.h)
 
 add_executable(milktests main.cpp ${TESTS} ${MOCKS})
 

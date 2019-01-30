@@ -3,8 +3,6 @@
 
 #include <unordered_map>
 
-#include "TextureLoader.h"
-
 struct SDL_Renderer;
 
 namespace milk
@@ -12,27 +10,36 @@ namespace milk
     class Actor;
     class Camera;
     class GameEvent;
-    class ResourceManager;
+    class Renderer;
     class Scene;
     class Sprite;
     class Texture;
 
+    template<class T>
+    class AssetCache;
+
     struct Tilemap;
 
+    // Graphics handles loading textures, and drawing scenes.
     class Graphics
     {
     public:
-        Graphics(SDL_Renderer& renderer, const std::string& rootDir);
+        // Graphics makes draw calls to the renderer, and loads necessary textures for rendering.
+        Graphics(Renderer& renderer, AssetCache<Texture>& textureCache);
 
+        // Graphics works on actor components, so it needs to be updated when they are spawned, destroyed, etc...
         void handleEvent(GameEvent& gameEvent);
 
+        // Render the current scene and all of its components.
+        // TODO: remove scene param. It is only used for tilemap rendering, and theres a better way handle it.
         void render(Scene& scene);
 
     private:
-        TextureLoader textureLoader;
+        Renderer& renderer_;
+        AssetCache<Texture>& textureCache_;
 
-        SDL_Renderer& sdlRenderer_;
-
+        // We only store references to sprites in the graphics system.
+        // Every frame, if the sprite also has an animator, we update the animator.
         std::unordered_map<int, Sprite*> spritesByActorId_;
 
         void onActorSpawned(Actor& actor);

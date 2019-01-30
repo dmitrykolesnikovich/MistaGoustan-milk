@@ -1,4 +1,4 @@
-#include "TextureLoader.h"
+#include "TextureCache.h"
 
 #include <iostream>
 
@@ -7,14 +7,13 @@
 
 #include "graphics/Texture.h"
 
-milk::TextureLoader::TextureLoader(SDL_Renderer& sdlRenderer, const std::string& rootDir)
-        : AssetLoader(rootDir),
+milk::adapter::TextureCache::TextureCache(SDL_Renderer& sdlRenderer, const std::string& rootDir)
+        : AssetCache(rootDir),
           sdlRenderer_(sdlRenderer)
 {
-
 }
 
-std::shared_ptr<milk::Texture> milk::TextureLoader::load(const std::string& textureName)
+std::shared_ptr<milk::Texture> milk::adapter::TextureCache::load(const std::string& textureName)
 {
     auto found = textureCache_.find(textureName);
 
@@ -45,7 +44,7 @@ std::shared_ptr<milk::Texture> milk::TextureLoader::load(const std::string& text
     return pTexture;
 }
 
-void milk::TextureLoader::unload()
+void milk::adapter::TextureCache::invalidate()
 {
     auto textureItr = textureCache_.begin();
 

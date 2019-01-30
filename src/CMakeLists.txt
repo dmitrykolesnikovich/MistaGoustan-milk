@@ -2,6 +2,11 @@ project(milklib)
 
 set(MILK_SRC_FILES
 
+        # asset cache
+        assetcache/AssetCache.h
+        assetcache/adapter/TextureCache.cpp
+        assetcache/adapter/TextureCache.h
+
         # debug tools
         debugtools/DebugTools.cpp
         debugtools/DebugTools.h
@@ -30,11 +35,10 @@ set(MILK_SRC_FILES
         graphics/Sprite.h
         graphics/Texture.cpp
         graphics/Texture.h
-        graphics/TextureLoader.cpp
-        graphics/TextureLoader.h
         graphics/Tilemap.h
 
         # math
+        math/Rectangle.h
         math/Vector2d.h
 
         # physics
@@ -80,7 +84,6 @@ set(MILK_SRC_FILES
 
         # utilities
         utilities/Alignment.h
-        utilities/AssetLoader.h
         utilities/IdGenerator.cpp
         utilities/IdGenerator.h
         utilities/ResourceManager.cpp

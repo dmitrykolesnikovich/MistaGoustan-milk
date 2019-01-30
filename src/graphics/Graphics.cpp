@@ -8,14 +8,14 @@
 #include "Sprite.h"
 #include "Texture.h"
 
+#include "events/GameEvents.h"
 #include "scene/Actor.h"
 #include "scene/Scene.h"
+#include "window/Renderer.h"
 
-#include "events/GameEvents.h"
-
-milk::Graphics::Graphics(SDL_Renderer& renderer, const std::string& rootDir)
-        : sdlRenderer_(renderer),
-          textureLoader(renderer, rootDir)
+milk::Graphics::Graphics(Renderer& renderer, AssetCache<Texture>& textureCache)
+        : renderer_(renderer),
+          textureCache_(textureCache)
 {
 }
 
@@ -37,7 +37,7 @@ void milk::Graphics::handleEvent(milk::GameEvent& gameEvent)
             break;
         case GameEventType::SCENE_LOADED:
         {
-            textureLoader.unload();
+            textureCache_.invalidate();
         }
             break;
         default:
@@ -59,7 +59,7 @@ void milk::Graphics::onActorSpawned(milk::Actor& actor)
     if (sprite == nullptr)
         return;
 
-    sprite->load(textureLoader);
+    sprite->load(textureCache_);
 
     spritesByActorId_.insert(std::make_pair(actor.id(), sprite));
 
@@ -81,14 +81,13 @@ void milk::Graphics::renderTilemap(const Tilemap& tilemap, const Camera& camera)
     {
         for (auto& tile : layer->tiles)
         {
-            SDL_Rect destinationRect;
+            Rectangle destinationRect;
             destinationRect.x = tile->x - camera.position().x;
             destinationRect.y = tile->y - camera.position().y;
-            destinationRect.w = tile->type.sourceRect.w;
-            destinationRect.h = tile->type.sourceRect.h;
+            destinationRect.width = tile->type.sourceRect.width;
+            destinationRect.height = tile->type.sourceRect.height;
 
-            SDL_RenderCopyEx(&sdlRenderer_, tilemap.texture->get(), &tile->type.sourceRect, &destinationRect, 0,
-                             nullptr, SDL_FLIP_NONE);
+            renderer_.draw(*tilemap.texture, tile->type.sourceRect, destinationRect, SDL_FLIP_NONE);
         }
     }
 }
@@ -108,7 +107,6 @@ void milk::Graphics::renderActors(const Camera& camera)
         destinationRect.x -= camera.position().x;
         destinationRect.y -= camera.position().y;
 
-        SDL_RenderCopyEx(&sdlRenderer_, texture->get(), &sourceRect, &destinationRect, 0, nullptr,
-                         it.second->rendererFlip());
+        renderer_.draw(*texture, sourceRect, destinationRect, it.second->rendererFlip());
     }
 }

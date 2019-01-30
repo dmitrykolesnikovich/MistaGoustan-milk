@@ -30,6 +30,7 @@ namespace milk
 
     namespace adapter
     {
+        class TextureCache;
         class WindowAdapter;
     }
 
@@ -71,6 +72,8 @@ namespace milk
         std::string assetRootDir_;
 
         std::unique_ptr<adapter::WindowAdapter> window_;
+        std::unique_ptr<adapter::TextureCache> textureCache_;
+
         std::unique_ptr<SceneLoader> sceneLoader_;
         std::unique_ptr<ResourceManager> resources_;
         std::unique_ptr<SceneManager> sceneManager_;

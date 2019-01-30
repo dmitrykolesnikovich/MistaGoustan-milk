@@ -5,6 +5,8 @@
 #include "SDL.h"
 #include "SDL_image.h"
 
+#include "assetcache/adapter/TextureCache.h"
+
 #include "scene/Scene.h"
 
 #include "events/EventQueue.h"
@@ -252,6 +254,7 @@ bool milk::Game::initFromConfig()
         return false;
 
     resources_ = std::make_unique<ResourceManager>(assetRootDir_);
+    textureCache_ = std::make_unique<adapter::TextureCache>(*window_->rendererAdapter().sdlRenderer(), assetRootDir_);
 
     events_ = std::make_unique<EventQueue>();
 
@@ -292,5 +295,5 @@ void milk::Game::initSystems()
 
     logic_ = std::make_unique<Logic>(luaState_);
     physics_ = std::make_unique<Physics>(*events_);
-    graphics_ = std::make_unique<Graphics>(*window_->rendererAdapter().sdlRenderer(), assetRootDir_);
+    graphics_ = std::make_unique<Graphics>(window_->renderer(), *textureCache_);
 }

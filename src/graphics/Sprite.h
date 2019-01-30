@@ -5,10 +5,10 @@
 
 #include "SDL.h"
 
+#include "assetcache/AssetCache.h"
+#include "math/Rectangle.h"
 #include "scene/ActorComponent.h"
-
 #include "utilities/Alignment.h"
-#include "utilities/AssetLoader.h"
 
 namespace milk
 {
@@ -25,7 +25,7 @@ namespace milk
         ~Sprite() override = default;
 
         // Load the sprite's texture.
-        void load(AssetLoader<Texture>& textureLoader);
+        void load(AssetCache<Texture>& textureLoader);
 
         // Get the sprites texture.
         std::shared_ptr<Texture> texture() const;
@@ -37,10 +37,10 @@ namespace milk
         void sourceRect(int x, int y, int width, int height);
 
         // Get the sprite's source rectangle.
-        SDL_Rect sourceRect() const;
+        Rectangle sourceRect() const;
 
         // Get the sprite's destination rectangle.
-        SDL_Rect destinationRect() const;
+        Rectangle destinationRect() const;
 
         // Flip the sprite horizontally.
         void flipX();
@@ -55,13 +55,13 @@ namespace milk
         bool flippedY();
 
         // Returns the renderer flip states.
-        SDL_RendererFlip rendererFlip() const;
+        int rendererFlip() const;
 
     private:
         std::string textureName_;
         std::shared_ptr<Texture> texture_;
 
-        SDL_Rect sourceRect_;
+        Rectangle sourceRect_;
 
         Alignment alignment_;
 

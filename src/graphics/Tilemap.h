@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "SDL.h"
+#include "math/Rectangle.h"
 
 namespace milk
 {
@@ -20,7 +20,7 @@ namespace milk
         {
         }
 
-        SDL_Rect sourceRect;
+        Rectangle sourceRect;
         bool collidable;
         std::string name;
 

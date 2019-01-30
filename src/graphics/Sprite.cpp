@@ -20,17 +20,17 @@ milk::Sprite::Sprite(milk::Actor& actor, const std::string& textureName)
     sourceRect_ = {0, 0, 0, 0};
 }
 
-void milk::Sprite::load(AssetLoader<Texture>& textureLoader)
+void milk::Sprite::load(AssetCache<Texture>& textureLoader)
 {
     texture_ = textureLoader.load(textureName_);
 
     // If the source rect was never explictly set, lets default it to texture rect.
-    if (SDL_RectEmpty(&sourceRect_))
+    if (sourceRect_.empty())
     {
         sourceRect_.x = 0;
         sourceRect_.y = 0;
-        sourceRect_.w = texture_->width();
-        sourceRect_.h = texture_->height();
+        sourceRect_.width = texture_->width();
+        sourceRect_.height = texture_->height();
     }
 }
 
@@ -48,22 +48,22 @@ void milk::Sprite::sourceRect(int x, int y, int width, int height)
 {
     sourceRect_.x = x;
     sourceRect_.y = y;
-    sourceRect_.w = width;
-    sourceRect_.h = height;
+    sourceRect_.width = width;
+    sourceRect_.height = height;
 }
 
-SDL_Rect milk::Sprite::sourceRect() const
+milk::Rectangle milk::Sprite::sourceRect() const
 {
     return sourceRect_;
 }
 
-SDL_Rect milk::Sprite::destinationRect() const
+milk::Rectangle milk::Sprite::destinationRect() const
 {
     Vector2d actorPosition = actor_.position();
 
-    SDL_Rect destinationRect;
-    destinationRect.w = sourceRect_.w;
-    destinationRect.h = sourceRect_.h;
+    Rectangle destinationRect;
+    destinationRect.width = sourceRect_.width;
+    destinationRect.height = sourceRect_.height;
 
     switch (alignment_)
     {
@@ -72,8 +72,8 @@ SDL_Rect milk::Sprite::destinationRect() const
             destinationRect.y = (int)std::floor(actorPosition.y);
             break;
         case Alignment::CENTER_ORIGIN:
-            destinationRect.x = (int)std::floor(actorPosition.x) - (sourceRect_.w / 2);
-            destinationRect.y = (int)std::floor(actorPosition.y) - (sourceRect_.h / 2);
+            destinationRect.x = (int)std::floor(actorPosition.x) - (sourceRect_.width / 2);
+            destinationRect.y = (int)std::floor(actorPosition.y) - (sourceRect_.height / 2);
             break;
     }
 
@@ -106,7 +106,7 @@ bool milk::Sprite::flippedY()
     return (flip_ & SDL_FLIP_VERTICAL) == SDL_FLIP_VERTICAL;
 }
 
-SDL_RendererFlip milk::Sprite::rendererFlip() const
+int milk::Sprite::rendererFlip() const
 {
-    return (SDL_RendererFlip)flip_;
+    return flip_;
 }

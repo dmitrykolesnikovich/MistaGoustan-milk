@@ -1,9 +1,12 @@
 #include <iostream>
+#include <math/Rectangle.h>
 
 #include "SDL_hints.h"
 #include "SDL_render.h"
 
 #include "RendererAdapter.h"
+
+#include "graphics/Texture.h"
 
 milk::adapter::RendererAdapter::RendererAdapter()
         : resolutionWidth_(0),
@@ -39,6 +42,17 @@ void milk::adapter::RendererAdapter::clear()
     SDL_SetRenderDrawColor(sdlRenderer_, 0x00, 0x00, 0x00, 0xFF);
     SDL_RenderClear(sdlRenderer_);
 }
+
+void milk::adapter::RendererAdapter::draw(milk::Texture& texture,
+                                          milk::Rectangle& sourceRectangle,
+                                          milk::Rectangle& destinationRectangle, int flipFlags)
+{
+    SDL_Rect src = {sourceRectangle.x, sourceRectangle.y, sourceRectangle.width, sourceRectangle.height};
+    SDL_Rect dst = {destinationRectangle.x, destinationRectangle.y, destinationRectangle.width, destinationRectangle.height};
+
+    SDL_RenderCopyEx(sdlRenderer_, texture.get(), &src, &dst, 0, nullptr, (SDL_RendererFlip)flipFlags);
+}
+
 
 void milk::adapter::RendererAdapter::present()
 {
