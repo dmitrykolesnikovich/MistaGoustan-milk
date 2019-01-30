@@ -166,22 +166,6 @@ void milk::Game::render()
     window_->renderer().present();
 }
 
-void milk::Game::shutDown()
-{
-    sceneManager_->loadScene(MILK_NULL_SCENE);
-    // Let systems handle the newly enqueued actor destroyed events.
-    handleEvents();
-    // Lets load NULL_SCENE and free the previous one.
-    sceneManager_->update();
-
-    textureCache_->invalidate();
-
-    window_->free();
-
-    IMG_Quit();
-    SDL_Quit();
-}
-
 milk::Window& milk::Game::window() const
 {
     return *window_;
@@ -274,4 +258,17 @@ bool milk::Game::initFromConfig()
     sceneManager_->loadScene(entryScene);
 
     return true;
+}
+
+void milk::Game::shutDown()
+{
+    sceneManager_->loadScene(MILK_NULL_SCENE);
+    // Let systems handle the newly enqueued actor destroyed events.
+    handleEvents();
+    // Lets load NULL_SCENE and free the previous one.
+    sceneManager_->update();
+
+    textureCache_->free();
+
+    window_->free();
 }

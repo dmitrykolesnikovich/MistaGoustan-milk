@@ -28,6 +28,9 @@ namespace milk
             // Invalidates the texture cache.
             void invalidate() override;
 
+            // Complete shut down of texture cache and free all texture resources.
+            void free();
+
         private:
             SDL_Renderer& sdlRenderer_;
             std::unordered_map<std::string, std::shared_ptr<Texture>> textureCache_;

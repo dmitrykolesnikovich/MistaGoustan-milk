@@ -69,3 +69,9 @@ void milk::adapter::TextureCacheAdapter::invalidate()
         textureItr++;
     }
 }
+
+void milk::adapter::TextureCacheAdapter::free()
+{
+    textureCache_.clear();
+    IMG_Quit();
+}
